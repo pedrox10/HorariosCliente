@@ -29,6 +29,16 @@
             <select>
                 <option>Enero</option>
                 <option>Febrero</option>
+                <option>Marzo</option>
+                <option>Abril</option>
+                <option>Mayo</option>
+                <option>Junio</option>
+                <option>Julio</option>
+                <option>Agosto</option>
+                <option>Septiembre</option>
+                <option>Octubre</option>
+                <option>Noviembre</option>
+                <option>Diciembre</option>
             </select>
         </div>
     </div>
@@ -54,7 +64,7 @@
         </tr>
         <tbody>
             @for (item of usuariosFiltrados; track item; let index = $index) {
-            <tr>
+            <tr routerLink="/resumen-dia">
                 <th>{{index +1}}</th>
                 <td>{{item.user_id}}</td>
                 <td>{{item.name}}</td>

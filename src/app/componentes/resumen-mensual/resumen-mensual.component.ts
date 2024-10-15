@@ -52,4 +52,8 @@ export class ResumenMensualComponent {
       this.usuariosFiltrados = this.usuarios.filter((item: any) => item.name.toLowerCase().includes(texto))
     }
   }
+
+  saludo() {
+    alert("hi")
+  }
 }
