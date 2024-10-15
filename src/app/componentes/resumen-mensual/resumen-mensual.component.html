@@ -1,0 +1,78 @@
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a routerLink="/terminales">Terminales</a></li>
+        <li><a routerLink="/resumen">Mes</a></li>
+    </ul>
+</nav>
+<div class="hbox">
+    <div class="hitem">
+        <p class="control has-icons-right">
+            <input (input)="applyFilter($event)" type="text" class="input" data-table="order-table"
+                placeholder="Buscar" />
+            <span class="icon is-right">
+                <i class="fas fa-search"></i>
+            </span>
+        </p>
+    </div>
+    <div class="hitem">
+        <label class="label mt-2">Gestion:</label>
+        <div class="select">
+            <select>
+                <option>2024</option>
+                <option>2023</option>
+            </select>
+        </div>
+    </div>
+    <div class="hitem">
+        <label class="label mt-2">Mes:</label>
+        <div class="select">
+            <select>
+                <option>Enero</option>
+                <option>Febrero</option>
+            </select>
+        </div>
+    </div>
+    <div class="hitem mt-2">
+        <span class="icon"><i class="fas fa-print" style="font-size: 1.2em;"></i></span>
+        <span class="icon"><i class="fas fa-file-excel" style="color: green; font-size: 1.2em;"></i></span>
+        <span class="icon"><i class="fas fa-file-pdf" style="color: red; font-size: 1.2em;"></i></span>
+    </div>
+</div>
+<div style="box-sizing: border-box; width: fit-content;">
+    <table class="order-table table is-bordered is-hoverable animate__animated animate__fadeIn">
+        <tr routerLink="/resumen-dia" style="background-color: #cbfaf3;">
+            <th>#</th>
+            <th style="width: 100px;">CI</th>
+            <th style="width: 250px;">Nombre</th>
+            <th># Atrasos<i class="fas fa-circle ml-1"
+                    style="color: yellow; border: 1px solid darkgray; border-radius: 50%; font-size: 0.8em;"></i></th>
+            <th>Atraso [min]</th>
+            <th>No marcados<i class="fas fa-circle ml-1"
+                    style="color: orange; border: 1px solid darkgray; border-radius: 50%; font-size: 0.8em;"></i></th>
+            <th>Faltas<i class="fas fa-circle ml-1"
+                    style="color: red; border: 1px solid darkgray; border-radius: 50%; font-size: 0.8em;"></i></th>
+        </tr>
+        <tbody>
+            @for (item of usuariosFiltrados; track item; let index = $index) {
+            <tr>
+                <th>{{index +1}}</th>
+                <td>{{item.user_id}}</td>
+                <td>{{item.name}}</td>
+                <td>1</td>
+                <td>8</td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+        <a class="pagination-previous is-disabled" title="This is the first page">Anterior</a>
+        <a class="pagination-next">Siguiente</a>
+        <ul class="pagination-list">
+            <li><a class="pagination-link is-current" aria-label="Page 1" aria-current="page">1</a></li>
+            <li><a class="pagination-link" aria-label="Goto page 2">2</a></li>
+            <li><a class="pagination-link" aria-label="Goto page 3">3</a></li>
+        </ul>
+    </nav>
+</div>

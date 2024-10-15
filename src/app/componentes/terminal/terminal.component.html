@@ -1,0 +1,17 @@
+<div class="terminal box">
+    <header>
+        <p>{{ nombre }}</p>
+    </header>
+    <div class="contenido">
+        <div class="dato">
+            <h3 class="has-text-weight-medium">IP:</h3><span>{{ ip }}</span>
+        </div>
+        <div class="dato">
+            <h3 class="has-text-weight-medium">Puerto:</h3><span>{{ puerto }}</span>
+        </div>
+    </div>
+    <footer>
+        <a routerLink="/resumen/{{ip}}/{{puerto}}"
+            class="button is-primary is-small is-rounded is-outlined">Ingresar</a>
+    </footer>
+</div>

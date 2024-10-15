@@ -1,0 +1,36 @@
+.terminal {
+    width: 155px;
+    padding: 15px;
+    font-size: 0.90em;
+    background: linear-gradient(360deg, #f7fbfa 0%, #e0fbf7 100%);
+}
+
+.terminal header {
+    display: flex; 
+    flex-direction: row;
+    margin-bottom: 15px; 
+    justify-content: center; 
+    font-weight: bold;
+    font-size: 1.2em;
+    border-bottom: 1px;
+    border-bottom: 1px dashed gray;
+}
+
+.terminal .contenido {
+    display: flex; 
+    flex-direction: column; 
+    gap: 5px;
+}
+
+.terminal footer {
+    display: flex; 
+    flex-direction: row; 
+    justify-content: center; 
+    margin-top: 15px;
+}
+
+.contenido .dato {
+    display: flex; 
+    flex-direction: row; 
+    gap: 10px;
+}

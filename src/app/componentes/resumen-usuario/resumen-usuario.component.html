@@ -1,0 +1,106 @@
+
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+      <li><a routerLink="/terminales">Terminales</a></li>
+      <li><a routerLink="/resumen">Mes</a></li>
+      <li><a routerLink="/resumen-dia">Diario</a></li>
+    </ul>
+  </nav>
+<div class="hbox">
+    <div class="hitem">
+        <label class="label">Resumen por usuario: </label>
+        <span>Jose Reyes</span>
+    </div>
+</div>
+
+<table class="table is-bordered animate__animated animate__fadeIn">
+    <tr style="background-color: #cbfaf3;">
+        <th></th>
+        <th style="text-align: center;" colspan="2"><div style="font-size:1em; height:14px; vertical-align:middle;">Turno 1</div></th>
+        <th style="text-align: center;" colspan="2"><div style="font-size:1em; height:14px; vertical-align:middle;">Turno 2</div></th>
+        <th></th>
+        <th></th>
+        <th></th>   
+    </tr>
+    <tr style="background-color: #cbfaf3;">
+        <th>Dia</th>
+        <th>Entrada</th>
+        <th>Salida</th>
+        <th>Entrada</th>
+        <th>Salida</th>
+        <th>Retraso</th>
+        <th>Sin marcar</th>
+        <th>Faltas</th>
+    </tr>
+    
+    <tr>
+        <th>1</th>
+        <td>8:00</td>
+        <td>12:00</td>
+        <td>14:00</td>
+        <td>18:00</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+    </tr>
+    <tr class="is-selected">
+        <th>2</th>
+        <td>8:00</td>
+        <td>12:00</td>
+        <td>14:10<span class="tag is-small is-warning ml-1 is-rounded" style="font-size: 0.60em; font-weight: bold; color: black;">Retraso</span></td>
+        <td><span class="tag is-small is-rounded" style="background: orange;font-size: 0.60em; font-weight: bold; color: black;">No marcó</span></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+    </tr>
+    <tr>
+        <th>3</th>
+        <td><span class="tag is-small is-rounded" style="background: orange;font-size: 0.60em; font-weight: bold; color: black;">No marcó</span></td>
+        <td><span class="tag is-small is-rounded" style="background: orange;font-size: 0.60em; font-weight: bold; color: black;">No marcó</span></td>
+        <td>14:00</td>
+        <td>18:00</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1<span class="tag is-small is-danger ml-1 is-rounded" style="font-size: 0.60em; font-weight: bold;">Falta</span></td>
+    </tr>
+    <tr>
+        <th>4</th>
+        <td>8:00</td>
+        <td>12:00</td>
+        <td>14:00</td>
+        <td>18:00</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+    </tr>
+    <tr>
+        <th>5</th>
+        <td>8:00</td>
+        <td>12:00</td>
+        <td>14:00</td>
+        <td>18:00</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+    </tr>
+    <tr>
+        <th>6</th>
+        <td>8:00</td>
+        <td>12:00</td>
+        <td>14:00</td>
+        <td>18:00</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+    </tr>
+    <tr>
+        <th>7</th>
+        <td>8:00</td>
+        <td>12:00</td>
+        <td>14:00</td>
+        <td>18:00</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+    </tr>
+</table>

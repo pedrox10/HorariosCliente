@@ -1,0 +1,20 @@
+<nav class="breadcrumb" aria-label="breadcrumbs">
+  <ul>
+    <li><a routerLink="/terminales">Terminales</a></li>
+  </ul>
+</nav>
+<div class="hbox">
+  <button class="button is-light">
+      <span class="icon">
+        <i class="fas fa-plus"></i>
+      </span>
+      <span>Agregar</span>
+    </button>
+</div>
+<div class="terminales  animate__animated animate__fadeIn" data-theme="light" id="terminales">
+    @for (t of terminales; track t) {
+    <app-terminal nombre="{{ t.nombre }}" ip="{{ t.ip }}" puerto="{{ t.puerto }}">
+
+    </app-terminal>
+    }
+</div>
