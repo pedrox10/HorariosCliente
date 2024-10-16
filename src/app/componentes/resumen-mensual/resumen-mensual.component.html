@@ -27,18 +27,9 @@
         <label class="label mt-2">Mes:</label>
         <div class="select">
             <select>
-                <option>Enero</option>
-                <option>Febrero</option>
-                <option>Marzo</option>
-                <option>Abril</option>
-                <option>Mayo</option>
-                <option>Junio</option>
-                <option>Julio</option>
-                <option>Agosto</option>
-                <option>Septiembre</option>
-                <option>Octubre</option>
-                <option>Noviembre</option>
-                <option>Diciembre</option>
+                @for (mes of meses; track mes; let index = $index) {
+                    <option>{{mes}}</option>
+                }
             </select>
         </div>
     </div>
@@ -64,7 +55,7 @@
         </tr>
         <tbody>
             @for (item of usuariosFiltrados; track item; let index = $index) {
-            <tr routerLink="/resumen-dia">
+            <tr routerLink="/resumen-dia/192.168.70.210/4370">
                 <th>{{index +1}}</th>
                 <td>{{item.user_id}}</td>
                 <td>{{item.name}}</td>

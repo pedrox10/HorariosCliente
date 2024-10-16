@@ -17,8 +17,8 @@ export class TerminalService {
     return this.http.get(`${this.apiUrl}/usuarios/` + ip + "/" + puerto);
   }
 
-  public getRegistrosTiempo(gestion:number, mes:number) {
-    return this.http.get(`${this.apiUrl}/registros/` + gestion + "/" + mes);
+  public getMarcaciones(ip:string, puerto:number) {
+    return this.http.get(`${this.apiUrl}/marcaciones/` + ip + "/" + puerto);
   }
 
 }

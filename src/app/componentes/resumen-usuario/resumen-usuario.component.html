@@ -32,75 +32,17 @@
         <th>Sin marcar</th>
         <th>Faltas</th>
     </tr>
+    @for (item of dias; track item  ) {
+        <tr>
+            <th>{{item}}</th>
+            <td>8:00</td>
+            <td>12:00</td>
+            <td>14:00</td>
+            <td>18:00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+    }
     
-    <tr>
-        <th>1</th>
-        <td>8:00</td>
-        <td>12:00</td>
-        <td>14:00</td>
-        <td>18:00</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-    </tr>
-    <tr class="is-selected">
-        <th>2</th>
-        <td>8:00</td>
-        <td>12:00</td>
-        <td>14:10<span class="tag is-small is-warning ml-1 is-rounded" style="font-size: 0.60em; font-weight: bold; color: black;">Retraso</span></td>
-        <td><span class="tag is-small is-rounded" style="background: orange;font-size: 0.60em; font-weight: bold; color: black;">No marcó</span></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-    </tr>
-    <tr>
-        <th>3</th>
-        <td><span class="tag is-small is-rounded" style="background: orange;font-size: 0.60em; font-weight: bold; color: black;">No marcó</span></td>
-        <td><span class="tag is-small is-rounded" style="background: orange;font-size: 0.60em; font-weight: bold; color: black;">No marcó</span></td>
-        <td>14:00</td>
-        <td>18:00</td>
-        <td>0</td>
-        <td>0</td>
-        <td>1<span class="tag is-small is-danger ml-1 is-rounded" style="font-size: 0.60em; font-weight: bold;">Falta</span></td>
-    </tr>
-    <tr>
-        <th>4</th>
-        <td>8:00</td>
-        <td>12:00</td>
-        <td>14:00</td>
-        <td>18:00</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-    </tr>
-    <tr>
-        <th>5</th>
-        <td>8:00</td>
-        <td>12:00</td>
-        <td>14:00</td>
-        <td>18:00</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-    </tr>
-    <tr>
-        <th>6</th>
-        <td>8:00</td>
-        <td>12:00</td>
-        <td>14:00</td>
-        <td>18:00</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-    </tr>
-    <tr>
-        <th>7</th>
-        <td>8:00</td>
-        <td>12:00</td>
-        <td>14:00</td>
-        <td>18:00</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-    </tr>
 </table>

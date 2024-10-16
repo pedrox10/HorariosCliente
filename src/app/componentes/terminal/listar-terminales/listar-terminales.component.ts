@@ -6,8 +6,8 @@ import { HttpClientModule } from '@angular/common/http';
 @Component({
   selector: 'app-listar-terminales',
   standalone: true,
-  imports: [TerminalComponent,HttpClientModule],
-  providers:[TerminalService],
+  imports: [TerminalComponent, HttpClientModule],
+  providers: [TerminalService],
   templateUrl: './listar-terminales.component.html',
   styleUrl: './listar-terminales.component.css'
 })
@@ -16,12 +16,14 @@ export class ListarTerminalesComponent {
   public terminales: any;
   public element = document.getElementById("terminales");
   public constructor(public terminalService: TerminalService) {
-    
+
     this.terminalService.getTerminales().subscribe(
+
       (data: any) => {
         console.log(data)
         this.terminales = data;
       },
+
       (error: any) => {
         console.error('An error occurred:', error);
       }

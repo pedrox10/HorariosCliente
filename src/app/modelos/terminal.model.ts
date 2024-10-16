@@ -1,5 +1,4 @@
 export class Terminal {
-    _id?:number;
     nombre: string;
     ip: string;
     puerto: number;
