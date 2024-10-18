@@ -19,11 +19,11 @@ export class ResumenMensualComponent {
   public usuarios: any = [];
   public registros: any = [];
   private activatedRoute = inject(ActivatedRoute);
+  public ip = this.activatedRoute.snapshot.params['ip'];
+  public puerto = this.activatedRoute.snapshot.params['puerto'];
 
   constructor(public terminalService: TerminalService) {
-      let ip = this.activatedRoute.snapshot.params['ip'];
-      let puerto = this.activatedRoute.snapshot.params['puerto'];
-    this.terminalService.getUsuarios(ip, puerto).subscribe(
+    this.terminalService.getUsuarios(this.ip, this.puerto).subscribe(
       (data: any) => {
         this.usuariosFiltrados = data;
         this.usuarios = data;

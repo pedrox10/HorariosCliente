@@ -7,4 +7,4 @@ export const routes: Routes = [
     { path: "", component: ListarTerminalesComponent },
     { path: "terminales", component: ListarTerminalesComponent },
     { path: "resumen/:ip/:puerto", component: ResumenMensualComponent}, 
-    { path: "resumen-dia/:ip/:puerto", component: ResumenUsuarioComponent}];
+    { path: "resumen-dia/:ip/:puerto/:nombre", component: ResumenUsuarioComponent}];

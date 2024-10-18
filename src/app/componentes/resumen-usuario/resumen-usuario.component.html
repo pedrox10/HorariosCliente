@@ -1,38 +1,64 @@
-
 <nav class="breadcrumb" aria-label="breadcrumbs">
     <ul>
-      <li><a routerLink="/terminales">Terminales</a></li>
-      <li><a routerLink="/resumen">Mes</a></li>
-      <li><a routerLink="/resumen-dia">Diario</a></li>
+        <li><a routerLink="/terminales">Terminales</a></li>
+        <li><a routerLink="/resumen/{{ip}}/{{puerto}}">Mes</a></li>
+        <li><a routerLink="/resumen-dia">Diario</a></li>
     </ul>
-  </nav>
-<div class="hbox">
-    <div class="hitem">
-        <label class="label">Resumen por usuario: </label>
-        <span>Jose Reyes</span>
+</nav>
+<div style="box-sizing: border-box; width: fit-content;">
+    <div class="hbox">
+        <div class="hitem mt-2">
+            <label class="label">CI:</label>
+            <span>{{nombre}}</span>
+        </div>
+        <div class="hitem">
+            <label class="label mt-2">Gestion:</label>
+            <div class="select">
+                <select>
+                    <option>2024</option>
+                </select>
+            </div>
+        </div>
+        <div class="hitem">
+            <label class="label mt-2">Mes:</label>
+            <div class="select">
+                <select>
+                    @for (mes of meses; track mes; let index = $index) {
+                    <option>{{mes}}</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="hitem mt-2" style="margin-left: auto;">
+            <span class="icon"><i class="fas fa-print" style="font-size: 1.2em;"></i></span>
+            <span class="icon"><i class="fas fa-file-excel" style="color: green; font-size: 1.2em;"></i></span>
+            <span class="icon"><i class="fas fa-file-pdf" style="color: red; font-size: 1.2em;"></i></span>
+        </div>
     </div>
-</div>
-
-<table class="table is-bordered animate__animated animate__fadeIn">
-    <tr style="background-color: #cbfaf3;">
-        <th></th>
-        <th style="text-align: center;" colspan="2"><div style="font-size:1em; height:14px; vertical-align:middle;">Turno 1</div></th>
-        <th style="text-align: center;" colspan="2"><div style="font-size:1em; height:14px; vertical-align:middle;">Turno 2</div></th>
-        <th></th>
-        <th></th>
-        <th></th>   
-    </tr>
-    <tr style="background-color: #cbfaf3;">
-        <th>Dia</th>
-        <th>Entrada</th>
-        <th>Salida</th>
-        <th>Entrada</th>
-        <th>Salida</th>
-        <th>Retraso</th>
-        <th>Sin marcar</th>
-        <th>Faltas</th>
-    </tr>
-    @for (item of dias; track item  ) {
+    <table class="table is-bordered animate__animated animate__fadeIn">
+        <tr style="background-color: #cbfaf3;">
+            <th></th>
+            <th style="text-align: center;" colspan="2">
+                <div style="font-size:1em; height:14px; vertical-align:middle;">Turno 1</div>
+            </th>
+            <th style="text-align: center;" colspan="2">
+                <div style="font-size:1em; height:14px; vertical-align:middle;">Turno 2</div>
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr style="background-color: #cbfaf3;">
+            <th>Dia</th>
+            <th>Entrada</th>
+            <th>Salida</th>
+            <th>Entrada</th>
+            <th>Salida</th>
+            <th>Retraso</th>
+            <th>Sin marcar</th>
+            <th>Faltas</th>
+        </tr>
+        @for (item of dias; track item ) {
         <tr>
             <th>{{item}}</th>
             <td>8:00</td>
@@ -43,6 +69,7 @@
             <td>0</td>
             <td>0</td>
         </tr>
-    }
-    
-</table>
+        }
+
+    </table>
+</div>

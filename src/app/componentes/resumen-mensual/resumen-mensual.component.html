@@ -4,42 +4,42 @@
         <li><a routerLink="/resumen">Mes</a></li>
     </ul>
 </nav>
-<div class="hbox">
-    <div class="hitem">
-        <p class="control has-icons-right">
-            <input (input)="applyFilter($event)" type="text" class="input" data-table="order-table"
-                placeholder="Buscar" />
-            <span class="icon is-right">
-                <i class="fas fa-search"></i>
-            </span>
-        </p>
-    </div>
-    <div class="hitem">
-        <label class="label mt-2">Gestion:</label>
-        <div class="select">
-            <select>
-                <option>2024</option>
-                <option>2023</option>
-            </select>
-        </div>
-    </div>
-    <div class="hitem">
-        <label class="label mt-2">Mes:</label>
-        <div class="select">
-            <select>
-                @for (mes of meses; track mes; let index = $index) {
-                    <option>{{mes}}</option>
-                }
-            </select>
-        </div>
-    </div>
-    <div class="hitem mt-2">
-        <span class="icon"><i class="fas fa-print" style="font-size: 1.2em;"></i></span>
-        <span class="icon"><i class="fas fa-file-excel" style="color: green; font-size: 1.2em;"></i></span>
-        <span class="icon"><i class="fas fa-file-pdf" style="color: red; font-size: 1.2em;"></i></span>
-    </div>
-</div>
+
 <div style="box-sizing: border-box; width: fit-content;">
+    <div class="hbox">
+        <div class="hitem">
+            <p class="control has-icons-right">
+                <input (input)="applyFilter($event)" type="text" class="input" data-table="order-table"
+                    placeholder="Buscar" />
+                <span class="icon is-right">
+                    <i class="fas fa-search"></i>
+                </span>
+            </p>
+        </div>
+        <div class="hitem">
+            <label class="label mt-2">Gestion:</label>
+            <div class="select">
+                <select>
+                    <option>2024</option>
+                </select>
+            </div>
+        </div>
+        <div class="hitem">
+            <label class="label mt-2">Mes:</label>
+            <div class="select">
+                <select>
+                    @for (mes of meses; track mes; let index = $index) {
+                        <option>{{mes}}</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="hitem mt-2" style="margin-left: auto;">
+            <span class="icon"><i class="fas fa-print" style="font-size: 1.2em;"></i></span>
+            <span class="icon"><i class="fas fa-file-excel" style="color: green; font-size: 1.2em;"></i></span>
+            <span class="icon"><i class="fas fa-file-pdf" style="color: red; font-size: 1.2em;"></i></span>
+        </div>
+    </div>
     <table class="order-table table is-bordered is-hoverable animate__animated animate__fadeIn">
         <tr routerLink="/resumen-dia" style="background-color: #cbfaf3;">
             <th>#</th>
@@ -55,11 +55,11 @@
         </tr>
         <tbody>
             @for (item of usuariosFiltrados; track item; let index = $index) {
-            <tr routerLink="/resumen-dia/192.168.70.210/4370">
+            <tr routerLink="/resumen-dia/{{ip}}/{{puerto}}/{{item.user_id}}">
                 <th>{{index +1}}</th>
                 <td>{{item.user_id}}</td>
                 <td>{{item.name}}</td>
-                <td>1</td>
+                <td>1</td>  
                 <td>8</td>
                 <td>0</td>
                 <td>0</td>

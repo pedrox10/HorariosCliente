@@ -18,24 +18,29 @@ export class ResumenUsuarioComponent {
   public mesActual: number = 7;
   public numDias: number;
   public dias:string[]= [];
+  private res:string  = "";
   private activatedRoute = inject(ActivatedRoute);
+  public ip = this.activatedRoute.snapshot.params['ip'];
+  public puerto = this.activatedRoute.snapshot.params['puerto'];
+  public nombre = this.activatedRoute.snapshot.params['nombre'];
+  public meses = env.meses;
+  public feb = [];
 
   constructor(public terminalService: TerminalService) {
-    let ip = this.activatedRoute.snapshot.params['ip'];
-    let puerto = this.activatedRoute.snapshot.params['puerto'];
-    this.numDias = this.getNumDias(this.mesActual, this.gestion);
-    for (var i = 1; i <= this.numDias; i++) {
-      this.dias.push(this.getNombreDia(i).substring(0, 3) + " " + i);
-    }
-    
-    terminalService.getMarcaciones(ip, puerto).subscribe(
+    this.terminalService.getMarcaciones(this.ip, this.puerto).subscribe(
       (data: any) => {
         console.log(data);
+        const aux = data;
+        this.feb = aux.filter(item => /(.*)-02-(.*)/.test(item.timestamp)
       },
       (error: any) => {
         console.error('An error occurred:', error);
       }
-    );
+    );  
+    this.numDias = this.getNumDias(this.mesActual, this.gestion);
+    for (var i = 1; i <= this.numDias; i++) {
+      this.dias.push(this.getNombreDia(i).substring(0,3) + " " + i);
+    }
   }
 
   getNumDias(mes: number, gestion: number) {
