@@ -50,8 +50,6 @@
             <th>Atraso [min]</th>
             <th>No marcados<i class="fas fa-circle ml-1"
                     style="color: orange; border: 1px solid darkgray; border-radius: 50%; font-size: 0.8em;"></i></th>
-            <th>Faltas<i class="fas fa-circle ml-1"
-                    style="color: red; border: 1px solid darkgray; border-radius: 50%; font-size: 0.8em;"></i></th>
         </tr>
         <tbody>
             @for (item of usuariosFiltrados; track item; let index = $index) {
@@ -61,7 +59,6 @@
                 <td>{{item.name}}</td>
                 <td>1</td>  
                 <td>8</td>
-                <td>0</td>
                 <td>0</td>
             </tr>
             }
