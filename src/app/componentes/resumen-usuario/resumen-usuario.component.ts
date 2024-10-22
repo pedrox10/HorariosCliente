@@ -24,7 +24,7 @@ export class ResumenUsuarioComponent {
   public puerto = this.activatedRoute.snapshot.params['puerto'];
   public nombre = this.activatedRoute.snapshot.params['nombre'];
   public meses = env.meses;
-  public feb: string[] = [];
+  public oct: string[] = [];
 
   constructor(public terminalService: TerminalService) {
     this.terminalService.getMarcaciones(this.ip, this.puerto).subscribe(
@@ -35,9 +35,10 @@ export class ResumenUsuarioComponent {
         let re_ci = new RegExp(this.nombre);
         aux.forEach((value: any) => {
           if (re_fecha.test(value.timestamp) && re_ci.test(value.user_id)) {
-            this.feb.push(value);
+            this.oct.push(value);
           }
         });
+        this.getArrayDias()
       },
       (error: any) => {
         console.error('An error occurred:', error);
@@ -47,7 +48,6 @@ export class ResumenUsuarioComponent {
     for (var i = 1; i <= this.numDias; i++) {
       this.dias.push(this.getNombreDia(i).substring(0, 3) + " " + i);
     }
-    console.log(this.feb);
   }
 
   getNumDias(mes: number, gestion: number) {
@@ -58,5 +58,9 @@ export class ResumenUsuarioComponent {
     const fecha = new Date(this.gestion, this.mesActual, dia);
     const day = fecha.getDay();
     return env.dias[day];
+  }
+
+  getArrayDias() {
+    console.log(this.oct.map((item:any) => item.timestamp))
   }
 }
