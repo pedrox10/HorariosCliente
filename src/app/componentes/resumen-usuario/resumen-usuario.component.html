@@ -35,7 +35,7 @@
             <span class="icon"><i class="fas fa-file-pdf" style="color: red; font-size: 1.2em;"></i></span>
         </div>
     </div>
-    <table class="table is-bordered animate__animated animate__fadeIn">
+    <table class="table is-bordered is-hoverable animate__animated animate__fadeIn">
         <tr style="background-color: #cbfaf3;">
             <th></th>
             <th style="text-align: center;" colspan="2">
@@ -57,15 +57,11 @@
             <th>Sin marcar</th>
         </tr>
         @for (item of dias; track item; let i = $index ) {
-        <tr>
-            <th>{{item}}</th>
-            <td>8:00</td>
-            <td>12:00</td>
-            <td>14:00</td>
-            <td>18:00</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
+            <tr routerLink="/resumen-dia/{{ip}}/{{puerto}}/">
+            @for (dato of item; track dato; let j = $index ) {
+                    <td>{{dias[i][j]}}</td>
+            }
+            </tr>
         }
     </table>
 </div>

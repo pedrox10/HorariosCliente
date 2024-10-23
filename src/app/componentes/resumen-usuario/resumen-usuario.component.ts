@@ -15,10 +15,9 @@ import { HttpClientModule } from '@angular/common/http';
 
 export class ResumenUsuarioComponent {
   public gestion: number = 2024
-  public mesActual: number = 7;
+  public mesActual: number = 9;
   public numDias: number;
-  public dias: string[] = [];
-  private res: string = "";
+  public dias: string[][] = [];
   private activatedRoute = inject(ActivatedRoute);
   public ip = this.activatedRoute.snapshot.params['ip'];
   public puerto = this.activatedRoute.snapshot.params['puerto'];
@@ -44,10 +43,7 @@ export class ResumenUsuarioComponent {
         console.error('An error occurred:', error);
       }
     );
-    this.numDias = this.getNumDias(this.mesActual, this.gestion);
-    for (var i = 1; i <= this.numDias; i++) {
-      this.dias.push(this.getNombreDia(i).substring(0, 3) + " " + i);
-    }
+    this.numDias = this.getNumDias(this.mesActual-1, this.gestion);
   }
 
   getNumDias(mes: number, gestion: number) {
@@ -61,6 +57,19 @@ export class ResumenUsuarioComponent {
   }
 
   getArrayDias() {
-    console.log(this.oct.map((item:any) => item.timestamp))
+    for (var i = 1; i <= this.numDias; i++) {
+      let dia = i < 10 ? "0" + i : i;
+      let fila: string[] = [];
+      fila.push(this.getNombreDia(i).substring(0, 3) + " " + i);
+      let cad = this.gestion + "-10-" + dia;
+      let re_dia = new RegExp(cad + '(.*)');
+      this.oct.forEach((value: any) => {
+        if (re_dia.test(value.timestamp)) {
+          let hora = value.timestamp.split("T")
+          fila.push(hora[1]);
+        }
+      });
+      this.dias.push(fila)
+    }
   }
 }
