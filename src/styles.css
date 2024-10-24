@@ -3,6 +3,16 @@
     text-transform: capitalize !important;
 }
 
+.terminal .button:hover {
+    background-color: #295a8c !important;
+    color: white !important;
+}
+
+.terminal .button {
+    color: #295a8c !important;
+    border-color: #295a8c !important;
+}
+
 body {
     height: 100vh;
     margin: 15px;
@@ -87,7 +97,7 @@ body {
 }
 
 .pagination-link.is-current {
-    background-color: #CBFAF3 !important;
+    background-color: #d6e6f6 !important;
     border-color: #b7c6d2 !important;
     color: #000 !important;
 }

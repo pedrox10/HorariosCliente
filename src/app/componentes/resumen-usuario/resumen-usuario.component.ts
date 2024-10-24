@@ -66,7 +66,7 @@ export class ResumenUsuarioComponent {
       this.oct.forEach((value: any) => {
         if (re_dia.test(value.timestamp)) {
           let hora = value.timestamp.split("T")
-          fila.push(hora[1]);
+          fila.push(hora[1].substring(0, 5));
         }
       });
       this.dias.push(fila)
