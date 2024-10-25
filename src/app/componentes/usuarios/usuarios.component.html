@@ -40,9 +40,9 @@
         </tr>
         <tbody>
             @for (item of usuariosFiltrados; track item; let index = $index) {
-            <tr routerLink="/resumen-usuario/{{ip}}/{{puerto}}/{{item.userId}}">
+            <tr routerLink="/resumen-usuario/{{ip}}/{{puerto}}/{{item.user_id}}">
                 <th>{{index +1}}</th>
-                <td>{{item.userId}}</td>
+                <td>{{item.user_id}}</td>
                 <td>{{item.name}}</td>
                 <td>Oficina 2T</td> 
                 <td>Aux Tec</td>
