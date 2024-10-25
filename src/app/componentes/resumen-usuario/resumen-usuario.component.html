@@ -1,8 +1,8 @@
 <nav class="breadcrumb" aria-label="breadcrumbs">
     <ul>
         <li><a routerLink="/terminales">Terminales</a></li>
-        <li><a routerLink="/resumen/{{ip}}/{{puerto}}">Usuarios</a></li>
-        <li><a routerLink="/resumen-dia">Diario</a></li>
+        <li><a routerLink="/usuarios/{{ip}}/{{puerto}}">Usuarios</a></li>
+        <li><a>Diario</a></li>
     </ul>
 </nav>
 <div style="box-sizing: border-box; width: fit-content;">
@@ -44,7 +44,13 @@
             <th style="text-align: center;" colspan="2">
                 <div style="font-size:1em; height:14px; vertical-align:middle;">Turno 2</div>
             </th>
-            <th></th>
+            <th style="text-align: center;" colspan="2">
+                <div style="font-size:1em; height:14px; vertical-align:middle;">
+                    Atraso
+                    <i class="fas fa-circle ml-1"
+                style="color: orange; border: 1px solid darkgray; border-radius: 50%; font-size: 0.8em;"></i>
+                </div>
+            </th>
             <th></th>
         </tr>
         <tr style="background-color: #d6e6f6;">
@@ -53,11 +59,13 @@
             <th>Salida</th>
             <th>Entrada</th>
             <th>Salida</th>
-            <th>Retraso</th>
-            <th>Sin marcar</th>
+            <th>Cant.</th>
+        <th>Suma [min]</th>
+        <th>Sin Marcar<i class="fas fa-circle ml-1"
+                style="color: red; border: 1px solid darkgray; border-radius: 50%; font-size: 0.8em;"></i></th>
         </tr>
         @for (item of dias; track item; let i = $index ) {
-            <tr routerLink="/resumen-dia/{{ip}}/{{puerto}}/">
+            <tr>
             @for (dato of item; track dato; let j = $index ) {
                 @if(j!== 0){
                     <td>{{dias[i][j]}}</td>

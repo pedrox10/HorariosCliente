@@ -5,15 +5,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { env } from '../../../environments/environments';
 
 @Component({
-  selector: 'app-resumen-mensual',
+  selector: 'app-usuarios',
   standalone: true,
   imports: [RouterLink, HttpClientModule],
   providers: [TerminalService],
-  templateUrl: './resumen-mensual.component.html',
-  styleUrl: './resumen-mensual.component.css'
+  templateUrl: './usuarios.component.html',
+  styleUrl: './usuarios.component.css'
 })
 
-export class ResumenMensualComponent {
+export class UsuariosComponent {
   public meses = env.meses;
   public usuariosFiltrados: any;
   public usuarios: any = [];

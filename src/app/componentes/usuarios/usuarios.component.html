@@ -1,7 +1,7 @@
 <nav class="breadcrumb" aria-label="breadcrumbs">
     <ul>
         <li><a routerLink="/terminales">Terminales</a></li>
-        <li><a routerLink="/resumen">Usuarios</a></li>
+        <li><a>Usuarios</a></li>
     </ul>
 </nav>
 
@@ -17,22 +17,10 @@
             </p>
         </div>
         <div class="hitem">
-            <label class="label mt-2">Gestion:</label>
-            <div class="select">
-                <select>
-                    <option>2024</option>
-                </select>
-            </div>
+            
         </div>
         <div class="hitem">
-            <label class="label mt-2">Mes:</label>
-            <div class="select">
-                <select>
-                    @for (mes of meses; track mes; let index = $index) {
-                        <option>{{mes}}</option>
-                    }
-                </select>
-            </div>
+            
         </div>
         <div class="hitem" style="margin-left: auto;">
             <button class="button"><span class="icon"><i class="fas fa-print"></i></span></button>
@@ -45,21 +33,20 @@
             <th>#</th>
             <th style="width: 100px;">CI</th>
             <th style="width: 250px;">Nombre</th>
-            <th># Atrasos<i class="fas fa-circle ml-1"
-                    style="color: yellow; border: 1px solid darkgray; border-radius: 50%; font-size: 0.8em;"></i></th>
-            <th>Atraso [min]</th>
-            <th>No marcados<i class="fas fa-circle ml-1"
-                    style="color: orange; border: 1px solid darkgray; border-radius: 50%; font-size: 0.8em;"></i></th>
+            <th >Horario Actual</th>
+            <th >Cargo</th>
+            <th >Genero</th>
+            
         </tr>
         <tbody>
             @for (item of usuariosFiltrados; track item; let index = $index) {
-            <tr routerLink="/resumen-dia/{{ip}}/{{puerto}}/{{item.user_id}}">
+            <tr routerLink="/resumen-usuario/{{ip}}/{{puerto}}/{{item.userId}}">
                 <th>{{index +1}}</th>
-                <td>{{item.user_id}}</td>
+                <td>{{item.userId}}</td>
                 <td>{{item.name}}</td>
-                <td>1</td>  
-                <td>8</td>
-                <td>0</td>
+                <td>Oficina 2T</td> 
+                <td>Aux Tec</td>
+                <td>M</td> 
             </tr>
             }
         </tbody>

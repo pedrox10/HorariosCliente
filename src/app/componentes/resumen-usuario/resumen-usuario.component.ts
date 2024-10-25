@@ -31,7 +31,7 @@ export class ResumenUsuarioComponent {
         const aux = data;
         let cad = this.gestion + "-10-";
         let re_fecha = new RegExp(cad + '(.*)');
-        let re_ci = new RegExp(this.nombre);
+        let re_ci = new RegExp("^" + this.nombre + "$");
         aux.forEach((value: any) => {
           if (re_fecha.test(value.timestamp) && re_ci.test(value.user_id)) {
             this.oct.push(value);

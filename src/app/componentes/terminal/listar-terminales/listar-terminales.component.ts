@@ -20,7 +20,6 @@ export class ListarTerminalesComponent {
     this.terminalService.getTerminales().subscribe(
 
       (data: any) => {
-        console.log(data)
         this.terminales = data;
       },
 
