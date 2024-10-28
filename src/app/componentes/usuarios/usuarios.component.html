@@ -1,63 +1,76 @@
-<nav class="breadcrumb" aria-label="breadcrumbs">
+<div class="box">
+  <nav class="breadcrumb" aria-label="breadcrumbs">
     <ul>
-        <li><a routerLink="/terminales">Terminales</a></li>
-        <li><a>Usuarios</a></li>
+      <li><a routerLink="/terminales">Terminales</a></li>
+      <li><a>Usuarios</a></li>
     </ul>
-</nav>
+  </nav>
 
-<div style="box-sizing: border-box; width: fit-content;">
+  <div style="box-sizing: border-box; width: fit-content;">
     <div class="hbox">
-        <div class="hitem">
-            <p class="control has-icons-right">
-                <input (input)="applyFilter($event)" type="text" class="input" data-table="order-table"
-                    placeholder="Buscar" />
-                <span class="icon is-right">
-                    <i class="fas fa-search"></i>
-                </span>
-            </p>
-        </div>
-        <div class="hitem">
-            
-        </div>
-        <div class="hitem">
-            
-        </div>
-        <div class="hitem" style="margin-left: auto;">
-            <button class="button"><span class="icon"><i class="fas fa-print"></i></span></button>
-            <button class="button"><span class="icon"><i class="fas fa-file-excel" style="color: rgb(16, 129, 16);"></i></span></button>
-            <button class="button"><span class="icon"><i class="fas fa-file-pdf" style="color: rgb(190, 69, 69)"></i></span></button>
-        </div>
+      <div class="hitem">
+        <p class="control has-icons-right">
+          <input (input)="applyFilter($event)" type="text" class="input" placeholder="Buscar"/>
+          <span class="icon is-right"><i class="fas fa-search"></i></span>
+        </p>
+      </div>
+      <div class="hitem">
+
+      </div>
+      <div class="hitem">
+
+      </div>
+      <div class="hitem" style="margin-left: auto;">
+        <button class="button"><span class="icon"><i class="fas fa-print "></i></span></button>
+        <button class="button"><span class="icon"><i class="fas fa-file-excel" style="color: rgb(16, 129, 16);"></i></span></button>
+        <button class="button"><span class="icon"><i class="fas fa-file-pdf" style="color: rgb(190, 69, 69)"></i></span>
+        </button>
+      </div>
     </div>
     <table class="table is-bordered is-hoverable animate__animated animate__fadeIn">
-        <tr style="background-color: #d6e6f6;">
-            <th>#</th>
-            <th style="width: 100px;">CI</th>
-            <th style="width: 250px;">Nombre</th>
-            <th >Horario Actual</th>
-            <th >Cargo</th>
-            <th >Genero</th>
-            
+      <tr style="background-color: #d6e6f6;">
+        <th>#</th>
+        <th style="width: 100px;">CI</th>
+        <th style="width: 250px;">Nombre</th>
+        <th>Horario Actual</th>
+        <th>Cargo</th>
+        <th>Genero</th>
+        <th>Acciones</th>
+      </tr>
+      <tbody>
+      @for (item of usuariosFiltrados; track item; let index = $index) {
+      <tr>
+          <th>{{index +1}}</th>
+          <td>{{item.user_id}}</td>
+          <td>{{item.name}}</td>
+          <td>Oficina 2T</td>
+          <td>Aux Tec</td>
+          <td>M</td>
+          <td>
+            <div class="hitem">
+              <span class="icon has-tooltip-arrow" data-tooltip="Asignar Horarios" routerLink="/asignar-horarios">
+                <i class="far fa-clock" style="color: #295a8c; padding: 4px; border: 1px solid #DBDBDB"></i>
+              </span>
+              <span class="icon has-tooltip-arrow" data-tooltip="Ver Turnos" routerLink="/ver-turnos">
+                <i class="far fa-calendar-alt" style="color: #295a8c; padding: 4px; border: 1px solid #DBDBDB"></i>
+              </span>
+              <span class="icon has-tooltip-arrow" data-tooltip="Ver Marcaciones" routerLink="/resumen-usuario/{{ip}}/{{puerto}}/{{item.user_id}}">
+                <i class="far fa-calendar-check" style="color: #295a8c; padding: 4px; border: 1px solid #DBDBDB"></i>
+              </span>
+            </div>
+          </td>
         </tr>
-        <tbody>
-            @for (item of usuariosFiltrados; track item; let index = $index) {
-            <tr routerLink="/resumen-usuario/{{ip}}/{{puerto}}/{{item.user_id}}">
-                <th>{{index +1}}</th>
-                <td>{{item.user_id}}</td>
-                <td>{{item.name}}</td>
-                <td>Oficina 2T</td> 
-                <td>Aux Tec</td>
-                <td>M</td> 
-            </tr>
-            }
-        </tbody>
+      }
+      </tbody>
     </table>
     <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-        <a class="pagination-previous is-disabled" title="This is the first page">Anterior</a>
-        <a class="pagination-next">Siguiente</a>
-        <ul class="pagination-list">
-            <li><a class="pagination-link is-current" aria-label="Page 1" aria-current="page">1</a></li>
-            <li><a class="pagination-link" aria-label="Goto page 2">2</a></li>
-            <li><a class="pagination-link" aria-label="Goto page 3">3</a></li>
-        </ul>
+      <a class="pagination-previous is-disabled" title="This is the first page">Anterior</a>
+      <a class="pagination-next">Siguiente</a>
+      <ul class="pagination-list">
+        <li><a class="pagination-link is-current" aria-label="Page 1" aria-current="page">1</a></li>
+        <li><a class="pagination-link" aria-label="Goto page 2">2</a></li>
+        <li><a class="pagination-link" aria-label="Goto page 3">3</a></li>
+      </ul>
     </nav>
+  </div>
 </div>

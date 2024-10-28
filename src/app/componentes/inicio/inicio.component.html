@@ -12,20 +12,24 @@
         <p class="menu-label">
           General
         </p>
-        <ul class="menu-list">
-          <li class="animation"><a routerLink="/terminales">Ver Terminales</a></li>
-          <li class="animation"><a>Turnos</a></li>
+        <ul class="menu-list" style="padding: 15px;display: flex;flex-direction: column;gap: 4px;" >
+          <li class="animation"><a routerLink="/terminales" style="background-color: transparent !important;  border-radius: 10px;
+  border: 1px solid #295a8c; color: #295a8c;">Ver Terminales</a></li>
+          <li class="animation"><a style="background-color: transparent !important;  border-radius: 10px;
+  border: 1px solid #295a8c; color: #295a8c;">Horarios</a></li>
+          <li class="animation"><a style="background-color: transparent !important;  border-radius: 10px;
+  border: 1px solid #295a8c; color: #295a8c;">Dias Festivos</a></li>
         </ul>
         <p class="menu-label">
           Administración
         </p>
         <ul class="menu-list">
-          
+
         </ul>
       </aside>
     </div>
-    
-    <div class="column">
+
+    <div class="column" style="background-color: #F7F6F3;padding: 15px;">
       <router-outlet></router-outlet>
     </div>
   </div>

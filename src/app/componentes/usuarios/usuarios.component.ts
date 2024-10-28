@@ -3,11 +3,12 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { TerminalService } from '../../servicios/terminal.service';
 import { HttpClientModule } from '@angular/common/http';
 import { env } from '../../../environments/environments';
+import {TurnoComponent} from "../horarios/turno/turno.component";
 
 @Component({
   selector: 'app-usuarios',
   standalone: true,
-  imports: [RouterLink, HttpClientModule],
+  imports: [RouterLink, HttpClientModule, TurnoComponent],
   providers: [TerminalService],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css'

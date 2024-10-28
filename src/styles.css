@@ -16,10 +16,12 @@
 body {
     height: 100vh;
     margin: 15px;
+
+
 }
-  
+
 .logo {
-    padding: 0rem 0rem !important; 
+    padding: 0rem 0rem !important;
 }
 
 .logo img {
@@ -34,7 +36,8 @@ body {
 }
 
 .sidebar {
-    background-color: rgba(225, 230, 228, 0.829);
+    background-color: #d6e6f6;
+    background: linear-gradient(-40deg,#E3EEFC 55%  , #cedff2 0% );
     height: 100vh;
 }
 
@@ -80,8 +83,8 @@ body {
 }
 
 .hbox {
-    display: flex; 
-    flex-direction: row; 
+    display: flex;
+    flex-direction: row;
     gap: 10px;
     margin-bottom: 10px;
 }
@@ -89,7 +92,7 @@ body {
 .hitem {
     display: flex;
     flex-direction: row;
-    gap: 3px;
+    gap: 5px;
 }
 
 .breadcrumb:not(:last-child) {

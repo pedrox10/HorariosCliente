@@ -1,0 +1,63 @@
+<div class="box">
+  <nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+      <li><a routerLink="/terminales">Terminales</a></li>
+      <li></li>
+      <li><a>Ver Turnos</a></li>
+    </ul>
+  </nav>
+  <div style="box-sizing: border-box; width: fit-content;">
+    <div class="hbox">
+      <div class="hitem mt-2">
+        <label class="label">CI:</label>
+        <span></span>
+      </div>
+      <div class="hitem">
+        <label class="label mt-2">Gestion:</label>
+        <div class="select">
+          <select>
+            <option>2024</option>
+          </select>
+        </div>
+      </div>
+      <div class="hitem">
+        <label class="label mt-2">Mes:</label>
+        <div class="select">
+          <select>
+          </select>
+        </div>
+      </div>
+      <div class="hitem" style="margin-left: auto;">
+        <button class="button"><span class="icon"><i class="fas fa-print"></i></span></button>
+        <button class="button"><span class="icon"><i class="fas fa-file-excel"
+                                                     style="color: rgb(16, 129, 16);"></i></span></button>
+        <button class="button"><span class="icon"><i class="fas fa-file-pdf" style="color: rgb(190, 69, 69)"></i></span>
+        </button>
+      </div>
+    </div>
+
+    <table class="table is-bordered is-hoverable animate__animated animate__fadeIn">
+      <tr style="background-color: #d6e6f6;">
+        <th>Lun</th>
+        <th>Mar</th>
+        <th>Mie</th>
+        <th>Jue</th>
+        <th>Vie</th>
+        <th>Sab</th>
+        <th>Dom</th>
+      </tr>
+      <tbody>
+        <tr>
+          <td><app-turno></app-turno></td>
+          <td>29</td>
+          <td>30</td>
+          <td>31</td>
+          <td>1</td>
+          <td>2</td>
+          <td>3</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+

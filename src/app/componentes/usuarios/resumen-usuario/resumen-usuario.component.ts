@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { env } from '../../../environments/environments';
-import { TerminalService } from '../../servicios/terminal.service';
+import { env } from '../../../../environments/environments';
+import { TerminalService } from '../../../servicios/terminal.service';
 import { HttpClientModule } from '@angular/common/http';
 
 @Component({

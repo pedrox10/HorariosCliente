@@ -10,7 +10,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './terminal.component.css'
 })
 
-export class TerminalComponent {
+export class  TerminalComponent {
 
   @Input() nombre:string;
   @Input() ip:string;
