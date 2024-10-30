@@ -1,0 +1,33 @@
+ <div class="modal-card is-small">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Nuevo Horario</p>
+      <button class="delete" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+      <div class="hitem mt-2">
+        <label class="label mt-2">Nombre:</label>
+        <input type="text" class="input"  >
+      </div>
+      <div class="hbox">
+        <div class="hitem mt-2">
+          <label class="label mt-2">Color:</label>
+          <input type="text" class="input"  >
+        </div>
+        <div class="hitem mt-2">
+          <label class="label mt-2">Tolerancia:</label>
+          <input type="text" class="input"  >
+        </div>
+      </div>
+      <div class="hitem mt-2">
+        <label class="label mt-2">Descripcion:</label>
+        <textarea class="textarea" style="width: 300px" placeholder="Descripcion"></textarea>
+      </div>
+
+    </section>
+    <footer class="modal-card-foot">
+      <div class="buttons">
+        <button class="button is-primary" (click)="onConfirm()" >Guardar</button>
+        <button class="button">Cancelar</button>
+      </div>
+    </footer>
+ </div>
