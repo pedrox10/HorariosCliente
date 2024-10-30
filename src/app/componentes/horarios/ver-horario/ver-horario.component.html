@@ -2,7 +2,7 @@
   <nav class="breadcrumb" aria-label="breadcrumbs">
     <ul>
       <li><a routerLink="/terminales">Terminales</a></li>
-      <li></li>
+      <li><a>Usuarios</a></li>
       <li><a>Ver Turnos</a></li>
     </ul>
   </nav>
@@ -36,7 +36,7 @@
       </div>
     </div>
 
-    <table class="table is-bordered is-hoverable animate__animated animate__fadeIn">
+    <table class="table is-bordered animate__animated animate__fadeIn">
       <tr style="background-color: #d6e6f6;">
         <th>Lun</th>
         <th>Mar</th>
@@ -47,6 +47,14 @@
         <th>Dom</th>
       </tr>
       <tbody>
+        <tr>
+          <td><app-turno/></td>
+          <td><app-turno/></td>
+          <td><app-turno/></td>
+          <td><app-turno/></td>
+          <td><app-turno/></td>
+          <td colspan="2" style="padding-left: 75px;"><app-turno style="background-color: red !important;"/></td>
+        </tr>
         <tr>
           <td><app-turno/></td>
           <td><app-turno/></td>

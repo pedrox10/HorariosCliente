@@ -36,7 +36,7 @@
                 <button class="button"><span class="icon"><i class="fas fa-file-pdf" style="color: rgb(190, 69, 69)"></i></span></button>
             </div>
         </div>
-        <table class="table is-bordered is-hoverable animate__animated animate__fadeIn">
+      <table class="table is-bordered is-hoverable animate__animated animate__fadeIn">
             <tr style="background-color: #d6e6f6;">
                 <th></th>
                 <th style="text-align: center;" colspan="2">
@@ -65,8 +65,9 @@
             <th>Sin Marcar<i class="fas fa-circle ml-1"
                     style="color: red; border-radius: 50%; font-size: 0.75em;"></i></th>
             </tr>
+            <tbody>
             @for (item of dias; track item; let i = $index ) {
-                <tr>
+                <tr >
                 @for (dato of item; track dato; let j = $index ) {
                     @if(j!== 0){
                         <td>{{dias[i][j]}}</td>
@@ -77,6 +78,7 @@
                 }
                 </tr>
             }
+          </tbody>
         </table>
     </div>
 </div>

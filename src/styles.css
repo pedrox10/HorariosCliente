@@ -104,3 +104,10 @@ body {
     border-color: #b7c6d2 !important;
     color: #000 !important;
 }
+
+.vbox {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+}
