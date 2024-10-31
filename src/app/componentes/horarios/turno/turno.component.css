@@ -6,3 +6,12 @@
   border-radius: 15px;
   background-color: #e0fbf7;
 }
+
+.turno header {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 5px;
+  justify-content: center;
+  border-bottom: 1px;
+  border-bottom: 1px dashed gray;
+}

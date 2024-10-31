@@ -1,9 +1,5 @@
 <div class="box">
-  <nav class="breadcrumb" aria-label="breadcrumbs">
-    <ul>
-      <li><a>Horarios</a></li>
-    </ul>
-  </nav>
+  <h1>Adm Terminales</h1>
 
   <div style="box-sizing: border-box; width: fit-content;">
     <div class="hbox">
@@ -13,26 +9,24 @@
       </div>
       <div class="hitem">
       </div>
-      <div class="hitem has-tooltip-arrow" data-tooltip="Agregar Horario" style="margin-left: auto;">
-        <button class="button" (click) = "nuevoHorario()"><span class="icon"><i class="fas fa-plus "></i></span></button>
+      <div class="hitem has-tooltip-arrow" data-tooltip="Agregar Terminal" style="margin-left: auto;">
+        <button class="button" (click) = "nuevoTerminal()"><span class="icon"><i class="fas fa-plus "></i></span></button>
       </div>
     </div>
     <table class="table is-bordered is-hoverable animate__animated animate__fadeIn">
       <tr style="background-color: #d6e6f6;">
         <th>#</th>
         <th>Nombre</th>
-        <th>Descripcion</th>
-        <th>Tolerancia</th>
-        <th>Color</th>
+        <th>IP</th>
+        <th>Puerto</th>
         <th>Acciones</th>
       </tr>
       <tbody>
       <tr>
         <td>1</td>
-        <td>Oficina 8hrs</td>
-        <td>Horario doble turno, mañana y tarde</td>
-        <td>5min</td>
-        <td>Celeste</td>
+        <td>Planta Baja</td>
+        <td>192.168.70.199</td>
+        <td>4370</td>
         <td>...</td>
       </tr>
       </tbody>

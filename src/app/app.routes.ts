@@ -5,13 +5,15 @@ import {ResumenUsuarioComponent} from './componentes/usuarios/resumen-usuario/re
 import {AsignarHorariosComponent} from "./componentes/usuarios/asignar-horarios/asignar-horarios.component";
 import {VerHorarioComponent} from "./componentes/horarios/ver-horario/ver-horario.component";
 import {HorariosComponent} from "./componentes/horarios/horarios.component";
+import {AdmTerminalesComponent} from "./componentes/terminal/adm-terminales/adm-terminales.component";
 
 export const routes: Routes = [
   {path: "", component: ListarTerminalesComponent},
-  {path: "terminales", component: ListarTerminalesComponent},
+  {path: "ver-terminales", component: ListarTerminalesComponent},
   {path: "usuarios/:ip/:puerto", component: UsuariosComponent},
   {path: "resumen-usuario/:ip/:puerto/:nombre", component: ResumenUsuarioComponent},
   {path: "horarios", component: HorariosComponent},
   {path: "asignar-horarios", component: AsignarHorariosComponent},
-  {path: "ver-horario", component: VerHorarioComponent}
+  {path: "ver-horario", component: VerHorarioComponent},
+  {path: "adm-terminales", component: AdmTerminalesComponent},
 ];

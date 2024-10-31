@@ -1,16 +1,15 @@
 import { Component } from '@angular/core';
-import {RouterLink} from "@angular/router";
+import {NuevoHorarioComponent} from "../../horarios/nuevo-horario/nuevo-horario.component";
 import {ModalService} from "ngx-modal-ease";
-import {NuevoHorarioComponent} from "./nuevo-horario/nuevo-horario.component";
 
 @Component({
-  selector: 'app-horarios',
+  selector: 'app-adm-terminales',
   standalone: true,
-  imports: [RouterLink],
-  templateUrl: './horarios.component.html',
-  styleUrl: './horarios.component.css'
+  imports: [],
+  templateUrl: './adm-terminales.component.html',
+  styleUrl: './adm-terminales.component.css'
 })
-export class HorariosComponent {
+export class AdmTerminalesComponent {
   config = {
     animation: 'enter-scaling',
     duration: '0.2s',
@@ -19,7 +18,7 @@ export class HorariosComponent {
   constructor(private modalService: ModalService) {
   }
 
-  nuevoHorario() {
+  nuevoTerminal() {
     this.modalService
       .open(NuevoHorarioComponent, {
         modal: {
