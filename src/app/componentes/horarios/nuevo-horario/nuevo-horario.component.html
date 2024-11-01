@@ -1,30 +1,37 @@
-<div class="modal-card is-small">
-  <header class="modal-card-head" style="background-color: #295a8c;">
-    <p class="modal-card-title" style="color: white">Nuevo Horario</p>
-    <button class="delete" aria-label="close"></button>
-  </header>
-  <section class="modal-card-body">
-      <div class="hbox">
-        <div class="hitem mt-2">
-          <label class="label mt-2">Nombre:</label>
-          <input type="text" class="input">
-        </div>
-        <div class="hitem mt-2">
-          <label class="label mt-2">Color:</label>
-          <input type="color" class="mt-2" style="width: 50px">
-        </div>
-        <div class="hitem mt-2">
-          <label class="label mt-2">Tolerancia:</label>
-          <input class="input" type="number" min="0" max="10" step="1" VALUE="5">
-        </div>
-      </div>
+<div class="box" style="height: 100%;">
+  <div class="title">
+    <h1>Nuevo Horario</h1>
+  </div>
+  <div class="columns">
+    <div class="column is-one-third">
       <div class="field">
+        <label class="label">Nombre</label>
         <div class="control">
-          <label class="label">Descripción</label>
-          <textarea rows="2" class="textarea" placeholder="Detalles del horario"></textarea>
+          <input class="input" type="text" placeholder="Oficina">
         </div>
       </div>
-    <div class="semana">
+      <div class="hitem" style="justify-content: space-between">
+        <div class="field">
+          <label class="label">Tolerancia</label>
+          <div class="control">
+            <input class="input" type="number" min="0" max="10" placeholder="5 min">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Color</label>
+          <div class="control">
+            <input class="input" type="color">
+        </div>
+      </div>
+      </div>
+        <div class="field">
+          <label class="label">Descripcion</label>
+          <div class="control">
+            <textarea class="textarea" rows="2"></textarea>
+          </div>
+        </div>
+    </div>
+    <div class="column">
       <table class="table">
         <thead>
         <tr>
@@ -35,6 +42,8 @@
         <tbody>
         <tr>
           <td>Lunes</td>
+          <td><input type="time" value="08:00" class="input"></td>
+          <td><input type="time" value="12:00" style="width: 100px" class="input"></td>
           <td><input type="time" value="08:00" class="input"></td>
           <td><input type="time" value="12:00" style="width: 100px" class="input"></td>
         </tr>
@@ -71,12 +80,5 @@
         </tbody>
       </table>
     </div>
-
-  </section>
-  <footer class="modal-card-foot">
-    <div class="buttons">
-      <button class="button" style="background-color: #295a8c; color: white" (click)="onConfirm()">Guardar</button>
-      <button class="button">Cancelar</button>
-    </div>
-  </footer>
+  </div>
 </div>

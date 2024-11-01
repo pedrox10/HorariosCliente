@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {NuevoHorarioComponent} from "../../horarios/nuevo-horario/nuevo-horario.component";
 import {ModalService} from "ngx-modal-ease";
+import {AccionTerminalComponent} from "./accion-terminal/accion-terminal.component";
 
 @Component({
   selector: 'app-adm-terminales',
@@ -20,7 +21,7 @@ export class AdmTerminalesComponent {
 
   nuevoTerminal() {
     this.modalService
-      .open(NuevoHorarioComponent, {
+      .open(AccionTerminalComponent, {
         modal: {
           enter: `${this.config.animation} ${this.config.duration}`,
         },

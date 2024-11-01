@@ -29,6 +29,7 @@ export class ResumenUsuarioComponent {
     this.terminalService.getMarcaciones(this.ip, this.puerto).subscribe(
       (data: any) => {
         const aux = data;
+        console.log(aux)
         let cad = this.gestion + "-10-";
         let re_fecha = new RegExp(cad + '(.*)');
         let re_ci = new RegExp("^" + this.nombre + "$");
