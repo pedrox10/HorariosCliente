@@ -1,11 +1,9 @@
 <div class="box" style="height: 100%;">
-  <nav class="breadcrumb" aria-label="breadcrumbs">
-    <ul>
-      <li><a routerLink="/ver-terminales">Terminales</a></li>
-    </ul>
-  </nav>
+  <div class="title">
+    <h1>Lista de Terminales</h1>
+  </div>
 
-  <div class="terminales  animate__animated animate__fadeIn" data-theme="light" id="terminales">
+  <div class="terminales  animate__animated animate__fadeIn" id="terminales">
       @for (t of terminales; track t) {
       <app-terminal nombre="{{ t.nombre }}" ip="{{ t.ip }}" puerto="{{ t.puerto }}">
 

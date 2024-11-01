@@ -30,9 +30,11 @@
               "node_modules/bulmaswatch/materia/bulmaswatch.min.css",
               "https://unpkg.com/@fortawesome/fontawesome-free@5.13.0/css/all.css",
               "https://cdn.jsdelivr.net/npm/@creativebulma/bulma-tooltip@1.2.0/dist/bulma-tooltip.min.css",
-              "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+              "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css",
+              "https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
             ],
-            "scripts": []
+            "scripts": [
+            ]
           },
           "configurations": {
             "production": {

@@ -3,7 +3,7 @@ import {ListarTerminalesComponent} from './componentes/terminal/listar-terminale
 import {UsuariosComponent} from './componentes/usuarios/usuarios.component';
 import {ResumenUsuarioComponent} from './componentes/usuarios/resumen-usuario/resumen-usuario.component';
 import {AsignarHorariosComponent} from "./componentes/usuarios/asignar-horarios/asignar-horarios.component";
-import {VerHorarioComponent} from "./componentes/horarios/ver-horario/ver-horario.component";
+import {VerHorarioComponent} from "./componentes/usuarios/ver-horario/ver-horario.component";
 import {HorariosComponent} from "./componentes/horarios/horarios.component";
 import {AdmTerminalesComponent} from "./componentes/terminal/adm-terminales/adm-terminales.component";
 

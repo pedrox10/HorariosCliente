@@ -1,11 +1,7 @@
-<div class="box">
-  <nav class="breadcrumb" aria-label="breadcrumbs">
-    <ul>
-      <li><a routerLink="/ver-terminales">Terminales</a></li>
-      <li><a>Usuarios</a></li>
-    </ul>
-  </nav>
-
+<div class="box" style="height: 100%;">
+  <div class="title">
+    <h1>Lista de Funcionarios</h1>
+  </div>
   <div style="box-sizing: border-box; width: fit-content;">
     <div class="hbox">
       <div class="hitem">
@@ -40,7 +36,7 @@
       <tbody>
       @for (item of usuariosFiltrados; track item; let index = $index) {
       <tr>
-          <th>{{index +1}}</th>
+          <td>{{index +1}}</td>
           <td>{{item.user_id}}</td>
           <td>{{item.name}}</td>
           <td>Oficina 2T</td>

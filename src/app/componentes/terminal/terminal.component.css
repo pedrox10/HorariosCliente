@@ -6,10 +6,10 @@
 }
 
 .terminal header {
-    display: flex; 
+    display: flex;
     flex-direction: row;
-    margin-bottom: 15px; 
-    justify-content: center; 
+    margin-bottom: 15px;
+    justify-content: center;
     font-weight: bold;
     font-size: 1.2em;
     border-bottom: 1px;
@@ -17,20 +17,30 @@
 }
 
 .terminal .contenido {
-    display: flex; 
-    flex-direction: column; 
+    display: flex;
+    flex-direction: column;
     gap: 5px;
 }
 
 .terminal footer {
-    display: flex; 
-    flex-direction: row; 
-    justify-content: center; 
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     margin-top: 15px;
 }
 
 .contenido .dato {
-    display: flex; 
-    flex-direction: row; 
+    display: flex;
+    flex-direction: row;
     gap: 10px;
+}
+
+.terminal .button:hover {
+  background-color: #295a8c !important;
+  color: white !important;
+}
+
+.terminal .button {
+  color: #295a8c !important;
+  border-color: #295a8c !important;
 }

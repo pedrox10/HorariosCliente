@@ -1,23 +1,32 @@
-/* You can add global styles to this file, and also import other style files */
-.button {
-  text-transform: capitalize !important;
-}
-
-.terminal .button:hover {
-  background-color: #295a8c !important;
-  color: white !important;
-}
-
-.terminal .button {
-  color: #295a8c !important;
-  border-color: #295a8c !important;
-}
-
 body {
   height: 100vh;
   margin: 15px;
-
-
+}
+.title h1, .subtitle h2 {
+  padding-bottom: 5px;
+  position: relative;
+}
+.title h1:before, .subtitle h2:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 5px;
+  width: 100px;
+  background-color: #295A8C;
+}
+.title h1:after, .subtitle h2:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 2px;
+  height: 1px;
+  width: 95%;
+  max-width: 350px;
+  background-color: #CEDFF2;
+}
+.button {
+  text-transform: capitalize !important;
 }
 
 .logo {
@@ -71,7 +80,6 @@ body {
   opacity: 0.2;
   transition: 0s;
 }
-
 }
 
 .grid {
@@ -112,3 +120,4 @@ body {
   gap: 5px;
   align-items: center;
 }
+
