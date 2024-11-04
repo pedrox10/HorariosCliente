@@ -1,34 +1,37 @@
 
   <div class="columns principal">
-    <div class="column is-one-fifth sidebar" style="padding: 5px;">
+    <div class="column is-one-fifth sidebar" style="padding: 0px;">
       <nav class="navbar mb-5" role="navigation" style="background-color: #295a8c;" aria-label="main navigation">
-        <div class="navbar-brand">
-            <a class="navbar-item logo">
+        <div class="navbar-brand" >
+            <a class="navbar-item logo" >
                 <img src="../../../assets/gams.svg">
             </a>
         </div>
       </nav>
-      <aside class="menu" style="padding-left: 5px">
-        <p class="menu-label">
-          General
-        </p>
-        <ul class="menu-list" style="padding: 5px;display: flex;flex-direction: column;gap: 4px;" >
-          <li class="animation"><a routerLink="/ver-terminales" style="background-color: transparent !important;  border-radius: 10px;
-  border: 1px solid #295a8c; color: #295a8c;">Ver Terminales</a></li>
-          <li class="animation"><a routerLink="/horarios" style="background-color: transparent !important;  border-radius: 10px;
-  border: 1px solid #295a8c; color: #295a8c;">Horarios</a></li>
-        </ul>
-        <p class="menu-label">
-          Administración
-        </p>
-        <ul class="menu-list" style="padding: 10px;">
-          <li class="animation"><a routerLink="/adm-terminales" style="background-color: transparent !important;  border-radius: 10px;
-  border: 1px solid #295a8c; color: #295a8c;">Terminales</a></li>
-        </ul>
-      </aside>
+      <div style="background: rgba(0, 0, 0, 0.60); border-radius: 10px; padding-left: 10px;padding-top: 25px; padding-bottom: 25px;padding-right: 5px">
+        <aside class="menu">
+          <p class="menu-label" style="color: white">
+            General
+          </p>
+          <ul class="menu-list" >
+            <li class="animation"><a routerLink="/ver-terminales" style="background-color: transparent !important;
+  border: 1px solid #e0fbf7; color: #e0fbf7;border-radius: 10px; margin-bottom: 7px;">Ver Terminales</a></li>
+            <li class="animation"><a routerLink="/horarios" style="background-color: transparent !important;
+  border: 1px solid #e0fbf7; color: #e0fbf7;border-radius: 10px; margin-bottom: 7px;">Horarios</a></li>
+          </ul>
+          <p class="menu-label mt-5" style="color: white">
+            Administración
+          </p>
+          <ul class="menu-list" >
+            <li class="animation"><a routerLink="/adm-terminales" style="background-color: transparent !important;
+  border: 1px solid #e0fbf7; color: #e0fbf7; border-radius: 10px; margin-bottom: 7px;">Terminales</a></li>
+
+          </ul>
+        </aside>
+      </div>
     </div>
 
-    <div class="column" style="background-color: #F7F6F3;padding: 15px;">
+    <div class="column" style="background-color: #E9EFEE;padding: 15px;">
       <router-outlet></router-outlet>
     </div>
   </div>

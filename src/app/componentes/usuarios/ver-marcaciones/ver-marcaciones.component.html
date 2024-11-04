@@ -1,0 +1,100 @@
+<div class="box" style="height: 100%;">
+  <div class="title">
+    <h1>Registro de marcaciones</h1>
+  </div>
+  <div class="columns">
+    <div class="column is-2">
+      <div class="info">
+        <div class="vbox">
+          <i class="fas fa-user-circle" style="font-size: 3em"></i>
+          <span>Nombre</span>
+          <span>Cargo</span>
+        </div>
+      </div>
+      <div class="info">
+        <div class="vbox">
+          <span>Dias con incidencia</span>
+          <div class="hbox">
+            <i class="fas fa-info" style="color: orange"></i>
+            <span>Llego tarde</span>
+            <span style="font-weight: bold;">2</span>
+          </div>
+          <div class="hbox">
+            <i class="fas fa-info" style="color: red"></i>
+            <span>Sin Marcar</span>
+            <span style="font-weight: bold;">2</span>
+          </div>
+        </div>
+      </div>
+      <div class="info">
+        <div class="vbox">
+          <span>Ausencias</span>
+          <div class="hbox">
+            <i class="fas fa-info" style="color: red"></i>
+            <span>Vacaciones</span>
+            <span style="font-weight: bold;">2</span>
+          </div>
+          <div class="hbox">
+            <i class="fas fa-info" style="color: red"></i>
+            <span>Baja Medica</span>
+            <span style="font-weight: bold;">2</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column" style="box-sizing: border-box; width: fit-content;">
+      <div class="hbox">
+        <div class="hitem accion">
+          <label for="datepicker" class="label mt-2">Rango: </label>
+          <input id="datepicker" class="input"/>
+        </div>
+        <div class="hitem accion" style="margin-left: auto;">
+          <button class="button"><span class="icon"><i class="fas fa-print"></i></span></button>
+          <button class="button"><span class="icon"><i class="fas fa-file-excel" style="color: rgb(16, 129, 16);"></i></span></button>
+          <button class="button"><span class="icon"><i class="fas fa-file-pdf" style="color: rgb(190, 69, 69)"></i></span></button>
+        </div>
+      </div>
+      <table class="table is-bordered is-hoverable animate__animated animate__fadeIn">
+        <tr style="background-color: #d6e6f6;">
+          <th></th>
+          <th style="text-align: center;" colspan="2">
+            Turno 1
+          </th>
+          <th style="text-align: center;" colspan="2">
+            Turno 2
+          </th>
+          <th style="text-align: center;" colspan="2">
+            Atraso
+            <i class="fas fa-circle ml-1"
+               style="color: orange; padding: 0px;  border-radius: 50%; font-size: 0.75em;"></i>
+          </th>
+          <th></th>
+        </tr>
+        <tr style="background-color: #d6e6f6;">
+          <th>Dia</th>
+          <th>Entrada</th>
+          <th>Salida</th>
+          <th>Entrada</th>
+          <th>Salida</th>
+          <th>Cant.</th>
+          <th>Suma [min]</th>
+          <th>Sin Marcar<i class="fas fa-circle ml-1"
+                           style="color: red; border-radius: 50%;padding: 0; font-size: 0.75em;"></i></th>
+        </tr>
+        <tbody>
+        @for (item of dias; track item; let i = $index ) {
+        <tr >
+        @for (dato of item; track dato; let j = $index ) {
+        @if(j!== 0){
+        <td>{{dias[i][j]}}</td>
+        }
+        @else{
+        <th>{{dias[i][j]}}</th>
+        }
+        }
+        </tr>
+        }
+        </tbody>
+      </table>
+    </div>
+</div>

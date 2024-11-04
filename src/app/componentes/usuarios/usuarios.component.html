@@ -4,27 +4,27 @@
   </div>
   <div style="box-sizing: border-box; width: fit-content;">
     <div class="hbox">
-      <div class="hitem">
+      <div class="hitem accion">
+        <label class="label mt-2">Buscar: </label>
         <p class="control has-icons-right">
-          <input (input)="applyFilter($event)" type="text" class="input" placeholder="Buscar"/>
+          <input (input)="applyFilter($event)" type="text" class="input" placeholder="Nombre o CI"/>
           <span class="icon is-right"><i class="fas fa-search"></i></span>
         </p>
       </div>
       <div class="hitem">
-
       </div>
       <div class="hitem">
 
       </div>
-      <div class="hitem" style="margin-left: auto;">
-        <button class="button"><span class="icon"><i class="fas fa-print "></i></span></button>
-        <button class="button"><span class="icon"><i class="fas fa-file-excel" style="color: rgb(16, 129, 16);"></i></span></button>
-        <button class="button"><span class="icon"><i class="fas fa-file-pdf" style="color: rgb(190, 69, 69)"></i></span>
-        </button>
-      </div>
     </div>
     <table class="table is-bordered is-hoverable animate__animated animate__fadeIn">
       <tr style="background-color: #d6e6f6;">
+        <th>
+          <label class="b-checkbox checkbox is-small" style="padding: 0px">
+            <input type="checkbox" value="false">
+            <span class="check"></span>
+          </label>
+        </th>
         <th>#</th>
         <th style="width: 100px;">CI</th>
         <th style="width: 250px;">Nombre</th>
@@ -36,6 +36,12 @@
       <tbody>
       @for (item of usuariosFiltrados; track item; let index = $index) {
       <tr>
+          <td>
+            <label class="b-checkbox checkbox is-small">
+              <input type="checkbox" value="false">
+              <span class="check"></span>
+            </label>
+          </td>
           <td>{{index +1}}</td>
           <td>{{item.user_id}}</td>
           <td>{{item.name}}</td>
@@ -45,10 +51,10 @@
           <td>
             <div class="hitem">
               <span class="icon has-tooltip-arrow" data-tooltip="Ver Horario" routerLink="/ver-horario">
-                <i class="far fa-calendar-alt" style="color: #295a8c; padding: 4px; border: 1px solid #DBDBDB"></i>
+                <i class="far fa-calendar-alt" style="color: #295a8c; padding: 6px; border: 1px solid #DBDBDB"></i>
               </span>
-              <span class="icon has-tooltip-arrow" data-tooltip="Ver Marcaciones" routerLink="/resumen-usuario/{{ip}}/{{puerto}}/{{item.user_id}}">
-                <i class="far fa-calendar-check" style="color: #295a8c; padding: 4px; border: 1px solid #DBDBDB"></i>
+              <span class="icon has-tooltip-arrow" data-tooltip="Ver Marcaciones" routerLink="/ver-marcaciones/{{ip}}/{{puerto}}/{{item.user_id}}">
+                <i class="far fa-calendar-check" style="color: #295a8c; padding: 6px; border: 1px solid #DBDBDB"></i>
               </span>
             </div>
           </td>
@@ -56,6 +62,5 @@
       }
       </tbody>
     </table>
-
   </div>
 </div>

@@ -44,7 +44,7 @@ export class UsuariosComponent {
       this.usuariosFiltrados = this.usuarios;
     }
     else {
-      this.usuariosFiltrados = this.usuarios.filter((item: any) => item.name.toLowerCase().includes(texto))
+      this.usuariosFiltrados = this.usuarios.filter((item: any) => item.name.toLowerCase().includes(texto) || item.user_id.includes(texto))
     }
   }
 

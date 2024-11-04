@@ -1,7 +1,7 @@
 import {Routes} from '@angular/router';
 import {ListarTerminalesComponent} from './componentes/terminal/listar-terminales/listar-terminales.component';
 import {UsuariosComponent} from './componentes/usuarios/usuarios.component';
-import {ResumenUsuarioComponent} from './componentes/usuarios/resumen-usuario/resumen-usuario.component';
+import {VerMarcacionesComponent} from './componentes/usuarios/ver-marcaciones/ver-marcaciones.component';
 import {AsignarHorariosComponent} from "./componentes/usuarios/asignar-horarios/asignar-horarios.component";
 import {VerHorarioComponent} from "./componentes/usuarios/ver-horario/ver-horario.component";
 import {HorariosComponent} from "./componentes/horarios/horarios.component";
@@ -12,7 +12,7 @@ export const routes: Routes = [
   {path: "", component: ListarTerminalesComponent},
   {path: "ver-terminales", component: ListarTerminalesComponent},
   {path: "usuarios/:ip/:puerto", component: UsuariosComponent},
-  {path: "resumen-usuario/:ip/:puerto/:nombre", component: ResumenUsuarioComponent},
+  {path: "ver-marcaciones/:ip/:puerto/:nombre", component: VerMarcacionesComponent},
   {path: "horarios", component: HorariosComponent},
   {path: "nuevo-horario", component: NuevoHorarioComponent},
   {path: "asignar-horarios", component: AsignarHorariosComponent},

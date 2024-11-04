@@ -1,19 +1,22 @@
-import { Component, inject } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { env } from '../../../../environments/environments';
-import { TerminalService } from '../../../servicios/terminal.service';
-import { HttpClientModule } from '@angular/common/http';
+import {AfterViewInit, Component, inject, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, RouterLink} from '@angular/router';
+import {env} from '../../../../environments/environments';
+import {TerminalService} from '../../../servicios/terminal.service';
+import {HttpClientModule} from '@angular/common/http';
+import { easepick } from '@easepick/core';
+import { RangePlugin } from '@easepick/range-plugin';
+
 
 @Component({
-  selector: 'app-resumen-usuario',
+  selector: 'app-ver-marcaciones',
   standalone: true,
   imports: [RouterLink, HttpClientModule],
   providers: [TerminalService],
-  templateUrl: './resumen-usuario.component.html',
-  styleUrl: './resumen-usuario.component.css'
+  templateUrl: './ver-marcaciones.component.html',
+  styleUrl: './ver-marcaciones.component.css'
 })
 
-export class ResumenUsuarioComponent {
+export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   public gestion: number = 2024
   public mesActual: number = 9;
   public numDias: number;
@@ -26,6 +29,8 @@ export class ResumenUsuarioComponent {
   public oct: string[] = [];
 
   constructor(public terminalService: TerminalService) {
+
+
     this.terminalService.getMarcaciones(this.ip, this.puerto).subscribe(
       (data: any) => {
         const aux = data;
@@ -44,7 +49,36 @@ export class ResumenUsuarioComponent {
         console.error('An error occurred:', error);
       }
     );
-    this.numDias = this.getNumDias(this.mesActual-1, this.gestion);
+    this.numDias = this.getNumDias(this.mesActual - 1, this.gestion);
+   }
+
+  ngOnInit(): void {
+
+  }
+
+  ngAfterViewInit() {
+    const picker = new easepick.create({
+      element: document.getElementById('datepicker')!,
+      lang: 'es-ES',
+      format: "DD/MM/YYYY",
+      zIndex: 10,
+      grid: 2,
+      calendars: 2,
+      css: [
+        'https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.css',
+        "../../../assets/easepick.css"
+      ],
+      plugins: [RangePlugin],
+      RangePlugin: {
+        tooltipNumber(num) {
+          return num - 1;
+        },
+        locale: {
+          one: 'dia',
+          other: 'dias',
+        },
+      },
+    });
   }
 
   getNumDias(mes: number, gestion: number) {
