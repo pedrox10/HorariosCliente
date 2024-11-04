@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {TerminalService} from "../../../../servicios/terminal.service";
+import {FormBuilder} from "@angular/forms";
 
 @Component({
   selector: 'app-accion-terminal',
@@ -8,5 +10,10 @@ import { Component } from '@angular/core';
   styleUrl: './accion-terminal.component.css'
 })
 export class AccionTerminalComponent {
+  terminales = this.terminalService.getTerminales()
 
+  constructor(private terminalService: TerminalService,
+              private formBuilder: FormBuilder){
+
+  }
 }

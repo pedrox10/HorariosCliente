@@ -18,11 +18,9 @@ export class ListarTerminalesComponent {
   public constructor(public terminalService: TerminalService) {
 
     this.terminalService.getTerminales().subscribe(
-
       (data: any) => {
         this.terminales = data;
       },
-
       (error: any) => {
         console.error('An error occurred:', error);
       }
