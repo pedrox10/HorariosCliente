@@ -27,7 +27,7 @@
             "styles": [
               "src/styles.css",
               "node_modules/bulma/css/bulma.min.css",
-              "node_modules/bulmaswatch/materia/bulmaswatch.min.css",
+              "node_modules/bulmaswatch/pulse/bulmaswatch.min.css",
               "node_modules/bulma-checkbox/css/main.min.css",
               "https://unpkg.com/@fortawesome/fontawesome-free@5.13.0/css/all.css",
               "https://cdn.jsdelivr.net/npm/@creativebulma/bulma-tooltip@1.2.0/dist/bulma-tooltip.min.css",

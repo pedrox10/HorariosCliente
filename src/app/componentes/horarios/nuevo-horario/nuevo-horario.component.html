@@ -14,13 +14,14 @@
         <div class="field">
           <label class="label">Tolerancia</label>
           <div class="control">
-            <input class="input" type="number" min="0" max="10" placeholder="5 min">
+            <div class="hbox"><input class="input" type="number" min="0" max="10" placeholder="5" style="width: 50px">
+              <span class="mt-2">min.</span></div>
           </div>
         </div>
         <div class="field">
           <label class="label">Color</label>
           <div class="control">
-            <input class="input" type="color">
+            <input class="input" type="color" style="width: 50px;">
         </div>
       </div>
       </div>
@@ -43,42 +44,48 @@
         <tr>
           <td>Lunes</td>
           <td><input type="time" value="08:00" class="input"></td>
-          <td><input type="time" value="12:00" style="width: 100px" class="input"></td>
+          <td><input type="time" value="12:00" class="input"></td>
           <td><input type="time" value="08:00" class="input"></td>
-          <td><input type="time" value="12:00" style="width: 100px" class="input"></td>
+          <td><input type="time" value="12:00" class="input"></td>
         </tr>
         <tr>
           <td>Martes</td>
-          <td><input type="time" value="08:00" style="width: 100px" class="input"></td>
-          <td><input type="time" value="12:00" style="width: 100px" class="input"></td>
+          <td><input type="time" value="08:00" class="input"></td>
+          <td><input type="time" value="12:00" class="input"></td>
         </tr>
         <tr>
           <td>Miercoles</td>
-          <td><input type="time" value="08:00" style="width: 100px" class="input"></td>
-          <td><input type="time" value="12:00" style="width: 100px" class="input"></td>
+          <td><input type="time" value="08:00" class="input"></td>
+          <td><input type="time" value="12:00" class="input"></td>
         </tr>
         <tr>
           <td>Jueves</td>
-          <td><input type="time" value="08:00" style="width: 100px" class="input"></td>
-          <td><input type="time" value="12:00" style="width: 100px" class="input"></td>
+          <td><input type="time" value="08:00" class="input"></td>
+          <td><input type="time" value="12:00" class="input"></td>
         </tr>
         <tr>
           <td>Viernes</td>
-          <td><input type="time" value="08:00" style="width: 100px" class="input"></td>
-          <td><input type="time" value="12:00" style="width: 100px" class="input"></td>
+          <td><input type="time" value="08:00" class="input"></td>
+          <td><input type="time" value="12:00" class="input"></td>
         </tr>
         <tr>
           <td>Sábado</td>
-          <td><input type="time" style="width: 100px" class="input"></td>
-          <td><input type="time" style="width: 100px" class="input"></td>
+          <td><input type="time" class="input"></td>
+          <td><input type="time" class="input"></td>
         </tr>
         <tr>
           <td>Domingo</td>
-          <td><input type="time" style="width: 100px" class="input"></td>
-          <td><input type="time" style="width: 100px" class="input"></td>
+          <td><input type="time" class="input"></td>
+          <td><input type="time" class="input"></td>
         </tr>
         </tbody>
       </table>
     </div>
   </div>
+  <footer class="modal-card-foot">
+    <div class="buttons">
+      <button class="button" style="background-color: #295a8c; color: white; border-radius: 5px ">Guardar</button>
+      <button class="button" style="border-radius: 5px">Cancelar</button>
+    </div>
+  </footer>
 </div>
