@@ -1,35 +1,39 @@
-<div class="modal-card" style="width: 400px">
+<div class="modal-card" style="width: 400px" xmlns="http://www.w3.org/1999/html">
   <header class="modal-card-head" style="background-color: #295a8c;">
     <p class="modal-card-title" style="color: white">Accion Terminal</p>
     <button class="delete" aria-label="close"></button>
   </header>
-  <section class="modal-card-body">
-    <div class="field">
-      <label class="label">Nombre</label>
-      <div class="control">
-        <input class="input" type="text" placeholder="Planta Baja">
-      </div>
-      <p class="help is-info">Máximo 14 caracteres</p>
-    </div>
-    <div class="hitem">
+  <form [formGroup]= "formAccion" >
+    <section class="modal-card-body">
       <div class="field">
-        <label class="label">IP</label>
+        <label class="label">Nombre</label>
         <div class="control">
-          <input class="input" type="text" placeholder="192.168.70.xxx">
+          <input class="input" id="nombre" type="text" formControlName="nombre" placeholder="Planta Baja"/>
+          <p class="help is-info">Máximo 14 caracteres</p>
         </div>
       </div>
-      <div class="field">
-        <label class="label">Puerto</label>
-        <div class="control">
-          <input class="input" type="text" placeholder="4370">
+      <div class="hitem">
+        <div class="field">
+          <label class="label">IP</label>
+          <div class="control">
+            <input class="input" id="nombre" type="text" formControlName="ip" placeholder="192.168.70.xxx">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Puerto</label>
+          <div class="control">
+            <input class="input" id="nombre" type="text" formControlName="puerto" placeholder="4370">
+          </div>
         </div>
       </div>
-    </div>
-  </section>
-  <footer class="modal-card-foot">
-    <div class="buttons">
-      <button class="button" style="background-color: #295a8c; color: white; border-radius: 5px ">Guardar</button>
-      <button class="button" style="border-radius: 5px">Cancelar</button>
-    </div>
-  </footer>
+    </section>
+    <footer class="modal-card-foot">
+      <div class="buttons">
+        <button class="button" type="submit" (click)="onSubmit()" style="background-color: #295a8c; color: white; border-radius: 5px ">
+          Guardar
+        </button>
+        <button class="button" style="border-radius: 5px">Cancelar</button>
+      </div>
+    </footer>
+  </form>
 </div>

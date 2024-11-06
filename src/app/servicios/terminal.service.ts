@@ -13,6 +13,11 @@ export class TerminalService {
     return this.http.get(`${this.apiUrl}/terminales`);
   }
 
+  public agregarTerminal(body: any) {
+    return this.http.post(`${this.apiUrl}/terminal/agregar`, body);
+  }
+
+
   public getUsuarios(ip:string, puerto:number) {
     return this.http.get(`${this.apiUrl}/usuarios/` + ip + "/" + puerto);
   }
