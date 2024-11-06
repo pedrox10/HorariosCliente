@@ -4,6 +4,7 @@ import { TerminalService } from '../../servicios/terminal.service';
 import { HttpClientModule } from '@angular/common/http';
 import { env } from '../../../environments/environments';
 import {TurnoComponent} from "../horarios/turno/turno.component";
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-usuarios',
@@ -23,7 +24,7 @@ export class UsuariosComponent {
   public ip = this.activatedRoute.snapshot.params['ip'];
   public puerto = this.activatedRoute.snapshot.params['puerto'];
 
-  constructor(public terminalService: TerminalService) {
+  constructor(public terminalService: TerminalService, public location:Location) {
     this.terminalService.getUsuarios(this.ip, this.puerto).subscribe(
       (data: any) => {
         this.usuariosFiltrados = data;
@@ -48,7 +49,7 @@ export class UsuariosComponent {
     }
   }
 
-  saludo() {
-    alert("hi")
+  irAtras() {
+    this.location.back();
   }
 }

@@ -5,6 +5,7 @@ import {TerminalService} from '../../../servicios/terminal.service';
 import {HttpClientModule} from '@angular/common/http';
 import { easepick } from '@easepick/core';
 import { RangePlugin } from '@easepick/range-plugin';
+import {Location} from '@angular/common';
 
 
 @Component({
@@ -28,7 +29,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   public meses = env.meses;
   public oct: string[] = [];
 
-  constructor(public terminalService: TerminalService) {
+  constructor(public terminalService: TerminalService, public  location: Location) {
 
 
     this.terminalService.getMarcaciones(this.ip, this.puerto).subscribe(
@@ -106,5 +107,9 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       });
       this.dias.push(fila)
     }
+  }
+
+  irAtras() {
+    this.location.back();
   }
 }

@@ -1,10 +1,13 @@
 <div class="box" style="height: 100%;">
-  <div class="title">
-    <h1>Lista de Funcionarios</h1>
+  <div class="hitem mb-5">
+    <span (click)="irAtras()"  class="icon button mt-1"><i class="fas fa-arrow-left"></i></span>
+    <div class="title">
+      <h1>Funcionarios en Terminal</h1>
+    </div>
   </div>
   <div style="box-sizing: border-box; width: fit-content;">
     <div class="hbox">
-      <div class="hitem accion">
+      <div class="hitem">
         <label class="label mt-2">Buscar: </label>
         <p class="control has-icons-right">
           <input (input)="applyFilter($event)" type="text" class="input" placeholder="Nombre o CI"/>
@@ -51,10 +54,10 @@
           <td>
             <div class="hitem">
               <span class="icon has-tooltip-arrow" data-tooltip="Ver Horario" routerLink="/ver-horario">
-                <i class="far fa-calendar-alt" style="color: #295a8c; padding: 6px; border: 1px solid #DBDBDB"></i>
+                <i class="far fa-calendar-alt icon-btn"></i>
               </span>
               <span class="icon has-tooltip-arrow" data-tooltip="Ver Marcaciones" routerLink="/ver-marcaciones/{{ip}}/{{puerto}}/{{item.user_id}}">
-                <i class="far fa-calendar-check" style="color: #295a8c; padding: 6px; border: 1px solid #DBDBDB"></i>
+                <i class="far fa-calendar-check icon-btn"></i>
               </span>
             </div>
           </td>

@@ -29,6 +29,9 @@ body {
 .button {
   text-transform: capitalize !important;
 }
+.button:hover, .button:focus, .button:active {
+  border-color: #295A8C !important;
+}
 
 .logo {
   padding: 0rem 0rem !important;
@@ -46,8 +49,7 @@ body {
 }
 
 .sidebar {
-  background-color: #d6e6f6;
-  background: linear-gradient(-220deg, #E3EEFC 55%, #cedff2 0%);
+  background: rgba(82, 181, 134);
   height: 100vh;
 }
 
@@ -135,11 +137,56 @@ body {
 
 }
 
+.menu {
+  background-color: transparent !important;
+  padding: 30px 0px !important;
+}
+
+.menu li a{
+  font-size: 1.1em;
+  padding: 15px 5px 15px 25px;
+  background-color: #52B586 !important;
+  color: white;
+  font-weight: normal;
+}
+
+.menu li a:hover, .menu li a:focus, .menu li a:active {
+  color: white;
+  background-color: #3E926A !important;
+}
+
+.menu .menu-label {
+  color: #295A8C; padding-left: 25px; padding-right: 5px; font-weight: bold;
+  border-bottom: 2px #295A8C solid;
+  width: fit-content;
+}
+
 .info {
-  padding: 5px;
+  padding: 10px;
   border: 1px solid #cad9d6;
   border-radius: 7.5px;
-  height: 200px;
+  min-height: 150px;
   background-color: #E9EFEE;
   margin-bottom: 15px;
+}
+
+input[type=time] {
+  width: auto;
+}
+
+.table th {
+  background-color: #E5EBEA !important;
+}
+
+.b-checkbox.checkbox input[type=checkbox] + .check {
+  width: 1.1em !important;
+  height: 1.1em !important;
+}
+
+.icon-btn {
+  color: #295a8c; padding: 5px; border: 1px solid #DBDBDB;
+  font-size: 1.2em;
+}
+.icon-btn:hover {
+  background-color: #d6e1ec;
 }

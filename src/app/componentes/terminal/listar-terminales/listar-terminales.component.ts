@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { TerminalComponent } from '../terminal.component';
 import { TerminalService } from '../../../servicios/terminal.service';
 import { HttpClientModule } from '@angular/common/http';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-listar-terminales',
@@ -15,7 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
 export class ListarTerminalesComponent {
   public terminales: any;
   public element = document.getElementById("terminales");
-  public constructor(public terminalService: TerminalService) {
+  public constructor(public terminalService: TerminalService, public location: Location) {
 
     this.terminalService.getTerminales().subscribe(
       (data: any) => {
@@ -26,4 +27,6 @@ export class ListarTerminalesComponent {
       }
     );
   }
+
+
 }

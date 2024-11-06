@@ -1,19 +1,22 @@
 <div class="box" style="height: 100%;">
-  <div class="title">
-    <h1>Registro de marcaciones</h1>
+  <div class="hitem mb-5">
+    <span (click)="irAtras()"  class="icon button mt-1"><i class="fas fa-arrow-left"></i></span>
+    <div class="title">
+      <h1>Registro de marcaciones</h1>
+    </div>
   </div>
   <div class="columns">
     <div class="column is-narrow">
       <div class="info">
         <div class="vbox">
           <i class="fas fa-user-circle" style="font-size: 3em"></i>
-          <span>Nombre</span>
+          <span class="label">Nombre</span>
           <span>Cargo</span>
         </div>
       </div>
       <div class="info">
         <div class="vbox">
-          <span>Dias con incidencias</span>
+          <span class="label">Dias con incidencias</span>
           <div class="hbox">
             <i class="fas fa-info" style="color: orange"></i>
             <span>Llego tarde</span>
@@ -28,7 +31,7 @@
       </div>
       <div class="info">
         <div class="vbox">
-          <span>Ausencias</span>
+          <span class="label">Ausencias</span>
           <div class="hbox">
             <i class="fas fa-info" style="color: red"></i>
             <span>Vacaciones</span>
@@ -44,11 +47,13 @@
     </div>
     <div class="column" style="box-sizing: border-box; width: fit-content;">
       <div class="hbox">
-        <div class="hitem accion">
+        <div class="hitem">
           <label for="datepicker" class="label mt-2">Rango: </label>
-          <input id="datepicker" class="input"/>
+          <p class="control has-icons-right">
+            <input id="datepicker" class="input"/>
+            <span class="icon is-right"><i class="fas fa-calendar-alt"></i></span></p>
         </div>
-        <div class="hitem accion" style="margin-left: auto;">
+        <div class="hitem" style="margin-left: auto;">
           <button class="button"><span class="icon"><i class="fas fa-print"></i></span></button>
           <button class="button"><span class="icon"><i class="fas fa-file-excel" style="color: rgb(16, 129, 16);"></i></span></button>
           <button class="button"><span class="icon"><i class="fas fa-file-pdf" style="color: rgb(190, 69, 69)"></i></span></button>

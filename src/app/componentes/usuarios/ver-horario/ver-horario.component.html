@@ -1,24 +1,27 @@
 <div class="box" style="height: 100%;">
-  <div class="title">
-    <h1>Horario y Turnos</h1>
+  <div class="hitem mb-5">
+    <span (click)="irAtras()"  class="icon button mt-1"><i class="fas fa-arrow-left"></i></span>
+    <div class="title">
+      <h1>Horarios y Turnos</h1>
+    </div>
   </div>
   <div style="box-sizing: border-box; width: fit-content;">
     <div class="hbox">
-      <div class="hitem accion">
+      <div class="hitem">
         <label for="datepicker" class="label mt-2">Rango: </label>
-        <input id="datepicker" class="input"/>
+        <p class="control has-icons-right">
+          <input id="datepicker" class="input"/>
+          <span class="icon is-right"><i class="fas fa-calendar-alt"></i></span></p>
       </div>
-      <div class="hitem accion" style="margin-left: auto; ">
+      <div class="hitem" style="margin-left: auto; ">
         <button class="button"><span class="icon"><i class="fas fa-print"></i></span></button>
-        <button class="button"><span class="icon"><i class="fas fa-file-excel"
-                                                     style="color: rgb(16, 129, 16);"></i></span></button>
-        <button class="button"><span class="icon"><i class="fas fa-file-pdf" style="color: rgb(190, 69, 69)"></i></span>
-        </button>
+        <button class="button"><span class="icon"><i class="fas fa-file-excel" style="color: rgb(16, 129, 16);"></i></span></button>
+        <button class="button"><span class="icon"><i class="fas fa-file-pdf" style="color: rgb(190, 69, 69)"></i></span></button>
       </div>
     </div>
 
     <table class="table is-bordered animate__animated animate__fadeIn">
-      <tr style="background-color: #d6e6f6;">
+      <tr>
         <th>Lun</th>
         <th>Mar</th>
         <th>Mie</th>
