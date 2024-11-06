@@ -29,6 +29,9 @@ body {
 .button {
   text-transform: capitalize !important;
 }
+.button:hover, .button:active, .button:focus{
+  border-color: #49c2af !important;
+}
 
 .logo {
   padding: 0rem 0rem !important;
@@ -136,10 +139,26 @@ body {
 }
 
 .info {
-  padding: 5px;
+  padding: 10px;
   border: 1px solid #cad9d6;
   border-radius: 7.5px;
   height: 200px;
   background-color: #E9EFEE;
   margin-bottom: 15px;
 }
+
+.menu {
+  background-color: transparent !important;
+}
+
+.menu li a{
+  padding: 10px;
+  background-color: transparent !important;
+  border: 1px solid #49C2AF; color: #e0fbf7;border-radius: 10px; margin-bottom: 7px;
+}
+
+.menu li a:hover, .menu li a:focus {
+  color: #E3EEFC;
+  font-weight: bold;
+}
+
