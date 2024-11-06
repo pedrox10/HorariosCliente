@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
-import {FormBuilder} from "@angular/forms";
 import {TerminalService} from "../../../../servicios/terminal.service";
-import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {FormBuilder} from "@angular/forms";
 
 @Component({
   selector: 'app-accion-terminal',
   standalone: true,
-  imports: [HttpClientModule],
-  providers: [TerminalService],
+  imports: [],
   templateUrl: './accion-terminal.component.html',
   styleUrl: './accion-terminal.component.css'
 })

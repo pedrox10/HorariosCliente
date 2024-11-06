@@ -2,8 +2,7 @@
     width: 155px;
     padding: 15px;
     font-size: 0.90em;
-    background: linear-gradient(360deg, #f7fbfa 0%, #E9EFEE 100%);
-    border: 1px #cad9d6 solid;
+    background: linear-gradient(360deg, #f7fbfa 0%, #e0fbf7 100%);
 }
 
 .terminal header {
