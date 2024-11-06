@@ -1,97 +1,99 @@
 <div class="box" style="height: 100%;">
   <div class="hitem mb-5">
-    <span (click)="irAtras()"  class="icon button mt-1"><i class="fas fa-arrow-left"></i></span>
+    <span (click)="irAtras()" class="icon button mt-1"><i class="fas fa-arrow-left"></i></span>
     <div class="title">
       <h1>Nuevo Horario</h1>
     </div>
   </div>
-  <div class="columns">
-    <div class="column is-one-third">
-      <div class="field">
-        <label class="label">Nombre</label>
-        <div class="control">
-          <input class="input" type="text" placeholder="Oficina">
-        </div>
-        <p class="help is-info">Máximo 12 caracteres</p>
-      </div>
-      <div class="hitem" style="justify-content: space-between">
+  <div class="animate__animated animate__fadeIn">
+    <div class="columns">
+      <div class="column is-one-third">
         <div class="field">
-          <label class="label">Tolerancia</label>
-          <div class="hitem">
-            <div class="control">
-              <input class="input" type="number" min="0" max="10" placeholder="5" style="width: 50px">
+          <label class="label">Nombre</label>
+          <div class="control">
+            <input class="input" type="text" placeholder="Oficina">
+          </div>
+          <p class="help is-info">Máximo 12 caracteres</p>
+        </div>
+        <div class="hitem" style="justify-content: space-between">
+          <div class="field">
+            <label class="label">Tolerancia</label>
+            <div class="hitem">
+              <div class="control">
+                <input class="input" type="number" min="0" max="10" placeholder="5" style="width: 50px">
+              </div>
+              <span class="mt-2">min.</span>
             </div>
-            <span class="mt-2">min.</span>
+          </div>
+          <div class="field">
+            <label class="label">Color</label>
+            <div class="control">
+              <input class="input" type="color" style="width: 50px;">
+            </div>
           </div>
         </div>
-        <div class="field">
-          <label class="label">Color</label>
-          <div class="control">
-            <input class="input" type="color" style="width: 50px;">
-        </div>
-      </div>
-      </div>
         <div class="field">
           <label class="label">Descripcion</label>
           <div class="control">
             <textarea class="textarea" rows="2"></textarea>
           </div>
         </div>
+      </div>
+      <div class="column">
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Dia</th>
+            <th>Periodo</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>Lunes</td>
+            <td><input type="time" value="08:00" class="input"></td>
+            <td><input type="time" value="12:00" class="input"></td>
+            <td><input type="time" value="08:00" class="input"></td>
+            <td><input type="time" value="12:00" class="input"></td>
+          </tr>
+          <tr>
+            <td>Martes</td>
+            <td><input type="time" value="08:00" class="input"></td>
+            <td><input type="time" value="12:00" class="input"></td>
+          </tr>
+          <tr>
+            <td>Miercoles</td>
+            <td><input type="time" value="08:00" class="input"></td>
+            <td><input type="time" value="12:00" class="input"></td>
+          </tr>
+          <tr>
+            <td>Jueves</td>
+            <td><input type="time" value="08:00" class="input"></td>
+            <td><input type="time" value="12:00" class="input"></td>
+          </tr>
+          <tr>
+            <td>Viernes</td>
+            <td><input type="time" value="08:00" class="input"></td>
+            <td><input type="time" value="12:00" class="input"></td>
+          </tr>
+          <tr>
+            <td>Sábado</td>
+            <td><input type="time" class="input"></td>
+            <td><input type="time" class="input"></td>
+          </tr>
+          <tr>
+            <td>Domingo</td>
+            <td><input type="time" class="input"></td>
+            <td><input type="time" class="input"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="column">
-      <table class="table">
-        <thead>
-        <tr>
-          <th>Dia</th>
-          <th>Periodo</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td>Lunes</td>
-          <td><input type="time" value="08:00" class="input"></td>
-          <td><input type="time" value="12:00" class="input"></td>
-          <td><input type="time" value="08:00" class="input"></td>
-          <td><input type="time" value="12:00" class="input"></td>
-        </tr>
-        <tr>
-          <td>Martes</td>
-          <td><input type="time" value="08:00" class="input"></td>
-          <td><input type="time" value="12:00" class="input"></td>
-        </tr>
-        <tr>
-          <td>Miercoles</td>
-          <td><input type="time" value="08:00" class="input"></td>
-          <td><input type="time" value="12:00" class="input"></td>
-        </tr>
-        <tr>
-          <td>Jueves</td>
-          <td><input type="time" value="08:00" class="input"></td>
-          <td><input type="time" value="12:00" class="input"></td>
-        </tr>
-        <tr>
-          <td>Viernes</td>
-          <td><input type="time" value="08:00" class="input"></td>
-          <td><input type="time" value="12:00" class="input"></td>
-        </tr>
-        <tr>
-          <td>Sábado</td>
-          <td><input type="time" class="input"></td>
-          <td><input type="time" class="input"></td>
-        </tr>
-        <tr>
-          <td>Domingo</td>
-          <td><input type="time"  class="input"></td>
-          <td><input type="time"  class="input"></td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
+    <footer class="modal-card-foot">
+      <div class="buttons">
+        <button class="button" style="background-color: #295a8c; color: white; border-radius: 5px ">Guardar</button>
+        <button class="button" style="border-radius: 5px">Cancelar</button>
+      </div>
+    </footer>
   </div>
-  <footer class="modal-card-foot">
-    <div class="buttons">
-      <button class="button" style="background-color: #295a8c; color: white; border-radius: 5px ">Guardar</button>
-      <button class="button" style="border-radius: 5px">Cancelar</button>
-    </div>
-  </footer>
 </div>

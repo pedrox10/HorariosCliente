@@ -1,11 +1,11 @@
 <div class="box" style="height: 100%;">
   <div class="hitem mb-5">
-    <span (click)="irAtras()"  class="icon button mt-1"><i class="fas fa-arrow-left"></i></span>
+    <span (click)="irAtras()" class="icon button mt-1"><i class="fas fa-arrow-left"></i></span>
     <div class="title">
       <h1>Registro de marcaciones</h1>
     </div>
   </div>
-  <div class="columns">
+  <div class="columns animate__animated animate__fadeIn">
     <div class="column is-narrow">
       <div class="info">
         <div class="vbox">
@@ -55,11 +55,13 @@
         </div>
         <div class="hitem" style="margin-left: auto;">
           <button class="button"><span class="icon"><i class="fas fa-print"></i></span></button>
-          <button class="button"><span class="icon"><i class="fas fa-file-excel" style="color: rgb(16, 129, 16);"></i></span></button>
-          <button class="button"><span class="icon"><i class="fas fa-file-pdf" style="color: rgb(190, 69, 69)"></i></span></button>
+          <button class="button"><span class="icon"><i class="fas fa-file-excel"
+                                                       style="color: rgb(16, 129, 16);"></i></span></button>
+          <button class="button"><span class="icon"><i class="fas fa-file-pdf"
+                                                       style="color: rgb(190, 69, 69)"></i></span></button>
         </div>
       </div>
-      <table class="table is-bordered is-hoverable animate__animated animate__fadeIn">
+      <table class="table is-bordered is-hoverable">
         <tr style="background-color: #d6e6f6;">
           <th></th>
           <th style="text-align: center;" colspan="2">
@@ -102,4 +104,5 @@
         </tbody>
       </table>
     </div>
+  </div>
 </div>
