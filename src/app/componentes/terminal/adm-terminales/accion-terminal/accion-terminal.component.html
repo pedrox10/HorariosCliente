@@ -1,7 +1,7 @@
 <div class="modal-card" style="width: 400px" xmlns="http://www.w3.org/1999/html">
   <header class="modal-card-head" style="background-color: #295a8c;">
     <p class="modal-card-title" style="color: white">Accion Terminal</p>
-    <button class="delete" aria-label="close"></button>
+    <button (click)="cerrarModal()" class="delete" aria-label="close"></button>
   </header>
   <form [formGroup]= "formAccion" >
     <section class="modal-card-body">
@@ -29,10 +29,10 @@
     </section>
     <footer class="modal-card-foot">
       <div class="buttons">
-        <button class="button" type="submit" (click)="onSubmit()" style="background-color: #295a8c; color: white; border-radius: 5px ">
+        <button class="button es-primario" type="submit" (click)="onSubmit()">
           Guardar
         </button>
-        <button class="button" style="border-radius: 5px">Cancelar</button>
+        <button class="button" (click)="cerrarModal()">Cancelar</button>
       </div>
     </footer>
   </form>

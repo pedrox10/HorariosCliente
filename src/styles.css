@@ -26,12 +26,6 @@ body {
   max-width: 350px;
   background-color: #CEDFF2;
 }
-.button {
-  text-transform: capitalize !important;
-}
-.button:hover, .button:focus, .button:active {
-  border-color: #295A8C !important;
-}
 
 .logo {
   padding: 0rem 0rem !important;
@@ -189,4 +183,27 @@ input[type=time] {
 }
 .icon-btn:hover {
   background-color: #d6e1ec;
+}
+
+/* Estilo para botones */
+.button {
+  text-transform: capitalize !important;
+}
+
+.button:hover, .button:focus, .button:active {
+  border-color: #295A8C !important;
+  color: #295A8C  !important;
+}
+
+.es-primario {
+  background-color: #295a8c !important;
+  color: white !important;
+}
+
+.es-primario:hover, .es-primario:focus, .es-primario:active {
+  color: white  !important;
+}
+
+.modal-card-foot .button {
+  border-radius: 5px !important;
 }

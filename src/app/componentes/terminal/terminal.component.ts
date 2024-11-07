@@ -11,7 +11,6 @@ import { RouterLink } from '@angular/router';
 })
 
 export class  TerminalComponent {
-
   @Input() nombre:string;
   @Input() ip:string;
   @Input({

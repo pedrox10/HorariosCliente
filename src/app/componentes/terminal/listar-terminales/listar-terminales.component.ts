@@ -3,6 +3,7 @@ import { TerminalComponent } from '../terminal.component';
 import { TerminalService } from '../../../servicios/terminal.service';
 import { HttpClientModule } from '@angular/common/http';
 import {Location} from '@angular/common';
+import {Terminal} from "../../../modelos/terminal.model";
 
 @Component({
   selector: 'app-listar-terminales',
@@ -14,7 +15,7 @@ import {Location} from '@angular/common';
 })
 
 export class ListarTerminalesComponent {
-  public terminales: any;
+  public terminales: Terminal[] = [];
   public element = document.getElementById("terminales");
   public constructor(public terminalService: TerminalService, public location: Location) {
 
@@ -28,5 +29,7 @@ export class ListarTerminalesComponent {
     );
   }
 
-
+  deleteTerminal() {
+    alert("delete")
+  }
 }
