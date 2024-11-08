@@ -29,7 +29,16 @@
           <td>{{t.nombre}}</td>
           <td>{{t.ip}}</td>
           <td>{{t.puerto}}</td>
-          <td>...</td>
+          <td>
+            <div class="hitem">
+              <span class="icon has-tooltip-arrow" data-tooltip="Editar" routerLink="/">
+                <i class="far fa-edit icon-btn"></i>
+              </span>
+              <span class="icon has-tooltip-arrow " data-tooltip="Eliminar" routerLink="/">
+                <i class="far fa-times-circle icon-btn"></i>
+              </span>
+            </div>
+          </td>
         </tr>
       }
       </tbody>

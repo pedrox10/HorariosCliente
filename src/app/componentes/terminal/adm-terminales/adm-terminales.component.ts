@@ -1,5 +1,4 @@
-import {Component} from '@angular/core';
-
+import {Component, Injectable} from '@angular/core';
 import {ModalService} from "ngx-modal-ease";
 import {AccionTerminalComponent} from "./accion-terminal/accion-terminal.component";
 import {TerminalService} from "../../../servicios/terminal.service";
@@ -14,6 +13,10 @@ import {Terminal} from "../../../modelos/terminal.model";
   providers: [TerminalService],
   templateUrl: './adm-terminales.component.html',
   styleUrl: './adm-terminales.component.css'
+})
+
+@Injectable({
+  providedIn: 'root'
 })
 export class AdmTerminalesComponent {
 
@@ -36,9 +39,13 @@ export class AdmTerminalesComponent {
       .open(AccionTerminalComponent, {
         modal: { enter: `${config.animation} ${config.duration}`,},
         size: { padding: '0.5rem', width: '200px'},
+        data: {
+          accion: 'Agregar',
+        },
       })
       .subscribe((data) => {
         console.log(data || '')
       });
+
   }
 }
