@@ -23,13 +23,15 @@
         <th>Acciones</th>
       </tr>
       <tbody>
-      <tr>
-        <td>1</td>
-        <td>Planta Baja</td>
-        <td>192.168.70.199</td>
-        <td>4370</td>
-        <td>...</td>
-      </tr>
+      @for (t of terminales; track t; let i = $index) {
+        <tr id={{t.id}}>
+          <td>{{i + 1}}</td>
+          <td>{{t.nombre}}</td>
+          <td>{{t.ip}}</td>
+          <td>{{t.puerto}}</td>
+          <td>...</td>
+        </tr>
+      }
       </tbody>
     </table>
   </div>

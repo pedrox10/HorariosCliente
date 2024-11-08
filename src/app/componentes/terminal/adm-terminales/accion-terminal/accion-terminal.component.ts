@@ -29,8 +29,8 @@ export class AccionTerminalComponent implements OnInit {
       (data: any) => {
         console.log(data)
         toast({
-          message: 'Terminal Agregado!',
-          type: 'is-success',
+          message: '<span class="icon"><i style="color: white; font-size: 2em; padding-right: 15px" class="fas fa-check"></i></span>Terminal Agregado!',
+          type: "is-success",
           position: "bottom-center",
           duration: 4000,
           animate: {in: 'bounceIn', out: 'bounceOut'},
@@ -39,11 +39,10 @@ export class AccionTerminalComponent implements OnInit {
       (error: any) => {
         console.error('An error occurred:', error);
         toast({
-          message: 'Error',
-          type: 'is-danger',
+          message: '<span class="icon"><i style="color: white; font-size: 2em; padding-right: 15px" class="fas fa-delete"></i></span>Ha ocurrido un error',
+          type: "is-danger",
           position: "bottom-center",
-          dismissible: true,
-          duration: 5000,
+          duration: 4000,
           animate: {in: 'bounceIn', out: 'bounceOut'},
         })
       }

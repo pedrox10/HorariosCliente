@@ -5,6 +5,7 @@ import {AccionTerminalComponent} from "./accion-terminal/accion-terminal.compone
 import {TerminalService} from "../../../servicios/terminal.service";
 import {HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule} from "@angular/forms";
+import {Terminal} from "../../../modelos/terminal.model";
 
 @Component({
   selector: 'app-adm-terminales',
@@ -16,27 +17,28 @@ import {ReactiveFormsModule} from "@angular/forms";
 })
 export class AdmTerminalesComponent {
 
-  config = {
-    animation: 'enter-scaling',
-    duration: '0.2s',
-    easing: 'linear',
-  };
+  public terminales: Terminal[] = [];
 
   constructor(public terminalService: TerminalService, private modalService: ModalService) {
+    this.terminalService.getTerminales().subscribe(
+      (data: any) => {
+        this.terminales = data;
+      },
+      (error: any) => {
+        console.error('An error occurred:', error);
+      }
+    );
   }
 
   nuevoTerminal() {
+    let config = { animation: 'enter-scaling', duration: '0.2s', easing: 'linear',};
     this.modalService
       .open(AccionTerminalComponent, {
-        modal: {
-          enter: `${this.config.animation} ${this.config.duration}`,
-        },
-        size: {
-          padding: '0.5rem',
-        },
+        modal: { enter: `${config.animation} ${config.duration}`,},
+        size: { padding: '0.5rem', width: '200px'},
       })
       .subscribe((data) => {
-        console.log(data || '🚫 No data')
+        console.log(data || '')
       });
   }
 }

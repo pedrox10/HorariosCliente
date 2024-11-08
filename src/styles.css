@@ -150,8 +150,9 @@ body {
 }
 
 .menu .menu-label {
-  color: #295A8C; padding-left: 25px; padding-right: 5px; font-weight: bold;
+  color: #cee6ff; padding-left: 25px; padding-right: 5px; font-weight: bold;
   border-bottom: 2px #295A8C solid;
+  font-size: 0.75em;
   width: fit-content;
 }
 
