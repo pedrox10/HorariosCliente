@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { TerminalComponent } from '../terminal.component';
 import { TerminalService } from '../../../servicios/terminal.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -14,11 +14,20 @@ import {Terminal} from "../../../modelos/terminal.model";
   styleUrl: './listar-terminales.component.css'
 })
 
-export class ListarTerminalesComponent {
+export class ListarTerminalesComponent implements OnInit{
   public terminales: Terminal[] = [];
   public element = document.getElementById("terminales");
   public constructor(public terminalService: TerminalService, public location: Location) {
 
+  }
+
+  ngOnInit(): void {
+    this.getTerminales()
+  }
+  add() {
+    this.terminales.push(new Terminal(3,"Nam","192.15", 345))
+  }
+  getTerminales() {
     this.terminalService.getTerminales().subscribe(
       (data: any) => {
         this.terminales = data;

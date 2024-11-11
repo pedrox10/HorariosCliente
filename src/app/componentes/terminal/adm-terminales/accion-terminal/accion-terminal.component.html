@@ -1,6 +1,6 @@
 <div class="modal-card" style="width: 400px;">
   <header class="modal-card-head" style="background-color: #295a8c;">
-    <p class="modal-card-title" style="color: white">Accion Terminal</p>
+    <p class="modal-card-title" style="color: white">{{accion}} Terminal</p>
     <button (click)="onClose()" class="delete" aria-label="close"></button>
   </header>
   <form [formGroup]= "formAccion" >
@@ -29,10 +29,10 @@
     </section>
     <footer class="modal-card-foot">
       <div class="buttons">
-        <button class="button es-primario" type="submit" (click)="onSubmit()">
+        <button class="button es-primario" type="button" (click)="onSubmit()">
           Guardar
         </button>
-        <button class="button" (click)="onClose()">Cancelar</button>
+        <button class="button" type="button" (click)="onClose()">Cancelar</button>
       </div>
     </footer>
   </form>

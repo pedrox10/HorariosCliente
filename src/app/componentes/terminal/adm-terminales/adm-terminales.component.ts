@@ -1,10 +1,11 @@
-import {Component, Injectable} from '@angular/core';
+import {Component, Injectable, OnInit} from '@angular/core';
 import {ModalService} from "ngx-modal-ease";
 import {AccionTerminalComponent} from "./accion-terminal/accion-terminal.component";
 import {TerminalService} from "../../../servicios/terminal.service";
 import {HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule} from "@angular/forms";
 import {Terminal} from "../../../modelos/terminal.model";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-adm-terminales',
@@ -18,11 +19,28 @@ import {Terminal} from "../../../modelos/terminal.model";
 @Injectable({
   providedIn: 'root'
 })
-export class AdmTerminalesComponent {
+export class AdmTerminalesComponent implements OnInit {
 
   public terminales: Terminal[] = [];
 
-  constructor(public terminalService: TerminalService, private modalService: ModalService) {
+  constructor(public terminalService: TerminalService, private modalService: ModalService, private router: Router) {
+
+  }
+
+  ngOnInit() {
+    this.getTerminales()
+    //window.location.reload()
+  }
+  add(terminal:Terminal) {
+    if(terminal !== undefined)
+      this.terminales.push(terminal);
+  }
+
+  edit(terminal:Terminal) {
+    this.terminales.at(0)!.nombre = "Cambiado"
+  }
+
+  getTerminales() {
     this.terminalService.getTerminales().subscribe(
       (data: any) => {
         this.terminales = data;
@@ -33,19 +51,24 @@ export class AdmTerminalesComponent {
     );
   }
 
-  nuevoTerminal() {
-    let config = { animation: 'enter-scaling', duration: '0.2s', easing: 'linear',};
-    this.modalService
+  abrirModal(data:any) {
+    let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear',};
+    let ref = this.modalService
       .open(AccionTerminalComponent, {
-        modal: { enter: `${config.animation} ${config.duration}`,},
-        size: { padding: '0.5rem', width: '200px'},
-        data: {
-          accion: 'Agregar',
-        },
+        modal: {enter: `${config.animation} ${config.duration}`,},
+        size: {padding: '0.5rem', width: '200px'},
+        data: data
       })
       .subscribe((data) => {
-        console.log(data || '')
+        this.edit(data)
       });
 
+  }
+
+  refrescar(){
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/adm-terminales').then(() => {
+      window.location.reload()
+    });
   }
 }

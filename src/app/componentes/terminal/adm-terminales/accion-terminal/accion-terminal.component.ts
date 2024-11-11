@@ -5,7 +5,8 @@ import {HttpClientModule} from "@angular/common/http";
 import {toast} from 'bulma-toast'
 import {ModalService} from "ngx-modal-ease";
 import {AdmTerminalesComponent} from "../adm-terminales.component";
-import {logMessages} from "@angular-devkit/build-angular/src/tools/esbuild/utils";
+import {Router} from '@angular/router';
+import {Terminal} from "../../../../modelos/terminal.model";
 
 @Component({
   selector: 'app-accion-terminal',
@@ -18,20 +19,26 @@ import {logMessages} from "@angular-devkit/build-angular/src/tools/esbuild/utils
 
 export class AccionTerminalComponent implements OnInit {
   formAccion = this.formBuilder.group({nombre: "", ip: "", puerto: ""})
+  public accion: string = "";
 
   constructor(private terminalService: TerminalService,
               private formBuilder: FormBuilder,
               private admTerminales: AdmTerminalesComponent,
-              public modalService: ModalService) {
+              public modalService: ModalService, private router: Router) {
   }
 
   ngOnInit() {
+    this.accion = this.modalService.options?.data ? "Editar" : "Agregar";
+    console.log(this.accion)
   }
 
   onSubmit(): void {
+    let datos;
     this.terminalService.agregarTerminal(this.formAccion.value).subscribe(
       (data: any) => {
-        this.admTerminales.terminales.push(data);
+        datos = data
+        this.modalService.close(datos);
+        this.formAccion.reset();
         toast({
           message: '<span class="icon"><i style="color: white; font-size: 2em; padding-right: 15px" class="fas fa-check"></i></span>Terminal Agregado!',
           type: "is-success",
@@ -51,12 +58,9 @@ export class AccionTerminalComponent implements OnInit {
         })
       }
     );
-    this.formAccion.reset();
   }
 
   onClose() {
-    this.modalService.close({
-      nombre: 'Pedro'
-    });
+    this.modalService.close();
   }
 }
