@@ -28,8 +28,15 @@ export class AccionTerminalComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.accion = this.modalService.options?.data ? "Editar" : "Agregar";
-    console.log(this.accion)
+    this.accion = this.modalService.options?.data !== undefined ? "Editar" : "Agregar";
+    if(this.accion == "Editar"){
+      let terminal: any = this.modalService.options?.data;
+      this.formAccion.patchValue({
+        nombre: terminal.nombre,
+        ip: terminal.ip,
+        puerto: "4322",
+      })
+    }
   }
 
   onSubmit(): void {

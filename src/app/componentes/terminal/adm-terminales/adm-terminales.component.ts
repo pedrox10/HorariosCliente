@@ -22,14 +22,12 @@ import { Router } from '@angular/router';
 export class AdmTerminalesComponent implements OnInit {
 
   public terminales: Terminal[] = [];
-
   constructor(public terminalService: TerminalService, private modalService: ModalService, private router: Router) {
 
   }
 
   ngOnInit() {
     this.getTerminales()
-    //window.location.reload()
   }
   add(terminal:Terminal) {
     if(terminal !== undefined)
@@ -37,7 +35,7 @@ export class AdmTerminalesComponent implements OnInit {
   }
 
   edit(terminal:Terminal) {
-    this.terminales.at(0)!.nombre = "Cambiado"
+    //this.terminales.at(0)!.nombre = "Cambiado"
   }
 
   getTerminales() {
@@ -51,18 +49,28 @@ export class AdmTerminalesComponent implements OnInit {
     );
   }
 
-  abrirModal(data:any) {
+  agregarEditarModal(terminal: any) {
     let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear',};
-    let ref = this.modalService
-      .open(AccionTerminalComponent, {
-        modal: {enter: `${config.animation} ${config.duration}`,},
-        size: {padding: '0.5rem', width: '200px'},
-        data: data
-      })
-      .subscribe((data) => {
-        this.edit(data)
-      });
-
+    if(terminal === undefined) {
+      this.modalService
+        .open(AccionTerminalComponent, {
+          modal: {enter: `${config.animation} ${config.duration}`,},
+          size: {padding: '0.5rem', width: '200px'},
+        })
+        .subscribe((data) => {
+          this.add(data)
+        });
+    } else {
+      this.modalService
+        .open(AccionTerminalComponent, {
+          modal: {enter: `${config.animation} ${config.duration}`,},
+          size: {padding: '0.5rem', width: '200px'},
+          data: terminal
+        })
+        .subscribe((data) => {
+          this.edit(data)
+        });
+    }
   }
 
   refrescar(){

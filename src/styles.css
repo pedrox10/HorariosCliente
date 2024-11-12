@@ -10,6 +10,7 @@ body {
 .title h1:before, .subtitle h2:before {
   content: "";
   position: absolute;
+  z-index: 1;
   left: 0;
   bottom: 0;
   height: 4px;
@@ -150,8 +151,8 @@ body {
 }
 
 .menu .menu-label {
-  color: #cee6ff; padding-left: 25px; padding-right: 5px; font-weight: bold;
-  border-bottom: 2px #295A8C solid;
+  color: #cee6ff; padding-left: 20px; padding-right: 5px; font-weight: bold;
+  border-bottom: 4px #295A8C solid;
   font-size: 0.75em;
   width: fit-content;
 }

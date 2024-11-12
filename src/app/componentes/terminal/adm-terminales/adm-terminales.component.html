@@ -11,7 +11,7 @@
       <div class="hitem">
       </div>
       <div class="hitem has-tooltip-arrow" data-tooltip="Agregar Terminal" style="margin-left: auto;">
-        <button class="button" (click) = "abrirModal({id:1,nombre:'Test','ip':'192.1','puerto':4356})"><span class="icon"><i class="fas fa-plus "></i></span></button>
+        <button class="button" (click) = "agregarEditarModal(undefined)"><span class="icon"><i class="fas fa-plus "></i></span></button>
       </div>
     </div>
     <table class="table is-bordered is-hoverable animate__animated animate__fadeIn">
@@ -31,7 +31,7 @@
           <td>{{t.puerto}}</td>
           <td>
             <div class="hitem">
-              <span class="icon has-tooltip-arrow" data-tooltip="Editar" routerLink="/">
+              <span class="icon has-tooltip-arrow" data-tooltip="Editar" (click) = "agregarEditarModal(t)">
                 <i class="far fa-edit icon-btn"></i>
               </span>
               <span class="icon has-tooltip-arrow " data-tooltip="Eliminar" routerLink="/">
@@ -43,5 +43,5 @@
       }
       </tbody>
     </table>
-  </div>
+  </div>n
 </div>
