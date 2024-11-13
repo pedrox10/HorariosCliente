@@ -11,7 +11,8 @@
       <div class="hitem">
       </div>
       <div class="hitem has-tooltip-arrow" data-tooltip="Agregar Terminal" style="margin-left: auto;">
-        <button class="button" (click) = "agregarEditarModal(undefined)"><span class="icon"><i class="fas fa-plus "></i></span></button>
+        <button class="button" (click)="agregarEditarModal(undefined)"><span class="icon"><i
+          class="fas fa-plus "></i></span></button>
       </div>
     </div>
     <table class="table is-bordered is-hoverable animate__animated animate__fadeIn">
@@ -24,7 +25,7 @@
       </tr>
       <tbody>
       @for (t of terminales; track t; let i = $index) {
-        <tr id={{t.id}}>
+      <tr id={{t.id}}>
           <td>{{i + 1}}</td>
           <td>{{t.nombre}}</td>
           <td>{{t.ip}}</td>
@@ -34,7 +35,7 @@
               <span class="icon has-tooltip-arrow" data-tooltip="Editar" (click) = "agregarEditarModal(t)">
                 <i class="far fa-edit icon-btn"></i>
               </span>
-              <span class="icon has-tooltip-arrow " data-tooltip="Eliminar" routerLink="/">
+              <span class="icon has-tooltip-arrow " data-tooltip="Eliminar" (click) = "eliminarModal()">
                 <i class="far fa-times-circle icon-btn"></i>
               </span>
             </div>
@@ -43,5 +44,24 @@
       }
       </tbody>
     </table>
-  </div>n
+  </div>
+  <div class="modal " id="modal">
+    <div class="modal-background" style="opacity: 0.9;"></div>
+    <div class="modal-card" style="width: 400px">
+      <header class="modal-card-head" style="background-color: #295a8c;">
+        <p class="modal-card-title" style="color: white">Eliminar terminal</p>
+        <button class="delete" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+          <label class="label">Seguro eliminar?</label>
+      </section>
+      <footer class="modal-card-foot">
+        <div class="buttons">
+          <button class="button es-primario">Aceptar</button>
+          <button class="button" type="button">Cancelar</button>
+        </div>
+      </footer>
+    </div>
+  </div>
+
 </div>
