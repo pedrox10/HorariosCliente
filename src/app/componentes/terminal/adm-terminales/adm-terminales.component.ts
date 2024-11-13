@@ -22,6 +22,7 @@ import { Router } from '@angular/router';
 export class AdmTerminalesComponent implements OnInit {
 
   public terminales: Terminal[] = [];
+
   constructor(public terminalService: TerminalService, private modalService: ModalService, private router: Router) {
 
   }
@@ -50,12 +51,13 @@ export class AdmTerminalesComponent implements OnInit {
   }
 
   agregarEditarModal(terminal: any) {
-    let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear',};
+    let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
     if(terminal === undefined) {
       this.modalService
         .open(AccionTerminalComponent, {
           modal: {enter: `${config.animation} ${config.duration}`,},
-          size: {padding: '0.5rem', width: '200px'},
+          size: {padding: '0.5rem'},
+          overlay: {backgroundColor: "rgba(0, 0, 0, 0.80)"},
         })
         .subscribe((data) => {
           this.add(data)
@@ -64,13 +66,17 @@ export class AdmTerminalesComponent implements OnInit {
       this.modalService
         .open(AccionTerminalComponent, {
           modal: {enter: `${config.animation} ${config.duration}`,},
-          size: {padding: '0.5rem', width: '200px'},
+          size: {padding: '0.5rem'},
+          overlay: {backgroundColor: "rgba(0, 0, 0, 0.80)"},
           data: terminal
         })
         .subscribe((data) => {
           this.edit(data)
         });
     }
+  }
+
+  eliminarModal() {
   }
 
   refrescar(){

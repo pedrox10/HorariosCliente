@@ -1,0 +1,10 @@
+.horario td:not([align]) {
+  vertical-align: middle;
+}
+.horario .b-checkbox.checkbox:not(.button) {
+  margin-right: 0px;
+  margin-top: 5px;
+  pointer-events: auto !important;
+  opacity: 1 !important;
+  z-index: 100 !important;
+}

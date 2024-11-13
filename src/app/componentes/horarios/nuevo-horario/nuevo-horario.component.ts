@@ -22,4 +22,24 @@ export class NuevoHorarioComponent {
   irAtras() {
     this.location.back();
   }
+
+  changed(evt: any){
+    let isChecked  = (<HTMLInputElement>evt.target).checked
+    let id = evt.target.name;
+    let dia = document.getElementById(id);
+    let collection = dia?.getElementsByTagName("td") || []
+    for (let i = 0; i < collection.length; i++) {
+      if( i != 0) {
+        if(isChecked)
+          collection[i].classList.remove("desactivado");
+        else
+          collection[i].classList.add("desactivado");
+      }
+    }
+  }
+
+  agregarTurno(dia: string) {
+    let turno = document.getElementById("turno_" + dia);
+    turno?.classList.remove("oculto")
+  }
 }

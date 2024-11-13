@@ -20,7 +20,7 @@
             <label class="label">Tolerancia</label>
             <div class="hitem">
               <div class="control">
-                <input class="input" type="number" min="0" max="10" placeholder="5" style="width: 50px">
+                <input class="input" type="number" min="0" max="10" placeholder="5" style="width: 55px">
               </div>
               <span class="mt-2">min.</span>
             </div>
@@ -40,50 +40,183 @@
         </div>
       </div>
       <div class="column">
-        <table class="table">
+        <table class="table horario">
           <thead>
           <tr>
-            <th>Dia</th>
-            <th>Periodo</th>
+            <th class="is-narrow"></th>
+            <th class="is-narrow">Dia</th>
+            <th class="is-narrow" style="text-align: center;">1° Turno</th>
+            <th style="text-align: center">2° Turno</th>
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td>Lunes</td>
-            <td><input type="time" value="08:00" class="input"></td>
-            <td><input type="time" value="12:00" class="input"></td>
-            <td><input type="time" value="08:00" class="input"></td>
-            <td><input type="time" value="12:00" class="input"></td>
+          <tr id="lunes">
+            <td>
+              <label class="b-checkbox checkbox">
+                <input type="checkbox" value="false" name="lunes" (change)="changed($event)">
+                <span class="check"></span>
+              </label>
+            </td>
+            <td class="desactivado">Lunes</td>
+            <td class="desactivado">
+              <div class="hitem" style="cursor: not-allowed !important;">
+                <input type="time" value="" class="input">
+                <input type="time" value="" class="input">
+                <button class="button btn-accion has-tooltip-arrow" data-tooltip="Agregar Turno" (click)="agregarTurno('lunes')">
+                  <span class="icon"><i class="fas fa-plus "></i></span>
+                </button>
+              </div>
+            </td>
+            <td class="desactivado">
+              <div class="hitem oculto" id="turno_lunes">
+                <input type="time" value=""  class="input">
+                <input type="time" value=""  class="input">
+              </div>
+            </td>
           </tr>
-          <tr>
-            <td>Martes</td>
-            <td><input type="time" value="08:00" class="input"></td>
-            <td><input type="time" value="12:00" class="input"></td>
+          <tr id="martes">
+            <td>
+              <label class="b-checkbox checkbox">
+                <input type="checkbox" value="false" name="martes" (change)="changed($event)">
+                <span class="check"></span>
+              </label>
+            </td>
+            <td class="desactivado">Martes</td>
+            <td class="desactivado">
+              <div class="hitem">
+                <input type="time" value=""  class="input">
+                <input type="time" value=""  class="input">
+                <button class="button btn-accion has-tooltip-arrow" data-tooltip="Agregar Turno" (click)="agregarTurno('martes')">
+                  <span class="icon"><i class="fas fa-plus "></i></span>
+                </button>
+              </div>
+            </td>
+            <td class="desactivado">
+              <div class="hitem oculto" id="turno_martes">
+                <input type="time" value=""  class="input">
+                <input type="time" value=""  class="input">
+              </div>
+            </td>
           </tr>
-          <tr>
-            <td>Miercoles</td>
-            <td><input type="time" value="08:00" class="input"></td>
-            <td><input type="time" value="12:00" class="input"></td>
+          <tr id="miercoles">
+            <td>
+              <label class="b-checkbox checkbox">
+                <input type="checkbox" value="false" name="miercoles" (change)="changed($event)">
+                <span class="check"></span>
+              </label>
+            </td>
+            <td class="desactivado">Miercoles</td>
+            <td class="desactivado">
+              <div class="hitem">
+                <input type="time" value=""  class="input">
+                <input type="time" value=""  class="input">
+                <button class="button btn-accion has-tooltip-arrow" data-tooltip="Agregar Turno" (click)="agregarTurno('miercoles')">
+                  <span class="icon"><i class="fas fa-plus"></i></span>
+                </button>
+              </div>
+            </td>
+            <td class="desactivado">
+              <div class="hitem oculto" id="turno_miercoles">
+                <input type="time" value=""  class="input">
+                <input type="time" value=""  class="input">
+              </div>
+            </td>
           </tr>
-          <tr>
-            <td>Jueves</td>
-            <td><input type="time" value="08:00" class="input"></td>
-            <td><input type="time" value="12:00" class="input"></td>
+          <tr id="jueves" >
+            <td>
+              <label class="b-checkbox checkbox">
+                <input type="checkbox" value="false" name="jueves" (change)="changed($event)">
+                <span class="check"></span>
+              </label>
+            </td>
+            <td class="desactivado">Jueves</td>
+            <td class="desactivado">
+              <div class="hitem">
+                <input type="time" value=""  class="input">
+                <input type="time" value=""  class="input">
+                <button class="button btn-accion has-tooltip-arrow" data-tooltip="Agregar Turno" (click)="agregarTurno('jueves')">
+                  <span class="icon"><i class="fas fa-plus "></i></span>
+                </button>
+              </div>
+            </td>
+            <td class="desactivado">
+              <div class="hitem oculto" id="turno_jueves">
+                <input type="time" value=""  class="input">
+                <input type="time" value=""  class="input">
+              </div>
+            </td>
           </tr>
-          <tr>
-            <td>Viernes</td>
-            <td><input type="time" value="08:00" class="input"></td>
-            <td><input type="time" value="12:00" class="input"></td>
+          <tr id="viernes">
+            <td>
+              <label class="b-checkbox checkbox">
+                <input type="checkbox" value="false" name="viernes" (change)="changed($event)">
+                <span class="check"></span>
+              </label>
+            </td>
+            <td class="desactivado">Viernes</td>
+            <td class="desactivado">
+              <div class="hitem">
+                <input type="time" value=""  class="input">
+                <input type="time" value=""  class="input">
+                <button class="button btn-accion has-tooltip-arrow" data-tooltip="Agregar Turno" (click)="agregarTurno('viernes')">
+                  <span class="icon"><i class="fas fa-plus "></i></span>
+                </button>
+              </div>
+            </td>
+            <td class="desactivado">
+              <div class="hitem oculto" id="turno_viernes">
+                <input type="time" value=""  class="input">
+                <input type="time" value=""  class="input">
+              </div>
+            </td>
           </tr>
-          <tr>
-            <td>Sábado</td>
-            <td><input type="time" class="input"></td>
-            <td><input type="time" class="input"></td>
+          <tr id="sabado">
+            <td>
+              <label class="b-checkbox checkbox">
+                <input type="checkbox" value="false" name="sabado" (change)="changed($event)">
+                <span class="check"></span>
+              </label>
+            </td>
+            <td class="desactivado">Sábado</td>
+            <td class="desactivado">
+              <div class="hitem">
+                <input type="time" value=""  class="input">
+                <input type="time" value=""  class="input">
+                <button class="button btn-accion has-tooltip-arrow" data-tooltip="Agregar Turno" (click)="agregarTurno('sabado')">
+                  <span class="icon"><i class="fas fa-plus "></i></span>
+                </button>
+              </div>
+            </td>
+            <td class="desactivado">
+              <div class="hitem oculto" id="turno_sabado">
+                <input type="time" value=""  class="input">
+                <input type="time" value=""  class="input">
+              </div>
+            </td>
           </tr>
-          <tr>
-            <td>Domingo</td>
-            <td><input type="time" class="input"></td>
-            <td><input type="time" class="input"></td>
+          <tr id="domingo">
+            <td>
+              <label class="b-checkbox checkbox">
+                <input type="checkbox" value="false" name="domingo" (change)="changed($event)">
+                <span class="check"></span>
+              </label>
+            </td>
+            <td class="desactivado">Domingo</td>
+            <td class="desactivado">
+              <div class="hitem">
+                <input type="time" value=""  class="input">
+                <input type="time" value=""  class="input">
+                <button class="button btn-accion has-tooltip-arrow" data-tooltip="Agregar Turno" (click)="agregarTurno('domingo')">
+                  <span class="icon"><i class="fas fa-plus "></i></span>
+                </button>
+              </div>
+            </td>
+            <td class="desactivado">
+              <div class="hitem oculto" id="turno_domingo">
+                <input type="time" value=""  class="input">
+                <input type="time" value=""  class="input">
+              </div>
+            </td>
           </tr>
           </tbody>
         </table>
@@ -91,7 +224,9 @@
     </div>
     <footer class="modal-card-foot">
       <div class="buttons">
-        <button class="button es-primario" style="background-color: #295a8c; color: white; border-radius: 5px ">Guardar</button>
+        <button class="button es-primario" style="background-color: #295a8c; color: white; border-radius: 5px ">
+          Guardar
+        </button>
         <button class="button" style="border-radius: 5px">Cancelar</button>
       </div>
     </footer>
