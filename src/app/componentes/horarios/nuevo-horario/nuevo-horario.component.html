@@ -50,174 +50,32 @@
           </tr>
           </thead>
           <tbody>
-          <tr id="lunes">
+          @for (dia of dias; track dia; let i = $index ) {
+          <tr id="{{dia}}">
             <td>
               <label class="b-checkbox checkbox">
-                <input type="checkbox" value="false" name="lunes" (change)="changed($event)">
+                <input type="checkbox" value="false" name="{{dia}}" (change)="changed($event)">
                 <span class="check"></span>
               </label>
             </td>
-            <td class="desactivado">Lunes</td>
+            <td class="desactivado" style="text-transform: capitalize;">{{dia}}</td>
             <td class="desactivado">
-              <div class="hitem" style="cursor: not-allowed !important;">
+              <div class="hitem">
+                <input type="time" pattern="[0-9]{2}:[0-9]{2}" value="" class="input">
                 <input type="time" value="" class="input">
-                <input type="time" value="" class="input">
-                <button class="button btn-accion has-tooltip-arrow" data-tooltip="Agregar Turno" (click)="agregarTurno('lunes')">
+                <button class="button btn-accion has-tooltip-arrow" data-tooltip="Agregar Turno" (click)="agregarTurno(dia)">
                   <span class="icon"><i class="fas fa-plus "></i></span>
                 </button>
               </div>
             </td>
             <td class="desactivado">
-              <div class="hitem oculto" id="turno_lunes">
+              <div class="hitem oculto" id="turno_{{dia}}">
                 <input type="time" value=""  class="input">
                 <input type="time" value=""  class="input">
               </div>
             </td>
           </tr>
-          <tr id="martes">
-            <td>
-              <label class="b-checkbox checkbox">
-                <input type="checkbox" value="false" name="martes" (change)="changed($event)">
-                <span class="check"></span>
-              </label>
-            </td>
-            <td class="desactivado">Martes</td>
-            <td class="desactivado">
-              <div class="hitem">
-                <input type="time" value=""  class="input">
-                <input type="time" value=""  class="input">
-                <button class="button btn-accion has-tooltip-arrow" data-tooltip="Agregar Turno" (click)="agregarTurno('martes')">
-                  <span class="icon"><i class="fas fa-plus "></i></span>
-                </button>
-              </div>
-            </td>
-            <td class="desactivado">
-              <div class="hitem oculto" id="turno_martes">
-                <input type="time" value=""  class="input">
-                <input type="time" value=""  class="input">
-              </div>
-            </td>
-          </tr>
-          <tr id="miercoles">
-            <td>
-              <label class="b-checkbox checkbox">
-                <input type="checkbox" value="false" name="miercoles" (change)="changed($event)">
-                <span class="check"></span>
-              </label>
-            </td>
-            <td class="desactivado">Miercoles</td>
-            <td class="desactivado">
-              <div class="hitem">
-                <input type="time" value=""  class="input">
-                <input type="time" value=""  class="input">
-                <button class="button btn-accion has-tooltip-arrow" data-tooltip="Agregar Turno" (click)="agregarTurno('miercoles')">
-                  <span class="icon"><i class="fas fa-plus"></i></span>
-                </button>
-              </div>
-            </td>
-            <td class="desactivado">
-              <div class="hitem oculto" id="turno_miercoles">
-                <input type="time" value=""  class="input">
-                <input type="time" value=""  class="input">
-              </div>
-            </td>
-          </tr>
-          <tr id="jueves" >
-            <td>
-              <label class="b-checkbox checkbox">
-                <input type="checkbox" value="false" name="jueves" (change)="changed($event)">
-                <span class="check"></span>
-              </label>
-            </td>
-            <td class="desactivado">Jueves</td>
-            <td class="desactivado">
-              <div class="hitem">
-                <input type="time" value=""  class="input">
-                <input type="time" value=""  class="input">
-                <button class="button btn-accion has-tooltip-arrow" data-tooltip="Agregar Turno" (click)="agregarTurno('jueves')">
-                  <span class="icon"><i class="fas fa-plus "></i></span>
-                </button>
-              </div>
-            </td>
-            <td class="desactivado">
-              <div class="hitem oculto" id="turno_jueves">
-                <input type="time" value=""  class="input">
-                <input type="time" value=""  class="input">
-              </div>
-            </td>
-          </tr>
-          <tr id="viernes">
-            <td>
-              <label class="b-checkbox checkbox">
-                <input type="checkbox" value="false" name="viernes" (change)="changed($event)">
-                <span class="check"></span>
-              </label>
-            </td>
-            <td class="desactivado">Viernes</td>
-            <td class="desactivado">
-              <div class="hitem">
-                <input type="time" value=""  class="input">
-                <input type="time" value=""  class="input">
-                <button class="button btn-accion has-tooltip-arrow" data-tooltip="Agregar Turno" (click)="agregarTurno('viernes')">
-                  <span class="icon"><i class="fas fa-plus "></i></span>
-                </button>
-              </div>
-            </td>
-            <td class="desactivado">
-              <div class="hitem oculto" id="turno_viernes">
-                <input type="time" value=""  class="input">
-                <input type="time" value=""  class="input">
-              </div>
-            </td>
-          </tr>
-          <tr id="sabado">
-            <td>
-              <label class="b-checkbox checkbox">
-                <input type="checkbox" value="false" name="sabado" (change)="changed($event)">
-                <span class="check"></span>
-              </label>
-            </td>
-            <td class="desactivado">Sábado</td>
-            <td class="desactivado">
-              <div class="hitem">
-                <input type="time" value=""  class="input">
-                <input type="time" value=""  class="input">
-                <button class="button btn-accion has-tooltip-arrow" data-tooltip="Agregar Turno" (click)="agregarTurno('sabado')">
-                  <span class="icon"><i class="fas fa-plus "></i></span>
-                </button>
-              </div>
-            </td>
-            <td class="desactivado">
-              <div class="hitem oculto" id="turno_sabado">
-                <input type="time" value=""  class="input">
-                <input type="time" value=""  class="input">
-              </div>
-            </td>
-          </tr>
-          <tr id="domingo">
-            <td>
-              <label class="b-checkbox checkbox">
-                <input type="checkbox" value="false" name="domingo" (change)="changed($event)">
-                <span class="check"></span>
-              </label>
-            </td>
-            <td class="desactivado">Domingo</td>
-            <td class="desactivado">
-              <div class="hitem">
-                <input type="time" value=""  class="input">
-                <input type="time" value=""  class="input">
-                <button class="button btn-accion has-tooltip-arrow" data-tooltip="Agregar Turno" (click)="agregarTurno('domingo')">
-                  <span class="icon"><i class="fas fa-plus "></i></span>
-                </button>
-              </div>
-            </td>
-            <td class="desactivado">
-              <div class="hitem oculto" id="turno_domingo">
-                <input type="time" value=""  class="input">
-                <input type="time" value=""  class="input">
-              </div>
-            </td>
-          </tr>
+          }
           </tbody>
         </table>
       </div>

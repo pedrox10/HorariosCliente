@@ -39,6 +39,10 @@ export class AdmTerminalesComponent implements OnInit {
     //this.terminales.at(0)!.nombre = "Cambiado"
   }
 
+  delete(terminal:Terminal) {
+    //this.terminales.slice(index, 1)
+  }
+
   getTerminales() {
     this.terminalService.getTerminales().subscribe(
       (data: any) => {
@@ -57,7 +61,7 @@ export class AdmTerminalesComponent implements OnInit {
         .open(AccionTerminalComponent, {
           modal: {enter: `${config.animation} ${config.duration}`,},
           size: {padding: '0.5rem'},
-          overlay: {backgroundColor: "rgba(0, 0, 0, 0.80)"},
+          overlay: {backgroundColor: "rgba(0, 0, 0, 0.65)"},
         })
         .subscribe((data) => {
           this.add(data)
@@ -67,7 +71,7 @@ export class AdmTerminalesComponent implements OnInit {
         .open(AccionTerminalComponent, {
           modal: {enter: `${config.animation} ${config.duration}`,},
           size: {padding: '0.5rem'},
-          overlay: {backgroundColor: "rgba(0, 0, 0, 0.80)"},
+          overlay: {backgroundColor: "rgba(0, 0, 0, 0.65)"},
           data: terminal
         })
         .subscribe((data) => {
@@ -76,7 +80,12 @@ export class AdmTerminalesComponent implements OnInit {
     }
   }
 
-  eliminarModal() {
+  mostrarEliminar(terminal:Terminal) {
+    document.getElementById("eliminar_modal")?.classList.add("is-active");
+  }
+
+  ocultarEliminar() {
+    document.getElementById("eliminar_modal")?.classList.remove("is-active");
   }
 
   refrescar(){

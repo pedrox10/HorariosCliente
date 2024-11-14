@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {ModalService} from "ngx-modal-ease";
 import {Location} from '@angular/common';
+import {env} from "../../../../environments/environments";
 
 @Component({
   selector: 'app-nuevo-horario',
@@ -10,13 +11,12 @@ import {Location} from '@angular/common';
   styleUrl: './nuevo-horario.component.css'
 })
 export class NuevoHorarioComponent {
-  name = 'ModalContent4Component';
-  M3Info = '';
+  dias = env.dias.map((dia) => dia.toLowerCase());
 
   constructor(private modalService: ModalService, public location: Location) {}
 
   onConfirm() {
-    this.modalService.close(this.M3Info);
+    this.modalService.close();
   }
 
   irAtras() {
@@ -41,5 +41,9 @@ export class NuevoHorarioComponent {
   agregarTurno(dia: string) {
     let turno = document.getElementById("turno_" + dia);
     turno?.classList.remove("oculto")
+  }
+
+  capitalizeFirstLetter() {
+    return "a";
   }
 }

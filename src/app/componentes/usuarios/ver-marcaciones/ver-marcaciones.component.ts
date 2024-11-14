@@ -26,7 +26,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   public ip = this.activatedRoute.snapshot.params['ip'];
   public puerto = this.activatedRoute.snapshot.params['puerto'];
   public nombre = this.activatedRoute.snapshot.params['nombre'];
-  public meses = env.meses;
+  public dias_semana = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
   public oct: string[] = [];
 
   constructor(public terminalService: TerminalService, public  location: Location) {
@@ -89,7 +89,8 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   getNombreDia(dia: number) {
     const fecha = new Date(this.gestion, this.mesActual, dia);
     const day = fecha.getDay();
-    return env.dias[day];
+
+    return this.dias_semana[day];
   }
 
   getArrayDias() {

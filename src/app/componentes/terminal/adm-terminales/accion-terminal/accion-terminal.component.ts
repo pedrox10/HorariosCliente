@@ -6,7 +6,6 @@ import {toast} from 'bulma-toast'
 import {ModalService} from "ngx-modal-ease";
 import {AdmTerminalesComponent} from "../adm-terminales.component";
 import {Router} from '@angular/router';
-import {Terminal} from "../../../../modelos/terminal.model";
 
 @Component({
   selector: 'app-accion-terminal',
