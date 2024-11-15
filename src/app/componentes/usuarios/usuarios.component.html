@@ -6,7 +6,7 @@
     </div>
   </div>
   <div class="animate__animated animate__fadeIn">
-    <div style="box-sizing: border-box; width: fit-content;">
+    <div style="width: fit-content;">
       <div class="hbox">
         <div class="hitem">
           <label class="label mt-2">Buscar: </label>
@@ -21,12 +21,12 @@
 
         </div>
       </div>
-      <table class="table is-bordered">
+      <table class="table is-bordered is-hoverable">
         <tr>
           <th>
             <label class="b-checkbox checkbox" style="padding: 0px">
-              <input type="checkbox" value="false">
-              <span class="check"></span>
+              <input type="checkbox" (change)="aplicarTodos($event)">
+              <span class="check is-dark"></span>
             </label>
           </th>
           <th>#</th>
@@ -38,17 +38,17 @@
           <th>Acciones</th>
         </tr>
         <tbody>
-        @for (item of usuariosFiltrados; track item; let index = $index) {
+        @for (usuario of usuariosFiltrados; track usuario; let index = $index) {
         <tr>
             <td>
                 <label class="b-checkbox checkbox">
-                  <input type="checkbox" value="false">
-                  <span class="check"></span>
+                  <input type="checkbox" [checked]="usuario.seleccionado" (change)="usuario.seleccionado=!usuario.seleccionado" value={{usuario.seleccionado}}>
+                  <span class="check es-secundario"></span>
                 </label>
             </td>
             <td>{{index +1}}</td>
-          <td>{{item.user_id}}</td>
-          <td>{{item.name}}</td>
+          <td>{{usuario.ci}}</td>
+          <td>{{usuario.nombre}}</td>
           <td>Oficina 2T</td>
           <td>Aux Tec</td>
           <td>M</td>
@@ -58,7 +58,7 @@
                 <i class="far fa-calendar-alt icon-btn"></i>
               </span>
               <span class="icon has-tooltip-arrow" data-tooltip="Ver Marcaciones" routerLink="/ver-marcaciones/{{ip}}/{{
-        puerto}}/{{item.user_id}}">
+        puerto}}/{{usuario.ci}}">
                 <i class="far fa-calendar-check icon-btn"></i>
               </span>
             </div>

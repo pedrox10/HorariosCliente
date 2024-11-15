@@ -29,6 +29,14 @@ export class AdmTerminalesComponent implements OnInit {
 
   ngOnInit() {
     this.getTerminales()
+    document.addEventListener('keydown', (e) => {
+      if ((e as KeyboardEvent).key === 'Escape') {
+        this.ocultarEliminar()
+      }
+    });
+    document.getElementById("background")?.addEventListener("click", (e) =>{
+      this.ocultarEliminar()
+    })
   }
   add(terminal:Terminal) {
     if(terminal !== undefined)

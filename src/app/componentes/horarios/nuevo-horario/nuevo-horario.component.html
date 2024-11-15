@@ -39,14 +39,14 @@
           </div>
         </div>
       </div>
-      <div class="column">
+      <div class="column is-narrow">
         <table class="table horario">
           <thead>
           <tr>
-            <th class="is-narrow"></th>
-            <th class="is-narrow">Dia</th>
-            <th class="is-narrow" style="text-align: center;">1° Turno</th>
-            <th style="text-align: center">2° Turno</th>
+            <th></th>
+            <th >Dia</th>
+            <th  style="text-align: center;">1° Turno</th>
+            <th style="text-align: center;">2° Turno</th>
           </tr>
           </thead>
           <tbody>
@@ -55,7 +55,7 @@
             <td>
               <label class="b-checkbox checkbox">
                 <input type="checkbox" value="false" name="{{dia}}" (change)="changed($event)">
-                <span class="check"></span>
+                <span class="check es-secundario"></span>
               </label>
             </td>
             <td class="desactivado" style="text-transform: capitalize;">{{dia}}</td>

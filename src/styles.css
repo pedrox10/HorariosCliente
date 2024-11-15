@@ -94,7 +94,7 @@ body {
 .hitem {
   display: flex;
   flex-direction: row;
-  gap: 5px;
+  gap: 5.5px;
 }
 
 .breadcrumb:not(:last-child) {
@@ -121,10 +121,9 @@ body {
   border: 1px solid #cad9d6;
 }
 
-.b-checkbox.checkbox input[type=checkbox]:checked + .check {
+.b-checkbox.checkbox input[type=checkbox]:checked + .es-secundario.check {
   background-color: #49c2af !important;
   border-color:#49c2af !important;
-
 }
 
 .menu {
@@ -180,7 +179,7 @@ input[type=time] {
 
 .icon-btn {
   color: #295a8c; padding: 5px; border: 1px solid #DBDBDB;
-  font-size: 1.2em;
+  font-size: 1.25em;
 }
 .icon-btn:hover {
   background-color: #d6e1ec;
