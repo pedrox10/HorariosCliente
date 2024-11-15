@@ -5,7 +5,7 @@ import {TerminalService} from "../../../servicios/terminal.service";
 import {HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule} from "@angular/forms";
 import {Terminal} from "../../../modelos/terminal.model";
-import { Router } from '@angular/router';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-adm-terminales',
@@ -34,20 +34,21 @@ export class AdmTerminalesComponent implements OnInit {
         this.ocultarEliminar()
       }
     });
-    document.getElementById("background")?.addEventListener("click", (e) =>{
+    document.getElementById("background")?.addEventListener("click", (e) => {
       this.ocultarEliminar()
     })
   }
-  add(terminal:Terminal) {
-    if(terminal !== undefined)
+
+  add(terminal: Terminal) {
+    if (terminal !== undefined)
       this.terminales.push(terminal);
   }
 
-  edit(terminal:Terminal) {
-    //this.terminales.at(0)!.nombre = "Cambiado"
+  edit(terminal: Terminal) {
+    alert(terminal.id)
   }
 
-  delete(terminal:Terminal) {
+  delete(terminal: Terminal) {
     //this.terminales.slice(index, 1)
   }
 
@@ -64,7 +65,7 @@ export class AdmTerminalesComponent implements OnInit {
 
   agregarEditarModal(terminal: any) {
     let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
-    if(terminal === undefined) {
+    if (terminal === undefined) {
       this.modalService
         .open(AccionTerminalComponent, {
           modal: {enter: `${config.animation} ${config.duration}`,},
@@ -88,7 +89,7 @@ export class AdmTerminalesComponent implements OnInit {
     }
   }
 
-  mostrarEliminar(terminal:Terminal) {
+  mostrarEliminar(terminal: Terminal) {
     document.getElementById("eliminar_modal")?.classList.add("is-active");
   }
 
@@ -96,7 +97,7 @@ export class AdmTerminalesComponent implements OnInit {
     document.getElementById("eliminar_modal")?.classList.remove("is-active");
   }
 
-  refrescar(){
+  refrescar() {
     let currentUrl = this.router.url;
     this.router.navigateByUrl('/adm-terminales').then(() => {
       window.location.reload()

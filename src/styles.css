@@ -204,6 +204,14 @@ input[type=time] {
   color: white  !important;
 }
 
+.modal header, header.modal-card-head {
+  background-color: #295a8c !important;
+}
+
+p.modal-card-title {
+  color: white;
+}
+
 .modal-card-foot .button {
   border-radius: 5px !important;
 }
