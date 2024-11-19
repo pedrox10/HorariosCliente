@@ -6,6 +6,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule} from "@angular/forms";
 import {Terminal} from "../../../modelos/terminal.model";
 import {Router} from '@angular/router';
+import {toast} from "bulma-toast";
 
 @Component({
   selector: 'app-adm-terminales',
@@ -22,6 +23,7 @@ import {Router} from '@angular/router';
 export class AdmTerminalesComponent implements OnInit {
 
   public terminales: Terminal[] = [];
+  id_actual: number = -1;
 
   constructor(public terminalService: TerminalService, private modalService: ModalService, private router: Router) {
 
@@ -45,11 +47,30 @@ export class AdmTerminalesComponent implements OnInit {
   }
 
   edit(terminal: Terminal) {
-    alert(terminal.id)
+    const index = this.terminales.map(i => i.id).indexOf(terminal.id);
+    console.log(index)
+    this.terminales[index] = terminal;
   }
 
-  delete(terminal: Terminal) {
-    //this.terminales.slice(index, 1)
+  delete() {
+    this.terminalService.eliminarTerminal(this.id_actual).subscribe(
+      (data: any) => {
+        this.ocultarEliminar();
+        const index = this.terminales.map(i => i.id).indexOf(this.id_actual);
+        console.log(index)
+        this.terminales.splice(index, 1);
+      },
+      (error: any) => {
+        console.error('An error occurred:', error);
+        toast({
+          message: '<span class="icon"><i style="color: white; font-size: 2em; padding-right: 15px" class="fas fa-delete"></i></span>Ha ocurrido un error',
+          type: "is-danger",
+          position: "bottom-center",
+          duration: 4000,
+          animate: {in: 'bounceIn', out: 'bounceOut'},
+        })
+      });
+    //alert(terminal.id);
   }
 
   getTerminales() {
@@ -84,6 +105,7 @@ export class AdmTerminalesComponent implements OnInit {
           data: terminal
         })
         .subscribe((data) => {
+          console.log(data)
           this.edit(data)
         });
     }
@@ -91,6 +113,8 @@ export class AdmTerminalesComponent implements OnInit {
 
   mostrarEliminar(terminal: Terminal) {
     document.getElementById("eliminar_modal")?.classList.add("is-active");
+    this.id_actual = terminal.id;
+    console.log(this.id_actual)
   }
 
   ocultarEliminar() {

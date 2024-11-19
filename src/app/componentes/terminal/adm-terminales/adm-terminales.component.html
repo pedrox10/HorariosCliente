@@ -50,15 +50,15 @@
     <div class="modal-background" id="background" style="opacity: 0.75;"></div>
     <div class="modal-card" style="width: 400px">
       <header class="modal-card-head">
-        <p class="modal-card-title" style="color: white">Eliminar terminal</p>
+        <p class="modal-card-title">Eliminar terminal</p>
         <button class="delete" aria-label="close" (click) = "ocultarEliminar()"></button>
       </header>
       <section class="modal-card-body">
-        <label class="label">Seguro eliminar?</label>
+        <label class="label">Se borrará el terminal seleccionado ¿Esta seguro? </label>
       </section>
       <footer class="modal-card-foot">
         <div class="buttons">
-          <button class="button es-primario">Aceptar</button>
+          <button class="button es-primario" (click)="delete()">Aceptar</button>
           <button class="button" type="button" (click) = "ocultarEliminar()">Cancelar</button>
         </div>
       </footer>

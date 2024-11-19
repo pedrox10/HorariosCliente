@@ -19,11 +19,11 @@ export class TerminalService {
   }
 
   public editarTerminal(id: number, body: any) {
-    return this.http.put(`${this.apiUrl}/terminal/editar${id}`, body);
+    return this.http.put(`${this.apiUrl}/terminal/editar/${id}`, body);
   }
 
-  public borrarTerminal(id: number) {
-    return this.http.delete(`${this.apiUrl}/terminal/eliminar${id}`);
+  public eliminarTerminal(id: number) {
+    return this.http.delete(`${this.apiUrl}/terminal/eliminar/${id}`);
   }
 
   public getUsuarios(ip:string, puerto:number) {
