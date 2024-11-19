@@ -19,7 +19,7 @@ import {Location} from '@angular/common';
 
 export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   public gestion: number = 2024
-  public mesActual: number = 9;
+  public mesActual: number = 10;
   public numDias: number;
   public dias: string[][] = [];
   private activatedRoute = inject(ActivatedRoute);
@@ -27,7 +27,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   public puerto = this.activatedRoute.snapshot.params['puerto'];
   public nombre = this.activatedRoute.snapshot.params['nombre'];
   public dias_semana = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
-  public oct: string[] = [];
+  public nov: string[] = [];
 
   constructor(public terminalService: TerminalService, public  location: Location) {
 
@@ -36,12 +36,12 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       (data: any) => {
         const aux = data;
         console.log(aux)
-        let cad = this.gestion + "-10-";
+        let cad = this.gestion + "-11-";
         let re_fecha = new RegExp(cad + '(.*)');
         let re_ci = new RegExp("^" + this.nombre + "$");
         aux.forEach((value: any) => {
           if (re_fecha.test(value.timestamp) && re_ci.test(value.user_id)) {
-            this.oct.push(value);
+            this.nov.push(value);
           }
         });
         this.getArrayDias()
@@ -98,9 +98,9 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       let dia = i < 10 ? "0" + i : i;
       let fila: string[] = [];
       fila.push(this.getNombreDia(i).substring(0, 3) + " " + i);
-      let cad = this.gestion + "-10-" + dia;
+      let cad = this.gestion + "-11-" + dia;
       let re_dia = new RegExp(cad + '(.*)');
-      this.oct.forEach((value: any) => {
+      this.nov.forEach((value: any) => {
         if (re_dia.test(value.timestamp)) {
           let hora = value.timestamp.split("T")
           fila.push(hora[1].substring(0, 5));

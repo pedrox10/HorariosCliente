@@ -70,7 +70,6 @@ export class AdmTerminalesComponent implements OnInit {
           animate: {in: 'bounceIn', out: 'bounceOut'},
         })
       });
-    //alert(terminal.id);
   }
 
   getTerminales() {
