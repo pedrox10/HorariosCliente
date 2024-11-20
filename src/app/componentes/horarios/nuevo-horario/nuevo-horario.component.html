@@ -7,7 +7,7 @@
   </div>
   <div class="animate__animated animate__fadeIn">
     <div class="columns">
-      <div class="column is-one-third">
+      <div class="column is-one-quarter">
         <div class="field">
           <label class="label">Nombre</label>
           <div class="control">
@@ -20,7 +20,7 @@
             <label class="label">Tolerancia</label>
             <div class="hitem">
               <div class="control">
-                <input class="input" type="number" min="0" max="10" placeholder="5" style="width: 55px">
+                <input class="input" type="number" value="0" min="0" max="10" placeholder="5" style="width: 55px">
               </div>
               <span class="mt-2">min.</span>
             </div>
@@ -61,7 +61,7 @@
             <td class="desactivado" style="text-transform: capitalize;">{{dia}}</td>
             <td class="desactivado">
               <div class="hitem">
-                <input type="time" pattern="[0-9]{2}:[0-9]{2}" value="" class="input">
+                <input type="time" value="" class="input">
                 <input type="time" value="" class="input">
                 <button class="button btn-accion has-tooltip-arrow" data-tooltip="Agregar Turno" (click)="agregarTurno(dia)">
                   <span class="icon"><i class="fas fa-plus "></i></span>
@@ -72,6 +72,9 @@
               <div class="hitem oculto" id="turno_{{dia}}">
                 <input type="time" value=""  class="input">
                 <input type="time" value=""  class="input">
+                <button class="button btn-accion has-tooltip-arrow" data-tooltip="Quitar Turno" (click)="quitarTurno(dia)">
+                  <span class="icon"><i class="fas fa-minus "></i></span>
+                </button>
               </div>
             </td>
           </tr>

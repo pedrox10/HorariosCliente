@@ -57,8 +57,14 @@ export class AdmTerminalesComponent implements OnInit {
       (data: any) => {
         this.ocultarEliminar();
         const index = this.terminales.map(i => i.id).indexOf(this.id_actual);
-        console.log(index)
         this.terminales.splice(index, 1);
+        toast({
+          message: '<span class="icon" style="min-width: 175px;"><i style="color: white; font-size: 2em; padding-right: 10px" class="fas fa-check"></i>Terminal eliminado</span>',
+          type: "is-success",
+          position: "bottom-center",
+          duration: 3000,
+          animate: {in: 'bounceIn', out: 'bounceOut'},
+        })
       },
       (error: any) => {
         console.error('An error occurred:', error);
