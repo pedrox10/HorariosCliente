@@ -8,11 +8,20 @@
       <div class="field">
         <label class="label">Nombre</label>
         <div class="control">
-          <input class="input" id="nombre" type="text" formControlName="nombre" placeholder="Planta Baja"/>
+          <input class="input" id="nombre" type="text" (change)="cambio($event)" formControlName="nombre"
+                 placeholder="Planta Baja"/>
           @if(f['nombre'].invalid) {
-          <p class='help is-danger'>{{ validarNombre() }}</p>
+            @if(f['nombre'].touched && f['nombre'].hasError('required')) {
+              <p class='help is-danger'>¡El nombre es requerido!</p>
+            } @else {
+              @if(f['nombre'].hasError('maxlength')) {
+                <p class='help is-danger'>¡El nombre es demasiado largo!</p>
+              } @else {
+                <p class='help is-info'>* Maximo 14 caracteres</p>
+              }
+            }
           } @else {
-          <p class='help is-info'>{{ validarNombre() }}</p>
+            <p class='help is-info'>* Maximo 14 caracteres</p>
           }
         </div>
       </div>

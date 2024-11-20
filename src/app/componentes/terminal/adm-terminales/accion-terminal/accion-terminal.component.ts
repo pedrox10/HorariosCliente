@@ -20,13 +20,13 @@ import {CommonModule} from "@angular/common";
 export class AccionTerminalComponent implements OnInit {
 
   formAccion = new FormGroup({
-    nombre: new FormControl('', [Validators.required, Validators.maxLength(12)]),
-    ip: new FormControl('', [Validators.required]),
-    puerto: new FormControl('', Validators.required)
+    nombre: new FormControl('', [Validators.required, Validators.maxLength(14)]),
+    ip: new FormControl('', [Validators.required, Validators.pattern('(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)')]),
+    puerto: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]\d*$/)])
   });
 
   public accion: string = "";
-  id_actual:number = -1;
+  id_actual: number = -1;
 
   constructor(private terminalService: TerminalService,
               private formBuilder: FormBuilder,
@@ -38,7 +38,7 @@ export class AccionTerminalComponent implements OnInit {
     this.accion = this.modalService.options?.data !== undefined ? "Editar" : "Agregar";
     if (this.accion == "Editar") {
       let terminal: any = this.modalService.options?.data;
-      this.id_actual =  terminal.id;
+      this.id_actual = terminal.id;
       this.formAccion.patchValue({
         nombre: terminal.nombre,
         ip: terminal.ip,
@@ -48,7 +48,7 @@ export class AccionTerminalComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if(this.accion === "Agregar") {
+    if (this.accion === "Agregar") {
       this.terminalService.agregarTerminal(this.formAccion.value).subscribe(
         (data: any) => {
           this.accionTerminal(data)
@@ -67,7 +67,6 @@ export class AccionTerminalComponent implements OnInit {
         }
       );
     }
-
   }
 
   accionTerminal(data: any) {
@@ -99,19 +98,14 @@ export class AccionTerminalComponent implements OnInit {
     this.modalService.close();
   }
 
-  get f(){
+  get f() {
     return this.formAccion.controls;
   }
 
-  validarNombre() {
-    if(this.f['nombre'].errors && this.f['nombre'].errors['required']) {
-      return "El nombre es requerido"
-    } else {
-      if(this.f['nombre'].errors && this.f['nombre'].errors['minlength']) {
-        return "Maximo 14 caracteres"
-      } else {
-        return "Maximo 14 caracteres"
-      }
-    }
+  cambio(ev: any) {
+    let texto = ev.target.value.trim();
+    let str = texto.split(" ").filter((c: string) => c !== "")
+    let res = str.join(" ")
+    this.f["nombre"].setValue(res)
   }
 }
