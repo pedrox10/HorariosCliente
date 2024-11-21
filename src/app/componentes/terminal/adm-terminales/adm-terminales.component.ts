@@ -110,8 +110,8 @@ export class AdmTerminalesComponent implements OnInit {
           data: terminal
         })
         .subscribe((data) => {
-          console.log(data)
-          this.edit(data)
+          if(data !== undefined)
+            this.edit(data)
         });
     }
   }

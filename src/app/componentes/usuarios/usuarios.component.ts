@@ -1,8 +1,8 @@
-import { Component, inject } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { TerminalService } from '../../servicios/terminal.service';
-import { HttpClientModule } from '@angular/common/http';
-import { env } from '../../../environments/environments';
+import {Component, inject} from '@angular/core';
+import {ActivatedRoute, RouterLink} from '@angular/router';
+import {TerminalService} from '../../servicios/terminal.service';
+import {HttpClientModule} from '@angular/common/http';
+import {env} from '../../../environments/environments';
 import {TurnoComponent} from "../horarios/turno/turno.component";
 import {Location} from '@angular/common';
 import {Usuario} from "../../modelos/usuario.model";
@@ -19,13 +19,13 @@ import {Usuario} from "../../modelos/usuario.model";
 export class UsuariosComponent {
   public meses = env.meses;
   public usuariosFiltrados: Usuario[] = [];
+  public usuariosSeleccionados: Usuario[] = [];
   public usuarios: Usuario[] = [];
-  public registros: any = [];
   private activatedRoute = inject(ActivatedRoute);
   public ip = this.activatedRoute.snapshot.params['ip'];
   public puerto = this.activatedRoute.snapshot.params['puerto'];
 
-  constructor(public terminalService: TerminalService, public location:Location) {
+  constructor(public terminalService: TerminalService, public location: Location) {
     this.terminalService.getUsuarios(this.ip, this.puerto).subscribe(
       (data: any) => {
         data.forEach((user: any) => {
@@ -39,30 +39,52 @@ export class UsuariosComponent {
       }
     );
 
-    let gestion = this.activatedRoute.snapshot.params['gestion'];
-    let mes = this.activatedRoute.snapshot.params['mes'];
   }
 
   applyFilter($event: any) {
     let texto = $event.target.value.toLowerCase();
     if (texto === "") {
       this.usuariosFiltrados = this.usuarios;
-      console.log(this.usuarios)
-      console.log(this.usuariosFiltrados)
-    }
-    else {
+    } else {
       this.usuariosFiltrados = this.usuarios.filter((item: Usuario) => item.nombre.toLowerCase().includes(texto) || item.ci.toString().includes(texto))
     }
   }
 
-  aplicarTodos(ev:any) {
-    let esSeleccionado  = (<HTMLInputElement>ev.target).checked
+  seleccionar(usuario: Usuario) {
+    let cb_todos = (document.getElementById("cb_todos") as HTMLInputElement);
+    usuario.seleccionado = !usuario.seleccionado;
+    if (usuario.seleccionado)
+      this.usuariosSeleccionados.push(usuario)
+    else {
+      const index = this.usuariosSeleccionados.map(u => u.ci).indexOf(usuario.ci);
+      this.usuariosSeleccionados.splice(index, 1);
+    }
+    if (this.usuariosSeleccionados.length == this.usuarios.length) {
+      cb_todos.classList.remove("is-indeterminate");
+      cb_todos.checked = true;
+    } else {
+      if (this.usuariosSeleccionados.length == 0) {
+        cb_todos.classList.remove("is-indeterminate");
+        cb_todos.checked = false;
+      } else {
+        cb_todos.classList.add("is-indeterminate");
+      }
+    }
+  }
+
+  aplicarTodos(ev: any) {
+    (document.getElementById("cb_todos") as HTMLInputElement).classList.remove("is-indeterminate");
+    let esSeleccionado = (<HTMLInputElement>ev.target).checked
     this.usuariosFiltrados.map((usuario) => {
-      if(esSeleccionado)
+      if (esSeleccionado)
         usuario.seleccionado = true
       else
         usuario.seleccionado = false
     })
+    if (esSeleccionado)
+      this.usuariosSeleccionados = this.usuariosFiltrados.slice();
+    else
+      this.usuariosSeleccionados = []
   }
 
   irAtras() {

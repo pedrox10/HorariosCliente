@@ -17,15 +17,16 @@
         </div>
         <div class="hitem">
         </div>
-        <div class="hitem">
-
+        <div class="hitem" style="margin-left: auto;">
+          <button class="button"><span class="icon"><i class="fas fa-user-clock"></i></span></button>
+          <button class="button"><span class="icon"><i class="fas fa-users"></i></span></button>
         </div>
       </div>
       <table class="table is-bordered is-hoverable">
         <tr>
           <th>
-            <label class="b-checkbox checkbox" style="padding: 0px">
-              <input type="checkbox" (change)="aplicarTodos($event)">
+            <label class="b-checkbox checkbox">
+              <input id="cb_todos" type="checkbox" (change)="aplicarTodos($event)">
               <span class="check is-dark"></span>
             </label>
           </th>
@@ -42,7 +43,7 @@
         <tr>
             <td>
                 <label class="b-checkbox checkbox">
-                  <input type="checkbox" [checked]="usuario.seleccionado" (change)="usuario.seleccionado=!usuario.seleccionado" value={{usuario.seleccionado}}>
+                  <input type="checkbox" [checked]="usuario.seleccionado" (change)="seleccionar(usuario)" value={{usuario.seleccionado}}>
                   <span class="check es-secundario"></span>
                 </label>
             </td>

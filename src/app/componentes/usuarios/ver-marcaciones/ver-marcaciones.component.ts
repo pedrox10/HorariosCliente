@@ -66,8 +66,8 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       grid: 2,
       calendars: 2,
       css: [
-        'https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.css',
-        "../../../assets/easepick.css"
+        '../../../assets/easepick.css',
+        "../../../assets/easepick_custom.css"
       ],
       plugins: [RangePlugin],
       RangePlugin: {
