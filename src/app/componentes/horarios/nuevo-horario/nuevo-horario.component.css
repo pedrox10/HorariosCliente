@@ -8,3 +8,17 @@
   opacity: 1 !important;
   z-index: 100 !important;
 }
+
+/* Spin Buttons modified */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  background: #FFF url("/../assets/img.png") no-repeat center center;
+  width: 1.5em;
+  border-left: 1px solid #BBB;
+  opacity: 1; /* shows Spin Buttons per default (Chrome >= 39) */
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}

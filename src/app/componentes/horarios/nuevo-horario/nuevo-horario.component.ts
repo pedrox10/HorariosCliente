@@ -13,6 +13,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 })
 export class NuevoHorarioComponent implements OnInit {
   dias = env.dias.map((dia) => dia.toLowerCase());
+  colores = env.colores;
   formAccion = new FormGroup({});
   constructor(private modalService: ModalService, private location: Location) {
     let fc_nombre = new FormControl("", [Validators.required, Validators.maxLength(12)])
@@ -71,5 +72,10 @@ export class NuevoHorarioComponent implements OnInit {
   quitarTurno(dia: string) {
     let turno = document.getElementById("turno_" + dia);
     turno?.classList.add("oculto")
+  }
+
+  saludo() {
+    let valor = (document.getElementById("btn_color") as HTMLButtonElement).value
+    alert(valor)
   }
 }
