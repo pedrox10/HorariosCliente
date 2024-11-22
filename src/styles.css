@@ -178,11 +178,8 @@ input[type=time] {
 }
 
 .icon-btn {
-  color: #295a8c; padding: 5px; border: 1px solid #DBDBDB;
-  font-size: 1.25em;
-}
-.icon-btn:hover {
-  background-color: #d6e1ec;
+  color: #295a8c; padding: 5px;
+  font-size: 1.3em;
 }
 
 /* Estilo para botones */

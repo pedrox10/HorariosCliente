@@ -27,20 +27,22 @@
           </div>
           <div class="field">
             <label class="label">Color</label>
-            <div class="dropdown is-active">
+            <div class="dropdown" id="dd_color">
               <div class="dropdown-trigger">
-                <button id="btn_color" class="input" value="otro" aria-haspopup="true" aria-controls="dropdown-menu" (click)="saludo()">
-                  <span class="ml-1 mr-2">Selecciona</span>
+                <button id="btn_color" class="input" value="otro" aria-haspopup="true" aria-controls="dropdown-menu" (click)="mostrarColores($event)">
+                  <span id="txt_color" class="ml-1 mr-2" style="min-width: 70px;">Selecciona</span>
                   <span class="icon is-small">
-                  <i class="fas fa-angle-down" aria-hidden="true"></i>
+                    <i class="fas fa-angle-down" aria-hidden="true"></i>
                   </span>
                 </button>
               </div>
-              <div class="dropdown-menu" id="dropdown-menu" role="menu" style="min-width: 100px!important; width: 114px;">
+              <div class="dropdown-menu" id="dropdown-menu" role="menu">
                 <div class="dropdown-content">
                   @for (item of colores; track item; let i = $index ) {
-                    <a class="dropdown-item">
-                     <span class="icon" > <i class="fas fa-circle" style="color:{{item.valor}}; border: 1px #999 solid; border-radius: 25px; font-size: 0.85em;"></i></span>
+                    <a class="dropdown-item" (click)="seleccionarColor(item)">
+                     <span class="icon" >
+                      <i class="fas fa-circle" style="color:{{item.valor}};"></i>
+                     </span>
                     {{item.color}}
                     </a>
                   }
@@ -100,7 +102,7 @@
         </table>
       </div>
     </div>
-    <footer class="modal-card-foot">
+    <footer class="modal-card-foot" style="position: absolute; bottom: 35px; width: 75%">
       <div class="buttons">
         <button class="button es-primario">
           Guardar

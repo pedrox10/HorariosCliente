@@ -17,7 +17,7 @@ import {Usuario} from "../../modelos/usuario.model";
 })
 
 export class UsuariosComponent {
-  public meses = env.meses;
+  public colores = env.colores;
   public usuariosFiltrados: Usuario[] = [];
   public usuariosSeleccionados: Usuario[] = [];
   public usuarios: Usuario[] = [];

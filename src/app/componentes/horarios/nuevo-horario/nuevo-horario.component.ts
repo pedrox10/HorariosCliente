@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {ModalService} from "ngx-modal-ease";
 import {Location} from '@angular/common';
 import {env} from "../../../../environments/environments";
@@ -11,10 +11,12 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
   templateUrl: './nuevo-horario.component.html',
   styleUrl: './nuevo-horario.component.css'
 })
-export class NuevoHorarioComponent implements OnInit {
+export class NuevoHorarioComponent implements OnInit  {
   dias = env.dias.map((dia) => dia.toLowerCase());
   colores = env.colores;
   formAccion = new FormGroup({});
+  dd_color: any;
+
   constructor(private modalService: ModalService, private location: Location) {
     let fc_nombre = new FormControl("", [Validators.required, Validators.maxLength(12)])
     let fc_tolerancia = new FormControl("", [Validators.required])
@@ -25,9 +27,12 @@ export class NuevoHorarioComponent implements OnInit {
     this.formAccion.addControl("tolerancia", fc_tolerancia)
     this.formAccion.addControl("color", fc_color)
     this.formAccion.addControl("descripcion", fc_descripcion)
+
+
   }
 
   ngOnInit() {
+    this.dd_color =  document.getElementById("dd_color") as HTMLDivElement
     for (let dia of this.dias) {
       new FormControl()
       let res: string[] = []
@@ -74,8 +79,20 @@ export class NuevoHorarioComponent implements OnInit {
     turno?.classList.add("oculto")
   }
 
-  saludo() {
-    let valor = (document.getElementById("btn_color") as HTMLButtonElement).value
-    alert(valor)
+  mostrarColores(evt: any) {
+    let boton = evt.target as HTMLButtonElement;
+    if (this.dd_color.classList.contains("is-active")) {
+      this.dd_color.classList.remove("is-active")
+    } else {
+      this.dd_color.classList.add("is-active")
+    }
+  }
+
+  seleccionarColor(item: any) {
+    let boton = document.getElementById("btn_color") as HTMLButtonElement;
+    let texto = document.getElementById("txt_color") as HTMLSpanElement;
+    texto.textContent = item.color
+    boton.style.backgroundColor = item.valor
+    this. dd_color.classList.remove("is-active")
   }
 }
