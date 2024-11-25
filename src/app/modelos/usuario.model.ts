@@ -2,7 +2,6 @@ export class Usuario {
   id: number;
   ci: number;
   nombre: string;
-  cargo: string;
   genero: string;
   seleccionado: boolean;
 
@@ -10,7 +9,6 @@ export class Usuario {
     this.id = id;
     this.ci = ci;
     this.nombre = nombre;
-    this.cargo = cargo;
     this.genero = genero;
     this.seleccionado = false;
   }

@@ -38,7 +38,6 @@ export class UsuariosComponent {
         console.error('An error occurred:', error);
       }
     );
-
   }
 
   applyFilter($event: any) {

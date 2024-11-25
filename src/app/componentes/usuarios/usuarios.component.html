@@ -8,19 +8,26 @@
   <div class="animate__animated animate__fadeIn">
     <div style="width: fit-content;">
       <div class="hbox">
-        <div class="hitem">
+                <div class="hitem">
           <label class="label mt-2">Buscar: </label>
           <p class="control has-icons-right">
             <input (input)="applyFilter($event)" type="text" class="input" placeholder="Nombre o CI"/>
             <span class="icon is-right"><i class="fas fa-search"></i></span>
           </p>
+
         </div>
-        <div class="hitem">
+        <div class="hitem" style="margin-left: auto;">
           <button class="button" style="background-color: {{colores.at(6)?.valor}}; border-radius: 5px">Asignar Horarios</button>
           <button class="button" style="background-color: {{colores.at(5)?.valor}}; border-radius: 5px">Asignar Grupo</button>
         </div>
-        <div class="hitem" style="margin-left: auto;">
-
+        <div class="hitem">
+          <div class="vbox">
+            <p class='help is-info'>* Maximo 14 caracteres</p>
+            <button class="button es-primario" style="border-radius: 5px; margin-top: 0px !important;">
+              <span class="icon"><i class="fas fa-sync"></i></span>
+              <span>Sincronizar</span>
+            </button>
+          </div>
         </div>
       </div>
       <table class="table is-bordered is-hoverable">
@@ -35,8 +42,6 @@
           <th style="width: 100px;">CI</th>
           <th style="width: 250px;">Nombre</th>
           <th>Horario Actual</th>
-          <th>Cargo</th>
-          <th>Genero</th>
           <th>Acciones</th>
         </tr>
         <tbody>
@@ -52,8 +57,6 @@
           <td>{{usuario.ci}}</td>
           <td>{{usuario.nombre}}</td>
           <td>Oficina 2T</td>
-          <td>Aux Tec</td>
-          <td>M</td>
           <td>
             <div class="hitem">
               <span class="icon has-tooltip-arrow" data-tooltip="Ver Horario" routerLink="/ver-horario">

@@ -91,9 +91,15 @@ body {
   margin-bottom: 5px;
 }
 
+.vbox {
+  display: flex;
+  flex-direction: column;
+}
+
 .hitem {
   display: flex;
   flex-direction: row;
+  align-items: flex-end;
   gap: 5.5px;
 }
 
