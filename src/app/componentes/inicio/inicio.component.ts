@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { env } from '../../../environments/environments';
 
@@ -10,10 +10,40 @@ import { env } from '../../../environments/environments';
   styleUrl: './inicio.component.css'
 })
 
-export class InicioComponent {
+export class InicioComponent implements OnInit{
+  items: Array<HTMLLIElement> = [];
+  action: any;
+
   constructor() {
-    console.log("Inicio Component");
-    console.log(env.dias.toString());
-    
+    this.items = [];
+  }
+
+  ngOnInit() {
+    this.items = Array.from(document.querySelectorAll('.item'));
+    this.action  = document.getElementById('action') as HTMLDivElement
+    let items = this.items;
+    let action = this.action;
+    this.items.forEach(item => {
+      item.addEventListener('click', function(e){
+        let li = e.target as HTMLLIElement;
+        if( li.classList.contains('active') || li.classList.contains('fa-chevron-down')){
+          return;
+        }
+        items.forEach(remove_active => {
+          remove_active.classList.remove('active');
+        });
+        li.classList.add('active');
+        document.documentElement.style.setProperty('--height-begin', action?.offsetHeight + 'px');
+        document.documentElement.style.setProperty('--top-begin', action?.offsetTop + 'px');
+        document.documentElement.style.setProperty('--height-end', li.offsetHeight + 'px');
+        document.documentElement.style.setProperty('--top-end', li.offsetTop + 'px');
+        action?.classList.remove('runanimation');
+        void action?.offsetWidth;
+        action?.classList.add('runanimation');
+      },false)
+    })
+
+    let primer = document.getElementById("primer_item") as HTMLLIElement;
+    primer.click()
   }
 }

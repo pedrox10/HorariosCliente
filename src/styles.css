@@ -132,28 +132,8 @@ body {
 }
 
 .sidebar {
-  background: #43946e;
+  background-image:radial-gradient(ellipse at bottom, #494d4f, #121313);
   height: 100vh;
-}
-
-.menu li a{
-  font-size: 1.1em;
-  padding: 15px 5px 15px 25px;
-  background-color: #43946e !important;
-  color: white;
-  font-weight: normal;
-}
-
-.menu li a:hover, .menu li a:focus, .menu li a:active {
-  color: white;
-  background-color: #307554 !important;
-}
-
-.menu .menu-label {
-  color: #cee6ff; padding-left: 20px; padding-right: 5px; font-weight: bold;
-  border-bottom: 4px #295A8C solid;
-  font-size: 0.75em;
-  width: fit-content;
 }
 
 .info {

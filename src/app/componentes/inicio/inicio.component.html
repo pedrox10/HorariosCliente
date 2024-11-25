@@ -1,26 +1,29 @@
 <div class="columns principal">
   <div class="column is-one-fifth sidebar" style="padding: 0px;">
     <div class="">
-      <div style="display: flex;align-items: center;justify-content: center;background-color: #295A8C; height: 190px;width: 100%">
-        <img src="../../../assets/gams.svg" style="width: 220px;">
+      <div style="display: flex;
+      align-items: center;justify-content: center;background-image:radial-gradient(ellipse at top, #295A8C, #163556);
+       height: 190px;width: 100%; border-bottom: 1px lightgray solid">
+        <img src="../../../assets/gams.svg" style="width: 80%;">
       </div>
     </div>
-      <div class="menu">
-        <p class="menu-label">
-          General
-        </p>
-        <ul class="menu-list">
-          <li class="animation"><a routerLink="/ver-terminales">Ver Terminales</a></li>
-          <li class="animation"><a routerLink="/horarios">Horarios</a></li>
-        </ul>
-        <p class="menu-label mt-5">
-          Administración
-        </p>
-        <ul class="menu-list">
-          <li class="animation"><a routerLink="/adm-terminales">Terminales</a></li>
-
-        </ul>
-      </div>
+    <div class="menu">
+      <ul>
+        <li id="primer_item" class="item" routerLink="ver-terminales">
+          <i class="fas fa-fax"></i>Ver Terminales
+        </li>
+        <li class="item" routerLink="horarios">
+          <i class="fas fa-calendar"></i>Horarios
+        </li>
+        <li class="item" routerLink="adm-terminales">
+          <i class="fas fa-th-list"></i>Adm Terminales
+        </li>
+        <li class="item">
+          <i class="fas fa-users"></i>Grupos
+        </li>
+        <div id="action" class=""></div>
+      </ul>
+    </div>
   </div>
 
   <div class="column" style="background-color: #E9EFEE;padding: 15px;">
