@@ -1,6 +1,7 @@
 import { Component, Input, numberAttribute } from '@angular/core';
 import { TerminalService } from '../../servicios/terminal.service';
 import { RouterLink } from '@angular/router';
+import {Terminal} from "../../modelos/Terminal";
 
 @Component({
   selector: 'app-terminal',
@@ -11,15 +12,9 @@ import { RouterLink } from '@angular/router';
 })
 
 export class  TerminalComponent {
-  @Input() nombre:string;
-  @Input() ip:string;
-  @Input({
-    transform: numberAttribute,
-  }) puerto:number;
+  @Input() terminal!:Terminal;
 
   constructor() {
-    this.nombre = "";
-    this.ip = "";
-    this.puerto = 0;
+
   }
 }

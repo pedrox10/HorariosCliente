@@ -1,17 +1,17 @@
 <div class="terminal box">
     <header>
-        <p>{{ nombre }}</p>
+        <p>{{ terminal.nombre }}</p>
     </header>
     <div class="contenido">
         <div class="dato">
-            <h3 class="has-text-weight-medium">IP:</h3><span>{{ ip }}</span>
+            <h3 class="has-text-weight-medium">IP:</h3><span>{{ terminal.ip }}</span>
         </div>
         <div class="dato">
-            <h3 class="has-text-weight-medium">Puerto:</h3><span>{{ puerto }}</span>
+            <h3 class="has-text-weight-medium">Puerto:</h3><span>{{ terminal.puerto }}</span>
         </div>
     </div>
     <footer>
-        <a routerLink="/usuarios/{{ip}}/{{puerto}}"
+        <a routerLink="/terminal/{{terminal.id}}/usuarios"
             class="button is-rounded is-outlined" style="font-size: 1em">Ingresar</a>
     </footer>
 </div>

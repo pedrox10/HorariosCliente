@@ -26,8 +26,12 @@ export class TerminalService {
     return this.http.delete(`${this.apiUrl}/terminal/eliminar/${id}`);
   }
 
-  public getUsuarios(ip:string, puerto:number) {
-    return this.http.get(`${this.apiUrl}/usuarios/` + ip + "/" + puerto);
+  public sincronizarTerminal(id:number) {
+    return this.http.get(`${this.apiUrl}/terminal/sincronizar/${id}`);
+  }
+
+  public getUsuarios(idTerminal:number) {
+    return this.http.get(`${this.apiUrl}/terminal/${idTerminal}/usuarios`);
   }
 
   public getMarcaciones(ip:string, puerto:number) {

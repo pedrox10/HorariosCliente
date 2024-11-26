@@ -11,7 +11,7 @@ import {NuevoHorarioComponent} from "./componentes/horarios/nuevo-horario/nuevo-
 export const routes: Routes = [
   {path: "", component: ListarTerminalesComponent},
   {path: "ver-terminales", component: ListarTerminalesComponent},
-  {path: "usuarios/:ip/:puerto", component: UsuariosComponent},
+  {path: "terminal/:id/usuarios", component: UsuariosComponent},
   {path: "ver-marcaciones/:ip/:puerto/:nombre", component: VerMarcacionesComponent},
   {path: "horarios", component: HorariosComponent},
   {path: "nuevo-horario", component: NuevoHorarioComponent},

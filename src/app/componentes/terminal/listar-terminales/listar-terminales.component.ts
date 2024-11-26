@@ -3,7 +3,7 @@ import { TerminalComponent } from '../terminal.component';
 import { TerminalService } from '../../../servicios/terminal.service';
 import { HttpClientModule } from '@angular/common/http';
 import {Location} from '@angular/common';
-import {Terminal} from "../../../modelos/terminal.model";
+import {Terminal} from "../../../modelos/Terminal";
 
 @Component({
   selector: 'app-listar-terminales',

@@ -4,8 +4,8 @@
   </div>
 
   <div class="terminales  animate__animated animate__fadeIn" id="terminales">
-      @for (t of terminales; track t) {
-      <app-terminal nombre="{{ t.nombre }}" ip="{{ t.ip }}" puerto="{{ t.puerto }}">
+      @for (terminal of terminales; track terminal) {
+      <app-terminal [terminal]="terminal">
       </app-terminal>
       }
   </div>

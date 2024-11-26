@@ -4,7 +4,7 @@ import {AccionTerminalComponent} from "./accion-terminal/accion-terminal.compone
 import {TerminalService} from "../../../servicios/terminal.service";
 import {HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule} from "@angular/forms";
-import {Terminal} from "../../../modelos/terminal.model";
+import {Terminal} from "../../../modelos/Terminal";
 import {Router} from '@angular/router';
 import {toast} from "bulma-toast";
 

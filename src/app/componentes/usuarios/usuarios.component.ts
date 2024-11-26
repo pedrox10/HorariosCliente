@@ -5,8 +5,8 @@ import {HttpClientModule} from '@angular/common/http';
 import {env} from '../../../environments/environments';
 import {TurnoComponent} from "../horarios/turno/turno.component";
 import {Location} from '@angular/common';
-import {Usuario} from "../../modelos/usuario.model";
-import {delay} from "rxjs";
+import {Usuario} from "../../modelos/Usuario";
+import {delay, switchMap} from "rxjs";
 
 @Component({
   selector: 'app-usuarios',
@@ -23,17 +23,17 @@ export class UsuariosComponent {
   public usuariosSeleccionados: Usuario[] = [];
   public usuarios: Usuario[] = [];
   private activatedRoute = inject(ActivatedRoute);
-  public ip = this.activatedRoute.snapshot.params['ip'];
-  public puerto = this.activatedRoute.snapshot.params['puerto'];
+  idTerminal = this.activatedRoute.snapshot.params['id'];
 
   constructor(public terminalService: TerminalService, public location: Location) {
-    this.terminalService.getUsuarios(this.ip, this.puerto).subscribe(
+    this.terminalService.getUsuarios(this.idTerminal).subscribe(
       (data: any) => {
-        data.forEach((user: any) => {
+        /*data.forEach((user: any) => {
           let usuario: Usuario = new Usuario(user.user_id, user.name);
           this.usuarios.push(usuario);
           this.usuariosFiltrados.push(usuario);
-        });
+        });*/
+        console.log(data.res)
       },
       (error: any) => {
         console.error('An error occurred:', error);
@@ -87,21 +87,40 @@ export class UsuariosComponent {
       this.usuariosSeleccionados = []
   }
 
-  sincronizar(){
+  sincronizar() {
     document.getElementById("btn_sincronizar")?.classList.add("is-loading");
-    this.terminalService.getMarcaciones(this.ip, this.puerto).subscribe(
-      (data: any) => {
-        console.log(data)
-        setTimeout(() => {
-          document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
+    this.terminalService.sincronizarTerminal(this.idTerminal).subscribe(
+        (data: any) => {
+          console.log(data)
+          setTimeout(() => {
+            document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
         }, 1000);
 
       },
       (error: any) => {
         console.error('An error occurred:', error);
         document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
-      }
-    );
+      })
+    /*this.terminalService.getMarcaciones(this.ip, this.puerto)
+      .pipe(
+        switchMap(sourceValue => {
+          console.log(sourceValue);
+          return this.terminalService.getUsuarios(this.ip, this.puerto)}
+        )
+      )
+      .subscribe(
+        (data: any) => {
+          console.log(data)
+          setTimeout(() => {
+            document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
+          }, 1000);
+
+        },
+        (error: any) => {
+          console.error('An error occurred:', error);
+          document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
+        }
+      );*/
   }
 
   irAtras() {

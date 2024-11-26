@@ -3,8 +3,8 @@ import {ActivatedRoute, RouterLink} from '@angular/router';
 import {env} from '../../../../environments/environments';
 import {TerminalService} from '../../../servicios/terminal.service';
 import {HttpClientModule} from '@angular/common/http';
-import { easepick } from '@easepick/core';
-import { RangePlugin } from '@easepick/range-plugin';
+import {easepick} from '@easepick/core';
+import {RangePlugin} from '@easepick/range-plugin';
 import {Location} from '@angular/common';
 
 
@@ -29,7 +29,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   public dias_semana = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
   public nov: string[] = [];
 
-  constructor(public terminalService: TerminalService, public  location: Location) {
+  constructor(public terminalService: TerminalService, public location: Location) {
 
 
     this.terminalService.getMarcaciones(this.ip, this.puerto).subscribe(
@@ -51,7 +51,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       }
     );
     this.numDias = this.getNumDias(this.mesActual - 1, this.gestion);
-   }
+  }
 
   ngOnInit(): void {
 
