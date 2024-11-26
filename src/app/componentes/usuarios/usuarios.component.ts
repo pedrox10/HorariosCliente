@@ -6,6 +6,7 @@ import {env} from '../../../environments/environments';
 import {TurnoComponent} from "../horarios/turno/turno.component";
 import {Location} from '@angular/common';
 import {Usuario} from "../../modelos/usuario.model";
+import {delay} from "rxjs";
 
 @Component({
   selector: 'app-usuarios',
@@ -29,7 +30,7 @@ export class UsuariosComponent {
     this.terminalService.getUsuarios(this.ip, this.puerto).subscribe(
       (data: any) => {
         data.forEach((user: any) => {
-          let usuario: Usuario = new Usuario(1, user.user_id, user.name, "", "");
+          let usuario: Usuario = new Usuario(user.user_id, user.name);
           this.usuarios.push(usuario);
           this.usuariosFiltrados.push(usuario);
         });
@@ -84,6 +85,23 @@ export class UsuariosComponent {
       this.usuariosSeleccionados = this.usuariosFiltrados.slice();
     else
       this.usuariosSeleccionados = []
+  }
+
+  sincronizar(){
+    document.getElementById("btn_sincronizar")?.classList.add("is-loading");
+    this.terminalService.getMarcaciones(this.ip, this.puerto).subscribe(
+      (data: any) => {
+        console.log(data)
+        setTimeout(() => {
+          document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
+        }, 1000);
+
+      },
+      (error: any) => {
+        console.error('An error occurred:', error);
+        document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
+      }
+    );
   }
 
   irAtras() {

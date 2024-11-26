@@ -24,9 +24,7 @@ export class ListarTerminalesComponent implements OnInit{
   ngOnInit(): void {
     this.getTerminales()
   }
-  add() {
-    this.terminales.push(new Terminal(3,"Nam","192.15", 345))
-  }
+
   getTerminales() {
     this.terminalService.getTerminales().subscribe(
       (data: any) => {
@@ -38,7 +36,4 @@ export class ListarTerminalesComponent implements OnInit{
     );
   }
 
-  deleteTerminal() {
-    alert("delete")
-  }
 }

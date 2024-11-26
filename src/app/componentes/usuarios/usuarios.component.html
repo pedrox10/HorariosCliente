@@ -21,9 +21,9 @@
           <button class="button" style="background-color: {{colores.at(5)?.valor}}; border-radius: 5px">Asignar Grupo</button>
         </div>
         <div class="hitem">
-          <div class="vbox">
-            <p class='help is-info'>* Maximo 14 caracteres</p>
-            <button class="button es-primario" style="border-radius: 5px; margin-top: 0px !important;">
+          <div class="vbox" style="gap: 0px !important;">
+            <p class='help is-info'>Ult. vez: Nunca</p>
+            <button id="btn_sincronizar" (click)="sincronizar()" class="button es-primario" style="border-radius: 5px;">
               <span class="icon"><i class="fas fa-sync"></i></span>
               <span>Sincronizar</span>
             </button>

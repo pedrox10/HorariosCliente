@@ -31,6 +31,7 @@ export class TerminalService {
   }
 
   public getMarcaciones(ip:string, puerto:number) {
+
     return this.http.get(`${this.apiUrl}/marcaciones/` + ip + "/" + puerto);
   }
 }

@@ -1,15 +1,12 @@
 export class Usuario {
-  id: number;
+  id?: number;
   ci: number;
   nombre: string;
-  genero: string;
   seleccionado: boolean;
 
-  constructor(id: number, ci: number, nombre: string, cargo: string, genero: string) {
-    this.id = id;
+  constructor(ci: number, nombre: string) {
     this.ci = ci;
     this.nombre = nombre;
-    this.genero = genero;
     this.seleccionado = false;
   }
 }
