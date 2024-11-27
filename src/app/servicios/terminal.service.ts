@@ -30,6 +30,10 @@ export class TerminalService {
     return this.http.get(`${this.apiUrl}/terminal/sincronizar/${id}`);
   }
 
+  public finSincTerminal(id:number) {
+    return this.http.get(`${this.apiUrl}/terminal/sincronizar/fin/${id}`);
+  }
+
   public getUsuarios(idTerminal:number) {
     return this.http.get(`${this.apiUrl}/terminal/${idTerminal}/usuarios`);
   }

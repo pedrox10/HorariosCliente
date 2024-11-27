@@ -89,38 +89,35 @@ export class UsuariosComponent {
 
   sincronizar() {
     document.getElementById("btn_sincronizar")?.classList.add("is-loading");
-    this.terminalService.sincronizarTerminal(this.idTerminal).subscribe(
+    this.terminalService.sincronizarTerminal(this.idTerminal).pipe(
+        switchMap(sourceValue => {
+          console.log(sourceValue);
+          return this.terminalService.finSincTerminal(this.idTerminal)}
+        )
+      ).subscribe(
         (data: any) => {
           console.log(data)
           setTimeout(() => {
             document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
+          }, 1000);
+        },
+        (error: any) => {
+          console.error('An error occurred:', error);
+          document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
+        }
+      );
+    /*this.terminalService.sincronizarTerminal(this.idTerminal).subscribe(
+      (data: any) => {
+        console.log(data)
+        setTimeout(() => {
+          document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
         }, 1000);
 
       },
       (error: any) => {
         console.error('An error occurred:', error);
         document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
-      })
-    /*this.terminalService.getMarcaciones(this.ip, this.puerto)
-      .pipe(
-        switchMap(sourceValue => {
-          console.log(sourceValue);
-          return this.terminalService.getUsuarios(this.ip, this.puerto)}
-        )
-      )
-      .subscribe(
-        (data: any) => {
-          console.log(data)
-          setTimeout(() => {
-            document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
-          }, 1000);
-
-        },
-        (error: any) => {
-          console.error('An error occurred:', error);
-          document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
-        }
-      );*/
+      })*/
   }
 
   irAtras() {
