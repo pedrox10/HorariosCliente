@@ -1,6 +1,5 @@
 import {AfterViewInit, Component, inject, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {env} from '../../../../environments/environments';
 import {TerminalService} from '../../../servicios/terminal.service';
 import {HttpClientModule} from '@angular/common/http';
 import {easepick} from '@easepick/core';
@@ -23,24 +22,22 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   public numDias: number;
   public dias: string[][] = [];
   private activatedRoute = inject(ActivatedRoute);
-  public ip = this.activatedRoute.snapshot.params['ip'];
-  public puerto = this.activatedRoute.snapshot.params['puerto'];
-  public nombre = this.activatedRoute.snapshot.params['nombre'];
+  public id = this.activatedRoute.snapshot.params['id'];
   public dias_semana = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
   public nov: string[] = [];
 
   constructor(public terminalService: TerminalService, public location: Location) {
 
 
-    this.terminalService.getMarcaciones(this.ip, this.puerto).subscribe(
+    this.terminalService.getMarcaciones(this.id).subscribe(
       (data: any) => {
         const aux = data;
         console.log(aux)
         let cad = this.gestion + "-11-";
         let re_fecha = new RegExp(cad + '(.*)');
-        let re_ci = new RegExp("^" + this.nombre + "$");
+        //let re_ci = new RegExp("^" + this.ci + "$");
         aux.forEach((value: any) => {
-          if (re_fecha.test(value.timestamp) && re_ci.test(value.user_id)) {
+          if (re_fecha.test(value.fechaMarcaje)) {
             this.nov.push(value);
           }
         });
@@ -51,10 +48,11 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       }
     );
     this.numDias = this.getNumDias(this.mesActual - 1, this.gestion);
+
   }
 
   ngOnInit(): void {
-
+    console.log(this.terminalService.getUsuario())
   }
 
   ngAfterViewInit() {
@@ -101,8 +99,8 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       let cad = this.gestion + "-11-" + dia;
       let re_dia = new RegExp(cad + '(.*)');
       this.nov.forEach((value: any) => {
-        if (re_dia.test(value.timestamp)) {
-          let hora = value.timestamp.split("T")
+        if (re_dia.test(value.fechaMarcaje)) {
+          let hora = value.fechaMarcaje.split("T")
           fila.push(hora[1].substring(0, 5));
         }
       });

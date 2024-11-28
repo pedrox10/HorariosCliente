@@ -7,7 +7,7 @@
   </div>
   <div class="animate__animated animate__fadeIn">
     <div style="width: fit-content;">
-      <div class="hbox">
+      <div class="hbox" style="  align-items: flex-end;">
                 <div class="hitem">
           <label class="label mt-2">Buscar: </label>
           <p class="control has-icons-right">
@@ -16,11 +16,11 @@
           </p>
 
         </div>
-        <div class="hitem" style="margin-left: auto;">
+        <div class="hitem" >
           <button class="button" style="background-color: {{colores.at(6)?.valor}}; border-radius: 5px">Asignar Horarios</button>
           <button class="button" style="background-color: {{colores.at(5)?.valor}}; border-radius: 5px">Asignar Grupo</button>
         </div>
-        <div class="hitem">
+        <div class="hitem" style="margin-left: auto;">
           <div class="vbox" style="gap: 0px !important;">
             <p class='help is-info'>Ult. vez: Nunca</p>
             <button id="btn_sincronizar" (click)="sincronizar()" class="button es-primario" style="border-radius: 5px;">
@@ -62,7 +62,7 @@
               <span class="icon has-tooltip-arrow" data-tooltip="Ver Horario" routerLink="/ver-horario">
                 <i class="far fa-calendar-alt icon-btn"></i>
               </span>
-              <span class="icon has-tooltip-arrow" data-tooltip="Ver Marcaciones" routerLink="">
+              <span class="icon has-tooltip-arrow" data-tooltip="Ver Marcaciones" (click)="setUsuario(usuario)" routerLink="/ver-marcaciones/{{usuario.id}}">
                 <i class="far fa-calendar-check icon-btn"></i>
               </span>
             </div>

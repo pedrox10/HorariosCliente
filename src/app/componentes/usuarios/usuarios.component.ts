@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {TerminalService} from '../../servicios/terminal.service';
 import {HttpClientModule} from '@angular/common/http';
@@ -6,7 +6,6 @@ import {env} from '../../../environments/environments';
 import {TurnoComponent} from "../horarios/turno/turno.component";
 import {Location} from '@angular/common';
 import {Usuario} from "../../modelos/Usuario";
-import {delay, switchMap} from "rxjs";
 
 @Component({
   selector: 'app-usuarios',
@@ -17,7 +16,7 @@ import {delay, switchMap} from "rxjs";
   styleUrl: './usuarios.component.css'
 })
 
-export class UsuariosComponent {
+export class UsuariosComponent implements OnInit{
   public colores = env.colores;
   public usuariosFiltrados: Usuario[] = [];
   public usuariosSeleccionados: Usuario[] = [];
@@ -26,19 +25,21 @@ export class UsuariosComponent {
   idTerminal = this.activatedRoute.snapshot.params['id'];
 
   constructor(public terminalService: TerminalService, public location: Location) {
+
     this.terminalService.getUsuarios(this.idTerminal).subscribe(
       (data: any) => {
-        /*data.forEach((user: any) => {
-          let usuario: Usuario = new Usuario(user.user_id, user.name);
-          this.usuarios.push(usuario);
-          this.usuariosFiltrados.push(usuario);
-        });*/
-        console.log(data.res)
+        this.usuarios = data;
+        this.usuariosFiltrados = data;
       },
       (error: any) => {
         console.error('An error occurred:', error);
       }
     );
+
+  }
+
+  ngOnInit() {
+
   }
 
   applyFilter($event: any) {
@@ -89,26 +90,10 @@ export class UsuariosComponent {
 
   sincronizar() {
     document.getElementById("btn_sincronizar")?.classList.add("is-loading");
-    this.terminalService.sincronizarTerminal(this.idTerminal).pipe(
-        switchMap(sourceValue => {
-          console.log(sourceValue);
-          return this.terminalService.finSincTerminal(this.idTerminal)}
-        )
-      ).subscribe(
-        (data: any) => {
-          console.log(data)
-          setTimeout(() => {
-            document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
-          }, 1000);
-        },
-        (error: any) => {
-          console.error('An error occurred:', error);
-          document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
-        }
-      );
-    /*this.terminalService.sincronizarTerminal(this.idTerminal).subscribe(
+    this.terminalService.sincronizarTerminal(this.idTerminal).subscribe(
       (data: any) => {
-        console.log(data)
+          this.usuarios = data;
+          this.usuariosFiltrados = data;
         setTimeout(() => {
           document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
         }, 1000);
@@ -117,7 +102,12 @@ export class UsuariosComponent {
       (error: any) => {
         console.error('An error occurred:', error);
         document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
-      })*/
+      })
+  }
+
+  setUsuario(usuario:Usuario) {
+    console.log(usuario)
+    this.terminalService.setUsuario(usuario)
   }
 
   irAtras() {

@@ -1,5 +1,4 @@
 import { Component, Input, numberAttribute } from '@angular/core';
-import { TerminalService } from '../../servicios/terminal.service';
 import { RouterLink } from '@angular/router';import {Terminal} from "../../modelos/Terminal";
 
 @Component({

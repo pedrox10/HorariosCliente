@@ -1,14 +1,20 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
 import {env} from "../../environments/environments";
+import {Usuario} from "../modelos/Usuario";
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class TerminalService {
+
   private apiUrl = env.apiUrl;
-  constructor(private http: HttpClient) { }
+  public usuario: Usuario;
+
+  constructor(private http: HttpClient) {
+    this.usuario = new Usuario(0, "");
+  }
 
   public getTerminales() {
     return this.http.get(`${this.apiUrl}/terminales`);
@@ -26,20 +32,23 @@ export class TerminalService {
     return this.http.delete(`${this.apiUrl}/terminal/eliminar/${id}`);
   }
 
-  public sincronizarTerminal(id:number) {
+  public sincronizarTerminal(id: number) {
     return this.http.get(`${this.apiUrl}/terminal/sincronizar/${id}`);
   }
 
-  public finSincTerminal(id:number) {
-    return this.http.get(`${this.apiUrl}/terminal/sincronizar/fin/${id}`);
-  }
-
-  public getUsuarios(idTerminal:number) {
+  public getUsuarios(idTerminal: number) {
     return this.http.get(`${this.apiUrl}/terminal/${idTerminal}/usuarios`);
   }
 
-  public getMarcaciones(ip:string, puerto:number) {
+  public getMarcaciones(id: number) {
+    return this.http.get(`${this.apiUrl}/marcaciones/${id}`);
+  }
 
-    return this.http.get(`${this.apiUrl}/marcaciones/` + ip + "/" + puerto);
+  public getUsuario() {
+    return this.usuario;
+  }
+
+  public setUsuario(usuario: Usuario) {
+    this.usuario = usuario;
   }
 }
