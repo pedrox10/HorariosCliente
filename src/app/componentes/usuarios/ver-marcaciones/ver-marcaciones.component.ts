@@ -5,6 +5,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {easepick} from '@easepick/core';
 import {RangePlugin} from '@easepick/range-plugin';
 import {Location} from '@angular/common';
+import moment from 'moment';
 
 
 @Component({
@@ -31,7 +32,8 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
 
     this.terminalService.getMarcaciones(this.id).subscribe(
       (data: any) => {
-        const aux = data;
+        data.map((x:any)=> {x.fechaMarcaje = moment(x.fechaMarcaje).utc(false ).format()})
+        let aux = data;
         console.log(aux)
         let cad = this.gestion + "-11-";
         let re_fecha = new RegExp(cad + '(.*)');
@@ -39,6 +41,9 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
         aux.forEach((value: any) => {
           if (re_fecha.test(value.fechaMarcaje)) {
             this.nov.push(value);
+            let datetime = moment(value.fechaMarcaje)
+            console.log(datetime)
+            console.log("Horas: " + datetime.hour() + " Minutos: " + datetime.minute())
           }
         });
         this.getArrayDias()
@@ -49,10 +54,12 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
     );
     this.numDias = this.getNumDias(this.mesActual - 1, this.gestion);
 
+    this.terminalService.get
+
   }
 
   ngOnInit(): void {
-    console.log(this.terminalService.getUsuario())
+
   }
 
   ngAfterViewInit() {

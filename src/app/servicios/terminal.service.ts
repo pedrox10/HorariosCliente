@@ -10,10 +10,9 @@ import {Usuario} from "../modelos/Usuario";
 export class TerminalService {
 
   private apiUrl = env.apiUrl;
-  public usuario: Usuario;
 
   constructor(private http: HttpClient) {
-    this.usuario = new Usuario(0, "");
+
   }
 
   public getTerminales() {
@@ -42,13 +41,5 @@ export class TerminalService {
 
   public getMarcaciones(id: number) {
     return this.http.get(`${this.apiUrl}/marcaciones/${id}`);
-  }
-
-  public getUsuario() {
-    return this.usuario;
-  }
-
-  public setUsuario(usuario: Usuario) {
-    this.usuario = usuario;
   }
 }

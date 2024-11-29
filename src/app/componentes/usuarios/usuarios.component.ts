@@ -105,11 +105,6 @@ export class UsuariosComponent implements OnInit{
       })
   }
 
-  setUsuario(usuario:Usuario) {
-    console.log(usuario)
-    this.terminalService.setUsuario(usuario)
-  }
-
   irAtras() {
     this.location.back();
   }
