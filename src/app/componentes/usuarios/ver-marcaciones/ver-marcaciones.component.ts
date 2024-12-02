@@ -32,7 +32,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
 
     this.terminalService.getMarcaciones(this.id).subscribe(
       (data: any) => {
-        data.map((x:any)=> {x.fechaMarcaje = moment(x.fechaMarcaje).utc(false ).format()})
+        data.map((marcacion:any)=> {marcacion.fechaMarcaje = moment(marcacion.fechaMarcaje).utc(true ).format()})
         let aux = data;
         console.log(aux)
         let cad = this.gestion + "-11-";
@@ -41,7 +41,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
         aux.forEach((value: any) => {
           if (re_fecha.test(value.fechaMarcaje)) {
             this.nov.push(value);
-            let datetime = moment(value.fechaMarcaje)
+            let datetime = moment(value.fechaMarcaje).utc(false )
             console.log(datetime)
             console.log("Horas: " + datetime.hour() + " Minutos: " + datetime.minute())
           }
@@ -53,9 +53,6 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       }
     );
     this.numDias = this.getNumDias(this.mesActual - 1, this.gestion);
-
-    this.terminalService.get
-
   }
 
   ngOnInit(): void {
