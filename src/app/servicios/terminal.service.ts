@@ -15,6 +15,10 @@ export class TerminalService {
 
   }
 
+  public getTerminal(id: number) {
+    return this.http.get(`${this.apiUrl}/terminal/${id}`);
+  }
+
   public getTerminales() {
     return this.http.get(`${this.apiUrl}/terminales`);
   }

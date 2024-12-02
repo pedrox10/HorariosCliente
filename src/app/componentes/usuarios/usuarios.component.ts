@@ -6,6 +6,7 @@ import {env} from '../../../environments/environments';
 import {TurnoComponent} from "../horarios/turno/turno.component";
 import {Location} from '@angular/common';
 import {Usuario} from "../../modelos/Usuario";
+import {Terminal} from "../../modelos/Terminal";
 
 @Component({
   selector: 'app-usuarios',
@@ -16,11 +17,12 @@ import {Usuario} from "../../modelos/Usuario";
   styleUrl: './usuarios.component.css'
 })
 
-export class UsuariosComponent implements OnInit{
+export class UsuariosComponent implements OnInit {
   public colores = env.colores;
   public usuariosFiltrados: Usuario[] = [];
   public usuariosSeleccionados: Usuario[] = [];
   public usuarios: Usuario[] = [];
+  public terminal: any|Terminal;
   private activatedRoute = inject(ActivatedRoute);
   idTerminal = this.activatedRoute.snapshot.params['id'];
 
@@ -36,6 +38,14 @@ export class UsuariosComponent implements OnInit{
       }
     );
 
+    this.terminalService.getTerminal(this.idTerminal).subscribe(
+      (data: any) => {
+        this.terminal = data;
+      },
+      (error: any) => {
+        console.error('An error occurred:', error);
+      }
+    );
   }
 
   ngOnInit() {
@@ -92,8 +102,7 @@ export class UsuariosComponent implements OnInit{
     document.getElementById("btn_sincronizar")?.classList.add("is-loading");
     this.terminalService.sincronizarTerminal(this.idTerminal).subscribe(
       (data: any) => {
-          this.usuarios = data;
-          this.usuariosFiltrados = data;
+        console.log(data)
         setTimeout(() => {
           document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
         }, 1000);
