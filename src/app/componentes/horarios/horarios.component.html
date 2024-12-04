@@ -20,20 +20,31 @@
       <tr>
         <th>#</th>
         <th>Nombre</th>
-        <th>Descripcion</th>
         <th>Tolerancia</th>
         <th>Color</th>
+        <th>Descripcion</th>
         <th>Acciones</th>
       </tr>
       <tbody>
-      <tr>
-        <td>1</td>
-        <td>Oficina 8hrs</td>
-        <td>Horario doble turno, mañana y tarde</td>
-        <td>5min</td>
-        <td>Celeste</td>
-        <td>...</td>
-      </tr>
+      @for (horario of horarios; track horario; let i = $index) {
+      <tr id={{horario.id}}>
+          <td>{{i + 1}}</td>
+          <td>{{horario.nombre}}</td>
+          <td>{{horario.tolerancia}}</td>
+          <td>{{horario.color}}</td>
+          <td>{{horario.descripcion}}</td>
+          <td>
+            <div class="hitem">
+              <span class="icon has-tooltip-arrow" data-tooltip="Editar" (click) = "nuevoHorario()">
+                <i class="far fa-edit icon-btn"></i>
+              </span>
+              <span class="icon has-tooltip-arrow " data-tooltip="Eliminar" (click) = "nuevoHorario()">
+                <i class="far fa-times-circle icon-btn"></i>
+              </span>
+            </div>
+          </td>
+        </tr>
+      }
       </tbody>
     </table>
   </div>

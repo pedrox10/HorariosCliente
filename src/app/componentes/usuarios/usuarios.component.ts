@@ -109,7 +109,6 @@ export class UsuariosComponent implements OnInit {
         setTimeout(() => {
           document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
         }, 1000);
-
       },
       (error: any) => {
         console.error('An error occurred:', error);
@@ -122,6 +121,11 @@ export class UsuariosComponent implements OnInit {
   }
 
   getUltSincronizacion() {
-    return moment(this.terminal?.ult_sincronizacion).utc(true).format('DD/MM/YY hh:mm')
+    let res = ""
+    if(this.terminal?.ult_sincronizacion === null)
+      res = "Ult. vez: Nunca"
+    else
+      res = "Ult. vez: " + moment(this.terminal?.ult_sincronizacion).utc(true).format('DD/MM/YY hh:mm');
+    return res
   }
 }
