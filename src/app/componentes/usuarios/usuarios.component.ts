@@ -7,6 +7,7 @@ import {TurnoComponent} from "../horarios/turno/turno.component";
 import {Location} from '@angular/common';
 import {Usuario} from "../../modelos/Usuario";
 import {Terminal} from "../../modelos/Terminal";
+import moment from "moment";
 
 @Component({
   selector: 'app-usuarios',
@@ -49,7 +50,6 @@ export class UsuariosComponent implements OnInit {
   }
 
   ngOnInit() {
-
   }
 
   applyFilter($event: any) {
@@ -102,6 +102,9 @@ export class UsuariosComponent implements OnInit {
     document.getElementById("btn_sincronizar")?.classList.add("is-loading");
     this.terminalService.sincronizarTerminal(this.idTerminal).subscribe(
       (data: any) => {
+        this.usuarios = data.usuarios;
+        this.usuariosFiltrados = data.usuarios;
+        document.getElementById("ult_sync")!.innerText = "Ult. vez: " + moment(data.ult_sincronizacion).utc(true).format('DD/MM/YY hh:mm')
         console.log(data)
         setTimeout(() => {
           document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
@@ -116,5 +119,9 @@ export class UsuariosComponent implements OnInit {
 
   irAtras() {
     this.location.back();
+  }
+
+  getUltSincronizacion() {
+    return moment(this.terminal?.ult_sincronizacion).utc(true).format('DD/MM/YY hh:mm')
   }
 }
