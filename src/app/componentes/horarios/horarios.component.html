@@ -31,7 +31,14 @@
           <td>{{i + 1}}</td>
           <td>{{horario.nombre}}</td>
           <td>{{horario.tolerancia}}</td>
-          <td>{{horario.color}}</td>
+          <td>
+            <div class= "hitem">
+              <span class="color" >
+                <i class="fas fa-circle" style="color:{{getColor(horario.color, 'valor')}};"></i>
+              </span>
+              {{getColor(horario.color, "color")}}
+            </div>
+          </td>
           <td>{{horario.descripcion}}</td>
           <td>
             <div class="hitem">

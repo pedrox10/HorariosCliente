@@ -15,7 +15,7 @@ import {ReactiveFormsModule} from "@angular/forms";
   templateUrl: './horarios.component.html',
   styleUrl: './horarios.component.css'
 })
-export class HorariosComponent implements OnInit{
+export class HorariosComponent implements OnInit {
   config = {
     animation: 'enter-scaling',
     duration: '0.2s',
@@ -54,5 +54,14 @@ export class HorariosComponent implements OnInit{
       .subscribe((data) => {
         console.log(data || '🚫 No data')
       });
+  }
+
+  getColor(dato: any, atributo: string) {
+    let res = atributo == "color" ? JSON.parse(dato).color : JSON.parse(dato).valor
+    return res;
+  }
+
+  getValorColor(color: any) {
+    return JSON.parse(color).valor;
   }
 }

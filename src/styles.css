@@ -28,8 +28,6 @@ body {
   background-color: #CEDFF2;
 }
 
-
-
 .principal {
   padding: 5px;
 }
@@ -37,33 +35,6 @@ body {
 .cell {
   background-color: rgb(186, 245, 255);
   min-height: 50px;
-}
-
-.animation {
-  position: relative;
-  overflow: hidden;
-  &:before {
-  content: "";
-  display: block;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  background-image: radial-gradient(circle, #e0fbf7 10%, transparent 10.01%);
-  background-repeat: no-repeat;
-  background-position: 50%;
-  transform: scale(10, 10);
-  opacity: 0;
-  transition: transform 0.5s, opacity 1s;
-}
-
-&:active:before {
-  transform: scale(0, 0);
-  opacity: 0.2;
-  transition: 0s;
-}
 }
 
 .grid {
