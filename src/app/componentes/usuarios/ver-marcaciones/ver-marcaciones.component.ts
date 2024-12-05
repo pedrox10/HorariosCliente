@@ -19,7 +19,7 @@ import moment from 'moment';
 
 export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   public gestion: number = 2024
-  public mesActual: number = 10;
+  public mesActual: number = 11;
   public numDias: number;
   public dias: string[][] = [];
   private activatedRoute = inject(ActivatedRoute);
@@ -35,7 +35,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
         data.map((marcacion:any)=> {marcacion.fechaMarcaje = moment(marcacion.fechaMarcaje).utc(true ).format()})
         let aux = data;
         console.log(aux)
-        let cad = this.gestion + "-11-";
+        let cad = this.gestion + "-12-";
         let re_fecha = new RegExp(cad + '(.*)');
         //let re_ci = new RegExp("^" + this.ci + "$");
         aux.forEach((value: any) => {
@@ -100,7 +100,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       let dia = i < 10 ? "0" + i : i;
       let fila: string[] = [];
       fila.push(this.getNombreDia(i).substring(0, 3) + " " + i);
-      let cad = this.gestion + "-11-" + dia;
+      let cad = this.gestion + "-12-" + dia;
       let re_dia = new RegExp(cad + '(.*)');
       this.nov.forEach((value: any) => {
         if (re_dia.test(value.fechaMarcaje)) {

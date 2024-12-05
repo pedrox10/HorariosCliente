@@ -29,6 +29,7 @@
               "node_modules/bulma/css/bulma.min.css",
               "node_modules/bulmaswatch/pulse/bulmaswatch.min.css",
               "node_modules/bulma-checkbox/css/main.min.css",
+              "node_modules/bulma-list/css/bulma-list.css",
               "https://unpkg.com/@fortawesome/fontawesome-free@5.13.0/css/all.css",
               "src/assets/bulma_tooltip.css",
               "src/assets/animate.css",

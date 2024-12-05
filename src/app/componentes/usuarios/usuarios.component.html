@@ -19,7 +19,7 @@
           <div class="vbox" style="gap: 0px !important;">
             <p class='help is-info'>Seleccionados: {{usuariosSeleccionados.length}}</p>
             <div class="hitem" >
-              <button class="button" style="background-color: {{colores.at(6)?.valor}}; border-radius: 5px">Asignar Horarios</button>
+              <button class="button" (click)="abrirModal()" style="background-color: {{colores.at(6)?.valor}}; border-radius: 5px">Asignar Horarios</button>
               <button class="button" style="background-color: {{colores.at(5)?.valor}}; border-radius: 5px; display: none;">Asignar Grupo</button>
             </div>
           </div>

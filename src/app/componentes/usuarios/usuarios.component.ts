@@ -4,10 +4,13 @@ import {TerminalService} from '../../servicios/terminal.service';
 import {HttpClientModule} from '@angular/common/http';
 import {env} from '../../../environments/environments';
 import {TurnoComponent} from "../horarios/turno/turno.component";
-import {Location} from '@angular/common';
 import {EstadoUsuario, Usuario} from "../../modelos/Usuario";
 import {Terminal} from "../../modelos/Terminal";
+import {Location} from "@angular/common";
 import moment from "moment";
+import {AccionTerminalComponent} from "../terminal/adm-terminales/accion-terminal/accion-terminal.component";
+import {ModalService} from "ngx-modal-ease";
+import {AsignarHorariosComponent} from "./asignar-horarios/asignar-horarios.component";
 
 @Component({
   selector: 'app-usuarios',
@@ -27,7 +30,7 @@ export class UsuariosComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   idTerminal = this.activatedRoute.snapshot.params['id'];
 
-  constructor(public terminalService: TerminalService, public location: Location) {
+  constructor(public terminalService: TerminalService,private modalService: ModalService, private location: Location) {
 
     this.terminalService.getUsuarios(this.idTerminal).subscribe(
       (data: any) => {
@@ -104,7 +107,7 @@ export class UsuariosComponent implements OnInit {
       (data: any) => {
         this.usuarios = data.usuarios;
         this.usuariosFiltrados = data.usuarios;
-        document.getElementById("ult_sync")!.innerText = "Ult. vez: " + moment(data.ult_sincronizacion).utc(true).format('DD/MM/YY hh:mm');
+        document.getElementById("ult_sync")!.innerText = "Ult. vez: " + moment(data.ult_sincronizacion).utc(true).format('DD/MM/YY HH:mm');
         let cbTodos = (document.getElementById("cb_todos") as HTMLInputElement);
         cbTodos.checked = false;
         cbTodos.classList.remove("is-indeterminate")
@@ -129,11 +132,27 @@ export class UsuariosComponent implements OnInit {
   }
 
   getUltSincronizacion() {
+
     let res = ""
     if(this.terminal?.ult_sincronizacion === null)
       res = "Ult. vez: Nunca"
     else
-      res = "Ult. vez: " + moment(this.terminal?.ult_sincronizacion).utc(true).format('DD/MM/YY hh:mm');
+      res = "Ult. vez: " + moment(this.terminal?.ult_sincronizacion).utc(true).format('DD/MM/YY HH:mm');
     return res
+  }
+
+  abrirModal() {
+    let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
+    let usuarios = this.usuariosSeleccionados;
+    this.modalService
+      .open(AsignarHorariosComponent, {
+        modal: {enter: `${config.animation} ${config.duration}`,},
+        size: {padding: '0.5rem', height: '800px'},
+        data: {usuarios}
+      })
+      .subscribe((data) => {
+        if(data !== undefined)
+          console.log(data)
+      });
   }
 }

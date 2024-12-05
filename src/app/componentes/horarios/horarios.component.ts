@@ -48,6 +48,7 @@ export class HorariosComponent implements OnInit {
           enter: `${this.config.animation} ${this.config.duration}`,
         },
         size: {
+          height: '800px',
           padding: '0.5rem',
         },
       })

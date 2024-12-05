@@ -1,1 +1,76 @@
-<p>Asignar Horarios</p>
+<div class="modal-card" style="width: 900px; height: 650px; background-color: white;">
+  <header class="modal-card-head">
+    <p class="modal-card-title">Asignar</p>
+    <button  class="delete" aria-label="close"></button>
+  </header>
+  <div class="animate__animated animate__fadeIn">
+    <div class="columns">
+      <div class="column is-one-quarter">
+        Lista de Usuarios
+        <div class="list">
+          <div class="list-item">
+            <div class="list-item-title">List item</div>
+          </div>
+
+          <div class="list-item">
+            <div class="list-item-title">List item</div>
+          </div>
+
+          <div class="list-item">
+            <div class="list-item-content">
+              <div class="list-item-title">List item</div>
+              <div class="list-item-description">List item description</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column is-narrow">
+        <table class="table horario">
+          <thead>
+          <tr>
+            <th></th>
+            <th>Dia</th>
+            <th style="text-align: center;">1° Turno</th>
+            <th style="text-align: center;">2° Turno</th>
+          </tr>
+          </thead>
+          <tbody>
+          @for (dia of dias; track dia; let i = $index ) {
+          <tr id="{{dia}}">
+            <td>
+              <label class="b-checkbox checkbox">
+                <input type="checkbox" value="false" name="{{dia}}" (change)="changed($event)">
+                <span class="check es-secundario"></span>
+              </label>
+            </td>
+            <td class="desactivado" style="text-transform: capitalize;">{{dia}}</td>
+            <td class="desactivado">
+              <div class="hitem">
+                <input type="time" value="" class="input">
+                <input type="time" value="" class="input">
+
+              </div>
+            </td>
+            <td class="desactivado">
+              <div class="hitem oculto" id="turno_{{dia}}">
+                <input type="time" value=""  class="input">
+                <input type="time" value=""  class="input">
+              </div>
+            </td>
+          </tr>
+          }
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <footer class="modal-card-foot" style="position: absolute; bottom: 35px; width: 75%">
+      <div class="buttons">
+        <button class="button es-primario">
+          Guardar
+        </button>
+        <button class="button">Cancelar</button>
+      </div>
+    </footer>
+  </div>
+</div>
+
