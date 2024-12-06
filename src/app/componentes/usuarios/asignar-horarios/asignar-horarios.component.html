@@ -1,35 +1,62 @@
 <div class="modal-card" style="width: 900px; height: 650px; background-color: white;">
   <header class="modal-card-head">
     <p class="modal-card-title">Asignar Horario</p>
-    <button  class="delete" aria-label="close"></button>
+    <button class="delete" aria-label="close"></button>
   </header>
   <div class="animate__animated animate__fadeIn">
     <div class="columns" style="margin: 10px">
-      <div class="column box is-one-quarter" style="background-color: #f2fffe">
+      <div class="column box is-one-quarter"
+           style="background-color: #f2fffe; overflow-y: auto; height: 500px; overflow-x: hidden;">
         <label class="label" style="font-size: 1.15em">Lista de Funcionarios</label>
         @for (usuario of usuarios;track usuario; let i = $index ) {
-
         <div class="list-item">
           <div class="list-item-content">
           <div class="hitem mt-2">
             <label class="label">{{i+1}}. </label>
             <div class="list-item-title">
-              {{usuario.nombre}}
-            </div>
-          </div>
-          </div>
+        {{usuario.nombre}}
         </div>
-
+      </div>
+      </div>
+    </div>
         }
       </div>
       <div class="column is-narrow">
-        <div class="hbox">
-          <span>Selecciona un horarios</span>
-          <select class="select">
-            <option>Horario 1</option>
-            <option>Horario 2</option>
-            <option>Horario 3</option>
-          </select>
+        <div class="hbox" style="justify-content: space-between">
+          <div class="hitem">
+            <label class="label mt-1">
+              Selecciona un rango de fechas:
+            </label>
+            <p class="control has-icons-right">
+              <input id="datepicker" class="input"/>
+              <span class="icon is-right"><i class="fas fa-calendar-alt"></i></span>
+            </p>
+          </div>
+          <div class="hitem">
+            <label class="label mt-1">
+              Elije un horario como plantilla:
+            </label>
+            <div class="select">
+              <select>
+                <option>Lista de Horarios</option>
+                <option>Horario 1</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="hbox" style="justify-content: space-between">
+          <div class="hitem">
+            <span>Tolerancia: </span>
+            <span style="min-width: 50px">--</span>
+          </div>
+          <div class="hitem">
+            <span>Color: </span>
+            <span style="min-width: 50px">--</span>
+          </div>
+          <div class="hitem">
+            <span>Descripcion: </span>
+            <span style="min-width: 50px">--</span>
+          </div>
         </div>
         <table class="table horario">
           <thead>

@@ -1,0 +1,10 @@
+.list-item {
+  display: block;
+  padding: .5em;
+}
+
+.label {
+  align-self: center;
+  max-width: 120px;
+  line-height: 1.2em;
+}
