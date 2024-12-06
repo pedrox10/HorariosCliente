@@ -43,10 +43,10 @@ export class AsignarHorariosComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    let usuarios:any = this.modalService.options?.data
-    console.log(usuarios)
-    for (let i = 0; i < usuarios.length; i++) {
-      console.log (usuarios[i].nombre);
-    }
+    let data:any = this.modalService.options?.data
+    this.usuarios = data.usuarios;
+    this.usuarios.forEach(usuario => {
+      console.log(usuario.nombre)
+    })
   }
 }

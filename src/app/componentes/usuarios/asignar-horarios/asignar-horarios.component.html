@@ -1,30 +1,36 @@
 <div class="modal-card" style="width: 900px; height: 650px; background-color: white;">
   <header class="modal-card-head">
-    <p class="modal-card-title">Asignar</p>
+    <p class="modal-card-title">Asignar Horario</p>
     <button  class="delete" aria-label="close"></button>
   </header>
   <div class="animate__animated animate__fadeIn">
-    <div class="columns">
-      <div class="column is-one-quarter">
-        Lista de Usuarios
-        <div class="list">
-          <div class="list-item">
-            <div class="list-item-title">List item</div>
-          </div>
+    <div class="columns" style="margin: 10px">
+      <div class="column box is-one-quarter" style="background-color: #f2fffe">
+        <label class="label" style="font-size: 1.15em">Lista de Funcionarios</label>
+        @for (usuario of usuarios;track usuario; let i = $index ) {
 
-          <div class="list-item">
-            <div class="list-item-title">List item</div>
-          </div>
-
-          <div class="list-item">
-            <div class="list-item-content">
-              <div class="list-item-title">List item</div>
-              <div class="list-item-description">List item description</div>
+        <div class="list-item">
+          <div class="list-item-content">
+          <div class="hitem mt-2">
+            <label class="label">{{i+1}}. </label>
+            <div class="list-item-title">
+              {{usuario.nombre}}
             </div>
           </div>
+          </div>
         </div>
+
+        }
       </div>
       <div class="column is-narrow">
+        <div class="hbox">
+          <span>Selecciona un horarios</span>
+          <select class="select">
+            <option>Horario 1</option>
+            <option>Horario 2</option>
+            <option>Horario 3</option>
+          </select>
+        </div>
         <table class="table horario">
           <thead>
           <tr>
@@ -63,7 +69,7 @@
         </table>
       </div>
     </div>
-    <footer class="modal-card-foot" style="position: absolute; bottom: 35px; width: 75%">
+    <footer class="modal-card-foot" style="position: absolute; bottom: 0px; width: 100%">
       <div class="buttons">
         <button class="button es-primario">
           Guardar
