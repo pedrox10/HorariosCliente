@@ -6,6 +6,8 @@ import {easepick} from '@easepick/core';
 import {RangePlugin} from '@easepick/range-plugin';
 import {Location} from '@angular/common';
 import moment from 'moment';
+import {Terminal} from "../../../modelos/Terminal";
+import {Usuario} from "../../../modelos/Usuario";
 
 
 @Component({
@@ -18,6 +20,7 @@ import moment from 'moment';
 })
 
 export class VerMarcacionesComponent implements OnInit, AfterViewInit {
+  public usuario: any|Usuario;
   public gestion: number = 2024
   public mesActual: number = 11;
   public numDias: number;
@@ -29,6 +32,15 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
 
   constructor(public terminalService: TerminalService, public location: Location) {
 
+    this.terminalService.getUsuario(this.id).subscribe(
+      (data: any) => {
+        this.usuario = data;
+        console.log(this.usuario)
+      },
+      (error: any) => {
+        console.error('An error occurred:', error);
+      }
+    );
 
     this.terminalService.getMarcaciones(this.id).subscribe(
       (data: any) => {
@@ -38,7 +50,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
         let cad = this.gestion + "-12-";
         let re_fecha = new RegExp(cad + '(.*)');
         //let re_ci = new RegExp("^" + this.ci + "$");
-        aux.forEach((value: any) => {
+          aux.forEach((value: any) => {
           if (re_fecha.test(value.fechaMarcaje)) {
             this.nov.push(value);
             let datetime = moment(value.fechaMarcaje).utc(false )
