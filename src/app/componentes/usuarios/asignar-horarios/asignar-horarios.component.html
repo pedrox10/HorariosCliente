@@ -1,4 +1,4 @@
-<div class="modal-card" style="width: 900px; height: 650px; background-color: white;">
+<div class="modal-card" style="width: 850px; height: 650px; background-color: white;">
   <header class="modal-card-head">
     <p class="modal-card-title">Asignar Horario</p>
     <button (click)="cerrarModal()" class="delete" aria-label="close"></button>
@@ -22,7 +22,7 @@
         }
       </div>
       <div class="column is-narrow">
-        <div class="hbox" style="justify-content: space-between">
+        <div class="hbox" style=" justify-content: space-between">
           <div class="hitem">
             <label class="label mt-1">
               Selecciona un rango de fechas:
@@ -61,27 +61,19 @@
         <table class="table horario">
           <thead>
           <tr>
-            <th></th>
             <th>Dia</th>
-            <th style="text-align: center;">1° Turno</th>
-            <th style="text-align: center;">2° Turno</th>
+            <th style="text-align: center;">Primer Turno</th>
+            <th style="text-align: center;">Segundo Turno</th>
           </tr>
           </thead>
           <tbody>
           @for (dia of dias; track dia; let i = $index ) {
           <tr id="{{dia}}">
-            <td>
-              <label class="b-checkbox checkbox">
-                <input type="checkbox" value="false" name="{{dia}}" (change)="changed($event)">
-                <span class="check es-secundario"></span>
-              </label>
-            </td>
             <td class="desactivado" style="text-transform: capitalize;">{{dia}}</td>
             <td class="desactivado">
               <div class="hitem">
                 <input type="time" value="" class="input">
                 <input type="time" value="" class="input">
-
               </div>
             </td>
             <td class="desactivado">

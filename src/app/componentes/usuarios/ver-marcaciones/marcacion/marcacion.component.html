@@ -1,0 +1,11 @@
+@if(registros != undefined) {
+@if(registros.length > 1) {
+<span title="{{registros}}" class="badge is-bottom-right is-light is-info mr-2 mb-1" style="cursor: help">{{registros.length}}</span>
+{{gethora()}}
+} @else {
+{{gethora()}}
+}
+  } @else {
+{{gethora()}}
+<span class="badge is-bottom mb-1" style="background-color: #FBCFD0; color: black">Sin marcar</span>
+}

@@ -1,5 +1,4 @@
 import {EstadoUsuario} from "./Usuario";
-
 export class InfoMarcacion{
   dia:string;
   horario: string;
