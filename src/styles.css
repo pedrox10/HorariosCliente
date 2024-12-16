@@ -78,6 +78,13 @@ body {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  align-items: flex-start !important;
+}
+
+.vbox-centered {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   align-items: center;
 }
 
@@ -110,6 +117,10 @@ input[type=time] {
   background-color: #E5EBEA !important;
 }
 
+tr.inactivo td {
+  color: darkgray;
+}
+
 .b-checkbox.checkbox input[type=checkbox] + .check {
 
 }
@@ -117,6 +128,10 @@ input[type=time] {
 .icon-btn {
   color: #295a8c; padding: 5px;
   font-size: 1.3em;
+}
+
+.icon-btn:hover {
+  cursor: pointer;
 }
 
 /* Estilo para botones */
@@ -166,6 +181,12 @@ p.modal-card-title {
 
 .oculto {
   visibility: hidden;
+}
+
+@media print {
+  .hidden-print {
+    display: none !important;
+  }
 }
 
 

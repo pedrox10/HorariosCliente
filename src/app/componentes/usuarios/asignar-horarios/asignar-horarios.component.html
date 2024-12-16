@@ -1,7 +1,7 @@
 <div class="modal-card" style="width: 900px; height: 650px; background-color: white;">
   <header class="modal-card-head">
     <p class="modal-card-title">Asignar Horario</p>
-    <button class="delete" aria-label="close"></button>
+    <button (click)="cerrarModal()" class="delete" aria-label="close"></button>
   </header>
   <div class="animate__animated animate__fadeIn">
     <div class="columns" style="margin: 10px">
@@ -101,7 +101,7 @@
         <button class="button es-primario">
           Guardar
         </button>
-        <button class="button">Cancelar</button>
+        <button class="button" (click)="cerrarModal()" >Cancelar</button>
       </div>
     </footer>
   </div>

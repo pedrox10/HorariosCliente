@@ -1,7 +1,7 @@
 <div class="modal-card" style="width: 400px;">
   <header class="modal-card-head">
     <p class="modal-card-title">{{accion}} Terminal</p>
-    <button (click)="onClose()" class="delete" aria-label="close"></button>
+    <button (click)="cerrarModal()" class="delete" aria-label="close"></button>
   </header>
   <form [formGroup]="formAccion">
     <section class="modal-card-body">
@@ -45,7 +45,7 @@
         <button class="button es-primario" type="button" (click)="onSubmit()" [disabled]="formAccion.invalid">
           Guardar
         </button>
-        <button class="button" type="button" (click)="onClose()">Cancelar</button>
+        <button class="button" type="button" (click)="cerrarModal()">Cancelar</button>
       </div>
     </footer>
   </form>

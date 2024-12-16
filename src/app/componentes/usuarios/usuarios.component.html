@@ -1,68 +1,64 @@
 <div class="box" style="height: 100%;">
   <div class="hitem mb-5">
-    <span (click)="irAtras()"  class="icon button mt-1"><i class="fas fa-arrow-left"></i></span>
+    <span (click)="irAtras()" class="icon button mt-1"><i class="fas fa-arrow-left"></i></span>
     <div class="title">
       <h1>Funcionarios en {{terminal?.nombre}}</h1>
     </div>
   </div>
   <div class="animate__animated animate__fadeIn">
-    <div style="width: fit-content;">
-      <div class="hbox" style="  align-items: flex-end;">
-        <div class="vinput">
-          <label class="label" style="margin-bottom: 0px;">Buscar Funcionario </label>
-          <p class="control has-icons-right">
-            <input (input)="applyFilter($event)" type="text" class="input" placeholder="Nombre o CI"/>
-            <span class="icon is-right"><i class="fas fa-search"></i></span>
-          </p>
-        </div>
-
-        <div>
+    <div class="columns">
+      <div class="column is-narrow">
+        <div class="hbox" style="  align-items: flex-end;">
+          <div class="vinput">
+            <label class="label" style="margin-bottom: 0px;">Buscar Funcionario </label>
+            <p class="control has-icons-right">
+              <input (input)="applyFilter($event)" type="text" class="input" placeholder="Nombre o CI"/>
+              <span class="icon is-right"><i class="fas fa-search"></i></span>
+            </p>
+          </div>
           <div class="vinput" style="gap: 0px !important;">
             <p class='help'>Seleccionados: {{usuariosSeleccionados.length}}</p>
-            <div class="hitem" >
-              <button class="button" (click)="abrirModal()" style="background-color: {{colores.at(6)?.valor}}; border-radius: 5px">Asignar Horario</button>
-              <button class="button" style="background-color: {{colores.at(5)?.valor}}; border-radius: 5px; display: none;">Asignar Grupo</button>
+            <div class="hitem">
+              <button class="button" (click)="abrirModal()"
+                      style="background-color: {{colores.at(6)?.valor}}; border-radius: 5px">Asignar Horario
+              </button>
+              <button class="button"
+                      style="background-color: {{colores.at(5)?.valor}}; border-radius: 5px; display: none;">Asignar Grupo
+              </button>
+            </div>
+          </div>
+          <div class="hitem" style="margin-left: auto">
+            <div class="vinput" style="gap: 0px !important;">
+              <p class='help is-info' id="ult_sync">{{getUltSincronizacion()}}</p>
+              <button id="btn_sincronizar" (click)="sincronizar()" class="button es-primario"
+                      style="border-radius: 5px;">
+                <span class="icon"><i class="fas fa-sync"></i></span>
+                <span>Sincronizar</span>
+              </button>
             </div>
           </div>
         </div>
-        <div class="hitem" style="margin-left: auto">
-          <div class="vinput mt-1 mr-1">
-            <label class="" style="align-self: center;">Filtrar por Estado </label>
-            <div class="buttons has-addons">
-              <button class="button mr-1">Activo</button>
-              <button class="button is-selected" >Inactivo</button>
-            </div>
-          </div>
-          <div class="vinput" style="gap: 0px !important;">
-            <p class='help is-info' id="ult_sync">{{getUltSincronizacion()}}</p>
-            <button id="btn_sincronizar" (click)="sincronizar()" class="button es-primario" style="border-radius: 5px;">
-              <span class="icon"><i class="fas fa-sync"></i></span>
-              <span>Sincronizar</span>
-            </button>
-          </div>
-        </div>
-      </div>
-      <table class="table is-bordered is-hoverable">
-        <tr>
-          <th>
-            <label class="b-checkbox checkbox">
-              <input id="cb_todos" type="checkbox" (change)="aplicarTodos($event)">
-              <span class="check is-dark"></span>
-            </label>
-          </th>
-          <th>#</th>
-          <th style="width: 250px;">Nombre</th>
-          <th style="width: 100px;">CI</th>
-          <th>Horario Actual</th>
-          <th>Estado</th>
-          <th>Acciones</th>
-        </tr>
-        <tbody>
-        @for (usuario of usuariosFiltrados; track usuario; let index = $index) {
-        <tr>
-            <td>
-                <label class="b-checkbox checkbox">
-                  <input type="checkbox" [checked]="usuario.seleccionado" (change)="seleccionar(usuario)" value={{usuario.seleccionado}}>
+        <table class="table is-bordered is-hoverable">
+          <tr>
+            <th>
+              <label class="b-checkbox checkbox">
+                <input id="cb_todos" type="checkbox" (change)="aplicarTodos($event)">
+                <span class="check is-dark"></span>
+              </label>
+            </th>
+            <th>#</th>
+            <th style="width: 250px;">Nombre</th>
+            <th style="width: 100px;">CI</th>
+            <th>Horario Actual</th>
+            <th style="width: 75px;">Estado</th>
+            <th>Acciones</th>
+          </tr>
+          <tbody>
+          @for (usuario of usuariosFiltrados; track usuario; let index = $index) {
+          <tr>
+              <td>
+                  <label class="b-checkbox checkbox">
+                    <input type="checkbox" [checked]="usuario.seleccionado" (change)="seleccionar(usuario)" value={{usuario.seleccionado}}>
                   <span class="check es-secundario"></span>
                 </label>
             </td>
@@ -76,15 +72,45 @@
               <span class="icon has-tooltip-arrow" data-tooltip="Ver Horario" routerLink="/ver-horario">
                 <i class="far fa-calendar-alt icon-btn"></i>
               </span>
-              <span class="icon has-tooltip-arrow" data-tooltip="Ver Marcaciones" routerLink="/ver-marcaciones/{{usuario.id}}">
+              <span class="icon has-tooltip-arrow" data-tooltip="Ver Marcaciones" routerLink="/ver-marcaciones/{{
+          usuario.id}}">
                 <i class="far fa-calendar-check icon-btn"></i>
               </span>
             </div>
           </td>
         </tr>
-        }
-        </tbody>
-      </table>
+          }
+          </tbody>
+        </table>
+      </div>
+      <div class="column is-narrow">
+        <div class="vbox mt-1" style="padding: 5px 0px">
+          <div class="vinput" style="height: auto;">
+            <label class="label" style="margin-bottom: 0px;">Filtrar por: </label>
+            <div class="hitem" (click)="quitarFiltros()" >
+              <span class="mt-1">Quitar filtros</span>
+              <i class="far fa-times-circle icon-btn" style="color: red;"></i>
+            </div>
+          </div>
+          <div class="estados mt-2">
+            <label class="label">Estado </label>
+            <div class="field">
+              <label class="b-radio radio">
+                <input id="rb_activo" type="radio" name="estados" value="1" (click)="filtrarUsuarios($event)">
+                <span class="check is-success"></span>
+                <span class="control-label">Activo</span>
+              </label>
+            </div>
+            <div class="field">
+              <label class="b-radio radio">
+                <input type="radio" name="estados" value="0" (click)="filtrarUsuarios($event)">
+                <span class="check is-danger"></span>
+                <span class="control-label">Inactivo</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

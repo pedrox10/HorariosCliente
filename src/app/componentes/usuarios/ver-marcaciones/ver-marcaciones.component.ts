@@ -6,31 +6,40 @@ import {easepick} from '@easepick/core';
 import {RangePlugin} from '@easepick/range-plugin';
 import {Location} from '@angular/common';
 import moment from 'moment';
-import {Terminal} from "../../../modelos/Terminal";
+import * as Moment from 'moment';
+import {extendMoment} from 'moment-range';
 import {Usuario} from "../../../modelos/Usuario";
+import {InfoMarcacion} from "../../../modelos/InfoMarcacion";
+import {from, mergeMap, toArray} from "rxjs";
+import {ResumenMarcacion} from "../../../modelos/ResumenMarcacion";
+import {MarcacionComponent} from "./marcacion/marcacion.component";
 
 
 @Component({
   selector: 'app-ver-marcaciones',
   standalone: true,
-  imports: [RouterLink, HttpClientModule],
+  imports: [RouterLink, HttpClientModule, MarcacionComponent],
   providers: [TerminalService],
   templateUrl: './ver-marcaciones.component.html',
   styleUrl: './ver-marcaciones.component.css'
 })
 
 export class VerMarcacionesComponent implements OnInit, AfterViewInit {
-  public usuario: any|Usuario;
-  public gestion: number = 2024
-  public mesActual: number = 11;
-  public numDias: number;
-  public dias: string[][] = [];
+  public usuario: any | Usuario;
   private activatedRoute = inject(ActivatedRoute);
   public id = this.activatedRoute.snapshot.params['id'];
   public dias_semana = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
   public nov: string[] = [];
+  input_rango: HTMLInputElement | any;
+  momentExt = extendMoment(Moment);
+  resumenMarcacion: ResumenMarcacion | any = undefined;
+  infoMarcaciones: InfoMarcacion[] = []
+  infoMarcacionActual: InfoMarcacion | any = undefined;
 
   constructor(public terminalService: TerminalService, public location: Location) {
+
+    const inicioMes = moment().startOf('month').format('YYYYMMDD');
+    const finMes   = moment().endOf('month').format('YYYYMMDD');
 
     this.terminalService.getUsuario(this.id).subscribe(
       (data: any) => {
@@ -42,29 +51,32 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       }
     );
 
-    this.terminalService.getMarcaciones(this.id).subscribe(
+    this.terminalService.getInfoMarcaciones(this.id, inicioMes, finMes).subscribe(
       (data: any) => {
-        data.map((marcacion:any)=> {marcacion.fechaMarcaje = moment(marcacion.fechaMarcaje).utc(true ).format()})
-        let aux = data;
-        console.log(aux)
-        let cad = this.gestion + "-12-";
-        let re_fecha = new RegExp(cad + '(.*)');
-        //let re_ci = new RegExp("^" + this.ci + "$");
-          aux.forEach((value: any) => {
-          if (re_fecha.test(value.fechaMarcaje)) {
-            this.nov.push(value);
-            let datetime = moment(value.fechaMarcaje).utc(false )
-            console.log(datetime)
-            console.log("Horas: " + datetime.hour() + " Minutos: " + datetime.minute())
-          }
-        });
-        this.getArrayDias()
+        this.resumenMarcacion = data;
+        this.infoMarcaciones = this.resumenMarcacion.infoMarcaciones;
+        this.cambiarTotales()
       },
       (error: any) => {
         console.error('An error occurred:', error);
       }
     );
-    this.numDias = this.getNumDias(this.mesActual - 1, this.gestion);
+    let ids_usuarios: number[] = []
+    ids_usuarios.push(82, 103)
+    const result$ =
+      from(ids_usuarios)
+        .pipe(
+          mergeMap(id_usuario => {
+            return this.terminalService.getInfoMarcaciones(id_usuario, "20241201", "20241213")
+          }),
+          toArray()
+        );
+    result$.subscribe((data: any) => {
+        console.log(data)
+      },
+      (error: any) => {
+        console.error('An error occurred:', error);
+      })
   }
 
   ngOnInit(): void {
@@ -72,8 +84,9 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this.input_rango = document.getElementById('datepicker');
     const picker = new easepick.create({
-      element: document.getElementById('datepicker')!,
+      element: this.input_rango,
       lang: 'es-ES',
       format: "DD/MM/YYYY",
       zIndex: 10,
@@ -94,34 +107,40 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
         },
       },
     });
+
+    picker.on('select', (e) => {
+      const start = moment(picker.getStartDate(), 'DD-MM-YYYY');
+      const end = moment(picker.getEndDate(), 'DD-MM-YYYY');
+      const range = this.momentExt.range(start, end);
+      for (let month of range.by('month')) {
+        console.log(month.format("DD-MM-YYYY"));
+      }
+    })
   }
 
-  getNumDias(mes: number, gestion: number) {
-    return new Date(gestion, mes, 0).getDate();
+  setInfoActual(i: InfoMarcacion) {
+    this.infoMarcacionActual = i;
   }
 
-  getNombreDia(dia: number) {
-    const fecha = new Date(this.gestion, this.mesActual, dia);
-    const day = fecha.getDay();
-
-    return this.dias_semana[day];
+  getInfoActual() {
+    return this.infoMarcacionActual
   }
 
-  getArrayDias() {
-    for (var i = 1; i <= this.numDias; i++) {
-      let dia = i < 10 ? "0" + i : i;
-      let fila: string[] = [];
-      fila.push(this.getNombreDia(i).substring(0, 3) + " " + i);
-      let cad = this.gestion + "-12-" + dia;
-      let re_dia = new RegExp(cad + '(.*)');
-      this.nov.forEach((value: any) => {
-        if (re_dia.test(value.fechaMarcaje)) {
-          let hora = value.fechaMarcaje.split("T")
-          fila.push(hora[1].substring(0, 5));
-        }
-      });
-      this.dias.push(fila)
+  mostrarCantidades(valor: number){
+    let res = "";
+    if(valor > 0){
+      res = valor + ""
     }
+    return res;
+  }
+
+  cambiarTotales(){
+    let retrasos = <HTMLSpanElement> document.getElementById("totalCantRetrasos")
+    let minutos = <HTMLSpanElement> document.getElementById("totalMinRetrasos")
+    let sinMarcar = <HTMLSpanElement> document.getElementById("totalSinMarcar")
+    retrasos.innerText = this.resumenMarcacion.totalCantRetrasos
+    minutos.innerText = this.resumenMarcacion.totalMinRetrasos
+    sinMarcar.innerText = this.resumenMarcacion.totalSinMarcar
   }
 
   irAtras() {

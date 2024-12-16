@@ -8,14 +8,14 @@ import {EstadoUsuario, Usuario} from "../../modelos/Usuario";
 import {Terminal} from "../../modelos/Terminal";
 import {Location} from "@angular/common";
 import moment from "moment";
-import {AccionTerminalComponent} from "../terminal/adm-terminales/accion-terminal/accion-terminal.component";
 import {ModalService} from "ngx-modal-ease";
 import {AsignarHorariosComponent} from "./asignar-horarios/asignar-horarios.component";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-usuarios',
   standalone: true,
-  imports: [RouterLink, HttpClientModule, TurnoComponent],
+  imports: [RouterLink, HttpClientModule, TurnoComponent, FormsModule],
   providers: [TerminalService],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css'
@@ -29,6 +29,7 @@ export class UsuariosComponent implements OnInit {
   public terminal: any|Terminal;
   private activatedRoute = inject(ActivatedRoute);
   idTerminal = this.activatedRoute.snapshot.params['id'];
+  estado: EstadoUsuario | any = undefined;
 
   constructor(public terminalService: TerminalService,private modalService: ModalService, private location: Location) {
 
@@ -57,10 +58,14 @@ export class UsuariosComponent implements OnInit {
 
   applyFilter($event: any) {
     let texto = $event.target.value.toLowerCase();
+    let lista: Usuario[] =[]
+    lista = this.estado != undefined ? this.usuarios.filter((item: Usuario) => item.estado == this.estado): lista = this.usuarios
     if (texto === "") {
-      this.usuariosFiltrados = this.usuarios;
+      this.usuariosFiltrados = lista;
     } else {
-      this.usuariosFiltrados = this.usuarios.filter((item: Usuario) => item.nombre.toLowerCase().includes(texto) || item.ci.toString().includes(texto))
+      this.usuariosFiltrados = lista.filter((item: Usuario) =>
+        item.nombre.toLowerCase().includes(texto) || item.ci.toString().includes(texto)
+      )
     }
   }
 
@@ -73,7 +78,9 @@ export class UsuariosComponent implements OnInit {
       const index = this.usuariosSeleccionados.map(u => u.ci).indexOf(usuario.ci);
       this.usuariosSeleccionados.splice(index, 1);
     }
-    if (this.usuariosSeleccionados.length == this.usuarios.length) {
+    let lista: Usuario[] =[]
+    lista = this.estado != undefined ? this.usuarios.filter((item: Usuario) => item.estado == this.estado): lista = this.usuarios
+    if (this.usuariosSeleccionados.length == lista.length) {
       cb_todos.classList.remove("is-indeterminate");
       cb_todos.checked = true;
     } else {
@@ -87,18 +94,22 @@ export class UsuariosComponent implements OnInit {
   }
 
   aplicarTodos(ev: any) {
-    (document.getElementById("cb_todos") as HTMLInputElement).classList.remove("is-indeterminate");
     let esSeleccionado = (<HTMLInputElement>ev.target).checked
+    this.marcarTodos(esSeleccionado)
+  }
+
+  marcarTodos(seleccionar: boolean) {
     this.usuariosFiltrados.map((usuario) => {
-      if (esSeleccionado)
+      if (seleccionar)
         usuario.seleccionado = true
       else
         usuario.seleccionado = false
     })
-    if (esSeleccionado)
+    if (seleccionar)
       this.usuariosSeleccionados = this.usuariosFiltrados.slice();
     else
-      this.usuariosSeleccionados = []
+      this.usuariosSeleccionados = [];
+    (document.getElementById("cb_todos") as HTMLInputElement).classList.remove("is-indeterminate");
   }
 
   sincronizar() {
@@ -107,11 +118,12 @@ export class UsuariosComponent implements OnInit {
       (data: any) => {
         this.usuarios = data.usuarios;
         this.usuariosFiltrados = data.usuarios;
-        document.getElementById("ult_sync")!.innerText = "Ult. vez: " + moment(data.ult_sincronizacion).utc(true).format('DD/MM/YY HH:mm');
+        document.getElementById("ult_sync")!.innerText = "Ult. vez: " + moment(data.ult_sincronizacion).format('DD/MM/YYYY HH:mm');
         let cbTodos = (document.getElementById("cb_todos") as HTMLInputElement);
         cbTodos.checked = false;
         cbTodos.classList.remove("is-indeterminate")
         this.usuariosSeleccionados= []
+        this.quitarFiltros()
         console.log(data)
         setTimeout(() => {
           document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
@@ -132,12 +144,11 @@ export class UsuariosComponent implements OnInit {
   }
 
   getUltSincronizacion() {
-
     let res = ""
     if(this.terminal?.ult_sincronizacion === null)
       res = "Ult. vez: Nunca"
     else
-      res = "Ult. vez: " + moment(this.terminal?.ult_sincronizacion).utc(true).format('DD/MM/YY HH:mm');
+      res = "Ult. vez: " + moment(this.terminal?.ult_sincronizacion).format('DD/MM/YYYY HH:mm');
     return res
   }
 
@@ -154,5 +165,30 @@ export class UsuariosComponent implements OnInit {
         if(data !== undefined)
           console.log(data)
       });
+  }
+
+  filtrarUsuarios(ev: any) {
+    let valor = (<HTMLInputElement>ev.target).value;
+    this.estado = parseInt(valor)
+    this.usuariosFiltrados = this.usuarios.filter((item: Usuario) => item.estado == this.estado)
+    this.marcarTodos(false);
+    (document.getElementById("cb_todos") as HTMLInputElement).checked = false;
+  }
+
+  quitarFiltros() {
+    if(this.estado != undefined) {
+      const estados = document.getElementsByName("estados") as NodeListOf<HTMLInputElement>;
+      for (var i = 0; i < estados.length; i++) {
+        let ele = estados[i];
+        if(ele.checked) {
+          ele.checked = false
+          this.usuariosFiltrados = this.usuarios
+          break
+        }
+      }
+      this.estado = undefined
+      this.marcarTodos(false);
+      (document.getElementById("cb_todos") as HTMLInputElement).checked = false;
+    }
   }
 }

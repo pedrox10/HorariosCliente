@@ -32,8 +32,9 @@
               "node_modules/bulma-list/css/bulma-list.css",
               "https://unpkg.com/@fortawesome/fontawesome-free@5.13.0/css/all.css",
               "src/assets/bulma_tooltip.css",
+              "node_modules/@creativebulma/bulma-badge/dist/bulma-badge.min.css",
               "src/assets/animate.css",
-
+              "node_modules/bulma-radio/css/main.min.css"
             ],
             "scripts": [
             ]

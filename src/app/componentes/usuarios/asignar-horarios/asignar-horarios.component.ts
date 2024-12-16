@@ -44,6 +44,10 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit{
     }
   }
 
+  cerrarModal() {
+    this.modalService.close();
+  }
+
   ngOnInit(): void {
     let data:any = this.modalService.options?.data
     this.usuarios = data.usuarios;

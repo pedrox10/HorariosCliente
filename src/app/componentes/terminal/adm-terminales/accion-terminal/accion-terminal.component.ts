@@ -94,7 +94,7 @@ export class AccionTerminalComponent implements OnInit {
     })
   }
 
-  onClose() {
+  cerrarModal() {
     this.modalService.close();
   }
 

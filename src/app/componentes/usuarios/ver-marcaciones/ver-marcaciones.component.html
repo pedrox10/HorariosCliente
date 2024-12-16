@@ -8,39 +8,39 @@
   <div class="columns animate__animated animate__fadeIn">
     <div class="column is-narrow">
       <div class="info">
-        <div class="vbox">
+        <div class="vbox-centered">
           <i class="fas fa-user-circle" style="font-size: 3em"></i>
           <span class="label">{{usuario?.nombre}}</span>
           <span>{{usuario?.ci}}</span>
         </div>
       </div>
       <div class="info">
-        <div class="vbox">
+        <div class="vbox-centered">
           <span class="label">Dias con incidencias</span>
           <div class="hbox">
-            <i class="fas fa-info" style="color: orange"></i>
-            <span>Llego tarde</span>
-            <span style="font-weight: bold;">2</span>
+            <span>Llegó tarde</span>
+            <span id="totalCantRetrasos" style="font-weight: bold;"></span>
           </div>
           <div class="hbox">
-            <i class="fas fa-info" style="color: red"></i>
+            <span >Total minutos</span>
+            <span id="totalMinRetrasos" style="font-weight: bold;"></span>
+          </div>
+          <div class="hbox">
             <span>Sin Marcar</span>
-            <span style="font-weight: bold;">2</span>
+            <span id="totalSinMarcar" style="font-weight: bold;"></span>
           </div>
         </div>
       </div>
       <div class="info">
-        <div class="vbox">
+        <div class="vbox-centered">
           <span class="label">Ausencias</span>
           <div class="hbox">
-            <i class="fas fa-info" style="color: red"></i>
             <span>Vacaciones</span>
-            <span style="font-weight: bold;">2</span>
+            <span style="font-weight: bold;">--</span>
           </div>
           <div class="hbox">
-            <i class="fas fa-info" style="color: red"></i>
             <span>Baja Medica</span>
-            <span style="font-weight: bold;">2</span>
+            <span style="font-weight: bold;">--</span>
           </div>
         </div>
       </div>
@@ -50,29 +50,30 @@
         <div class="hitem">
           <label for="datepicker" class="label mt-2">Rango: </label>
           <p class="control has-icons-right">
-            <input id="datepicker" class="input"/>
+            <input id="datepicker" class="input" style="min-width: 210px;"/>
             <span class="icon is-right"><i class="fas fa-calendar-alt"></i></span>
           </p>
         </div>
         <div class="hitem" style="margin-left: auto;">
-          <button class="button"><span class="icon"><i class="fas fa-print"></i></span></button>
+          <button class="button"><span class="icon">
+            <i class="fas fa-print"></i></span>
+          </button>
           <button class="button"><span class="icon"><i class="fas fa-file-excel"
                                                        style="color: rgb(16, 129, 16);"></i></span></button>
-          <button class="button"><span class="icon"><i class="fas fa-file-pdf"
-                                                       style="color: rgb(190, 69, 69)"></i></span></button>
         </div>
       </div>
-      <table class="table is-bordered is-hoverable">
+      <table class="table marcaciones is-bordered">
         <tr>
           <th></th>
+          <th></th>
           <th style="text-align: center;" colspan="2">
-            Turno 1
+            Primer Turno
           </th>
           <th style="text-align: center;" colspan="2">
-            Turno 2
+            Segundo Turno
           </th>
           <th style="text-align: center;" colspan="2">
-            Atraso
+            Retraso
             <i class="fas fa-circle ml-1"
                style="color: orange; padding: 0px;  border-radius: 50%; font-size: 0.75em;"></i>
           </th>
@@ -80,6 +81,7 @@
         </tr>
         <tr>
           <th>Dia</th>
+          <th>Horario</th>
           <th>Entrada</th>
           <th>Salida</th>
           <th>Entrada</th>
@@ -90,17 +92,44 @@
                            style="color: red; border-radius: 50%;padding: 0; font-size: 0.75em;"></i></th>
         </tr>
         <tbody>
-        @for (item of dias; track item; let i = $index ) {
-        <tr >
-        @for (dato of item; track dato; let j = $index ) {
-        @if(j!== 0){
-        <td>{{dias[i][j]}}</td>
-        }
-        @else{
-        <th>{{dias[i][j]}}</th>
-        }
-        }
-        </tr>
+        @for (infoMarcacion of infoMarcaciones; track infoMarcacion; let index = $index) {
+          {{setInfoActual(infoMarcacion)}}
+          @if(infoMarcacion.activo) {
+            <tr>
+              <th>{{getInfoActual().dia}}</th>
+              <td> {{getInfoActual().horario}}</td>
+              <td>
+                <marcacion tipo="entrada" [registros]="getInfoActual().priEntradas"></marcacion>
+                @if(infoMarcacion.hayPriRetraso) {
+                  <span class="badge is-bottom is-warning mb-1" style="background-color: #FFE5D4; color: black">Retraso</span>
+                }
+              </td>
+              <td><marcacion tipo="salida" [registros]="getInfoActual().priSalidas"></marcacion></td>
+              @if(infoMarcacion.numTurnos == 2) {
+                <td>
+                <marcacion tipo="entrada" [registros]="getInfoActual().segEntradas"></marcacion>
+                @if(infoMarcacion.haySegRetraso) {
+                <span class="badge is-bottom is-warning mb-1" style="background-color: #FFE5D4; color: black">Retraso</span>
+                }
+                </td>
+                <td><marcacion tipo="salida" [registros]="getInfoActual().segSalidas"></marcacion></td>
+              } @else {
+                <td></td><td></td>
+              }
+              <td>{{mostrarCantidades(getInfoActual().cantRetrasos)}}</td>
+              <td>{{mostrarCantidades(getInfoActual().minRetrasos)}}</td>
+              <td>{{mostrarCantidades(getInfoActual().noMarcados)}}</td>
+            </tr>
+          } @else {
+            <tr class="inactivo">
+              <th>{{getInfoActual().dia}}</th>
+              <td>{{getInfoActual().horario}}</td>
+              <td colspan="4" style="text-align: left">{{getInfoActual().mensaje}}</td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          }
         }
         </tbody>
       </table>

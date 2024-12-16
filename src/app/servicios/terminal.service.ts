@@ -43,10 +43,13 @@ export class TerminalService {
   }
 
   public getUsuario(id: number) {
-    return this.http.get(`${this.apiUrl}/usuario/${id}}`);
+    return this.http.get(`${this.apiUrl}/usuario/${id}`);
   }
 
   public getMarcaciones(id: number) {
     return this.http.get(`${this.apiUrl}/marcaciones/${id}`);
+  }
+  public getInfoMarcaciones(id: number, ini:string, fin: string) {
+    return this.http.get(`${this.apiUrl}/usuario/${id}/ini/${ini}/fin/${fin}`);
   }
 }
