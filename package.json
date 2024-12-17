@@ -33,6 +33,7 @@
     "bulma-checkbox": "^1.2.1",
     "bulma-list": "^2.1.0",
     "bulma-radio": "^1.2.0",
+    "bulma-switch-control": "^1.2.2",
     "bulma-toast": "^2.4.4",
     "bulmaswatch": "^0.8.1",
     "fontawesome": "^5.6.3",

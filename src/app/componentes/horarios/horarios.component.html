@@ -33,10 +33,10 @@
           <td>{{horario.tolerancia}}</td>
           <td>
             <div class= "hitem">
-              <span class="color" >
+              {{getColor(horario.color, "color")}}
+      <span class="color" >
                 <i class="fas fa-circle" style="color:{{getColor(horario.color, 'valor')}};"></i>
               </span>
-              {{getColor(horario.color, "color")}}
             </div>
           </td>
           <td>{{horario.descripcion}}</td>

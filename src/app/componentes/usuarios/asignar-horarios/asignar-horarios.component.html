@@ -1,4 +1,4 @@
-<div class="modal-card" style="width: 850px; height: 650px; background-color: white;">
+<div class="modal-card" style="width: 930px; height: 650px; background-color: white;">
   <header class="modal-card-head">
     <p class="modal-card-title">Asignar Horario</p>
     <button (click)="cerrarModal()" class="delete" aria-label="close"></button>
@@ -36,50 +36,66 @@
             <label class="label mt-1">
               Elije un horario como plantilla:
             </label>
-            <div class="select">
-              <select>
-                <option>Lista Horarios</option>
-                <option>Horario 1</option>
+            <div class="select" >
+              <select (change)="seleccionar($event)">
+                <option disabled selected style="display: none"></option>
+                @for (horario of horarios; track horario; let i = $index ) {
+                  <option value={{horario.id}}>{{horario.nombre}}</option>
+                }
               </select>
             </div>
           </div>
         </div>
         <div class="hbox" style="justify-content: space-between">
-          <div class="hitem">
-            <span>Tolerancia: </span>
-            <span style="min-width: 50px">--</span>
+          <div class="hbox">
+            <div class="hitem">
+              <span>Tolerancia: </span>
+              <span id="tolerancia" style="min-width: 50px">--</span>
+            </div>
+            <div class="hitem">
+              <span>Color: </span>
+              <span id="color" style="min-width: 50px">--</span>
+            </div>
           </div>
-          <div class="hitem">
-            <span>Color: </span>
-            <span style="min-width: 50px">--</span>
-          </div>
-          <div class="hitem">
-            <span>Descripcion: </span>
-            <span style="min-width: 50px">--</span>
+          <div class="hbox">
+            <div class="field" style="margin-top: 2px">
+              <label class="b-checkbox checkbox is-dark">
+                <input type="checkbox" value="false">
+                <span class="check is-warning"></span>
+                <span class="control-label">Lactancia</span>
+              </label>
+            </div>
+            <div class="field">
+              <label class="switch is-rounded is-info">
+                <input type="checkbox">
+                <span class="check is-info "></span>
+                <span class="control-label">Invierno</span>
+              </label>
+            </div>
           </div>
         </div>
         <table class="table horario">
           <thead>
           <tr>
-            <th>Dia</th>
-            <th style="text-align: center;">Primer Turno</th>
-            <th style="text-align: center;">Segundo Turno</th>
+            <th style="min-width: 80px">Dia</th>
+            <th style="text-align: center;min-width: 210px">Primer Turno</th>
+            <th style="text-align: center;min-width: 210px">Segundo Turno</th>
           </tr>
           </thead>
           <tbody>
-          @for (dia of dias; track dia; let i = $index ) {
-          <tr id="{{dia}}">
-            <td class="desactivado" style="text-transform: capitalize;">{{dia}}</td>
-            <td class="desactivado">
+          @for (jornada of jornadaDias; track jornada; let i = $index ) {
+          <tr id="{{jornada.dia}}">
+            <td>{{jornada.dia}}</td>
+            <td>
               <div class="hitem">
-                <input type="time" value="" class="input">
-                <input type="time" value="" class="input">
+                <input type="time" value="{{jornada.priEntrada}}" class="input">
+                <input type="time" value="{{jornada.priSalida}}" class="input">
               </div>
             </td>
-            <td class="desactivado">
-              <div class="hitem oculto" id="turno_{{dia}}">
-                <input type="time" value=""  class="input">
-                <input type="time" value=""  class="input">
+            <td>
+              <div class="hitem">
+                <input type="time" value="{{jornada.segEntrada}}"  class="input">
+                <input type="time" value="{{jornada.segSalida}}"  class="input">
               </div>
             </td>
           </tr>
