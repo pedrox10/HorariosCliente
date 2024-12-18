@@ -58,6 +58,11 @@ body {
   flex-direction: column;
 }
 
+.vinput label {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+}
+
 .hitem {
   display: flex;
   flex-direction: row;
@@ -187,6 +192,14 @@ p.modal-card-title {
   .hidden-print {
     display: none !important;
   }
+}
+
+.buttons.no-spacing {
+  gap: 0px !important;
+}
+
+.buttons.no-spacing button {
+  margin-right: 0px !important;
 }
 
 

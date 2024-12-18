@@ -22,7 +22,7 @@
             <span id="totalCantRetrasos" style="font-weight: bold;"></span>
           </div>
           <div class="hbox">
-            <span >Total minutos</span>
+            <span>Total minutos</span>
             <span id="totalMinRetrasos" style="font-weight: bold;"></span>
           </div>
           <div class="hbox">
@@ -46,20 +46,37 @@
       </div>
     </div>
     <div class="column is-narrow" style="box-sizing: border-box; width: fit-content;">
-      <div class="hbox">
-        <div class="hitem">
-          <label for="datepicker" class="label mt-2">Rango: </label>
+      <div class="hbox" style="align-content: space-between !important;">
+        <div class="vinput">
+          <label class="label" style="text-align: center">Elije un rango de fechas</label>
           <p class="control has-icons-right">
             <input id="datepicker" class="input" style="min-width: 210px;"/>
             <span class="icon is-right"><i class="fas fa-calendar-alt"></i></span>
           </p>
         </div>
-        <div class="hitem" style="margin-left: auto;">
+        <div class="hitem">
+          <div class="vinput">
+            <label class="label" style="text-align: center">Gestion</label>
+            <div class="select">
+              <select>
+                <option>2024</option>
+                <option>2023</option>
+              </select>
+            </div>
+          </div>
+          <div class="hitem">
+            <div class="buttons no-spacing" style="align-self: flex-end">
+              <button class="button"><i class="fas fa-arrow-left"></i></button>
+              <button class="button" style="min-width: 110px">Diciembre</button>
+              <button class="button"><i class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="hitem" style="margin-left: auto; align-self: flex-end">
           <button class="button"><span class="icon">
             <i class="fas fa-print"></i></span>
           </button>
-          <button class="button"><span class="icon"><i class="fas fa-file-excel"
-                                                       style="color: rgb(16, 129, 16);"></i></span></button>
+          <button class="button"><span class="icon"><i class="fas fa-file-excel" style="color: rgb(16, 129, 16);"></i></span></button>
         </div>
       </div>
       <table class="table marcaciones is-bordered">
@@ -93,43 +110,45 @@
         </tr>
         <tbody>
         @for (infoMarcacion of infoMarcaciones; track infoMarcacion; let index = $index) {
-          {{  setInfoActual(infoMarcacion)}}
-          @if(infoMarcacion.activo) {
-            <tr>
-              <th>{{getInfoActual().dia}}</th>
-              <td> {{getInfoActual().horario}}</td>
-              <td>
-                <marcacion tipo="entrada" [registros]="getInfoActual().priEntradas"></marcacion>
-                @if(infoMarcacion.hayPriRetraso) {
-                  <span class="badge is-bottom is-warning mb-1" style="background-color: #FFE5D4; color: black">Retraso</span>
-                }
-              </td>
-              <td><marcacion tipo="salida" [registros]="getInfoActual().priSalidas"></marcacion></td>
-              @if(infoMarcacion.numTurnos == 2) {
-                <td>
-                <marcacion tipo="entrada" [registros]="getInfoActual().segEntradas"></marcacion>
-                @if(infoMarcacion.haySegRetraso) {
-                <span class="badge is-bottom is-warning mb-1" style="background-color: #FFE5D4; color: black">Retraso</span>
-                }
-                </td>
-                <td><marcacion tipo="salida" [registros]="getInfoActual().segSalidas"></marcacion></td>
-              } @else {
-                <td></td><td></td>
-              }
-              <td>{{mostrarCantidades(getInfoActual().cantRetrasos)}}</td>
-              <td>{{mostrarCantidades(getInfoActual().minRetrasos)}}</td>
-              <td>{{mostrarCantidades(getInfoActual().noMarcados)}}</td>
-            </tr>
-          } @else {
-            <tr class="inactivo">
-              <th>{{getInfoActual().dia}}</th>
-              <td>{{getInfoActual().horario}}</td>
-              <td colspan="4" style="text-align: left">{{getInfoActual().mensaje}}</td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
+        {{  setInfoActual(infoMarcacion)}}
+        @if(infoMarcacion.activo) {
+        <tr>
+          <th>{{getInfoActual().dia}}</th>
+          <td> {{getInfoActual().horario}}</td>
+          <td>
+            <marcacion tipo="entrada" [registros]="getInfoActual().priEntradas"></marcacion>
+            @if(infoMarcacion.hayPriRetraso) {
+            <span class="badge is-bottom is-warning mb-1" style="background-color: #FFE5D4; color: black">Retraso</span>
+            }
+          </td>
+          <td>
+            <marcacion tipo="salida" [registros]="getInfoActual().priSalidas"></marcacion>
+          </td>
+          @if(infoMarcacion.numTurnos == 2) {
+          <td>
+          <marcacion tipo="entrada" [registros]="getInfoActual().segEntradas"></marcacion>
+          @if(infoMarcacion.haySegRetraso) {
+          <span class="badge is-bottom is-warning mb-1" style="background-color: #FFE5D4; color: black">Retraso</span>
           }
+          </td>
+          <td><marcacion tipo="salida" [registros]="getInfoActual().segSalidas"></marcacion></td>
+          } @else {
+          <td></td><td></td>
+          }
+          <td>{{mostrarCantidades(getInfoActual().cantRetrasos)}}</td>
+          <td>{{mostrarCantidades(getInfoActual().minRetrasos)}}</td>
+          <td>{{mostrarCantidades(getInfoActual().noMarcados)}}</td>
+        </tr>
+        } @else {
+        <tr class="inactivo">
+          <th>{{getInfoActual().dia}}</th>
+          <td>{{getInfoActual().horario}}</td>
+          <td colspan="4" style="text-align: left">{{getInfoActual().mensaje}}</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        }
         }
         </tbody>
       </table>
