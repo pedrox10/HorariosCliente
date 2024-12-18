@@ -57,6 +57,8 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
       this.usuarios.forEach(usuario => {
         console.log(usuario.nombre)
       })
+      const selectedIds = this.usuarios.map(({ id }) => id);
+      console.log(selectedIds);
     }
   }
 
