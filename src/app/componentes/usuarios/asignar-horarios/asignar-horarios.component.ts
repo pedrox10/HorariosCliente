@@ -25,6 +25,7 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
   jornadaDias: any[] = [];
   formAccion = new FormGroup({});
   usuarios: Usuario[] = [];
+  picker: HTMLInputElement| any = undefined;
 
   constructor(private modalService: ModalService, public horarioService: HorarioService) {
     this.horarioService.getHorarios().subscribe(
@@ -36,20 +37,6 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
       })
   }
 
-  cerrarModal() {
-    this.modalService.close();
-  }
-
-  seleccionar(ev: any) {
-    let id: number = parseInt(ev.target.value)
-    const index = this.horarios.findIndex(x => x.id === id);
-    let horario = this.horarios[index];
-    document.getElementById("tolerancia")!.innerText = horario.tolerancia + " min.";
-    document.getElementById("color")!.innerText = JSON.parse(horario.color).color;
-    this.jornadaDias = horario.jornadaDias
-    console.log(this.jornadaDias)
-  }
-
   ngOnInit(): void {
     let data: any = this.modalService.options?.data
     if(data){
@@ -57,13 +44,12 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
       this.usuarios.forEach(usuario => {
         console.log(usuario.nombre)
       })
-      const selectedIds = this.usuarios.map(({ id }) => id);
-      console.log(selectedIds);
+
     }
   }
 
   ngAfterViewInit() {
-    const picker = new easepick.create({
+     this.picker = new easepick.create({
       element: document.getElementById('datepicker')!,
       lang: 'es-ES',
       format: "DD/MM/YYYY",
@@ -85,5 +71,29 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
         },
       },
     });
+    this.picker.on("select", (e: any) => {
+      console.log(this.picker.getStartDate().format('DD-MM-YYYY'))
+    })
+  }
+
+  seleccionar(ev: any) {
+    let id: number = parseInt(ev.target.value)
+    const index = this.horarios.findIndex(x => x.id === id);
+    let horario = this.horarios[index];
+    document.getElementById("tolerancia")!.innerText = horario.tolerancia + " min.";
+    document.getElementById("color")!.innerText = JSON.parse(horario.color).color;
+    this.jornadaDias = horario.jornadaDias
+    console.log(this.jornadaDias)
+  }
+
+  asignar() {
+    let sel = document.getElementById("select_horarios") as HTMLSelectElement
+    const selectedIds = this.usuarios.map(({ id }) => id);
+    console.log(selectedIds + " " + this.picker.getStartDate().format('DD-MM-YYYY') + " " +
+      sel.value+ " " + JSON.stringify(this.jornadaDias))
+  }
+
+  cerrarModal() {
+    this.modalService.close();
   }
 }
