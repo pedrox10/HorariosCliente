@@ -86,11 +86,19 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
     console.log(this.jornadaDias)
   }
 
-  asignar() {
-    let sel = document.getElementById("select_horarios") as HTMLSelectElement
-    const selectedIds = this.usuarios.map(({ id }) => id);
-    console.log(selectedIds + " " + this.picker.getStartDate().format('DD-MM-YYYY') + " " +
-      sel.value+ " " + JSON.stringify(this.jornadaDias))
+  asignarHorario() {
+    let selectHorarios = document.getElementById("select_horarios") as HTMLSelectElement
+    let id_horario = selectHorarios.value
+    let ids = this.usuarios.map(({ id }) => id);
+    let ini = this.picker.getStartDate().format('YYYYMMDD')
+    let fin = this.picker.getEndDate().format('YYYYMMDD')
+    let jornadas = JSON.stringify(this.jornadaDias);
+    this.horarioService.asignarHorario(parseInt(id_horario), ids.toString(), ini, fin, jornadas).
+    subscribe((data:any)=>{
+      console.log(data)
+    }, (error: any) => {
+
+    })
   }
 
   cerrarModal() {
