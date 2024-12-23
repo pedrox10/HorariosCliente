@@ -87,6 +87,7 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
   }
 
   asignarHorario() {
+    document.getElementById("btn_asignar")?.classList.add("is-loading");
     let selectHorarios = document.getElementById("select_horarios") as HTMLSelectElement
     let id_horario = selectHorarios.value
     let ids = this.usuarios.map(({ id }) => id);
@@ -96,6 +97,9 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
     this.horarioService.asignarHorario(parseInt(id_horario), ids.toString(), ini, fin, jornadas).
     subscribe((data:any)=>{
       console.log(data)
+      setTimeout(() => {
+        document.getElementById("btn_asignar")?.classList.remove("is-loading")
+      }, 1000);
     }, (error: any) => {
 
     })

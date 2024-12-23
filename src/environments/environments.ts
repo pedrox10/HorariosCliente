@@ -4,8 +4,12 @@ export const env = {
     dias: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"],
     apiUrl: 'http://localhost:4000',
     colores:[
-      {"color" : "Gris", "valor": "#F2F2F2"}, {"color" : "Guindo", "valor": "#E7B9C0"}, {"color" : "Rojo", "valor": "#FBCFD0"},
+      {"color" : "Guindo", "valor": "#E7B9C0"}, {"color" : "Rojo", "valor": "#FBCFD0"},
       {"color" : "Naranja", "valor": "#FFE5D4"}, {"color" : "Amarillo", "valor": "#FFFCCC"}, {"color" : "Verde", "valor": "#C8EFD4"},
-      {"color" : "Azul", "valor": "#C8EBFA"}, {"color" : "Purpura", "valor": "#D3D5F5"}, {"color" : "Rosado", "valor": "#EDD3ED"}
-    ]
+      {"color" : "Azul", "valor": "#C8EBFA"}, {"color" : "Purpura", "valor": "#D3D5F5"}, {"color" : "Rosado", "valor": "#EDD3ED"},
+      {"color" : "Esmeralda", "valor": "#C6FBF9"}, {"color" : "Lima", "valor": "#E9FAB6"}, {"color" : "Crema", "valor": "#F3F3E9"},
+      {"color" : "Gris", "valor": "#F2F2F2"}
+    ],
+    filtrarEstado: false,
+    estado: -1
 }

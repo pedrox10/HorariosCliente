@@ -28,7 +28,6 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   public usuario: any | Usuario;
   private activatedRoute = inject(ActivatedRoute);
   public id = this.activatedRoute.snapshot.params['id'];
-  public dias_semana = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
   public nov: string[] = [];
   input_rango: HTMLInputElement | any;
   momentExt = extendMoment(Moment);
@@ -51,16 +50,9 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       }
     );
 
-    this.terminalService.getInfoMarcaciones(this.id, inicioMes, finMes).subscribe(
-      (data: any) => {
-        this.resumenMarcacion = data;
-        this.infoMarcaciones = this.resumenMarcacion.infoMarcaciones;
-        this.cambiarTotales()
-      },
-      (error: any) => {
-        console.error('An error occurred:', error);
-      }
-    );
+    this.getResumenMarcaciones(this.id, inicioMes, finMes)
+
+
     let ids_usuarios: number[] = []
     ids_usuarios.push(82, 103)
     const result$ =
@@ -77,6 +69,19 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       (error: any) => {
         console.error('An error occurred:', error);
       })
+  }
+
+  getResumenMarcaciones(id: number, ini: string, fin: string) {
+    this.terminalService.getInfoMarcaciones(id, ini, fin).subscribe(
+      (data: any) => {
+        this.resumenMarcacion = data;
+        this.infoMarcaciones = this.resumenMarcacion.infoMarcaciones;
+        this.cambiarTotales()
+      },
+      (error: any) => {
+        console.error('An error occurred:', error);
+      }
+    );
   }
 
   ngOnInit(): void {
@@ -109,12 +114,9 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
     });
 
     picker.on('select', (e) => {
-      const start = moment(picker.getStartDate(), 'DD-MM-YYYY');
-      const end = moment(picker.getEndDate(), 'DD-MM-YYYY');
-      const range = this.momentExt.range(start, end);
-      for (let month of range.by('month')) {
-        console.log(month.format("DD-MM-YYYY"));
-      }
+      const start = moment(picker.getStartDate()).format("YYYYMMDD");
+      const end = moment(picker.getEndDate()).format('YYYYMMDD');
+      this.getResumenMarcaciones(this.id, start, end)
     })
   }
 

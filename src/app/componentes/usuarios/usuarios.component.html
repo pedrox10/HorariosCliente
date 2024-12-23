@@ -10,17 +10,20 @@
       <div class="column is-narrow">
         <div class="hbox" style="  align-items: flex-end;">
           <div class="vinput">
-            <label class="label" style="margin-bottom: 0px;">Buscar Funcionario </label>
+            <div class="hitem">
+              <label class="label" style="margin-bottom: 0px;">Buscar Funcionario </label>
+              <span class="help" style="margin-left: auto; font-weight: bold">{{usuariosFiltrados.length}}</span>
+            </div>
             <p class="control has-icons-right">
               <input (input)="applyFilter($event)" type="text" class="input" placeholder="Nombre o CI"/>
               <span class="icon is-right"><i class="fas fa-search"></i></span>
             </p>
           </div>
           <div class="vinput" style="gap: 0px !important;">
-            <p class='help'>Seleccionados: {{usuariosSeleccionados.length}}</p>
+            <p class="help">Seleccionados: {{usuariosSeleccionados.length}}</p>
             <div class="hitem">
               <button class="button" (click)="abrirModal()"
-                      style="background-color: {{colores.at(6)?.valor}}; border-radius: 5px">Asignar Horario
+                      style="background-color: {{colores.at(5)?.valor}}; border-radius: 5px">Asignar Horario
               </button>
               <button class="button"
                       style="background-color: {{colores.at(5)?.valor}}; border-radius: 5px; display: none;">Asignar Grupo

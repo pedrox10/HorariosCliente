@@ -9,8 +9,9 @@
     <div class="column is-narrow">
       <div class="info">
         <div class="vbox-centered">
+          <label class="label">{{usuario?.terminal.nombre}}</label>
           <i class="fas fa-user-circle" style="font-size: 3em"></i>
-          <span class="label">{{usuario?.nombre}}</span>
+          <span class="label" style="margin: 0">{{usuario?.nombre}}</span>
           <span>{{usuario?.ci}}</span>
         </div>
       </div>
@@ -60,7 +61,6 @@
             <div class="select">
               <select>
                 <option>2024</option>
-                <option>2023</option>
               </select>
             </div>
           </div>
@@ -110,7 +110,7 @@
         </tr>
         <tbody>
         @for (infoMarcacion of infoMarcaciones; track infoMarcacion; let index = $index) {
-        {{  setInfoActual(infoMarcacion)}}
+        {{setInfoActual(infoMarcacion)}}
         @if(infoMarcacion.activo) {
         <tr>
           <th>{{getInfoActual().dia}}</th>

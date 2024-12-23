@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {AfterViewInit, Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {TerminalService} from '../../servicios/terminal.service';
 import {HttpClientModule} from '@angular/common/http';
@@ -21,7 +21,7 @@ import {FormsModule} from "@angular/forms";
   styleUrl: './usuarios.component.css'
 })
 
-export class UsuariosComponent implements OnInit {
+export class UsuariosComponent implements OnInit, AfterViewInit {
   public colores = env.colores;
   public usuariosFiltrados: Usuario[] = [];
   public usuariosSeleccionados: Usuario[] = [];
@@ -37,6 +37,7 @@ export class UsuariosComponent implements OnInit {
       (data: any) => {
         this.usuarios = data;
         this.usuariosFiltrados = data;
+        (document.getElementById("rb_activo") as HTMLInputElement)?.click()
       },
       (error: any) => {
         console.error('An error occurred:', error);
@@ -54,6 +55,10 @@ export class UsuariosComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit() {
+
   }
 
   applyFilter($event: any) {
@@ -170,6 +175,10 @@ export class UsuariosComponent implements OnInit {
   filtrarUsuarios(ev: any) {
     let valor = (<HTMLInputElement>ev.target).value;
     this.estado = parseInt(valor)
+    env.filtrarEstado = true;
+    console.log(env.filtrarEstado)
+    env.estado = this.estado;
+    console.log(env.estado)
     this.usuariosFiltrados = this.usuarios.filter((item: Usuario) => item.estado == this.estado)
     this.marcarTodos(false);
     (document.getElementById("cb_todos") as HTMLInputElement).checked = false;
@@ -189,6 +198,8 @@ export class UsuariosComponent implements OnInit {
       this.estado = undefined
       this.marcarTodos(false);
       (document.getElementById("cb_todos") as HTMLInputElement).checked = false;
+      env.filtrarEstado = false;
+      env.estado = -1
     }
   }
 }
