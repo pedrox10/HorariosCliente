@@ -25,4 +25,5 @@ export class HorarioService {
   public asignarHorario(id: number, ids: string, ini: string, fin: any, jornadas: string) {
     return this.http.get(`${this.apiUrl}/asignar-horario/${id}/usuarios/${ids}/ini/${ini}/fin/${fin}/jornadas/${jornadas}`)
   }
+
 }

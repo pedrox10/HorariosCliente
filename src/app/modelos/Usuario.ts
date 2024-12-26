@@ -10,12 +10,14 @@ export class Usuario {
   nombre: string;
   estado: EstadoUsuario;
   seleccionado: boolean;
+  horarioActual: string
 
-  constructor(uid:number, ci: number, nombre: string, estado: EstadoUsuario) {
+  constructor(uid:number, ci: number, nombre: string, estado: EstadoUsuario, horarioActual: string) {
     this.uid = uid;
     this.ci = ci;
     this.nombre = nombre;
     this.estado = estado
     this.seleccionado = false;
+    this.horarioActual = horarioActual;
   }
 }

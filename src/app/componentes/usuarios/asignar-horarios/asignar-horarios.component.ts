@@ -10,6 +10,7 @@ import {RangePlugin} from "@easepick/range-plugin";
 import {HorarioService} from "../../../servicios/horario.service";
 import {Horario} from "../../../modelos/Horario";
 import {env} from "../../../../environments/environments";
+import moment from "moment";
 
 @Component({
   selector: 'app-asignar-horarios',
@@ -71,6 +72,7 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
         },
       },
     });
+    this.picker.gotoDate(moment().subtract(1, "month").toDate());
     this.picker.on("select", (e: any) => {
       console.log(this.picker.getStartDate().format('DD-MM-YYYY'))
     })

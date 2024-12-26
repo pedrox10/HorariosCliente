@@ -22,6 +22,7 @@
     "@creativebulma/bulma-badge": "^1.0.1",
     "@easepick/core": "^1.2.1",
     "@easepick/datetime": "^1.2.1",
+    "@easepick/lock-plugin": "^1.2.1",
     "@easepick/range-plugin": "^1.2.1",
     "@esbuild/linux-x64": "^0.24.0",
     "@esbuild/win32-x64": "^0.24.0",

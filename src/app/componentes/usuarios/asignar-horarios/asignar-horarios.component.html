@@ -1,4 +1,4 @@
-<div class="modal-card" style="width: 930px; height: 650px; background-color: white;">
+<div class="modal-card" style="width: 930px; height: 700px; background-color: white;">
   <header class="modal-card-head">
     <p class="modal-card-title">Asignar Horario</p>
     <button (click)="cerrarModal()" class="delete" aria-label="close"></button>
@@ -77,22 +77,29 @@
         <table class="table horario">
           <thead>
           <tr>
+            <th></th>
+            <th colspan="2" style="text-align: center;min-width: 210px">Primer Turno</th>
+            <th colspan="2" style="text-align: center;min-width: 210px">Segundo Turno</th>
+          </tr>
+          <tr>
             <th style="min-width: 80px">Dia</th>
-            <th style="text-align: center;min-width: 210px">Primer Turno</th>
-            <th style="text-align: center;min-width: 210px">Segundo Turno</th>
+            <th>Entrada</th>
+            <th>Salida</th>
+            <th>Entrada</th>
+            <th>Salida</th>
           </tr>
           </thead>
           <tbody>
           @for (jornada of jornadaDias; track jornada; let i = $index ) {
           <tr id="{{jornada.dia}}">
             <td>{{jornada.dia}}</td>
-            <td>
+            <td colspan="2">
               <div class="hitem">
                 <input type="time" value="{{jornada.priEntrada}}" class="input">
                 <input type="time" value="{{jornada.priSalida}}" class="input">
               </div>
             </td>
-            <td>
+            <td colspan="2">
               <div class="hitem">
                 <input type="time" value="{{jornada.segEntrada}}"  class="input">
                 <input type="time" value="{{jornada.segSalida}}"  class="input">

@@ -80,9 +80,19 @@
           <thead>
           <tr>
             <th></th>
-            <th>Dia</th>
-            <th style="text-align: center;">Primer Turno</th>
-            <th style="text-align: center;">Segundo Turno</th>
+            <th></th>
+            <th colspan="3" style="text-align: center;">Primer Turno</th>
+            <th colspan="3" style="text-align: center;">Segundo Turno</th>
+          </tr>
+          <tr>
+            <th></th>
+            <th style="min-width: 80px">Dia</th>
+            <th>Entrada</th>
+            <th>Salida</th>
+            <th style="min-width: 35px"></th>
+            <th>Entrada</th>
+            <th>Salida</th>
+            <th style="min-width: 35px"></th>
           </tr>
           </thead>
           <tbody>
@@ -95,7 +105,7 @@
               </label>
             </td>
             <td class="desactivado" style="text-transform: capitalize;">{{dia}}</td>
-            <td class="desactivado">
+            <td colspan="3" class="desactivado">
               <div class="hitem">
                 <input type="time" value="" class="input">
                 <input type="time" value="" class="input">
@@ -104,7 +114,7 @@
                 </button>
               </div>
             </td>
-            <td class="desactivado">
+            <td colspan="3" class="desactivado">
               <div class="hitem oculto" id="turno_{{dia}}">
                 <input type="time" value=""  class="input">
                 <input type="time" value=""  class="input">

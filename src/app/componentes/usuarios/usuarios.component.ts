@@ -26,16 +26,17 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   public usuariosFiltrados: Usuario[] = [];
   public usuariosSeleccionados: Usuario[] = [];
   public usuarios: Usuario[] = [];
-  public terminal: any|Terminal;
+  public terminal: any | Terminal;
   private activatedRoute = inject(ActivatedRoute);
   idTerminal = this.activatedRoute.snapshot.params['id'];
   estado: EstadoUsuario | any = undefined;
 
-  constructor(public terminalService: TerminalService,private modalService: ModalService, private location: Location) {
+  constructor(public terminalService: TerminalService, private modalService: ModalService, private location: Location) {
 
     this.terminalService.getUsuarios(this.idTerminal).subscribe(
       (data: any) => {
         this.usuarios = data;
+        console.log(this.usuarios)
         this.usuariosFiltrados = data;
         (document.getElementById("rb_activo") as HTMLInputElement)?.click()
       },
@@ -47,6 +48,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
     this.terminalService.getTerminal(this.idTerminal).subscribe(
       (data: any) => {
         this.terminal = data;
+        console.log(this.terminal)
       },
       (error: any) => {
         console.error('An error occurred:', error);
@@ -63,8 +65,8 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
 
   applyFilter($event: any) {
     let texto = $event.target.value.toLowerCase();
-    let lista: Usuario[] =[]
-    lista = this.estado != undefined ? this.usuarios.filter((item: Usuario) => item.estado == this.estado): lista = this.usuarios
+    let lista: Usuario[] = []
+    lista = this.estado != undefined ? this.usuarios.filter((item: Usuario) => item.estado == this.estado) : lista = this.usuarios
     if (texto === "") {
       this.usuariosFiltrados = lista;
     } else {
@@ -83,8 +85,8 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
       const index = this.usuariosSeleccionados.map(u => u.ci).indexOf(usuario.ci);
       this.usuariosSeleccionados.splice(index, 1);
     }
-    let lista: Usuario[] =[]
-    lista = this.estado != undefined ? this.usuarios.filter((item: Usuario) => item.estado == this.estado): lista = this.usuarios
+    let lista: Usuario[] = []
+    lista = this.estado != undefined ? this.usuarios.filter((item: Usuario) => item.estado == this.estado) : lista = this.usuarios
     if (this.usuariosSeleccionados.length == lista.length) {
       cb_todos.classList.remove("is-indeterminate");
       cb_todos.checked = true;
@@ -127,7 +129,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
         let cbTodos = (document.getElementById("cb_todos") as HTMLInputElement);
         cbTodos.checked = false;
         cbTodos.classList.remove("is-indeterminate")
-        this.usuariosSeleccionados= []
+        this.usuariosSeleccionados = []
         this.quitarFiltros()
         console.log(data)
         setTimeout(() => {
@@ -148,9 +150,20 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
     return EstadoUsuario[usuario.estado];
   }
 
+  getJornada(usuario: Usuario| any) {
+    let fecha = moment().format("YYYYMMDD")
+    this.terminalService.getJornada(usuario.id, fecha).subscribe(
+      (data: any) => {
+        console.log(data)
+      },
+      (error: any) => {
+        console.log("error")
+      })
+  }
+
   getUltSincronizacion() {
     let res = ""
-    if(this.terminal?.ult_sincronizacion === null)
+    if (this.terminal?.ult_sincronizacion === null)
       res = "Ult. vez: Nunca"
     else
       res = "Ult. vez: " + moment(this.terminal?.ult_sincronizacion).format('DD/MM/YYYY HH:mm');
@@ -167,7 +180,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
         data: {usuarios}
       })
       .subscribe((data) => {
-        if(data !== undefined)
+        if (data !== undefined)
           console.log(data)
       });
   }
@@ -185,11 +198,11 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   }
 
   quitarFiltros() {
-    if(this.estado != undefined) {
+    if (this.estado != undefined) {
       const estados = document.getElementsByName("estados") as NodeListOf<HTMLInputElement>;
       for (var i = 0; i < estados.length; i++) {
         let ele = estados[i];
-        if(ele.checked) {
+        if (ele.checked) {
           ele.checked = false
           this.usuariosFiltrados = this.usuarios
           break

@@ -49,7 +49,12 @@ export class TerminalService {
   public getMarcaciones(id: number) {
     return this.http.get(`${this.apiUrl}/marcaciones/${id}`);
   }
+
   public getInfoMarcaciones(id: number, ini:string, fin: string) {
     return this.http.get(`${this.apiUrl}/usuario/${id}/ini/${ini}/fin/${fin}`);
+  }
+
+  public  getJornada(id: number, fecha: string) {
+    return this.http.get(`${this.apiUrl}/usuario/${id}/fecha/${fecha}`)
   }
 }

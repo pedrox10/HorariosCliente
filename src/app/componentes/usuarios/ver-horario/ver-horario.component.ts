@@ -53,4 +53,8 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
   irAtras() {
     this.location.back();
   }
+
+  contextMenu() {
+    alert("Muestro")
+  }
 }
