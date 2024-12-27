@@ -57,4 +57,8 @@ export class TerminalService {
   public  getJornada(id: number, fecha: string) {
     return this.http.get(`${this.apiUrl}/usuario/${id}/fecha/${fecha}`)
   }
+
+  public getFechaPriMarcacion(id: number) {
+    return this.http.get(`${this.apiUrl}/terminal/${id}/pri-marcacion`);
+  }
 }

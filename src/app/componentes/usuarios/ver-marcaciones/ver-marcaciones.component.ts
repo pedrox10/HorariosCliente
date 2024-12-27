@@ -14,6 +14,7 @@ import {from, mergeMap, toArray} from "rxjs";
 import {ResumenMarcacion} from "../../../modelos/ResumenMarcacion";
 import {MarcacionComponent} from "./marcacion/marcacion.component";
 import {LockPlugin} from "@easepick/lock-plugin";
+import * as XLSX from 'xlsx-js-style';
 
 
 @Component({
@@ -37,6 +38,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   infoMarcacionActual: InfoMarcacion | any = undefined;
   ultimaSincronizacion: Date|any = undefined
   texto=""
+  fileName= 'ExcelSheet.xlsx';
 
   constructor(public terminalService: TerminalService, public location: Location) {
 
@@ -90,7 +92,6 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
         console.error('An error occurred:', error);
       }
     );
-
 
     let ids_usuarios: number[] = []
     ids_usuarios.push(82, 103)
@@ -154,6 +155,61 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
     retrasos.innerText = this.resumenMarcacion.totalCantRetrasos
     minutos.innerText = this.resumenMarcacion.totalMinRetrasos
     sinMarcar.innerText = this.resumenMarcacion.totalSinMarcar
+  }
+
+  imprimir() {
+    window.print();
+  }
+
+  exportexcel(): void
+  {
+    /* pass here the table id */
+    let element = document.getElementById('tabla_marcaciones');
+    const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
+    for (var i in ws) {
+      console.log(ws[i]);
+      if (typeof ws[i] != 'object') continue;
+      let cell = XLSX.utils.decode_cell(i);
+
+      ws[i].s = {
+        // styling for all cells
+        font: {
+          name: 'arial',
+        },
+        alignment: {
+          vertical: 'center',
+          horizontal: 'center',
+          wrapText: '1', // any truthy value here
+        },
+        border: {
+          right: {
+            style: 'thin',
+            color: '000000',
+          },
+          left: {
+            style: 'thin',
+            color: '000000',
+          },
+        },
+      };
+
+      if (cell.r == 0) {
+        // first row
+        ws[i].s.border.bottom = {
+          // bottom border
+          style: 'thin',
+          color: '000000',
+        };
+      }
+    }
+
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    XLSX.writeFile(wb, this.fileName);
+
   }
 
   irAtras() {
