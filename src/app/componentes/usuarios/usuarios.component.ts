@@ -30,6 +30,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   private activatedRoute = inject(ActivatedRoute);
   idTerminal = this.activatedRoute.snapshot.params['id'];
   estado: EstadoUsuario | any = undefined;
+  fechaMin: string|any;
 
   constructor(public terminalService: TerminalService, private modalService: ModalService, private location: Location) {
 
@@ -171,18 +172,26 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   }
 
   abrirModal() {
-    let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
-    let usuarios = this.usuariosSeleccionados;
-    this.modalService
-      .open(AsignarHorariosComponent, {
-        modal: {enter: `${config.animation} ${config.duration}`,},
-        size: {padding: '0.5rem', height: '800px'},
-        data: {usuarios}
+    this.terminalService.getFechaPriMarcacion(this.idTerminal).subscribe(
+      (data:any)=> {
+        this.fechaMin = data;
+        let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
+        let usuarios = this.usuariosSeleccionados;
+        let fechaMin = this.fechaMin;
+        this.modalService
+          .open(AsignarHorariosComponent, {
+            modal: {enter: `${config.animation} ${config.duration}`,},
+            size: {padding: '0.5rem', height: '800px'},
+            data: {usuarios, fechaMin}
+          })
+          .subscribe((data) => {
+            if (data !== undefined)
+              console.log(data)
+          });
+      },
+      (error:any) => {
+        console.error('An error occurred:', error);
       })
-      .subscribe((data) => {
-        if (data !== undefined)
-          console.log(data)
-      });
   }
 
   filtrarUsuarios(ev: any) {

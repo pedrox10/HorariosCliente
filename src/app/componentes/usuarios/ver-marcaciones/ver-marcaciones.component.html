@@ -69,14 +69,14 @@
           </div>
         </div>
         <div class="hitem" style="margin-left: auto; align-self: flex-end">
-          <button class="button"><span class="icon">
+          <button class="button"><span class="icon" (click)="imprimir()">
             <i class="fas fa-print"></i></span>
           </button>
-          <button class="button"><span class="icon"><i class="fas fa-file-excel"
+          <button class="button"><span class="icon" (click)="exportexcel()"><i class="fas fa-file-excel"
                                                        style="color: rgb(16, 129, 16);"></i></span></button>
         </div>
       </div>
-      <table class="table marcaciones is-bordered">
+      <table id="tabla_marcaciones" class="table marcaciones is-bordered">
         <tr>
           <th></th>
           <th></th>

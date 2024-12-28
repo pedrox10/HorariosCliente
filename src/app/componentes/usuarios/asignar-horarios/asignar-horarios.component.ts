@@ -1,9 +1,8 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {RouterLink} from "@angular/router";
+import {AfterViewInit, Component, inject, OnInit} from '@angular/core';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {HttpClientModule} from "@angular/common/http";
-import {FormControl, FormGroup, FormsModule, Validators} from "@angular/forms";
+import {FormGroup, FormsModule} from "@angular/forms";
 import {ModalService} from "ngx-modal-ease";
-import {Location} from "@angular/common";
 import {Usuario} from "../../../modelos/Usuario";
 import {easepick} from "@easepick/core";
 import {RangePlugin} from "@easepick/range-plugin";
@@ -11,12 +10,14 @@ import {HorarioService} from "../../../servicios/horario.service";
 import {Horario} from "../../../modelos/Horario";
 import {env} from "../../../../environments/environments";
 import moment from "moment";
+import {LockPlugin} from "@easepick/lock-plugin";
+import {TerminalService} from "../../../servicios/terminal.service";
 
 @Component({
   selector: 'app-asignar-horarios',
   standalone: true,
   imports: [RouterLink, HttpClientModule, FormsModule],
-  providers: [HorarioService],
+  providers: [HorarioService, TerminalService],
   templateUrl: './asignar-horarios.component.html',
   styleUrl: './asignar-horarios.component.css'
 })
@@ -27,8 +28,9 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
   formAccion = new FormGroup({});
   usuarios: Usuario[] = [];
   picker: HTMLInputElement| any = undefined;
+  fechaMin: string|any = undefined;
 
-  constructor(private modalService: ModalService, public horarioService: HorarioService) {
+  constructor(private modalService: ModalService, public horarioService: HorarioService, public terminalService: TerminalService) {
     this.horarioService.getHorarios().subscribe(
       (data: any) => {
         this.horarios = data;
@@ -42,6 +44,8 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
     let data: any = this.modalService.options?.data
     if(data){
       this.usuarios = data.usuarios;
+      this.fechaMin = data.fechaMin;
+      console.log(this.fechaMin)
       this.usuarios.forEach(usuario => {
         console.log(usuario.nombre)
       })
@@ -50,6 +54,7 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+
      this.picker = new easepick.create({
       element: document.getElementById('datepicker')!,
       lang: 'es-ES',
@@ -61,7 +66,7 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
         '../../../assets/easepick.css',
         "../../../assets/easepick_custom.css"
       ],
-      plugins: [RangePlugin],
+      plugins: [RangePlugin, LockPlugin],
       RangePlugin: {
         tooltipNumber(num) {
           return num - 1;
@@ -71,6 +76,10 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
           other: 'dias',
         },
       },
+       LockPlugin: {
+        minDate: moment(this.fechaMin, "YYYY-MM-DD").toDate(),
+        maxDays: 92,
+       },
     });
     this.picker.gotoDate(moment().subtract(1, "month").toDate());
     this.picker.on("select", (e: any) => {
