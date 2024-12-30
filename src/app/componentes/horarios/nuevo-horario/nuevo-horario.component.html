@@ -95,20 +95,23 @@
             <th style="min-width: 35px"></th>
           </tr>
           </thead>
-          <tbody>
+          <tbody [formGroup]="formAccion">
           @for (dia of dias; track dia; let i = $index ) {
           <tr id="{{dia}}">
             <td>
               <label class="b-checkbox checkbox">
-                <input type="checkbox" value="false" name="{{dia}}" (change)="changed($event)">
+                <input name="{{dia}}" type="checkbox" formControlName="{{dia}}" (change)="changed($event)" value="false">
                 <span class="check es-secundario"></span>
               </label>
             </td>
             <td class="desactivado" style="text-transform: capitalize;">{{dia}}</td>
             <td colspan="3" class="desactivado">
               <div class="hitem">
-                <input type="time" value="" class="input">
-                <input type="time" value="" class="input">
+                <div class="vinput">
+                  <input type="time" value="" class="input" formControlName="{{dia}}_pri_entrada">
+                    <p class='help is-danger'>Requierido</p>
+                </div>
+                <input type="time" value="" class="input" formControlName="{{dia}}_pri_salida">
                 <button class="button btn-accion has-tooltip-arrow" data-tooltip="Agregar Turno" (click)="agregarTurno(dia)">
                   <span class="icon"><i class="fas fa-plus "></i></span>
                 </button>
@@ -116,8 +119,8 @@
             </td>
             <td colspan="3" class="desactivado">
               <div class="hitem oculto" id="turno_{{dia}}">
-                <input type="time" value=""  class="input">
-                <input type="time" value=""  class="input">
+                <input type="time" value="" class="input" formControlName="{{dia}}_seg_entrada">
+                <input type="time" value="" class="input" formControlName="{{dia}}_seg_salida">
                 <button class="button btn-accion has-tooltip-arrow" data-tooltip="Quitar Turno" (click)="quitarTurno(dia)">
                   <span class="icon"><i class="fas fa-minus "></i></span>
                 </button>
@@ -131,7 +134,7 @@
     </div>
     <footer class="modal-card-foot" style="position: absolute; bottom: 35px; width: 75%">
       <div class="buttons">
-        <button class="button es-primario">
+        <button class="button es-primario" (click)="guardarHorario()">
           Guardar
         </button>
         <button class="button">Cancelar</button>

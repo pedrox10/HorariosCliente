@@ -2,12 +2,12 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {ModalService} from "ngx-modal-ease";
 import {Location} from '@angular/common';
 import {env} from "../../../../environments/environments";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-nuevo-horario',
   standalone: true,
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './nuevo-horario.component.html',
   styleUrl: './nuevo-horario.component.css'
 })
@@ -28,7 +28,6 @@ export class NuevoHorarioComponent implements OnInit  {
     this.formAccion.addControl("color", fc_color)
     this.formAccion.addControl("descripcion", fc_descripcion)
 
-
   }
 
   ngOnInit() {
@@ -40,14 +39,18 @@ export class NuevoHorarioComponent implements OnInit  {
       res.push(dia + "_pri_salida")
       res.push(dia + "_seg_entrada")
       res.push(dia + "_seg_salida")
-      console.log(res)
+      //console.log(res)
+      this.formAccion.addControl(dia, new FormControl("", [Validators.required]))
       this.formAccion.addControl(dia + "_pri_entrada", new FormControl("", [Validators.required]))
+      this.formAccion.addControl(dia + "_pri_salida", new FormControl("", [Validators.required]))
+      this.formAccion.addControl(dia + "_seg_entrada", new FormControl("", [Validators.required]))
+      this.formAccion.addControl(dia + "_seg_salida", new FormControl("", [Validators.required]))
     }
-    console.log(this.formAccion)
+
   }
 
-  onConfirm() {
-    this.modalService.close();
+  guardarHorario() {
+    console.log(this.formAccion.value)
   }
 
   irAtras() {
@@ -94,5 +97,9 @@ export class NuevoHorarioComponent implements OnInit  {
     texto.textContent = item.color
     boton.style.backgroundColor = item.valor
     this. dd_color.classList.remove("is-active")
+  }
+
+  get f() {
+    return this.formAccion.controls;
   }
 }
