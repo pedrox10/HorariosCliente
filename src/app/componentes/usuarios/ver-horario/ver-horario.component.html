@@ -7,14 +7,25 @@
   </div>
   <div class="animate__animated animate__fadeIn">
     <div style="box-sizing: border-box; width: fit-content;">
-      <div class="hbox">
-        <div class="hitem">
-          <label for="datepicker" class="label mt-2">Rango: </label>
+      <div class="hbox" style="align-content: space-between !important;">
+        <div class="vinput">
+          <label class="label" style="text-align: center">Elije un rango de fechas</label>
           <p class="control has-icons-right">
-            <input id="datepicker" class="input"/>
-            <span class="icon is-right"><i class="fas fa-calendar-alt"></i></span></p>
+            <input id="datepicker" class="input" style="min-width: 210px;"/>
+            <span class="icon is-right"><i class="fas fa-calendar-alt"></i></span>
+          </p>
         </div>
-        <div class="hitem" style="margin-left: auto;">
+        <div class="hitem">
+          <div class="vinput" style="gap: 0px !important;">
+            <label class="label" style="text-align: center">2024</label>
+            <div class="buttons no-spacing" style="align-self: flex-end">
+              <button class="button"><i class="fas fa-arrow-left"></i></button>
+              <button class="button" style="min-width: 110px">Diciembre</button>
+              <button class="button"><i class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="hitem" style="margin-left: auto; align-self: flex-end">
           <button class="button"><span class="icon"><i class="fas fa-print"></i></span></button>
           <button class="button"><span class="icon"><i class="fas fa-file-excel"
                                                        style="color: rgb(16, 129, 16);"></i></span></button>

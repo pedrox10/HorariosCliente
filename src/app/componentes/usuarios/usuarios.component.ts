@@ -9,8 +9,11 @@ import {Terminal} from "../../modelos/Terminal";
 import {Location} from "@angular/common";
 import moment from "moment";
 import {ModalService} from "ngx-modal-ease";
-import {AsignarHorariosComponent} from "./asignar-horarios/asignar-horarios.component";
+import {AsignarHorariosComponent} from "../horarios/asignar-horarios/asignar-horarios.component";
 import {FormsModule} from "@angular/forms";
+import {easepick} from "@easepick/core";
+import {RangePlugin} from "@easepick/range-plugin";
+import {LockPlugin} from "@easepick/lock-plugin";
 
 @Component({
   selector: 'app-usuarios',
@@ -27,10 +30,12 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   public usuariosSeleccionados: Usuario[] = [];
   public usuarios: Usuario[] = [];
   public terminal: any | Terminal;
+  ultimaSincronizacion: Date|any = undefined
   private activatedRoute = inject(ActivatedRoute);
   idTerminal = this.activatedRoute.snapshot.params['id'];
   estado: EstadoUsuario | any = undefined;
   fechaMin: string|any;
+  inputRango: HTMLInputElement | any;
 
   constructor(public terminalService: TerminalService, private modalService: ModalService, private location: Location) {
 
@@ -49,7 +54,42 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
     this.terminalService.getTerminal(this.idTerminal).subscribe(
       (data: any) => {
         this.terminal = data;
-        console.log(this.terminal)
+        this.ultimaSincronizacion = moment(this.terminal.ult_sincronizacion, "YYYY-MM-DD").toDate()
+        this.inputRango = document.getElementById('picker_reporte');
+        const picker = new easepick.create({
+          element: this.inputRango,
+          inline: true,
+          lang: 'es-ES',
+          format: "DD/MM/YYYY",
+          zIndex: 10,
+          grid: 2,
+          calendars: 2,
+          css: [
+            '../../../assets/easepick.css',
+            "../../../assets/easepick_custom.css"
+          ],
+          plugins: [RangePlugin, LockPlugin],
+          RangePlugin: {
+            tooltipNumber(num) {
+              return num - 1;
+            },
+            locale: {
+              one: 'dia',
+              other: 'dias',
+            },
+          },
+          LockPlugin: {
+            maxDate: this.ultimaSincronizacion,
+          },
+        });
+
+        picker.gotoDate(moment().subtract(1, "month").toDate());
+        picker.on('select', (e) => {
+          const start = moment(picker.getStartDate()).format("YYYYMMDD");
+          const end = moment(picker.getEndDate()).format('YYYYMMDD');
+          //this.getResumenMarcaciones(this.id, start, end)
+        })
+
       },
       (error: any) => {
         console.error('An error occurred:', error);
@@ -58,6 +98,15 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+
+    document.addEventListener('keydown', (e) => {
+      if ((e as KeyboardEvent).key === 'Escape') {
+        this.ocultarModalReporte()
+      }
+    });
+    document.getElementById("background")?.addEventListener("click", (e) => {
+      this.ocultarModalReporte()
+    })
   }
 
   ngAfterViewInit() {
@@ -223,5 +272,13 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
       env.filtrarEstado = false;
       env.estado = -1
     }
+  }
+
+  verModalReporte() {
+    document.getElementById("eliminar_modal")?.classList.add("is-active");
+  }
+
+  ocultarModalReporte() {
+    document.getElementById("eliminar_modal")?.classList.remove("is-active");
   }
 }

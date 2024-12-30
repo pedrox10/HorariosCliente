@@ -2,7 +2,7 @@ import {Routes} from '@angular/router';
 import {ListarTerminalesComponent} from './componentes/terminal/listar-terminales/listar-terminales.component';
 import {UsuariosComponent} from './componentes/usuarios/usuarios.component';
 import {VerMarcacionesComponent} from './componentes/usuarios/ver-marcaciones/ver-marcaciones.component';
-import {AsignarHorariosComponent} from "./componentes/usuarios/asignar-horarios/asignar-horarios.component";
+import {AsignarHorariosComponent} from "./componentes/horarios/asignar-horarios/asignar-horarios.component";
 import {VerHorarioComponent} from "./componentes/usuarios/ver-horario/ver-horario.component";
 import {HorariosComponent} from "./componentes/horarios/horarios.component";
 import {AdmTerminalesComponent} from "./componentes/terminal/adm-terminales/adm-terminales.component";

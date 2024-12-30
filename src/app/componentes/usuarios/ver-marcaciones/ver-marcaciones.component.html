@@ -11,7 +11,7 @@
         <div class="vbox-centered">
           <div class="vinput mb-2" style="gap: 0px !important;">
             <label class="label" style="align-self: center">{{usuario?.terminal.nombre}}</label>
-            <p class='help is-info' style="margin-top: 0px">{{this.texto}}</p>
+            <p class='help is-info' style="margin-top: 0px">{{this.textUltSincronizacion}}</p>
           </div>
           <i class="fas fa-user-circle" style="font-size: 3em"></i>
           <span class="label" style="margin: 0">{{usuario?.nombre}}</span>
@@ -59,14 +59,7 @@
           </p>
         </div>
         <div class="hitem">
-          <div class="vinput" style="gap: 0px !important;">
-            <label class="label" style="text-align: center">2024</label>
-            <div class="buttons no-spacing" style="align-self: flex-end">
-              <button class="button"><i class="fas fa-arrow-left"></i></button>
-              <button class="button" style="min-width: 110px">Diciembre</button>
-              <button class="button"><i class="fas fa-arrow-right"></i></button>
-            </div>
-          </div>
+
         </div>
         <div class="hitem" style="margin-left: auto; align-self: flex-end">
           <button class="button"><span class="icon" (click)="imprimir()">

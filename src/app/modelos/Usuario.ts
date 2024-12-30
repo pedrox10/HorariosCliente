@@ -10,7 +10,7 @@ export class Usuario {
   nombre: string;
   estado: EstadoUsuario;
   seleccionado: boolean;
-  horarioActual: string
+  horarioActual: string;
 
   constructor(uid:number, ci: number, nombre: string, estado: EstadoUsuario, horarioActual: string) {
     this.uid = uid;

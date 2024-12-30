@@ -25,8 +25,8 @@
               <button class="button" (click)="abrirModal()"
                       style="background-color: {{colores.at(5)?.valor}}; border-radius: 5px">Asignar Horario
               </button>
-              <button class="button"
-                      style="background-color: {{colores.at(5)?.valor}}; border-radius: 5px; display: none;">Asignar Grupo
+              <button class="button" (click)="verModalReporte()"
+                      style="background-color: {{colores.at(1)?.valor}}; border-radius: 5px;">Reporte General
               </button>
             </div>
           </div>
@@ -114,6 +114,25 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="modal " id="eliminar_modal">
+    <div class="modal-background" id="background" style="opacity: 0.75;"></div>
+    <div class="modal-card" style="width: 570px; height: 500px;">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Reporte General</p>
+        <button class="delete" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+        <label class="label">Por favor selecciona un rango de fechas para el reporte</label>
+        <input id="picker_reporte" class="input" style="min-width: 210px;display: none;"/>
+      </section>
+      <footer class="modal-card-foot">
+        <div class="buttons">
+          <button class="button es-primario" >Aceptar</button>
+          <button class="button" type="button">Cancelar</button>
+        </div>
+      </footer>
     </div>
   </div>
 </div>

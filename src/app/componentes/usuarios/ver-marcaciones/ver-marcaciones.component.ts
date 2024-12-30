@@ -37,7 +37,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   infoMarcaciones: InfoMarcacion[] = []
   infoMarcacionActual: InfoMarcacion | any = undefined;
   ultimaSincronizacion: Date|any = undefined
-  texto=""
+  textUltSincronizacion=""
   fileName= 'ExcelSheet.xlsx';
 
   constructor(public terminalService: TerminalService, public location: Location) {
@@ -46,14 +46,8 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       (data: any) => {
         this.usuario = data;
         this.ultimaSincronizacion = moment(this.usuario.terminal.ult_sincronizacion, "YYYY-MM-DD").toDate()
-        this.texto = "Ult. vez: " + moment(this.usuario.terminal.ult_sincronizacion).format("DD/MM/YYYY HH:mm")
-        let inicioMes = moment().startOf('month').format('YYYYMMDD');
-        let finMes   = moment().endOf('month').format('YYYYMMDD');
-        let rango = this.momentExt.range(moment(inicioMes), moment(finMes));
-        if(rango.contains(this.ultimaSincronizacion))
-          this.getResumenMarcaciones(this.id, inicioMes, moment(this.ultimaSincronizacion).format("YYYYMMDD"))
-        else
-          this.getResumenMarcaciones(this.id, inicioMes, finMes)
+        this.textUltSincronizacion = "Ult. vez: " + moment(this.usuario.terminal.ult_sincronizacion).format("DD/MM/YYYY HH:mm")
+
 
         this.inputRango = document.getElementById('datepicker');
         const picker = new easepick.create({
@@ -166,11 +160,11 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
     /* pass here the table id */
     let element = document.getElementById('tabla_marcaciones');
     const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
+
     for (var i in ws) {
       console.log(ws[i]);
       if (typeof ws[i] != 'object') continue;
       let cell = XLSX.utils.decode_cell(i);
-
       ws[i].s = {
         // styling for all cells
         font: {
@@ -182,11 +176,11 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
           wrapText: '1', // any truthy value here
         },
         border: {
-          right: {
+          top: {
             style: 'thin',
             color: '000000',
           },
-          left: {
+          bottom: {
             style: 'thin',
             color: '000000',
           },
@@ -198,7 +192,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
         ws[i].s.border.bottom = {
           // bottom border
           style: 'thin',
-          color: '000000',
+          color: 'FF0000',
         };
       }
     }
