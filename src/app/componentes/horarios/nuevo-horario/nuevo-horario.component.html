@@ -107,9 +107,11 @@
             <td class="desactivado" style="text-transform: capitalize;">{{dia}}</td>
             <td colspan="3" class="desactivado">
               <div class="hitem">
-                <div class="vinput">
-                  <input type="time" value="" class="input" formControlName="{{dia}}_pri_entrada">
-                    <p class='help is-danger'>Requierido</p>
+                <div class="vinput" style= "position:relative">
+                  <input type="time" value="" class="input has-tooltip-arrow has-tooltip-active" data-tooltip="Requerido"  formControlName="{{dia}}_pri_entrada">
+                  @if(getControl(dia + '_pri_entrada').touched && getControl(dia + '_pri_entrada').hasError('required')) {
+                    <span class="badge is-bottom is-danger is-light">*Requerido</span>
+                  }
                 </div>
                 <input type="time" value="" class="input" formControlName="{{dia}}_pri_salida">
                 <button class="button btn-accion has-tooltip-arrow" data-tooltip="Agregar Turno" (click)="agregarTurno(dia)">

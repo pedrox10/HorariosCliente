@@ -11,10 +11,10 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/
   templateUrl: './nuevo-horario.component.html',
   styleUrl: './nuevo-horario.component.css'
 })
-export class NuevoHorarioComponent implements OnInit  {
+export class NuevoHorarioComponent implements OnInit {
   dias = env.dias.map((dia) => dia.toLowerCase());
   colores = env.colores;
-  formAccion = new FormGroup({});
+  formAccion:FormGroup|any = new FormGroup({});
   dd_color: any;
 
   constructor(private modalService: ModalService, private location: Location) {
@@ -31,7 +31,7 @@ export class NuevoHorarioComponent implements OnInit  {
   }
 
   ngOnInit() {
-    this.dd_color =  document.getElementById("dd_color") as HTMLDivElement
+    this.dd_color = document.getElementById("dd_color") as HTMLDivElement
     for (let dia of this.dias) {
       new FormControl()
       let res: string[] = []
@@ -50,11 +50,20 @@ export class NuevoHorarioComponent implements OnInit  {
   }
 
   guardarHorario() {
+    this.formAccion.controls['lunes_pri_entrada'].reset()
     console.log(this.formAccion.value)
   }
 
   irAtras() {
     this.location.back();
+  }
+
+  get f() {
+    return this.formAccion.controls;
+  }
+
+  getControl(key: string){
+    return this.formAccion.controls[key];
   }
 
   changed(evt: any) {
@@ -96,10 +105,10 @@ export class NuevoHorarioComponent implements OnInit  {
     let texto = document.getElementById("txt_color") as HTMLSpanElement;
     texto.textContent = item.color
     boton.style.backgroundColor = item.valor
-    this. dd_color.classList.remove("is-active")
+    this.dd_color.classList.remove("is-active")
   }
 
-  get f() {
-    return this.formAccion.controls;
+  mostrarForm() {
+    console.log(JSON.stringify(this.formAccion.value["lunes_pri_entrada"]))
   }
 }
