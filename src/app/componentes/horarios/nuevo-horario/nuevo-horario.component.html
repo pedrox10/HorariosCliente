@@ -107,28 +107,43 @@
             <td class="desactivado" style="text-transform: capitalize;">{{dia}}</td>
             <td colspan="3" class="desactivado">
               <div class="hitem">
-                <div class="vinput" style= "position:relative">
-                  <input type="time" value="" class="input has-tooltip-arrow has-tooltip-active" data-tooltip="Requerido"  formControlName="{{dia}}_pri_entrada">
+                <div style="position: relative">
+                  <input type="time" class="input" formControlName="{{dia}}_pri_entrada">
                   @if(getControl(dia + '_pri_entrada').touched && getControl(dia + '_pri_entrada').hasError('required')) {
-                    <span class="badge is-bottom is-danger is-light">*Requerido</span>
+                    <span class="badge is-bottom is-danger is-light">Hora requerida!</span>
                   }
                 </div>
-                <input type="time" value="" class="input" formControlName="{{dia}}_pri_salida">
-                <button class="button btn-accion has-tooltip-arrow" data-tooltip="Agregar Turno" (click)="agregarTurno(dia)">
-                  <span class="icon"><i class="fas fa-plus "></i></span>
-                </button>
-              </div>
-            </td>
-            <td colspan="3" class="desactivado">
-              <div class="hitem oculto" id="turno_{{dia}}">
-                <input type="time" value="" class="input" formControlName="{{dia}}_seg_entrada">
-                <input type="time" value="" class="input" formControlName="{{dia}}_seg_salida">
-                <button class="button btn-accion has-tooltip-arrow" data-tooltip="Quitar Turno" (click)="quitarTurno(dia)">
-                  <span class="icon"><i class="fas fa-minus "></i></span>
-                </button>
-              </div>
-            </td>
-          </tr>
+                <div style="position: relative">
+                  <input type="time" class="input" formControlName="{{dia}}_pri_salida">
+                  @if(getControl(dia + '_pri_salida').touched && getControl(dia + '_pri_salida').hasError('required')) {
+                    <span class="badge is-bottom is-danger is-light">Hora requerida!</span>
+                  }
+                </div>
+          <button class="button btn-accion has-tooltip-arrow" data-tooltip="Agregar Turno" (click)="agregarTurno(dia)">
+            <span class="icon"><i class="fas fa-plus "></i></span>
+          </button>
+        </div>
+      </td>
+      <td colspan="3" class="desactivado">
+        <div class="hitem oculto" id="turno_{{dia}}">
+          <div style="position: relative">
+            <input type="time" class="input" formControlName="{{dia}}_seg_entrada">
+            @if(getControl(dia + '_seg_entrada').touched && getControl(dia + '_seg_entrada').hasError('required')) {
+            <span class="badge is-bottom is-danger is-light">Hora requerida!</span>
+            }
+          </div>
+          <div style="position: relative">
+            <input type="time" class="input" formControlName="{{dia}}_seg_salida">
+            @if(getControl(dia + '_seg_salida').touched && getControl(dia + '_seg_salida').hasError('required')) {
+          <span class="badge is-bottom is-danger is-light">Hora requerida!</span>
+          }
+          </div>
+          <button class="button btn-accion has-tooltip-arrow" data-tooltip="Quitar Turno" (click)="quitarTurno(dia)">
+            <span class="icon"><i class="fas fa-minus "></i></span>
+          </button>
+        </div>
+      </td>
+    </tr>
           }
           </tbody>
         </table>
@@ -136,7 +151,7 @@
     </div>
     <footer class="modal-card-foot" style="position: absolute; bottom: 35px; width: 75%">
       <div class="buttons">
-        <button class="button es-primario" (click)="guardarHorario()">
+        <button class="button es-primario" (click)="guardarHorario()" [disabled]="formAccion.invalid">
           Guardar
         </button>
         <button class="button">Cancelar</button>

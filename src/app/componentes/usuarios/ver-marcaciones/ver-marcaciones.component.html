@@ -108,7 +108,7 @@
           <td>
             <marcacion tipo="entrada" [registros]="getInfoActual().priEntradas"></marcacion>
             @if(infoMarcacion.hayPriRetraso) {
-            <span class="badge is-bottom is-warning is-light mb-1">Retraso</span>
+            <span class="badge is-bottom is-warning mb-1">Retraso</span>
             }
           </td>
           <td>
@@ -118,7 +118,7 @@
           <td>
           <marcacion tipo="entrada" [registros]="getInfoActual().segEntradas"></marcacion>
           @if(infoMarcacion.haySegRetraso) {
-          <span class="badge is-bottom is-warning is-light mb-1">Retraso</span>
+          <span class="badge is-bottom is-warning mb-1">Retraso</span>
           }
           </td>
           <td><marcacion tipo="salida" [registros]="getInfoActual().segSalidas"></marcacion></td>

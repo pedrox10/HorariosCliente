@@ -3,11 +3,14 @@ import {ModalService} from "ngx-modal-ease";
 import {Location} from '@angular/common';
 import {env} from "../../../../environments/environments";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {HorarioService} from "../../../servicios/horario.service";
+import {HttpClientModule} from "@angular/common/http";
 
 @Component({
   selector: 'app-nuevo-horario',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, HttpClientModule],
+  providers: [HorarioService],
   templateUrl: './nuevo-horario.component.html',
   styleUrl: './nuevo-horario.component.css'
 })
@@ -17,7 +20,7 @@ export class NuevoHorarioComponent implements OnInit {
   formAccion:FormGroup|any = new FormGroup({});
   dd_color: any;
 
-  constructor(private modalService: ModalService, private location: Location) {
+  constructor(private modalService: ModalService, private location: Location, public horarioService: HorarioService) {
     let fc_nombre = new FormControl("", [Validators.required, Validators.maxLength(12)])
     let fc_tolerancia = new FormControl("", [Validators.required])
     let fc_color = new FormControl("", [Validators.required])
@@ -50,8 +53,11 @@ export class NuevoHorarioComponent implements OnInit {
   }
 
   guardarHorario() {
-    this.formAccion.controls['lunes_pri_entrada'].reset()
-    console.log(this.formAccion.value)
+    this.horarioService.crearHorario(JSON.stringify(this.formAccion.value)).subscribe((data:any)=>{
+      console.log(data)
+    }, (error: any) => {
+      console.log(error)
+    });
   }
 
   irAtras() {
@@ -66,6 +72,13 @@ export class NuevoHorarioComponent implements OnInit {
     return this.formAccion.controls[key];
   }
 
+  reset(dia: string) {
+    this.formAccion.controls[dia + "_pri_entrada"].reset()
+    this.formAccion.controls[dia + "_pri_salida"].reset()
+    this.formAccion.controls[dia + "_seg_entrada"].reset()
+    this.formAccion.controls[dia + "_seg_salida"].reset()
+  }
+
   changed(evt: any) {
     let isChecked = (<HTMLInputElement>evt.target).checked
     let id = evt.target.name;
@@ -75,8 +88,10 @@ export class NuevoHorarioComponent implements OnInit {
       if (i != 0) {
         if (isChecked)
           collection[i].classList.remove("desactivado");
-        else
+        else {
           collection[i].classList.add("desactivado");
+          this.reset(id)
+        }
       }
     }
   }
