@@ -7,11 +7,11 @@
   </div>
   <div class="animate__animated animate__fadeIn">
     <div class="columns">
-      <div class="column is-one-quarter">
+      <div class="column is-one-quarter" [formGroup]="formHorario">
         <div class="field">
           <label class="label">Nombre</label>
           <div class="control">
-            <input class="input" type="text" placeholder="Oficina">
+            <input class="input" type="text" placeholder="Oficina" formControlName="nombre">
           </div>
           <p class="help is-info">Máximo 12 caracteres</p>
         </div>
@@ -20,13 +20,14 @@
             <label class="label">Tolerancia</label>
             <div class="hitem">
               <div class="control">
-                <input class="input" type="number" value="0" min="0" max="10" placeholder="5" style="width: 60px">
+                <input class="input" type="number" value="0" min="0" max="10" placeholder="5" style="width: 60px" formControlName="tolerancia">
               </div>
               <span class="mt-2">min.</span>
             </div>
           </div>
           <div class="field">
             <label class="label">Color</label>
+            <input id="input_color" class="input" type="text">
             <div class="dropdown" id="dd_color">
               <div class="dropdown-trigger">
                 <button id="btn_color" class="input" value="otro" aria-haspopup="true" aria-controls="dropdown-menu"
@@ -40,12 +41,12 @@
               <div class="dropdown-menu" id="dropdown-menu" role="menu">
                 <div class="dropdown-content">
                   @for (item of colores; track item; let i = $index ) {
-                  <a class="dropdown-item" (click)="seleccionarColor(item)">
+                  <li class="dropdown-item" (click)="seleccionarColor(item)">
                    <span class="icon" >
                     <i class="fas fa-circle" style="color:{{item.valor}};"></i>
                      </span>
                   {{item.color}}
-                  </a>
+                  </li>
                   }
                 </div>
               </div>
@@ -55,7 +56,7 @@
         <div class="field">
           <label class="label">Descripcion</label>
           <div class="control">
-            <textarea class="textarea" rows="2"></textarea>
+            <textarea class="textarea" rows="2" formControlName="descripcion"></textarea>
           </div>
         </div>
         <div class="vbox">
@@ -95,7 +96,7 @@
             <th style="min-width: 35px"></th>
           </tr>
           </thead>
-          <tbody [formGroup]="formAccion">
+          <tbody [formGroup]="formJornadas">
           @for (dia of dias; track dia; let i = $index ) {
           <tr id="{{dia}}">
             <td>
@@ -151,7 +152,7 @@
     </div>
     <footer class="modal-card-foot" style="position: absolute; bottom: 35px; width: 75%">
       <div class="buttons">
-        <button class="button es-primario" (click)="guardarHorario()" [disabled]="formAccion.invalid">
+        <button class="button es-primario" (click)="guardarHorario()" >
           Guardar
         </button>
         <button class="button">Cancelar</button>

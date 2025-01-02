@@ -17,8 +17,10 @@ import {HttpClientModule} from "@angular/common/http";
 export class NuevoHorarioComponent implements OnInit {
   dias = env.dias.map((dia) => dia.toLowerCase());
   colores = env.colores;
-  formAccion:FormGroup|any = new FormGroup({});
+  formHorario:FormGroup|any = new FormGroup({});
+  formJornadas:FormGroup|any = new FormGroup({});
   dd_color: any;
+  inputColor: any;
 
   constructor(private modalService: ModalService, private location: Location, public horarioService: HorarioService) {
     let fc_nombre = new FormControl("", [Validators.required, Validators.maxLength(12)])
@@ -26,34 +28,27 @@ export class NuevoHorarioComponent implements OnInit {
     let fc_color = new FormControl("", [Validators.required])
     let fc_descripcion = new FormControl("", [Validators.required])
 
-    this.formAccion.addControl("nombre", fc_nombre)
-    this.formAccion.addControl("tolerancia", fc_tolerancia)
-    this.formAccion.addControl("color", fc_color)
-    this.formAccion.addControl("descripcion", fc_descripcion)
+    this.formHorario.addControl("nombre", fc_nombre)
+    this.formHorario.addControl("tolerancia", fc_tolerancia)
+    this.formHorario.addControl("color", fc_color)
+    this.formHorario.addControl("descripcion", fc_descripcion)
 
   }
 
   ngOnInit() {
     this.dd_color = document.getElementById("dd_color") as HTMLDivElement
-    for (let dia of this.dias) {
-      new FormControl()
-      let res: string[] = []
-      res.push(dia + "_pri_entrada")
-      res.push(dia + "_pri_salida")
-      res.push(dia + "_seg_entrada")
-      res.push(dia + "_seg_salida")
-      //console.log(res)
-      this.formAccion.addControl(dia, new FormControl("", [Validators.required]))
-      this.formAccion.addControl(dia + "_pri_entrada", new FormControl("", [Validators.required]))
-      this.formAccion.addControl(dia + "_pri_salida", new FormControl("", [Validators.required]))
-      this.formAccion.addControl(dia + "_seg_entrada", new FormControl("", [Validators.required]))
-      this.formAccion.addControl(dia + "_seg_salida", new FormControl("", [Validators.required]))
-    }
 
+    for (let dia of this.dias) {
+      this.formJornadas.addControl(dia, new FormControl("", [Validators.required]))
+      this.formJornadas.addControl(dia + "_pri_entrada", new FormControl("", [Validators.required]))
+      this.formJornadas.addControl(dia + "_pri_salida", new FormControl("", [Validators.required]))
+      this.formJornadas.addControl(dia + "_seg_entrada", new FormControl("", [Validators.required]))
+      this.formJornadas.addControl(dia + "_seg_salida", new FormControl("", [Validators.required]))
+    }
   }
 
   guardarHorario() {
-    this.horarioService.crearHorario(JSON.stringify(this.formAccion.value)).subscribe((data:any)=>{
+    this.horarioService.crearHorario(JSON.stringify(this.formHorario.value), JSON.stringify(this.formJornadas.value)).subscribe((data:any)=>{
       console.log(data)
     }, (error: any) => {
       console.log(error)
@@ -65,18 +60,18 @@ export class NuevoHorarioComponent implements OnInit {
   }
 
   get f() {
-    return this.formAccion.controls;
+    return this.formHorario.controls;
   }
 
   getControl(key: string){
-    return this.formAccion.controls[key];
+    return this.formJornadas.controls[key];
   }
 
   reset(dia: string) {
-    this.formAccion.controls[dia + "_pri_entrada"].reset()
-    this.formAccion.controls[dia + "_pri_salida"].reset()
-    this.formAccion.controls[dia + "_seg_entrada"].reset()
-    this.formAccion.controls[dia + "_seg_salida"].reset()
+    this.formJornadas.controls[dia + "_pri_entrada"].reset()
+    this.formJornadas.controls[dia + "_pri_salida"].reset()
+    this.formJornadas.controls[dia + "_seg_entrada"].reset()
+    this.formJornadas.controls[dia + "_seg_salida"].reset()
   }
 
   changed(evt: any) {
@@ -118,12 +113,16 @@ export class NuevoHorarioComponent implements OnInit {
   seleccionarColor(item: any) {
     let boton = document.getElementById("btn_color") as HTMLButtonElement;
     let texto = document.getElementById("txt_color") as HTMLSpanElement;
+    this.inputColor = document.getElementById("input_color") as HTMLInputElement;
     texto.textContent = item.color
     boton.style.backgroundColor = item.valor
+    //this.newForm.controls.firstName.setValue('abc');
+    this.formHorario.controls.color.setValue(JSON.stringify(item))
+    console.log(this.formHorario.value)
     this.dd_color.classList.remove("is-active")
   }
 
   mostrarForm() {
-    console.log(JSON.stringify(this.formAccion.value["lunes_pri_entrada"]))
+    console.log(JSON.stringify(this.formHorario.value["lunes_pri_entrada"]))
   }
 }
