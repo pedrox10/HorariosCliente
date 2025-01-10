@@ -25,6 +25,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .dropdown-item {
   font-size: 1em;
+  padding: .375rem 0.5rem;
 }
 
 .dropdown-item i{
@@ -41,4 +42,18 @@ input[type="number"]::-webkit-inner-spin-button {
 #btn_color {
   min-width: 100px!important;
   width: 114px;
+}
+
+.animado {
+  animation: fadeIn; /* referring directly to the animation's @keyframe declaration */
+  animation-duration: 2s; /* don't forget to set a duration! */
+}
+
+@keyframes fadeIn {
+  from {
+    background-color: inherit;
+  }
+  to {
+    background-color: #FBCFD0;
+  }
 }

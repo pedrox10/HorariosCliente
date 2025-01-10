@@ -27,7 +27,6 @@
           </div>
           <div class="field">
             <label class="label">Color</label>
-            <input id="input_color" class="input" type="text">
             <div class="dropdown" id="dd_color">
               <div class="dropdown-trigger">
                 <button id="btn_color" class="input" value="otro" aria-haspopup="true" aria-controls="dropdown-menu"
@@ -41,12 +40,12 @@
               <div class="dropdown-menu" id="dropdown-menu" role="menu">
                 <div class="dropdown-content">
                   @for (item of colores; track item; let i = $index ) {
-                  <li class="dropdown-item" (click)="seleccionarColor(item)">
+                  <a class="dropdown-item" (click)="seleccionarColor(item)">
                    <span class="icon" >
                     <i class="fas fa-circle" style="color:{{item.valor}};"></i>
                      </span>
                   {{item.color}}
-                  </li>
+                  </a>
                   }
                 </div>
               </div>
@@ -56,7 +55,7 @@
         <div class="field">
           <label class="label">Descripcion</label>
           <div class="control">
-            <textarea class="textarea" rows="2" formControlName="descripcion"></textarea>
+            <textarea class="textarea" rows="2" formControlName="descripcion" style="resize: none;"></textarea>
           </div>
         </div>
         <div class="vbox">
@@ -101,7 +100,7 @@
           <tr id="{{dia}}">
             <td>
               <label class="b-checkbox checkbox">
-                <input name="{{dia}}" type="checkbox" formControlName="{{dia}}" (change)="changed($event)" value="false">
+                <input name="{{dia}}_habilitado" type="checkbox" formControlName="{{dia}}_habilitado" (change)="changed($event)">
                 <span class="check es-secundario"></span>
               </label>
             </td>
@@ -120,31 +119,31 @@
                     <span class="badge is-bottom is-danger is-light">Hora requerida!</span>
                   }
                 </div>
-          <button class="button btn-accion has-tooltip-arrow" data-tooltip="Agregar Turno" (click)="agregarTurno(dia)">
-            <span class="icon"><i class="fas fa-plus "></i></span>
-          </button>
-        </div>
-      </td>
-      <td colspan="3" class="desactivado">
-        <div class="hitem oculto" id="turno_{{dia}}">
-          <div style="position: relative">
-            <input type="time" class="input" formControlName="{{dia}}_seg_entrada">
-            @if(getControl(dia + '_seg_entrada').touched && getControl(dia + '_seg_entrada').hasError('required')) {
-            <span class="badge is-bottom is-danger is-light">Hora requerida!</span>
-            }
-          </div>
-          <div style="position: relative">
-            <input type="time" class="input" formControlName="{{dia}}_seg_salida">
-            @if(getControl(dia + '_seg_salida').touched && getControl(dia + '_seg_salida').hasError('required')) {
-          <span class="badge is-bottom is-danger is-light">Hora requerida!</span>
-          }
-          </div>
-          <button class="button btn-accion has-tooltip-arrow" data-tooltip="Quitar Turno" (click)="quitarTurno(dia)">
-            <span class="icon"><i class="fas fa-minus "></i></span>
-          </button>
-        </div>
-      </td>
-    </tr>
+                <button class="button btn-accion has-tooltip-arrow" data-tooltip="Agregar Turno" (click)="agregarTurno(dia)">
+                  <span class="icon"><i class="fas fa-plus "></i></span>
+                </button>
+              </div>
+            </td>
+            <td colspan="3" class="desactivado">
+              <div class="hitem oculto" id="{{dia}}_seg_turno">
+                <div style="position: relative">
+                  <input type="time" class="input" formControlName="{{dia}}_seg_entrada">
+                  @if(getControl(dia + '_seg_entrada').touched && getControl(dia + '_seg_entrada').hasError('required')) {
+                   <span class="badge is-bottom is-danger is-light">Hora requerida!</span>
+                  }
+                </div>
+                <div style="position: relative">
+                  <input type="time" class="input" formControlName="{{dia}}_seg_salida">
+                  @if(getControl(dia + '_seg_salida').touched && getControl(dia + '_seg_salida').hasError('required')) {
+                <span class="badge is-bottom is-danger is-light">Hora requerida!</span>
+                }
+                </div>
+                <button class="button btn-accion has-tooltip-arrow" data-tooltip="Quitar Turno" (click)="quitarTurno(dia)">
+                  <span class="icon"><i class="fas fa-minus "></i></span>
+                </button>
+              </div>
+           </td>
+          </tr>
           }
           </tbody>
         </table>

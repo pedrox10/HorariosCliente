@@ -4,7 +4,7 @@ export class Horario {
   tolerancia:number
   color: string
   descripcion: string
-  jornadaDias: any
+  jornadaDias:  any
 
   constructor(id: number, nombre: string, tolerancia:number, color: string, descripcion: string, jornadaDias:any) {
     this.id = id;
