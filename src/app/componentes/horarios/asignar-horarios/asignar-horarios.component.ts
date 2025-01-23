@@ -12,6 +12,7 @@ import {env} from "../../../../environments/environments";
 import moment from "moment";
 import {LockPlugin} from "@easepick/lock-plugin";
 import {TerminalService} from "../../../servicios/terminal.service";
+import {color} from "../../inicio/Global";
 
 @Component({
   selector: 'app-asignar-horarios',
@@ -54,7 +55,6 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-
      this.picker = new easepick.create({
       element: document.getElementById('datepicker')!,
       lang: 'es-ES',
@@ -92,7 +92,8 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
     const index = this.horarios.findIndex(x => x.id === id);
     let horario = this.horarios[index];
     document.getElementById("tolerancia")!.innerText = horario.tolerancia + " min.";
-    document.getElementById("color")!.innerText = JSON.parse(horario.color).color;
+    document.getElementById("nombre_color")!.innerText = horario.color;
+    document.getElementById("valor_color")!.style.color = color(horario.color)
     this.jornadaDias = horario.jornadaDias
     console.log(this.jornadaDias)
   }

@@ -1,0 +1,49 @@
+<div class="modal-card" style="width: 480px;">
+  <header class="modal-card-head">
+    <p class="modal-card-title">Excepción Jornada Completa</p>
+    <button class="delete" aria-label="close"></button>
+  </header>
+  <form [formGroup]="formAccion">
+    <section class="modal-card-body">
+      <div class="hitem" style="gap: 20px;">
+        <div class="field" style="width: 232px;">
+          <label class="label">Fecha o Rango</label>
+          <div class="control has-icons-right">
+            <input id="picker" class="input" formControlName="fecha"/>
+            <span class="icon is-right"><i class="fas fa-calendar-alt"></i></span>
+          </div>
+        </div>
+        <div class="vitem">
+          <div class="hitem">
+            <div class="field" style="width: 185px;">
+              <label class="label">Tipo de Licencia</label>
+              <div class="select" style="width: 100%;">
+                <select style="width: 100%;">
+                  <option>Vacacion</option>
+                  <option>Baja</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="hbox mt-4">
+            <div class="field" style="width: 100%">
+              <label class="label">Detalle</label>
+              <div class="control">
+                <textarea class="textarea" rows="3" formControlName="detalle" style="resize: none;"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+    <footer class="modal-card-foot">
+      <div class="buttons">
+        <button class="button es-primario" type="button" [disabled]="formAccion.invalid">
+          Guardar
+        </button>
+        <button class="button" type="button">Cancelar</button>
+      </div>
+    </footer>
+  </form>
+</div>

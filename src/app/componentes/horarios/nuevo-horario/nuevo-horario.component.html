@@ -30,7 +30,7 @@
             <div class="dropdown" id="dd_color">
               <div class="dropdown-trigger">
                 <button id="btn_color" class="input" value="otro" aria-haspopup="true" aria-controls="dropdown-menu"
-                        (click)="mostrarColores($event)">
+                        (click)="mostrarColores($event)" >
                   <span id="txt_color" class="ml-1 mr-2" style="min-width: 70px;">Selecciona</span>
                   <span class="icon is-small">
                     <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -40,7 +40,7 @@
               <div class="dropdown-menu" id="dropdown-menu" role="menu">
                 <div class="dropdown-content">
                   @for (item of colores; track item; let i = $index ) {
-                  <a class="dropdown-item" (click)="seleccionarColor(item)">
+                  <a class="dropdown-item"  (click)="seleccionarColor(item)" >
                    <span class="icon" >
                     <i class="fas fa-circle" style="color:{{item.valor}};"></i>
                      </span>
@@ -100,7 +100,7 @@
           <tr id="{{dia}}">
             <td>
               <label class="b-checkbox checkbox">
-                <input name="{{dia}}_habilitado" type="checkbox" formControlName="{{dia}}_habilitado" (change)="changed($event)">
+                <input name="{{dia}}_habilitado" type="checkbox" formControlName="{{dia}}_habilitado" (change)="seleccionarDia($event)">
                 <span class="check es-secundario"></span>
               </label>
             </td>
@@ -149,13 +149,15 @@
         </table>
       </div>
     </div>
-    <footer class="modal-card-foot" style="position: absolute; bottom: 35px; width: 75%">
-      <div class="buttons">
-        <button class="button es-primario" (click)="guardarHorario()" >
-          Guardar
-        </button>
-        <button class="button">Cancelar</button>
-      </div>
-    </footer>
+    <div class="hbox" style="width: 425px!important;">
+      <footer class="modal-card-foot" >
+        <div class="buttons">
+          <button class="button es-primario" (click)="guardarHorario()" [disabled]="formHorario.invalid">
+            Guardar
+          </button>
+          <button class="button">Cancelar</button>
+        </div>
+      </footer>
+    </div>
   </div>
 </div>

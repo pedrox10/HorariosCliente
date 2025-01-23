@@ -1,0 +1,60 @@
+<div class="box" style="height: 100%;">
+  <div class="title">
+    <h1>Feriados, Asuetos y Licencias</h1>
+  </div>
+  <div class="columns animate__animated animate__fadeIn">
+    <div class="column is-narrow">
+      <div class="hbox">
+        <div class="hitem">
+          <label class="label mt-2">Gestion: </label>
+          <div class="select" >
+            <select id="select_horarios">
+              <option selected>2025</option>
+              <option>2024</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <table class="table is-bordered is-hoverable">
+        <tr>
+          <th>Fecha</th>
+          <th style="width: 250px;">Nombre</th>
+          <th>Aplica a</th>
+          <th style="width: 200px;">Descripción</th>
+          <th></th>
+        </tr>
+        <tbody>
+        @for (asueto of asuetos; track asueto) {
+        <tr id={{asueto.id}}>
+          @if(asueto.fecha) {
+          <td>{{formatFecha(asueto)}}</td>
+          } @else {
+          <td class="has-text-success">Por Asignar</td>
+          }
+          <td>{{asueto.nombre}}</td>
+          <td>{{getTipo(asueto)}}</td>
+          <td>{{asueto.descripcion}}</td>
+        </tr>
+        }
+        </tbody>
+      </table>
+    </div>
+    <div class="column">
+      <label for="" class="label">Licencias para Funcionarios</label>
+      <table class="table is-bordered is-hoverable">
+        <tr>
+          <th>#</th>
+          <th style="width: 225px;">Tipo de Licencia</th>
+        </tr>
+        <tbody>
+          @for (licencia of licencias; track licencia; let index = $index) {
+            <tr id={{licencia.id}}>
+                <td>{{index+1}}</td>
+                <td>{{licencia.nombre}}</td>
+              </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

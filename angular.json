@@ -30,7 +30,7 @@
               "node_modules/bulmaswatch/pulse/bulmaswatch.min.css",
               "node_modules/bulma-checkbox/css/main.min.css",
               "node_modules/bulma-list/css/bulma-list.css",
-              "https://unpkg.com/@fortawesome/fontawesome-free@5.13.0/css/all.css",
+              "src/assets/fontawesome.css",
               "src/assets/bulma_tooltip.css",
               "node_modules/@creativebulma/bulma-badge/dist/bulma-badge.min.css",
               "src/assets/animate.css",

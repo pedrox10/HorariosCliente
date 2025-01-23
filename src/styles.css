@@ -14,7 +14,7 @@ body {
   left: 0;
   bottom: 0;
   height: 4px;
-  width: 70px;
+  width: 105px;
   background-color: #295A8C;
 }
 .title h1:after, .subtitle h2:after {
@@ -53,32 +53,6 @@ body {
   margin-bottom: 5px;
 }
 
-.vinput {
-  display: flex;
-  flex-direction: column;
-}
-
-.vinput label {
-  margin-top: 0px !important;
-  margin-bottom: 0px !important;
-}
-
-.hitem {
-  display: flex;
-  flex-direction: row;
-  gap: 5.5px;
-}
-
-.breadcrumb:not(:last-child) {
-  margin-bottom: 10px !important;
-}
-
-.pagination-link.is-current {
-  background-color: #d6e6f6 !important;
-  border-color: #b7c6d2 !important;
-  color: #000 !important;
-}
-
 .vbox {
   display: flex;
   flex-direction: column;
@@ -91,6 +65,32 @@ body {
   flex-direction: column;
   gap: 5px;
   align-items: center;
+}
+
+.hitem {
+  display: flex;
+  flex-direction: row;
+  gap: 5.5px;
+}
+
+.vitem, .vinput {
+  display: flex;
+  flex-direction: column;
+}
+
+.vinput label {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+}
+
+.breadcrumb:not(:last-child) {
+  margin-bottom: 10px !important;
+}
+
+.pagination-link.is-current {
+  background-color: #d6e6f6 !important;
+  border-color: #b7c6d2 !important;
+  color: #000 !important;
 }
 
 .accion {
@@ -202,6 +202,9 @@ p.modal-card-title {
   margin-right: 0px !important;
 }
 
-
+.bordes-redondeados {
+  border-radius: 5px !important;
+  height: auto;
+}
 
 

@@ -7,6 +7,8 @@ import {VerHorarioComponent} from "./componentes/usuarios/ver-horario/ver-horari
 import {HorariosComponent} from "./componentes/horarios/horarios.component";
 import {AdmTerminalesComponent} from "./componentes/terminal/adm-terminales/adm-terminales.component";
 import {NuevoHorarioComponent} from "./componentes/horarios/nuevo-horario/nuevo-horario.component";
+import {AsuetosComponent} from "./componentes/horarios/asuetos/asuetos.component";
+import {EditarUsuarioComponent} from "./componentes/usuarios/editar-usuario/editar-usuario.component";
 
 export const routes: Routes = [
   {path: "", component: ListarTerminalesComponent},
@@ -16,6 +18,8 @@ export const routes: Routes = [
   {path: "horarios", component: HorariosComponent},
   {path: "nuevo-horario", component: NuevoHorarioComponent},
   {path: "asignar-horarios", component: AsignarHorariosComponent},
-  {path: "ver-horario", component: VerHorarioComponent},
+  {path: "ver-horario/:id", component: VerHorarioComponent},
+  {path: "asuetos", component: AsuetosComponent},
   {path: "adm-terminales", component: AdmTerminalesComponent},
+  {path: "editar-usuario", component: EditarUsuarioComponent},
 ];

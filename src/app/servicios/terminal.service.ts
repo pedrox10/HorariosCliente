@@ -46,6 +46,10 @@ export class TerminalService {
     return this.http.get(`${this.apiUrl}/usuario/${id}`);
   }
 
+  public editarUsuario(id: number, body: any) {
+    return this.http.put(`${this.apiUrl}/usuario/editar/${id}`, body);
+  }
+
   public getMarcaciones(id: number) {
     return this.http.get(`${this.apiUrl}/marcaciones/${id}`);
   }

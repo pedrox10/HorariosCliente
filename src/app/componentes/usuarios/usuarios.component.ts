@@ -3,7 +3,6 @@ import {ActivatedRoute, RouterLink} from '@angular/router';
 import {TerminalService} from '../../servicios/terminal.service';
 import {HttpClientModule} from '@angular/common/http';
 import {env} from '../../../environments/environments';
-import {TurnoComponent} from "../horarios/turno/turno.component";
 import {EstadoUsuario, Usuario} from "../../modelos/Usuario";
 import {Terminal} from "../../modelos/Terminal";
 import {Location} from "@angular/common";
@@ -14,18 +13,21 @@ import {FormsModule} from "@angular/forms";
 import {easepick} from "@easepick/core";
 import {RangePlugin} from "@easepick/range-plugin";
 import {LockPlugin} from "@easepick/lock-plugin";
+import {VerHorarioComponent} from "./ver-horario/ver-horario.component";
+import {EditarUsuarioComponent} from "./editar-usuario/editar-usuario.component";
+import {color, mensaje} from "../inicio/Global";
 
 @Component({
   selector: 'app-usuarios',
   standalone: true,
-  imports: [RouterLink, HttpClientModule, TurnoComponent, FormsModule],
+  imports: [RouterLink, HttpClientModule, FormsModule],
   providers: [TerminalService],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css'
 })
 
 export class UsuariosComponent implements OnInit, AfterViewInit {
-  public colores = env.colores;
+  public colores: any = env.colores;
   public usuariosFiltrados: Usuario[] = [];
   public usuariosSeleccionados: Usuario[] = [];
   public usuarios: Usuario[] = [];
@@ -36,6 +38,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   estado: EstadoUsuario | any = undefined;
   fechaMin: string|any;
   inputRango: HTMLInputElement | any;
+  dd_acciones: HTMLDivElement | any;
 
   constructor(public terminalService: TerminalService, private modalService: ModalService, private location: Location) {
 
@@ -66,7 +69,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
           calendars: 2,
           css: [
             '../../../assets/easepick.css',
-            "../../../assets/easepick_custom.css"
+            "../../../assets/easepick_small.css"
           ],
           plugins: [RangePlugin, LockPlugin],
           RangePlugin: {
@@ -98,7 +101,6 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-
     document.addEventListener('keydown', (e) => {
       if ((e as KeyboardEvent).key === 'Escape') {
         this.ocultarModalReporte()
@@ -116,7 +118,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   applyFilter($event: any) {
     let texto = $event.target.value.toLowerCase();
     let lista: Usuario[] = []
-    lista = this.estado != undefined ? this.usuarios.filter((item: Usuario) => item.estado == this.estado) : lista = this.usuarios
+    lista = this.estado != undefined ? this.usuarios.filter((item: Usuario) => item.estado == this.estado) : this.usuarios
     if (texto === "") {
       this.usuariosFiltrados = lista;
     } else {
@@ -200,6 +202,10 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
     return EstadoUsuario[usuario.estado];
   }
 
+  getFechaAlta(usuario: Usuario) {
+    return moment(usuario.fechaAlta).format('DD/MM/YYYY')
+  }
+
   getJornada(usuario: Usuario| any) {
     let fecha = moment().format("YYYYMMDD")
     this.terminalService.getJornada(usuario.id, fecha).subscribe(
@@ -220,32 +226,36 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
     return res
   }
 
-  abrirModal() {
-    this.terminalService.getFechaPriMarcacion(this.idTerminal).subscribe(
-      (data:any)=> {
-        this.fechaMin = data;
-        let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
-        let usuarios = this.usuariosSeleccionados;
-        let fechaMin = this.fechaMin;
-        this.modalService
-          .open(AsignarHorariosComponent, {
+  asignarHorario() {
+    if(this.usuariosSeleccionados.length > 0) {
+      this.terminalService.getFechaPriMarcacion(this.idTerminal).subscribe(
+        (data:any)=> {
+          this.fechaMin = data;
+          let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
+          let usuarios = this.usuariosSeleccionados;
+          let fechaMin = this.fechaMin;
+          this.modalService.open(AsignarHorariosComponent, {
             modal: {enter: `${config.animation} ${config.duration}`,},
-            size: {padding: '0.5rem', height: '800px'},
+            size: {padding: '0.5rem'},
             data: {usuarios, fechaMin}
           })
-          .subscribe((data) => {
-            if (data !== undefined)
-              console.log(data)
-          });
-      },
-      (error:any) => {
-        console.error('An error occurred:', error);
-      })
+            .subscribe((data) => {
+              if (data !== undefined)
+                console.log(data)
+            });
+        },
+        (error:any) => {
+          console.error('An error occurred:', error);
+        })
+    } else {
+      mensaje("Debes seleccionar al menos un funcionario", "is-warning")
+    }
   }
 
   filtrarUsuarios(ev: any) {
     let valor = (<HTMLInputElement>ev.target).value;
     this.estado = parseInt(valor)
+    console.log(this.estado)
     env.filtrarEstado = true;
     console.log(env.filtrarEstado)
     env.estado = this.estado;
@@ -272,13 +282,74 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
       env.filtrarEstado = false;
       env.estado = -1
     }
+    console.log(this.estado)
   }
 
   verModalReporte() {
-    document.getElementById("eliminar_modal")?.classList.add("is-active");
+    if(this.usuariosSeleccionados.length > 0) {
+      document.getElementById("reporte_modal")?.classList.add("is-active");
+    } else {
+      mensaje("Debes seleccionar al menos un funcionario", "is-warning")
+    }
   }
 
   ocultarModalReporte() {
-    document.getElementById("eliminar_modal")?.classList.remove("is-active");
+    document.getElementById("reporte_modal")?.classList.remove("is-active");
   }
+
+  verHorario(id_usuario: number|any) {
+    let id = id_usuario;
+    let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
+    this.modalService.open(VerHorarioComponent, {
+      modal: {enter: `${config.animation} ${config.duration}`,},
+      size: {padding: '0.5rem'},
+      data: {id}
+    })
+      .subscribe((data) => {
+        if (data !== undefined)
+          console.log(data)
+      });
+  }
+
+  editarUsuario(id_usuario: number|any) {
+    let id = id_usuario;
+    let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
+    this.modalService.open(EditarUsuarioComponent, {
+      modal: {enter: `${config.animation} ${config.duration}`,},
+      size: {padding: '0.5rem'},
+      data: {id}
+    })
+      .subscribe((data) => {
+        if (data !== undefined)
+          this.edit(data)
+      });
+  }
+
+  edit(usuario: Usuario) {
+    let index = this.usuarios.map(i => i.id).indexOf(usuario.id);
+    this.usuarios[index] = usuario
+    if(this.estado !== undefined) {
+      if(this.estado === usuario.estado) {
+        let index = this.usuariosFiltrados.map(i => i.id).indexOf(usuario.id);
+        this.usuariosFiltrados[index] = usuario
+      } else {
+        let index = this.usuariosFiltrados.map(i => i.id).indexOf(usuario.id);
+        this.usuariosFiltrados.splice(index, 1)
+      }
+    }
+  }
+
+  mostrarAcciones(id: number|any) {
+    this.dd_acciones = document.getElementById("dd_acciones" + id) as HTMLDivElement
+    if (this.dd_acciones.classList.contains("is-active")) {
+      this.dd_acciones.classList.remove("is-active")
+    } else {
+      this.dd_acciones.classList.add("is-active")
+    }
+  }
+
+  getColor(nombre: string) {
+    return color(nombre)
+  }
+
 }

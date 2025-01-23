@@ -1,0 +1,58 @@
+<div class="modal-card" style="min-height: 600px; width: 800px">
+  <header class="modal-card-head">
+    <p class="modal-card-title">Excepciones de Tickeo</p>
+    <button class="delete" aria-label="close"></button>
+  </header>
+  <section class="modal-card-body">
+    <div class="hbox">
+      <div class="hitem">
+        <label class="label mt-2">Gestion: </label>
+        <div class="select">
+          <select id="select_horarios">
+            <option selected>2025</option>
+            <option>2024</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <table class="table is-bordered is-hoverable">
+      <tr>
+        <th></th>
+        <th></th>
+        <th colspan="2" style="text-align: center">Hora</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr>
+        <th style="width: 105px;">Fecha</th>
+        <th style="width: 145px;">Tipo</th>
+        <th>Inicio</th>
+        <th>Fin</th>
+        <th style="width: 105px;">Licencia</th>
+        <th>Detalle</th>
+        <th></th>
+      </tr>
+      <tbody>
+      @for (excepcion of excepciones; track excepcion) {
+      <tr id={{excepcion.id}}>
+        <td>{{excepcion.fecha}}</td>
+        <td>Rango de Horas</td>
+        <td></td>
+        <td></td>
+        <td>Cumpleaños</td>
+        <td>{{excepcion.detalle}}</td>
+      </tr>
+      }
+      </tbody>
+    </table>
+  </section>
+  <footer class="modal-card-foot">
+    <div class="buttons">
+      <button class="button es-primario" type="button">
+        Guardar
+      </button>
+      <button class="button" type="button">Cancelar</button>
+    </div>
+  </footer>
+</div>

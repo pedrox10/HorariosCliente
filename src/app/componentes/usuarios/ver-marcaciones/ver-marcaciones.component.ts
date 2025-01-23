@@ -15,6 +15,13 @@ import {ResumenMarcacion} from "../../../modelos/ResumenMarcacion";
 import {MarcacionComponent} from "./marcacion/marcacion.component";
 import {LockPlugin} from "@easepick/lock-plugin";
 import * as XLSX from 'xlsx-js-style';
+import {color} from "../../inicio/Global";
+import {env} from "../../../../environments/environments";
+import {ModalService} from "ngx-modal-ease";
+import {AsignarHorariosComponent} from "../../horarios/asignar-horarios/asignar-horarios.component";
+import {NuevaExcepcionCompletaComponent} from "./nueva-excepcion-completa/nueva-excepcion-completa.component";
+import {NuevaExcepcionParcialComponent} from "./nueva-excepcion-parcial/nueva-excepcion-parcial.component";
+import {VerExcepcionesComponent} from "./ver-excepciones/ver-excepciones.component";
 
 
 @Component({
@@ -27,6 +34,7 @@ import * as XLSX from 'xlsx-js-style';
 })
 
 export class VerMarcacionesComponent implements OnInit, AfterViewInit {
+  public colores: any = env.colores;
   public usuario: any | Usuario;
   private activatedRoute = inject(ActivatedRoute);
   public id = this.activatedRoute.snapshot.params['id'];
@@ -40,14 +48,13 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   textUltSincronizacion=""
   fileName= 'ExcelSheet.xlsx';
 
-  constructor(public terminalService: TerminalService, public location: Location) {
+  constructor(public terminalService: TerminalService, public location: Location, public modalService: ModalService) {
 
     this.terminalService.getUsuario(this.id).subscribe(
       (data: any) => {
         this.usuario = data;
         this.ultimaSincronizacion = moment(this.usuario.terminal.ult_sincronizacion, "YYYY-MM-DD").toDate()
         this.textUltSincronizacion = "Ult. vez: " + moment(this.usuario.terminal.ult_sincronizacion).format("DD/MM/YYYY HH:mm")
-
 
         this.inputRango = document.getElementById('datepicker');
         const picker = new easepick.create({
@@ -76,6 +83,9 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
           },
         });
         picker.gotoDate(moment().subtract(1, "month").toDate());
+        let inicioMes = moment(this.ultimaSincronizacion, 'YYYY-MM-DD').startOf('month').format('YYYYMMDD');
+        this.getResumenMarcaciones(this.id, inicioMes, moment(this.ultimaSincronizacion).format("YYYYMMDD"))
+
         picker.on('select', (e) => {
           const start = moment(picker.getStartDate()).format("YYYYMMDD");
           const end = moment(picker.getEndDate()).format('YYYYMMDD');
@@ -88,12 +98,12 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
     );
 
     let ids_usuarios: number[] = []
-    ids_usuarios.push(82, 103)
+    ids_usuarios.push(80)
     const result$ =
       from(ids_usuarios)
         .pipe(
           mergeMap(id_usuario => {
-            return this.terminalService.getInfoMarcaciones(id_usuario, "20241201", "20241213")
+            return this.terminalService.getInfoMarcaciones(id_usuario, "20250101", "20250113")
           }),
           toArray()
         );
@@ -151,62 +161,54 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
     sinMarcar.innerText = this.resumenMarcacion.totalSinMarcar
   }
 
+  agregarExcepcionCompleta() {
+    let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
+    this.modalService.open(NuevaExcepcionCompletaComponent, {
+      modal: {enter: `${config.animation} ${config.duration}`,},
+      size: {padding: '0.5rem'},
+      data: {}
+    })
+      .subscribe((data) => {
+        if (data !== undefined)
+          console.log(data)
+      });
+  }
+
+  agregarExcepcionParcial() {
+    let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
+    this.modalService.open(NuevaExcepcionParcialComponent, {
+      modal: {enter: `${config.animation} ${config.duration}`,},
+      size: {padding: '0.5rem'},
+      data: {}
+    })
+      .subscribe((data) => {
+        if (data !== undefined)
+          console.log(data)
+      });
+  }
+
+  verExcepciones() {
+    let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
+    this.modalService.open(VerExcepcionesComponent, {
+      modal: {enter: `${config.animation} ${config.duration}`,},
+      size: {padding: '0.5rem'},
+      data: {}
+    })
+      .subscribe((data) => {
+        if (data !== undefined)
+          console.log(data)
+      });
+  }
+
   imprimir() {
     window.print();
   }
 
-  exportexcel(): void
-  {
-    /* pass here the table id */
-    let element = document.getElementById('tabla_marcaciones');
-    const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
-
-    for (var i in ws) {
-      console.log(ws[i]);
-      if (typeof ws[i] != 'object') continue;
-      let cell = XLSX.utils.decode_cell(i);
-      ws[i].s = {
-        // styling for all cells
-        font: {
-          name: 'arial',
-        },
-        alignment: {
-          vertical: 'center',
-          horizontal: 'center',
-          wrapText: '1', // any truthy value here
-        },
-        border: {
-          top: {
-            style: 'thin',
-            color: '000000',
-          },
-          bottom: {
-            style: 'thin',
-            color: '000000',
-          },
-        },
-      };
-
-      if (cell.r == 0) {
-        // first row
-        ws[i].s.border.bottom = {
-          // bottom border
-          style: 'thin',
-          color: 'FF0000',
-        };
-      }
-    }
-
-    /* generate workbook and add the worksheet */
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-    /* save to file */
-    XLSX.writeFile(wb, this.fileName);
-
-  }
-
   irAtras() {
     this.location.back();
+  }
+
+  getColor(nombre: string) {
+    return color(nombre)
   }
 }

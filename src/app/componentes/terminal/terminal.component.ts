@@ -1,5 +1,7 @@
 import { Component, Input, numberAttribute } from '@angular/core';
-import { RouterLink } from '@angular/router';import {Terminal} from "../../modelos/Terminal";
+import { RouterLink } from '@angular/router';
+import {Terminal} from "../../modelos/Terminal";
+import moment from "moment";
 
 @Component({
   selector: 'app-terminal',
@@ -14,5 +16,14 @@ export class  TerminalComponent {
 
   constructor() {
 
+  }
+
+  getUltimaSincronizacion () {
+    let res=""
+    if(this.terminal.ult_sincronizacion)
+      res = moment(this.terminal.ult_sincronizacion).format("DD-MM-YYYY HH:mm");
+    else
+      res = "Nunca"
+    return res;
   }
 }

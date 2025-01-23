@@ -6,6 +6,8 @@ import {Horario} from "../../modelos/Horario";
 import {HorarioService} from "../../servicios/horario.service";
 import {HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule} from "@angular/forms";
+import {color, mensaje} from "../inicio/Global";
+import {Terminal} from "../../modelos/Terminal";
 
 @Component({
   selector: 'app-horarios',
@@ -23,10 +25,9 @@ export class HorariosComponent implements OnInit {
   };
 
   horarios: Horario[] = [];
-  id_actual: number = -1;
+  horario: Horario|any = undefined;
 
   constructor(public horarioService: HorarioService, private modalService: ModalService) {
-
   }
 
   ngOnInit(): void {
@@ -39,30 +40,60 @@ export class HorariosComponent implements OnInit {
         console.error('An error occurred:', error);
       }
     );
+    document.addEventListener('keydown', (e) => {
+      if ((e as KeyboardEvent).key === 'Escape') {
+        this.ocultarEliminar()
+      }
+    });
+    document.getElementById("background")?.addEventListener("click", (e) => {
+      this.ocultarEliminar()
+    })
   }
 
-  nuevoHorario() {
-    this.modalService
-      .open(NuevoHorarioComponent, {
-        modal: {
-          enter: `${this.config.animation} ${this.config.duration}`,
-        },
-        size: {
-          height: '800px',
-          padding: '0.5rem',
-        },
-      })
-      .subscribe((data) => {
-        console.log(data || '🚫 No data')
-      });
+  verificarHorario(horario: Horario) {
+    this.horarioService.getNumJornadas(horario.id).subscribe(
+      (data: any) => {
+        let numJornadas = data.res;
+        console.log(numJornadas)
+        if(numJornadas > 0) {
+          mensaje("Horario con jornadas asignadas, no se puede eliminar", "is-warning")
+        } else
+          this.mostrarEliminar(horario)
+      },
+      (error: any) => {
+        console.error('An error occurred:', error);
+      }
+    )
   }
 
-  getColor(dato: any, atributo: string) {
-    let res = atributo == "color" ? JSON.parse(dato).color : JSON.parse(dato).valor
+  mostrarEliminar(horario: Horario) {
+    document.getElementById("eliminar_modal")?.classList.add("is-active");
+    this.horario = horario;
+  }
+
+  eliminarHorario() {
+    this.horarioService.eliminarHorario(this.horario.id).subscribe(
+      (data: any) => {
+        console.log(data)
+      },
+      (error: any) => {
+        console.error('An error occurred:', error);
+      }
+    )
+  }
+
+  getNombreHorario() {
+    let res = ""
+    if(this.horario !== undefined)
+      res = this.horario.nombre
     return res;
   }
 
-  getValorColor(color: any) {
-    return JSON.parse(color).valor;
+  ocultarEliminar() {
+    document.getElementById("eliminar_modal")?.classList.remove("is-active");
+  }
+
+  getColor(nombre: string) {
+    return color(nombre);
   }
 }

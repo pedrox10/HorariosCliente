@@ -1,4 +1,4 @@
-<div class="modal-card" style="width: 930px; height: 700px; background-color: white;">
+<div class="modal-card" style="width: 920px; height: 700px; background-color: white;">
   <header class="modal-card-head">
     <p class="modal-card-title">Asignar Horario</p>
     <button (click)="cerrarModal()" class="delete" aria-label="close"></button>
@@ -6,7 +6,7 @@
   <div class="animate__animated animate__fadeIn">
     <div class="columns" style="margin: 10px">
       <div class="column box is-one-quarter"
-           style="background-color: #f2fffe; overflow-y: auto; height: 500px; overflow-x: hidden;">
+           style="background-color: #f2fffe; overflow-y: auto; height: 550px; overflow-x: hidden;">
         <label class="label" style="font-size: 1.15em">Lista de Funcionarios</label>
         @for (usuario of usuarios;track usuario; let i = $index ) {
         <div class="list-item">
@@ -22,7 +22,7 @@
         }
       </div>
       <div class="column">
-        <div class="hbox" style=" justify-content: space-between">
+        <div class="hbox" style="justify-content: space-between;">
           <div class="hitem">
             <label class="label mt-1">
               Selecciona un rango de fechas:
@@ -46,15 +46,18 @@
             </div>
           </div>
         </div>
-        <div class="hbox" style="justify-content: space-between">
+        <div class="hbox" style="justify-content: space-between; margin-bottom: 0px !important; height: 30px;">
           <div class="hbox">
             <div class="hitem">
               <span>Tolerancia: </span>
               <span id="tolerancia" style="min-width: 50px">--</span>
             </div>
-            <div class="hitem">
+            <div class= "hitem">
               <span>Color: </span>
-              <span id="color" style="min-width: 50px">--</span>
+              <span id="nombre_color"> -- </span>
+              <span class="color" >
+                <i id="valor_color" class="fas fa-circle" style="color: white"></i>
+              </span>
             </div>
           </div>
           <div class="hbox">
@@ -62,17 +65,28 @@
               <label class="b-checkbox checkbox is-dark">
                 <input type="checkbox" value="false">
                 <span class="check is-warning"></span>
-                <span class="control-label">Lactancia</span>
+                <div class="hitem">
+                  <span class="control-label">Lactancia</span>
+                  <i class="fas fa-baby mt-1" style="color: gray" ></i>
+                </div>
               </label>
             </div>
             <div class="field">
               <label class="switch is-rounded is-info">
                 <input type="checkbox">
                 <span class="check is-info "></span>
-                <span class="control-label">Invierno</span>
+                <div class="hitem">
+                  <span class="control-label">Invierno</span>
+                  <i class="fas fa-mitten mt-1" style=" color: gray"></i>
+                </div>
+
               </label>
             </div>
           </div>
+        </div>
+        <div class="hitem">
+          <span>Descripcion: </span>
+          <span id="" style="min-width: 50px">--</span>
         </div>
         <table class="table horario">
           <thead>
@@ -90,21 +104,32 @@
           </tr>
           </thead>
           <tbody>
-          @for (jornada of jornadaDias; track jornada; let i = $index ) {
-          <tr id="{{jornada.dia}}">
-            <td>{{jornada.dia}}</td>
+          @for (jornadaDia of jornadaDias; track jornadaDia; let i = $index ) {
+          <tr id="{{jornadaDia.dia}}">
+            <td>{{jornadaDia.dia}}</td>
+            @if(jornadaDia.habilitado) {
             <td colspan="2">
               <div class="hitem">
-                <input type="time" value="{{jornada.priEntrada}}" class="input">
-                <input type="time" value="{{jornada.priSalida}}" class="input">
+                <input type="time" value="{{jornadaDia.priEntrada}}" class="input">
+                <input type="time" value="{{jornadaDia.priSalida}}" class="input">
               </div>
             </td>
             <td colspan="2">
-              <div class="hitem">
-                <input type="time" value="{{jornada.segEntrada}}"  class="input">
-                <input type="time" value="{{jornada.segSalida}}"  class="input">
+              @if(jornadaDia.segEntrada === null  && jornadaDia.segSalida === null) {
+              <div class="hitem oculto">
               </div>
+              } @else {
+              <div class="hitem">
+              <input type="time" value="{{jornadaDia.segEntrada}}"  class="input">
+                <input type="time" value="{{jornadaDia.segSalida}}"  class="input">
+              </div>
+              }
             </td>
+            } @else {
+            <td colspan="4">
+              <div class="hitem" style="min-height: 35px"></div>
+            </td>
+            }
           </tr>
           }
           </tbody>

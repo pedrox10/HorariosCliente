@@ -1,0 +1,60 @@
+<div class="modal-card" style="width: 400px; height: 660px">
+  <header class="modal-card-head">
+    <p class="modal-card-title">Editar usuario</p>
+    <button class="delete" aria-label="close" (click)="cerrarModal()"></button>
+  </header>
+
+  <form [formGroup]="formAccion">
+    <section class="modal-card-body">
+      <div class="hbox mb-4">
+        <div class="hitem">
+          <i class="fas fa-user-circle" style="font-size: 3em"></i>
+          <div class="vinput">
+            <span class="label" style="margin: 0">{{usuario?.nombre}}</span>
+            <span>{{usuario?.ci}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="hitem" style="gap: 20px;">
+        <div class="field">
+          <label class="label">Fecha de Alta</label>
+          <div class="control">
+            <input class="input" type="date" max="{{gestionActual}}-12-31" formControlName="fechaAlta"/>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Fecha de Baja</label>
+          <div class="control">
+            <input id="fecha_baja" class="input" type="date" max="{{gestionActual}}-12-31" formControlName="fechaBaja">
+          </div>
+        </div>
+      </div>
+
+      <div class="hitem mt-4" style="gap: 20px;">
+        <div class="field">
+          <label class="label">Fecha de Cumpleaños</label>
+          <div class="control">
+            <input class="input" type="date" max="{{gestionActual}}-12-31" style="width: 170px" formControlName="fechaCumpleano">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Estado</label>
+          <div class="select" >
+            <select id="" formControlName="estado">
+              <option value="1">Activo</option>
+              <option value="0">Inactivo</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer class="modal-card-foot">
+      <div class="buttons">
+        <button class="button es-primario" type="button" (click)="onSubmit()" [disabled]="formAccion.invalid">
+          Guardar
+        </button>
+        <button class="button" type="button" (click)="cerrarModal()">Cancelar</button>
+      </div>
+    </footer>
+  </form>
+</div>

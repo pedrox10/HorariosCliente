@@ -1,14 +1,14 @@
-<div class="box" style="height: 100%;">
+<div class="box hidden-print" style="height: 100%;">
   <div class="hitem mb-5">
     <span (click)="irAtras()" class="icon button mt-1"><i class="fas fa-arrow-left"></i></span>
     <div class="title">
       <h1>Funcionarios en {{terminal?.nombre}}</h1>
     </div>
   </div>
-  <div class="animate__animated animate__fadeIn">
-    <div class="columns">
-      <div class="column is-narrow">
-        <div class="hbox" style="  align-items: flex-end;">
+  <div class="animate__animated animate__fadeIn" >
+    <div class="columns" >
+      <div class="column is-narrow" >
+        <div class="hbox" style="align-items: flex-end;">
           <div class="vinput">
             <div class="hitem">
               <label class="label" style="margin-bottom: 0px;">Buscar Funcionario </label>
@@ -22,11 +22,15 @@
           <div class="vinput" style="gap: 0px !important;">
             <p class="help">Seleccionados: {{usuariosSeleccionados.length}}</p>
             <div class="hitem">
-              <button class="button" (click)="abrirModal()"
-                      style="background-color: {{colores.at(5)?.valor}}; border-radius: 5px">Asignar Horario
+              <button class="button" (click)="asignarHorario()"
+                style="background-color: {{getColor('Amarillo')}}; border-radius: 5px">
+                <span class="icon"><i class="fas fa-user-clock"></i></span>
+                <span>Asignar Horario</span>
               </button>
               <button class="button" (click)="verModalReporte()"
-                      style="background-color: {{colores.at(1)?.valor}}; border-radius: 5px;">Reporte General
+                style="background-color: {{getColor('Naranja')}}; border-radius: 5px;">
+                <span class="icon"><i class="fas fa-file-alt"></i></span>
+                <span>Reporte general</span>
               </button>
             </div>
           </div>
@@ -41,7 +45,7 @@
             </div>
           </div>
         </div>
-        <table class="table is-bordered is-hoverable">
+        <table class="table is-bordered is-hoverable" >
           <tr>
             <th>
               <label class="b-checkbox checkbox">
@@ -52,9 +56,9 @@
             <th>#</th>
             <th style="width: 250px;">Nombre</th>
             <th style="width: 100px;">CI</th>
-            <th>Horario Actual</th>
+            <th>Fecha de Alta</th>
             <th style="width: 75px;">Estado</th>
-            <th>Acciones</th>
+            <th></th>
           </tr>
           <tbody>
           @for (usuario of usuariosFiltrados; track usuario; let index = $index) {
@@ -66,20 +70,22 @@
                 </label>
             </td>
             <td>{{index +1}}</td>
-          <td>{{usuario.nombre}}</td>
-          <td>{{usuario.ci}}</td>
-          <td>{{usuario.horarioActual}}</td>
-          <td>{{getEstado(usuario)}}</td>
-          <td>
-            <div class="hitem">
-              <span class="icon has-tooltip-arrow" data-tooltip="Ver Horario" routerLink="/ver-horario">
-                <i class="far fa-calendar-alt icon-btn"></i>
-              </span>
-              <span class="icon has-tooltip-arrow" data-tooltip="Ver Marcaciones" routerLink="/ver-marcaciones/{{
-          usuario.id}}">
-                <i class="far fa-calendar-check icon-btn"></i>
-              </span>
-            </div>
+            <td>{{usuario.nombre}}</td>
+            <td>{{usuario.ci}}</td>
+            <td>{{getFechaAlta(usuario)}}</td>
+            <td>{{getEstado(usuario)}}</td>
+            <td>
+              <div class="hitem">
+              <span class="icon has-tooltip-arrow" data-tooltip="Ver Marcaciones" routerLink="/ver-marcaciones/{{usuario.id}}">
+                  <i class="far fa-calendar-check icon-btn"></i>
+                </span>
+                <span class="icon has-tooltip-arrow" data-tooltip="Ver Horario" (click)="verHorario(usuario.id)">
+                  <i class="far fa-calendar-alt icon-btn"></i>
+                </span>
+                <span class="icon has-tooltip-arrow" data-tooltip="Editar" (click)="editarUsuario(usuario.id)">
+                  <i class="far fa-edit icon-btn"></i>
+                </span>
+              </div>
           </td>
         </tr>
           }
@@ -116,12 +122,12 @@
       </div>
     </div>
   </div>
-  <div class="modal " id="eliminar_modal">
+  <div class="modal" id="reporte_modal">
     <div class="modal-background" id="background" style="opacity: 0.75;"></div>
-    <div class="modal-card" style="width: 570px; height: 500px;">
+    <div class="modal-card" style="width: 500px; height: 470px;">
       <header class="modal-card-head">
         <p class="modal-card-title">Reporte General</p>
-        <button class="delete" aria-label="close"></button>
+        <button class="delete" aria-label="close" (click)="ocultarModalReporte()"></button>
       </header>
       <section class="modal-card-body">
         <label class="label">Por favor selecciona un rango de fechas para el reporte</label>
@@ -130,7 +136,7 @@
       <footer class="modal-card-foot">
         <div class="buttons">
           <button class="button es-primario" >Aceptar</button>
-          <button class="button" type="button">Cancelar</button>
+          <button class="button" type="button" (click)="ocultarModalReporte()">Cancelar</button>
         </div>
       </footer>
     </div>

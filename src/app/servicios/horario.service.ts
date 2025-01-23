@@ -30,4 +30,27 @@ export class HorarioService {
     return this.http.get(`${this.apiUrl}/horario/crear/${horario}/${jornadas}`)
   }
 
+  public eliminarHorario(id: number) {
+    return this.http.get(`${this.apiUrl}/horario/${id}/eliminar`)
+  }
+
+  public getAsuetos() {
+    return this.http.get(`${this.apiUrl}/asuetos`);
+  }
+
+  public getLicencias() {
+    return this.http.get(`${this.apiUrl}/licencias`);
+  }
+
+  public  getJornadas(id: number, gestion: number, mes: number) {
+    return this.http.get(`${this.apiUrl}/usuario/${id}/gestion/${gestion}/mes/${mes}`)
+  }
+
+  public  getExcepciones(id: number, gestion: number) {
+    return this.http.get(`${this.apiUrl}/excepciones/${id}/gestion/${gestion}`)
+  }
+
+  public  getNumJornadas(id: number) {
+    return this.http.get(`${this.apiUrl}/horario/${id}/jornadas`)
+  }
 }

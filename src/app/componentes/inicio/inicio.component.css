@@ -132,17 +132,17 @@ ul li li::before {
 
 ul li li:nth-child(1),
 ul li li:nth-child(1)::before {
-  transition-delay: 1.2s;
+  transition-delay: 1s;
 }
 
 ul li li:nth-child(2),
 ul li li:nth-child(2)::before {
-  transition-delay: 1.4s;
+  transition-delay: 1s;
 }
 
 ul li li:nth-child(3),
 ul li li:nth-child(3)::before {
-  transition-delay: 1.6s;
+  transition-delay: 1s;
 }
 
 ul li li:nth-child(2) {

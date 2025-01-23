@@ -1,4 +1,3 @@
-
 <div class="box" style="height: 100%;">
   <div class="title">
     <h1>Lista de Horarios</h1>
@@ -13,7 +12,8 @@
       <div class="hitem">
       </div>
       <div class="hitem has-tooltip-arrow" data-tooltip="Agregar Horario" style="margin-left: auto;">
-        <button class="button" routerLink="/nuevo-horario"><span class="icon"><i class="fas fa-plus "></i></span></button>
+        <button class="button" routerLink="/nuevo-horario"><span class="icon"><i class="fas fa-plus "></i></span>
+        </button>
       </div>
     </div>
     <table class="table is-bordered is-hoverable">
@@ -23,7 +23,7 @@
         <th>Tolerancia</th>
         <th>Color</th>
         <th>Descripcion</th>
-        <th>Acciones</th>
+        <th></th>
       </tr>
       <tbody>
       @for (horario of horarios; track horario; let i = $index) {
@@ -33,16 +33,16 @@
           <td>{{horario.tolerancia}}</td>
           <td>
             <div class= "hitem">
-              {{getColor(horario.color, "color")}}
+      {{horario.color}}
       <span class="color" >
-                <i class="fas fa-circle" style="color:{{getColor(horario.color, 'valor')}};"></i>
+        <i class="fas fa-circle" style="color:{{getColor(horario.color)}};"></i>
               </span>
             </div>
           </td>
           <td>{{horario.descripcion}}</td>
           <td>
             <div class="hitem">
-              <span class="icon has-tooltip-arrow " data-tooltip="Eliminar" (click) = "nuevoHorario()">
+              <span class="icon has-tooltip-arrow" data-tooltip="Eliminar" (click) = "verificarHorario(horario)">
                 <i class="far fa-times-circle icon-btn"></i>
               </span>
             </div>
@@ -51,5 +51,24 @@
       }
       </tbody>
     </table>
+  </div>
+  <div class="modal " id="eliminar_modal">
+    <div class="modal-background" id="background" style="opacity: 0.75;"></div>
+    <div class="modal-card" style="width: 400px">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Eliminar horario</p>
+        <button class="delete" aria-label="close" (click) = "ocultarEliminar()"></button>
+      </header>
+      <section class="modal-card-body">
+        <label class="label">Se eliminará el horario plantilla: {{getNombreHorario()}}</label>
+        <p class="label">¿Esta seguro?</p>
+      </section>
+      <footer class="modal-card-foot">
+        <div class="buttons">
+          <button class="button es-primario" (click)="eliminarHorario()">Aceptar</button>
+          <button class="button" type="button" (click) = "ocultarEliminar()">Cancelar</button>
+        </div>
+      </footer>
+    </div>
   </div>
 </div>

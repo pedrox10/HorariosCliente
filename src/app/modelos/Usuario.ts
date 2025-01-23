@@ -10,14 +10,18 @@ export class Usuario {
   nombre: string;
   estado: EstadoUsuario;
   seleccionado: boolean;
-  horarioActual: string;
+  fechaAlta: Date
+  fechaBaja: Date
+  fechaCumpleano: Date
 
-  constructor(uid:number, ci: number, nombre: string, estado: EstadoUsuario, horarioActual: string) {
+  constructor(uid:number, ci: number, nombre: string, estado: EstadoUsuario, fechaAlta: Date, fechaBaja: Date, fechaCumpleano: Date) {
     this.uid = uid;
     this.ci = ci;
     this.nombre = nombre;
     this.estado = estado
     this.seleccionado = false;
-    this.horarioActual = horarioActual;
+    this.fechaAlta = fechaAlta;
+    this.fechaBaja = fechaBaja;
+    this.fechaCumpleano = fechaCumpleano;
   }
 }

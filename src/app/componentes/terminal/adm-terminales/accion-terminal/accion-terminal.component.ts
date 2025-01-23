@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {TerminalService} from "../../../../servicios/terminal.service";
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {toast} from 'bulma-toast'
 import {ModalService} from "ngx-modal-ease";
-import {AdmTerminalesComponent} from "../adm-terminales.component";
 import {Router} from '@angular/router';
 import {CommonModule} from "@angular/common";
 
@@ -29,8 +28,6 @@ export class AccionTerminalComponent implements OnInit {
   id_actual: number = -1;
 
   constructor(private terminalService: TerminalService,
-              private formBuilder: FormBuilder,
-              private admTerminales: AdmTerminalesComponent,
               public modalService: ModalService, private router: Router) {
   }
 
@@ -75,11 +72,12 @@ export class AccionTerminalComponent implements OnInit {
     this.formAccion.reset();
     let mensaje = this.accion == "Agregar" ? "Terminal Agregado" : "Terminal Editado";
     toast({
-      message: '<span class="icon" style="min-width: 175px;"><i style="color: white; font-size: 2em; padding-right: 10px" class="fas fa-check"></i>' + mensaje + '</span>',
+      message: '<span class="icon" style="min-width: 175px;"><i style="color: white; font-size: 1.5em; padding-right: 10px" class="fas fa-check"></i>' + mensaje + '</span>',
       type: "is-success",
       position: "bottom-center",
       duration: 3000,
-      animate: {in: 'bounceIn', out: 'bounceOut'},
+      animate: {in: 'backInUp', out: 'backOutDown'},
+      extraClasses: "bordes-redondeados"
     })
   }
 

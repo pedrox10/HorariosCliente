@@ -1,93 +1,62 @@
-<div class="box" style="height: 100%;">
-  <div class="hitem mb-5">
-    <span (click)="irAtras()" class="icon button mt-1"><i class="fas fa-arrow-left"></i></span>
-    <div class="title">
-      <h1>Horarios y Turnos</h1>
-    </div>
-  </div>
-  <div class="animate__animated animate__fadeIn">
-    <div style="box-sizing: border-box; width: fit-content;">
-      <div class="hbox" style="align-content: space-between !important;">
+<div id="modal-horario" class="modal-card" style="background-color: white;width: 740px; min-height: 650px; height: auto">
+  <header class="modal-card-head">
+    <p class="modal-card-title">Horarios y turnos</p>
+    <button class="delete" aria-label="close" (click)="cerrarModal()"></button>
+  </header>
+  <div class="column" style="padding:0px 12.5px; width: fit-content;">
+    <div class="hbox">
+      <div class="hitem" style="align-items: flex-end;">
+        <i class="fas fa-user-circle" style="font-size: 3em"></i>
         <div class="vinput">
-          <label class="label" style="text-align: center">Elije un rango de fechas</label>
-          <p class="control has-icons-right">
-            <input id="datepicker" class="input" style="min-width: 210px;"/>
-            <span class="icon is-right"><i class="fas fa-calendar-alt"></i></span>
-          </p>
-        </div>
-        <div class="hitem">
-          <div class="vinput" style="gap: 0px !important;">
-            <label class="label" style="text-align: center">2024</label>
-            <div class="buttons no-spacing" style="align-self: flex-end">
-              <button class="button"><i class="fas fa-arrow-left"></i></button>
-              <button class="button" style="min-width: 110px">Diciembre</button>
-              <button class="button"><i class="fas fa-arrow-right"></i></button>
-            </div>
-          </div>
-        </div>
-        <div class="hitem" style="margin-left: auto; align-self: flex-end">
-          <button class="button"><span class="icon"><i class="fas fa-print"></i></span></button>
-          <button class="button"><span class="icon"><i class="fas fa-file-excel"
-                                                       style="color: rgb(16, 129, 16);"></i></span></button>
+          <span class="label" style="margin: 0">{{usuario?.nombre}}</span>
+          <span>{{usuario?.ci}}</span>
         </div>
       </div>
-
-      <table class="table is-bordered">
-        <tr>
-          <th>Lun</th>
-          <th>Mar</th>
-          <th>Mie</th>
-          <th>Jue</th>
-          <th>Vie</th>
-          <th>Sab</th>
-          <th>Dom</th>
-        </tr>
-        <tbody>
-        <tr>
-          <td >
-            <app-turno class="has-tooltipl-multiline" data-tooltip="Editar&#10;Cambiar Horario&#10;Borrar"/>
-          </td>
-          <td>
-            <app-turno class="has-tooltipl-multiline" data-tooltip="Editar&#10;Cambiar Horario&#10;Borrar"/>
-          </td>
-          <td>
-            <app-turno class="has-tooltipl-multiline" data-tooltip="Editar&#10;Cambiar Horario&#10;Borrar"/>
-          </td>
-          <td>
-            <app-turno class="has-tooltipl-multiline" data-tooltip="Editar&#10;Cambiar Horario&#10;Borrar"/>
-          </td>
-          <td>
-            <app-turno class="has-tooltipl-multiline" data-tooltip="Editar&#10;Cambiar Horario&#10;Borrar"/>
-          </td>
-          <td>
-          </td>
-          <td>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <app-turno class="has-tooltipl-multiline" data-tooltip="Editar&#10;Cambiar Horario&#10;Borrar"/>
-          </td>
-          <td>
-            <app-turno class="has-tooltipl-multiline" data-tooltip="Editar&#10;Cambiar Horario&#10;Borrar"/>
-          </td>
-          <td>
-            <app-turno class="has-tooltipl-multiline" data-tooltip="Editar&#10;Cambiar Horario&#10;Borrar"/>
-          </td>
-          <td>
-            <app-turno class="has-tooltipl-multiline" data-tooltip="Editar&#10;Cambiar Horario&#10;Borrar"/>
-          </td>
-          <td>
-            <app-turno class="has-tooltipl-multiline" data-tooltip="Editar&#10;Cambiar Horario&#10;Borrar"/>
-          </td>
-          <td>
-          </td>
-          <td>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+      <div class="hitem" style="flex: 1; justify-content: center;">
+        <div class="vinput" style="gap: 0px !important;">
+          <label class="label" style="text-align: center">{{gestionActual}}</label>
+          <div class="buttons no-spacing" style="align-self: flex-end">
+            <button class="button" (click)="mesAnterior()"><i class="fas fa-arrow-left"></i></button>
+            <button class="button" style="min-width: 110px">{{meses[mesActual]}}</button>
+            <button class="button" (click)="mesSiguiente()"><i class="fas fa-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="hitem" style="justify-content: flex-end; align-self: flex-end">
+        <button class="button" (click)="imprimir()">
+          <span class="icon"><i class="fas fa-print"></i></span>
+        </button>
+      </div>
     </div>
+
+    <table class="table is-bordered">
+      <tr>
+        <th>Lun</th>
+        <th>Mar</th>
+        <th>Mie</th>
+        <th>Jue</th>
+        <th>Vie</th>
+        <th>Sab</th>
+        <th>Dom</th>
+      </tr>
+      <tbody>
+      @for (semana of calendar; track semana;) {
+        <tr id={{semana.semana}}>
+          @for (jornada of semana.dias; track jornada;) {
+            <td style="position: relative; padding-top: 0px;">
+              @if(jornada != null) {
+              <span style="text-transform: capitalize; font-weight: bold; margin-top: 0 !important;" class="help" >{{getFecha(jornada)}}</span>
+              <app-jornada [jornada]="jornada" class="mt-2"></app-jornada>
+              } @else {
+              null
+              }
+            </td>
+          }
+        </tr>
+      }
+      </tbody>
+    </table>
   </div>
 </div>
+
 

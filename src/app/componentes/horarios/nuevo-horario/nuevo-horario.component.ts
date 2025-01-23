@@ -5,7 +5,7 @@ import {env} from "../../../../environments/environments";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {HorarioService} from "../../../servicios/horario.service";
 import {HttpClientModule} from "@angular/common/http";
-import {isEmpty} from "rxjs";
+import {mensaje} from "../../inicio/Global";
 
 @Component({
   selector: 'app-nuevo-horario',
@@ -17,17 +17,16 @@ import {isEmpty} from "rxjs";
 })
 export class NuevoHorarioComponent implements OnInit {
   dias = env.dias.map((dia) => dia.toLowerCase());
-  colores = env.colores;
+  colores: any = env.colores;
   formHorario: FormGroup | any = new FormGroup({});
   formJornadas: FormGroup | any = new FormGroup({});
   dd_color: any;
-  inputColor: any;
 
   constructor(private modalService: ModalService, private location: Location, public horarioService: HorarioService) {
     let fc_nombre = new FormControl("", [Validators.required, Validators.maxLength(12)])
     let fc_tolerancia = new FormControl("5", [Validators.required])
     let fc_color = new FormControl("", [Validators.required])
-    let fc_descripcion = new FormControl("", [Validators.required])
+    let fc_descripcion = new FormControl("", [])
 
     this.formHorario.addControl("nombre", fc_nombre)
     this.formHorario.addControl("tolerancia", fc_tolerancia)
@@ -37,8 +36,8 @@ export class NuevoHorarioComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dd_color = document.getElementById("dd_color") as HTMLDivElement
 
+    this.dd_color = document.getElementById("dd_color") as HTMLDivElement
     for (let dia of this.dias) {
       this.formJornadas.addControl(dia + "_habilitado", new FormControl(false, [Validators.required]))
       this.formJornadas.addControl(dia + "_pri_entrada", new FormControl(null, [Validators.required]))
@@ -46,49 +45,72 @@ export class NuevoHorarioComponent implements OnInit {
       this.formJornadas.addControl(dia + "_seg_entrada", new FormControl(null, [Validators.required]))
       this.formJornadas.addControl(dia + "_seg_salida", new FormControl(null, [Validators.required]))
     }
+    document.addEventListener('click', (event) => {
+      let el = (event.target) as HTMLElement;
+      if (!document.getElementById("dropdown-menu")?.contains(el) && !document.getElementById("dd_color")?.contains(el)) {
+        this.dd_color.classList.remove("is-active")
+      }
+    });
   }
 
   guardarHorario() {
-    let verificado: boolean = true;
-    let fila: HTMLTableRowElement | any;
-    for (let dia of this.dias) {
-      fila = document.getElementById(dia)
-      let habilitado = this.getControl(dia + "_habilitado").value
-      if (habilitado) {
-        let pri_entrada = this.getControl(dia + "_pri_entrada").value
-        let pri_salida = this.getControl(dia + "_pri_salida").value
-        if (this.tieneSegTurno(dia)) {
-          let seg_entrada = this.getControl(dia + "_seg_entrada").value
-          let seg_salida = this.getControl(dia + "_seg_salida").value
-          if (this.esVacio(pri_entrada) || this.esVacio(pri_salida) || this.esVacio(seg_entrada) || this.esVacio(seg_salida)) {
-            fila.classList.add("animado")
-            setTimeout(() => {
-              fila.classList.remove("animado")
-            }, 2000)
-            verificado = false;
-            break;
-          }
-        } else {
-          if (this.esVacio(pri_entrada) || this.esVacio(pri_salida)) {
-            fila.classList.add("animado")
-            setTimeout(() => {
-              fila.classList.remove("animado")
-            }, 2000)
-            verificado = false;
-            break;
+    if(this.tieneDiasSeleccionados()) {
+      let verificado: boolean = true;
+      let fila: HTMLTableRowElement | any;
+      for (let dia of this.dias) {
+        fila = document.getElementById(dia)
+        let habilitado = this.getControl(dia + "_habilitado").value
+        if (habilitado) {
+          let pri_entrada = this.getControl(dia + "_pri_entrada").value
+          let pri_salida = this.getControl(dia + "_pri_salida").value
+          if (this.tieneSegTurno(dia)) {
+            let seg_entrada = this.getControl(dia + "_seg_entrada").value
+            let seg_salida = this.getControl(dia + "_seg_salida").value
+            if (this.esVacio(pri_entrada) || this.esVacio(pri_salida) || this.esVacio(seg_entrada) || this.esVacio(seg_salida)) {
+              fila.classList.add("animado")
+              setTimeout(() => {
+                fila.classList.remove("animado")
+              }, 3000)
+              verificado = false;
+              break;
+            }
+          } else {
+            if (this.esVacio(pri_entrada) || this.esVacio(pri_salida)) {
+              fila.classList.add("animado")
+              setTimeout(() => {
+                fila.classList.remove("animado")
+              }, 3000)
+              verificado = false;
+              break;
+            }
           }
         }
       }
+      if (verificado) {
+        this.horarioService.crearHorario(JSON.stringify(this.formHorario.value), JSON.stringify(this.formJornadas.value)).subscribe((data: any) => {
+          mensaje("Nuevo horario creado", "is-success")
+          this.formHorario.reset();
+          this.formJornadas.reset();
+        }, (error: any) => {
+          console.log(error)
+        });
+      } else {
+        mensaje("Debes llenar todos los campos del día", "is-warning")
+      }
+    } else{
+      mensaje("Debes seleccionar al menos un día", "is-warning")
     }
-    if (verificado) {
-      this.horarioService.crearHorario(JSON.stringify(this.formHorario.value), JSON.stringify(this.formJornadas.value)).subscribe((data: any) => {
-        console.log(data)
-      }, (error: any) => {
-        console.log(error)
-      });
-    } else {
-      console.log("No vreirfica")
+  }
+
+  tieneDiasSeleccionados() {
+    let res = false
+    for (let dia of this.dias) {
+      if (this.getControl(dia + "_habilitado").value) {
+        res = true;
+        break
+      }
     }
+    return res;
   }
 
   irAtras() {
@@ -110,7 +132,7 @@ export class NuevoHorarioComponent implements OnInit {
     this.formJornadas.controls[dia + "_seg_salida"].reset()
   }
 
-  changed(evt: any) {
+  seleccionarDia(evt: any) {
     let isChecked = (<HTMLInputElement>evt.target).checked
     let id = evt.target.name.split("_");
     let dia = document.getElementById(id[0]);
@@ -159,8 +181,7 @@ export class NuevoHorarioComponent implements OnInit {
     let texto = document.getElementById("txt_color") as HTMLSpanElement;
     texto.textContent = item.color
     boton.style.backgroundColor = item.valor
-    this.formHorario.controls.color.setValue(JSON.stringify(item))
-    console.log(this.formHorario.value)
+    this.formHorario.controls.color.setValue(item.color)
     this.dd_color.classList.remove("is-active")
   }
 

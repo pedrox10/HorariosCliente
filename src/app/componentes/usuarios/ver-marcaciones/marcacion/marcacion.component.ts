@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {color} from "../../../inicio/Global";
 
 @Component({
   selector: 'marcacion',
@@ -33,6 +34,10 @@ export class MarcacionComponent {
       res = "--:--"
     }
     return res;
+  }
+
+  getColor(nombre: string){
+    return color(nombre)
   }
 }
 
