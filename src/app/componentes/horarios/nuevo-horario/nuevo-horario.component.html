@@ -149,13 +149,13 @@
         </table>
       </div>
     </div>
-    <div class="hbox" style="width: 425px!important;">
-      <footer class="modal-card-foot" >
+    <div class="hbox mt-5">
+      <footer class="modal-card-foot" style="width: 100%">
         <div class="buttons">
           <button class="button es-primario" (click)="guardarHorario()" [disabled]="formHorario.invalid">
             Guardar
           </button>
-          <button class="button">Cancelar</button>
+          <button class="button" (click)="irAtras()">Cancelar</button>
         </div>
       </footer>
     </div>

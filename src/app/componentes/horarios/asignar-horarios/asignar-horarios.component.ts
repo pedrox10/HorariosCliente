@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {HttpClientModule} from "@angular/common/http";
-import {FormGroup, FormsModule} from "@angular/forms";
+import {FormControl, FormGroup, FormsModule, Validators} from "@angular/forms";
 import {ModalService} from "ngx-modal-ease";
 import {Usuario} from "../../../modelos/Usuario";
 import {easepick} from "@easepick/core";
@@ -26,7 +26,7 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
   dias = env.dias.map((dia) => dia.toLowerCase());
   horarios: Horario[] = [];
   jornadaDias: any[] = [];
-  formAccion = new FormGroup({});
+  formAsignar: FormGroup | any = new FormGroup({});
   usuarios: Usuario[] = [];
   picker: HTMLInputElement| any = undefined;
   fechaMin: string|any = undefined;
@@ -39,6 +39,10 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
       }, (error: any) => {
         console.error("Error cargando horarios", error)
       })
+      let fc_fecha = new FormControl("", [Validators.required])
+      let fc_horario = new FormControl("", [Validators.required])
+      this.formAsignar.addControl("fecha", fc_fecha)
+      this.formAsignar.addControl("horario", fc_horario)
   }
 
   ngOnInit(): void {
@@ -94,6 +98,7 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
     document.getElementById("tolerancia")!.innerText = horario.tolerancia + " min.";
     document.getElementById("nombre_color")!.innerText = horario.color;
     document.getElementById("valor_color")!.style.color = color(horario.color)
+    document.getElementById("descripcion")!.innerText = horario.descripcion;
     this.jornadaDias = horario.jornadaDias
     console.log(this.jornadaDias)
   }
@@ -115,6 +120,28 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
     }, (error: any) => {
 
     })
+  }
+
+  cambiaHora(evt: any, anterior: string, tipo: string, index: number) {
+    if (evt.key === "Delete" || evt.key === "Backspace") {
+      evt.target.value = anterior
+    } else {
+      switch (tipo) {
+        case "priEntrada":
+          this.jornadaDias[index].priEntrada = evt.target.value;
+          break;
+        case "priSalida":
+          this.jornadaDias[index].priSalida = evt.target.value;
+          break;
+        case "segEntrada":
+          this.jornadaDias[index].segEntrada = evt.target.value;
+          break;
+        case "segSalida":
+          this.jornadaDias[index].segSalida = evt.target.value;
+          break;
+      }
+    }
+    console.log(this.jornadaDias)
   }
 
   cerrarModal() {

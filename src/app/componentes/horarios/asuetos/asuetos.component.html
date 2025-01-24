@@ -10,7 +10,6 @@
           <div class="select" >
             <select id="select_horarios">
               <option selected>2025</option>
-              <option>2024</option>
             </select>
           </div>
         </div>
@@ -32,8 +31,17 @@
           <td class="has-text-success">Por Asignar</td>
           }
           <td>{{asueto.nombre}}</td>
-          <td>{{getTipo(asueto)}}</td>
+          @if(asueto.tipo === 1) {
+          <td><div class="hitem">{{getTipo(asueto)}}<i class="fas fa-users mt-1 has-text-primary"></i></div></td>
+          } @else {
+          <td><div class="hitem">{{getTipo(asueto)}}<i class="fas fa-restroom mt-1 has-text-info"></i></div></td>
+          }
           <td>{{asueto.descripcion}}</td>
+          <td>
+            <span class="icon has-tooltip-arrow" data-tooltip="Editar Fecha">
+                <i class="far fa-edit icon-btn"></i>
+              </span>
+          </td>
         </tr>
         }
         </tbody>

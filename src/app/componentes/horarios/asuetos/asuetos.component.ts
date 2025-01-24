@@ -10,6 +10,7 @@ import {Horario} from "../../../modelos/Horario";
 import {Asueto, TipoAsueto} from "../../../modelos/Asueto";
 import {Licencia} from "../../../modelos/Licencia";
 import moment from "moment";
+import {color} from "../../inicio/Global";
 
 @Component({
   selector: 'app-asuetos',
@@ -54,5 +55,9 @@ export class AsuetosComponent implements OnInit {
 
   formatFecha(asueto: Asueto) {
     return moment(asueto.fecha).format("DD/MM/YYYY")
+  }
+
+  getColor(nombre: string) {
+    return color(nombre);
   }
 }
