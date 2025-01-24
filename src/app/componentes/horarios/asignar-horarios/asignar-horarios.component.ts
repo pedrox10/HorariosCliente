@@ -73,7 +73,7 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
       plugins: [RangePlugin, LockPlugin],
       RangePlugin: {
         tooltipNumber(num) {
-          return num - 1;
+          return num;
         },
         locale: {
           one: 'dia',

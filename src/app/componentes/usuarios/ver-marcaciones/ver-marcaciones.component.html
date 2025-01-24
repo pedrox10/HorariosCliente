@@ -119,7 +119,7 @@
         @if(infoMarcacion.activo) {
         <tr>
           <th>{{getInfoActual().dia}}</th>
-          <td> {{getInfoActual().horario}}</td>
+          <td>{{getInfoActual().horario}}</td>
           <td>
             <marcacion tipo="entrada" [registros]="getInfoActual().priEntradas"></marcacion>
             @if(infoMarcacion.hayPriRetraso) {

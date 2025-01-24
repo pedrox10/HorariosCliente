@@ -39,7 +39,7 @@ export class NuevaExcepcionCompletaComponent implements AfterViewInit {
       plugins: [RangePlugin],
       RangePlugin: {
         tooltipNumber(num) {
-          return num - 1;
+          return num;
         },
         locale: {
           one: 'dia',
