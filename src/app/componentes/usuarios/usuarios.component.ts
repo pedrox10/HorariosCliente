@@ -74,7 +74,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
           plugins: [RangePlugin, LockPlugin],
           RangePlugin: {
             tooltipNumber(num) {
-              return num - 1;
+              return num;
             },
             locale: {
               one: 'dia',
@@ -117,6 +117,10 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
 
   applyFilter($event: any) {
     let texto = $event.target.value.toLowerCase();
+    this.filtrarFuncionarios(texto)
+  }
+
+  filtrarFuncionarios(texto: string) {
     let lista: Usuario[] = []
     lista = this.estado != undefined ? this.usuarios.filter((item: Usuario) => item.estado == this.estado) : this.usuarios
     if (texto === "") {

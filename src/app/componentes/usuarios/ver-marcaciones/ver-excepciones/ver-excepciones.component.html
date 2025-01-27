@@ -10,7 +10,6 @@
         <div class="select">
           <select id="select_horarios">
             <option selected>2025</option>
-            <option>2024</option>
           </select>
         </div>
       </div>
@@ -37,10 +36,10 @@
       @for (excepcion of excepciones; track excepcion) {
       <tr id={{excepcion.id}}>
         <td>{{excepcion.fecha}}</td>
-        <td>Rango de Horas</td>
+        <td>{{excepcion.tipo}}</td>
         <td></td>
         <td></td>
-        <td>Cumpleaños</td>
+        <td>{{excepcion.licencia}}</td>
         <td>{{excepcion.detalle}}</td>
       </tr>
       }
