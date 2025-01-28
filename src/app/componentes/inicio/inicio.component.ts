@@ -46,6 +46,6 @@ export class InicioComponent implements OnInit{
     })
 
     let primer = document.getElementById("primer_item") as HTMLLIElement;
-    //primer.click()
+    primer.click()
   }
 }
