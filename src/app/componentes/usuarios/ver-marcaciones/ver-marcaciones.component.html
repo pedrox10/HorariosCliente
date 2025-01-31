@@ -6,11 +6,12 @@
     </div>
   </div>
   <div class="columns animate__animated animate__fadeIn">
-    <div class="column is-one-fifth">
+    <div class="column is-narrow" style="max-width: 180px;">
       <div class="info">
         <div class="vbox-centered">
           <div class="vinput mb-2" style="gap: 0px !important;">
             <label class="label" style="align-self: center">{{usuario?.terminal.nombre}}</label>
+            <span class="help">Ult. Sincronización</span>
             <p class='help is-info' style="margin-top: 0px">{{this.textUltSincronizacion}}</p>
           </div>
           <i class="fas fa-user-circle" style="font-size: 3em"></i>
@@ -148,10 +149,7 @@
         <tr class="inactivo">
           <th>{{getInfoActual().dia}}</th>
           <td>{{getInfoActual().horario}}</td>
-          <td colspan="4" style="text-align: left">{{getInfoActual().mensaje}}</td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td colspan="7" style="text-align: left">{{getInfoActual().mensaje}}</td>
         </tr>
         }
         }

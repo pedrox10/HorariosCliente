@@ -54,7 +54,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       (data: any) => {
         this.usuario = data;
         this.ultimaSincronizacion = moment(this.usuario.terminal.ult_sincronizacion, "YYYY-MM-DD").toDate()
-        this.textUltSincronizacion = "Ult. vez: " + moment(this.usuario.terminal.ult_sincronizacion).format("DD/MM/YYYY HH:mm")
+        this.textUltSincronizacion = moment(this.usuario.terminal.ult_sincronizacion).format("DD/MM/YYYY HH:mm")
 
         this.inputRango = document.getElementById('datepicker');
         const picker = new easepick.create({
@@ -84,6 +84,8 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
         });
         picker.gotoDate(moment().subtract(1, "month").toDate());
         let inicioMes = moment(this.ultimaSincronizacion, 'YYYY-MM-DD').startOf('month').format('YYYYMMDD');
+        picker.setStartDate(moment(this.ultimaSincronizacion, 'YYYY-MM-DD').startOf('month').toDate());
+        picker.setEndDate(this.ultimaSincronizacion)
         this.getResumenMarcaciones(this.id, inicioMes, moment(this.ultimaSincronizacion).format("YYYYMMDD"))
 
         picker.on('select', (e) => {
@@ -156,9 +158,9 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
     let retrasos = <HTMLSpanElement> document.getElementById("totalCantRetrasos")
     let minutos = <HTMLSpanElement> document.getElementById("totalMinRetrasos")
     let sinMarcar = <HTMLSpanElement> document.getElementById("totalSinMarcar")
-    retrasos.innerText = this.resumenMarcacion.totalCantRetrasos
-    minutos.innerText = this.resumenMarcacion.totalMinRetrasos
-    sinMarcar.innerText = this.resumenMarcacion.totalSinMarcar
+    retrasos.innerText = this.resumenMarcacion.totalCantRetrasos === undefined ? "--" : this.resumenMarcacion.totalCantRetrasos
+    minutos.innerText = this.resumenMarcacion.totalMinRetrasos === undefined ? "--" : this.resumenMarcacion.totalMinRetrasos
+    sinMarcar.innerText = this.resumenMarcacion.totalSinMarcar === undefined ? "--" : this.resumenMarcacion.totalSinMarcar
   }
 
   agregarExcepcionCompleta() {
