@@ -9,7 +9,7 @@ import * as XLSX from "xlsx-js-style";
   styleUrl: './ver-reporte.component.css'
 })
 export class VerReporteComponent {
-
+  fileName= 'ExcelSheet.xlsx';
 
   exportexcel(): void
   {

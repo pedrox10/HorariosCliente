@@ -1,1 +1,38 @@
-<p>ver-reporte works!</p>
+<div class="modal-card" style="min-height: 650px; width: 850px">
+  <header class="modal-card-head">
+    <p class="modal-card-title">Reporte</p>
+    <button class="delete" aria-label="close"></button>
+  </header>
+  <section class="modal-card-body">
+    <table class="table is-bordered is-hoverable">
+      <tr>
+        <th>#</th>
+        <th>Nombre</th>
+        <th>CI</th>
+        <th>Retraso [min]</th>
+        <th>Sin Marcar</th>
+        <th>Ausencias</th>
+      </tr>
+      <tbody>
+     <!-- @for (excepcion of excepciones; track excepcion) {
+      <tr id={{excepcion.id}}>
+        <td>{{excepcion.fecha}}</td>
+        <td>{{excepcion.tipo}}</td>
+        <td></td>
+        <td></td>
+        <td>{{excepcion.licencia}}</td>
+        <td>{{excepcion.detalle}}</td>
+      </tr>
+      }-->
+      </tbody>
+    </table>
+  </section>
+  <footer class="modal-card-foot">
+    <div class="buttons">
+      <button class="button es-primario" type="button">
+        Guardar
+      </button>
+      <button class="button" type="button">Cancelar</button>
+    </div>
+  </footer>
+</div>

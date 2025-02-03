@@ -204,7 +204,7 @@ p.modal-card-title {
 
 .bordes-redondeados {
   border-radius: 5px !important;
-  height: auto;
+  height: auto !important;
 }
 
 

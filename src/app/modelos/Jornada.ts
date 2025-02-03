@@ -1,13 +1,26 @@
+export enum EstadoJornada {
+  dia_libre,
+  activa,
+  feriado,
+  vacacion,
+  baja_medica,
+  permiso,
+  licencia,
+  otro,
+  sin_asignar,
+  con_excepcion
+}
+
 export class Jornada {
   id: number;
   fecha: string;
   horario: any;
   priTurno: any;
   segTurno: any;
-  estado: number;
+  estado: EstadoJornada;
   infoExtra: any;
 
-  constructor(id: number, fecha: string, horario:any, priTurno: any, segTurno: any, estado: number, infoExtra: any) {
+  constructor(id: number, fecha: string, horario:any, priTurno: any, segTurno: any, estado: EstadoJornada, infoExtra: any) {
     this.id = id;
     this.fecha = fecha;
     this.horario = horario;

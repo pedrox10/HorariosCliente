@@ -10,7 +10,7 @@ import * as Moment from 'moment';
 import {extendMoment} from 'moment-range';
 import {Usuario} from "../../../modelos/Usuario";
 import {InfoMarcacion} from "../../../modelos/InfoMarcacion";
-import {from, mergeMap, toArray} from "rxjs";
+import {concatMap, from, mergeMap, toArray} from "rxjs";
 import {ResumenMarcacion} from "../../../modelos/ResumenMarcacion";
 import {MarcacionComponent} from "./marcacion/marcacion.component";
 import {LockPlugin} from "@easepick/lock-plugin";
@@ -18,10 +18,10 @@ import * as XLSX from 'xlsx-js-style';
 import {color} from "../../inicio/Global";
 import {env} from "../../../../environments/environments";
 import {ModalService} from "ngx-modal-ease";
-import {AsignarHorariosComponent} from "../../horarios/asignar-horarios/asignar-horarios.component";
 import {NuevaExcepcionCompletaComponent} from "./nueva-excepcion-completa/nueva-excepcion-completa.component";
 import {NuevaExcepcionParcialComponent} from "./nueva-excepcion-parcial/nueva-excepcion-parcial.component";
 import {VerExcepcionesComponent} from "./ver-excepciones/ver-excepciones.component";
+import {EstadoJornada} from "../../../modelos/Jornada";
 
 
 @Component({
@@ -46,10 +46,11 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   infoMarcacionActual: InfoMarcacion | any = undefined;
   ultimaSincronizacion: Date|any = undefined
   textUltSincronizacion=""
-  fileName= 'ExcelSheet.xlsx';
+  public estado;
 
   constructor(public terminalService: TerminalService, public location: Location, public modalService: ModalService) {
 
+    this.estado = EstadoJornada
     this.terminalService.getUsuario(this.id).subscribe(
       (data: any) => {
         this.usuario = data;
@@ -100,12 +101,12 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
     );
 
     let ids_usuarios: number[] = []
-    ids_usuarios.push(80)
+    ids_usuarios.push(1,2,3,4,5,80)
     const result$ =
       from(ids_usuarios)
         .pipe(
-          mergeMap(id_usuario => {
-            return this.terminalService.getInfoMarcaciones(id_usuario, "20250101", "20250113")
+          concatMap(id_usuario => {
+            return this.terminalService.getInfoMarcaciones(id_usuario, "20250103", "20250130")
           }),
           toArray()
         );

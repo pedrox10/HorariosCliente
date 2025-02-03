@@ -16,6 +16,7 @@ import {LockPlugin} from "@easepick/lock-plugin";
 import {VerHorarioComponent} from "./ver-horario/ver-horario.component";
 import {EditarUsuarioComponent} from "./editar-usuario/editar-usuario.component";
 import {color, mensaje} from "../inicio/Global";
+import {VerReporteComponent} from "./ver-reporte/ver-reporte.component";
 
 @Component({
   selector: 'app-usuarios',
@@ -103,11 +104,11 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     document.addEventListener('keydown', (e) => {
       if ((e as KeyboardEvent).key === 'Escape') {
-        this.ocultarModalReporte()
+        this.ocultarSeleccionarRango()
       }
     });
     document.getElementById("background")?.addEventListener("click", (e) => {
-      this.ocultarModalReporte()
+      this.ocultarSeleccionarRango()
     })
   }
 
@@ -289,7 +290,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
     console.log(this.estado)
   }
 
-  verModalReporte() {
+  seleccionarRango() {
     if(this.usuariosSeleccionados.length > 0) {
       document.getElementById("reporte_modal")?.classList.add("is-active");
     } else {
@@ -297,7 +298,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ocultarModalReporte() {
+  ocultarSeleccionarRango() {
     document.getElementById("reporte_modal")?.classList.remove("is-active");
   }
 
@@ -322,6 +323,19 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
       modal: {enter: `${config.animation} ${config.duration}`,},
       size: {padding: '0.5rem'},
       data: {id}
+    })
+      .subscribe((data) => {
+        if (data !== undefined)
+          this.edit(data)
+      });
+  }
+
+  verReporte() {
+    let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
+    this.modalService.open(VerReporteComponent, {
+      modal: {enter: `${config.animation} ${config.duration}`,},
+      size: {padding: '0.5rem'},
+      data: {}
     })
       .subscribe((data) => {
         if (data !== undefined)

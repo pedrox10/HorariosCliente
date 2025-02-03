@@ -9,6 +9,7 @@ import {AdmTerminalesComponent} from "./componentes/terminal/adm-terminales/adm-
 import {NuevoHorarioComponent} from "./componentes/horarios/nuevo-horario/nuevo-horario.component";
 import {AsuetosComponent} from "./componentes/horarios/asuetos/asuetos.component";
 import {EditarUsuarioComponent} from "./componentes/usuarios/editar-usuario/editar-usuario.component";
+import {VerReporteComponent} from "./componentes/usuarios/ver-reporte/ver-reporte.component";
 
 export const routes: Routes = [
   {path: "", component: ListarTerminalesComponent},
@@ -22,4 +23,5 @@ export const routes: Routes = [
   {path: "asuetos", component: AsuetosComponent},
   {path: "adm-terminales", component: AdmTerminalesComponent},
   {path: "editar-usuario", component: EditarUsuarioComponent},
+  {path: "ver-reporte", component: VerReporteComponent},
 ];

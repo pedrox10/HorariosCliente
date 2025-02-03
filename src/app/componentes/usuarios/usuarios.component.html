@@ -15,7 +15,7 @@
               <span class="help" style="margin-left: auto; font-weight: bold">{{usuariosFiltrados.length}}</span>
             </div>
             <p class="control has-icons-right">
-              <input id="tf_busqueda" (input)="applyFilter($event)" type="text" class="input" placeholder="Nombre o CI"/>
+              <input id="tf_busqueda" (input)="applyFilter($event)" type="text" class="input" autocomplete="off" placeholder="Nombre o CI"/>
               <span class="icon is-right"><i class="fas fa-search"></i></span>
             </p>
           </div>
@@ -27,7 +27,7 @@
                 <span class="icon"><i class="fas fa-user-clock"></i></span>
                 <span>Asignar Horario</span>
               </button>
-              <button class="button" (click)="verModalReporte()"
+              <button class="button" (click)="seleccionarRango()"
                 style="background-color: {{getColor('Naranja')}}; border-radius: 5px;">
                 <span class="icon"><i class="fas fa-file-alt"></i></span>
                 <span>Reporte general</span>
@@ -127,7 +127,7 @@
     <div class="modal-card" style="width: 500px; height: 470px;">
       <header class="modal-card-head">
         <p class="modal-card-title">Reporte General</p>
-        <button class="delete" aria-label="close" (click)="ocultarModalReporte()"></button>
+        <button class="delete" aria-label="close" (click)="ocultarSeleccionarRango()"></button>
       </header>
       <section class="modal-card-body">
         <label class="label">Por favor selecciona un rango de fechas para el reporte</label>
@@ -135,8 +135,8 @@
       </section>
       <footer class="modal-card-foot">
         <div class="buttons">
-          <button class="button es-primario" >Aceptar</button>
-          <button class="button" type="button" (click)="ocultarModalReporte()">Cancelar</button>
+          <button class="button es-primario"  (click)="verReporte()">Aceptar</button>
+          <button class="button" type="button" (click)="ocultarSeleccionarRango()">Cancelar</button>
         </div>
       </footer>
     </div>

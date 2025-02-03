@@ -146,11 +146,29 @@
           <td>{{mostrarCantidades(getInfoActual().noMarcados)}}</td>
         </tr>
         } @else {
+        @switch (infoMarcacion.estado) {
+        @case (estado.dia_libre) {
         <tr class="inactivo">
           <th>{{getInfoActual().dia}}</th>
           <td>{{getInfoActual().horario}}</td>
           <td colspan="7" style="text-align: left">{{getInfoActual().mensaje}}</td>
         </tr>
+        }
+        @case (estado.feriado) {
+        <tr>
+          <th>{{getInfoActual().dia}}</th>
+          <td>{{getInfoActual().horario}}</td>
+          <td colspan="7" style="text-align: left">{{getInfoActual().mensaje}}</td>
+        </tr>
+        }
+        @default {
+        <tr class="inactivo">
+          <th>{{getInfoActual().dia}}</th>
+          <td>{{getInfoActual().horario}}</td>
+          <td colspan="7" style="text-align: left">{{getInfoActual().mensaje}}</td>
+        </tr>
+        }
+        }
         }
         }
         </tbody>

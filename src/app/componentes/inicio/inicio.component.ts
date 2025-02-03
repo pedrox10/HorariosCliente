@@ -20,7 +20,7 @@ export class InicioComponent implements OnInit{
 
   ngOnInit() {
     mensaje("echo", "is-success")
-    notificacion("<div class=''><p>Usuarios Agregados: 0</p><p>Nuevas Marcaciones: 0</p></div>")
+    notificacion("<div class=''><p>Usuarios Agregados: 0</p><p>Nuevas Marcaciones: 0</p><p>Usuarios Agregados: 0</p><p>Nuevas Marcaciones: 0</p> </div>")
     this.items = Array.from(document.querySelectorAll('.item'));
     this.action  = document.getElementById('action') as HTMLDivElement
     let items = this.items;
