@@ -99,23 +99,6 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
         console.error('An error occurred:', error);
       }
     );
-
-    let ids_usuarios: number[] = []
-    ids_usuarios.push(1,2,3,4,5,80)
-    const result$ =
-      from(ids_usuarios)
-        .pipe(
-          concatMap(id_usuario => {
-            return this.terminalService.getInfoMarcaciones(id_usuario, "20250103", "20250130")
-          }),
-          toArray()
-        );
-    result$.subscribe((data: any) => {
-        console.log(data)
-      },
-      (error: any) => {
-        console.error('An error occurred:', error);
-      })
   }
 
   getResumenMarcaciones(id: number, ini: string, fin: string) {

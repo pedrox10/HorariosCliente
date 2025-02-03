@@ -38,6 +38,8 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   idTerminal = this.activatedRoute.snapshot.params['id'];
   estado: EstadoUsuario | any = undefined;
   fechaMin: string|any;
+  fechaIni: string|any;
+  fechaFin: string|any;
   inputRango: HTMLInputElement | any;
   dd_acciones: HTMLDivElement | any;
 
@@ -86,14 +88,18 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
             maxDate: this.ultimaSincronizacion,
           },
         });
-
+        let botonVerReporte = (document.getElementById("btn_ver_reporte") as HTMLButtonElement)
         picker.gotoDate(moment().subtract(1, "month").toDate());
+        picker.on('preselect', (e) => {
+          botonVerReporte.disabled = true;
+        })
         picker.on('select', (e) => {
-          const start = moment(picker.getStartDate()).format("YYYYMMDD");
-          const end = moment(picker.getEndDate()).format('YYYYMMDD');
+          botonVerReporte.disabled = false;
+          this.fechaIni = moment(picker.getStartDate()).format("YYYYMMDD");
+          this.fechaFin = moment(picker.getEndDate()).format('YYYYMMDD');
+          console.log("Ini: " + this.fechaIni + "Fin: " + this.fechaFin)
           //this.getResumenMarcaciones(this.id, start, end)
         })
-
       },
       (error: any) => {
         console.error('An error occurred:', error);
@@ -332,10 +338,13 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
 
   verReporte() {
     let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
+    let usuarios = this.usuariosSeleccionados;
+    let fechaIni = this.fechaIni;
+    let fechaFin = this.fechaFin;
     this.modalService.open(VerReporteComponent, {
       modal: {enter: `${config.animation} ${config.duration}`,},
       size: {padding: '0.5rem'},
-      data: {}
+      data: {usuarios, fechaIni, fechaFin}
     })
       .subscribe((data) => {
         if (data !== undefined)

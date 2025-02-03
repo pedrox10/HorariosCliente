@@ -14,16 +14,32 @@
         <th>Ausencias</th>
       </tr>
       <tbody>
-     <!-- @for (excepcion of excepciones; track excepcion) {
-      <tr id={{excepcion.id}}>
-        <td>{{excepcion.fecha}}</td>
-        <td>{{excepcion.tipo}}</td>
+      @for (reporte of reportes; track reporte; let index = $index) {
+      <tr>
+        <td>{{index +1}}</td>
+        <td>
+          <div class="hitem">
+            {{reporte.usuario.nombre}}
+            <div class="dropdown is-up is-hoverable">
+              <div class="dropdown-trigger">
+                 <span><i class="far fa-question-circle has-text-link"></i></span>
+              </div>
+              <div class="dropdown-menu" role="menu">
+                <div class="dropdown-content">
+                  <div style="padding: 10px; border-radius: 15px; background-color: yellow;">
+                    Ahora si esta mejor
+                  </div>
+                </div>
+              </div>
+            </div>
+         </div>
+  </td>
+  <td>{{reporte.usuario.ci}}</td>
+        <td>{{reporte.totalMinRetrasos}}</td>
+        <td>{{reporte.totalSinMarcar}}</td>
         <td></td>
-        <td></td>
-        <td>{{excepcion.licencia}}</td>
-        <td>{{excepcion.detalle}}</td>
       </tr>
-      }-->
+      }
       </tbody>
     </table>
   </section>

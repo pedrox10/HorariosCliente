@@ -1,15 +1,71 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import * as XLSX from "xlsx-js-style";
+import {ModalService} from "ngx-modal-ease";
+import {TerminalService} from "../../../servicios/terminal.service";
+import {Usuario} from "../../../modelos/Usuario";
+import {HttpClientModule} from "@angular/common/http";
+import {concatMap, from, toArray} from "rxjs";
+import {ResumenMarcacion} from "../../../modelos/ResumenMarcacion";
 
 @Component({
   selector: 'app-ver-reporte',
   standalone: true,
-  imports: [],
+  imports: [HttpClientModule],
+  providers: [TerminalService],
   templateUrl: './ver-reporte.component.html',
   styleUrl: './ver-reporte.component.css'
 })
-export class VerReporteComponent {
+export class VerReporteComponent implements OnInit{
+
+  usuarios: Usuario[] = [];
   fileName= 'ExcelSheet.xlsx';
+  fechaIni: string|any = undefined;
+  fechaFin: string|any = undefined;
+  reportes: ResumenMarcacion[] = [];
+
+  constructor(private modalService: ModalService, public terminalService: TerminalService) {
+
+  }
+
+  ngOnInit() {
+    let data: any = this.modalService.options?.data
+    if(data){
+      this.usuarios = data.usuarios;
+      this.fechaIni = data.fechaIni;
+      this.fechaFin = data.fechaFin;
+      const result$ =
+        from(this.usuarios)
+          .pipe(
+            concatMap(usuario => {
+              return this.terminalService.getInfoMarcaciones(usuario.id!, this.fechaIni, this.fechaFin)
+            }),
+            toArray()
+          );
+        result$.subscribe((data: any) => {
+          this.reportes = data
+        },
+        (error: any) => {
+          console.error('An error occurred:', error);
+        })
+    } else {
+      let ids_usuarios: number[] = []
+      ids_usuarios.push(2,3,4,5,80,81)
+      const result$ =
+        from(ids_usuarios)
+          .pipe(
+            concatMap(id_usuario => {
+              return this.terminalService.getInfoMarcaciones(id_usuario, "20250101", "20250131")
+            }),
+            toArray()
+          );
+      result$.subscribe((data: any) => {
+          this.reportes = data
+        },
+        (error: any) => {
+          console.error('An error occurred:', error);
+        })
+    }
+  }
 
   exportexcel(): void
   {
@@ -52,13 +108,10 @@ export class VerReporteComponent {
         };
       }
     }
-
     /* generate workbook and add the worksheet */
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
     /* save to file */
     XLSX.writeFile(wb, this.fileName);
-
   }
 }
