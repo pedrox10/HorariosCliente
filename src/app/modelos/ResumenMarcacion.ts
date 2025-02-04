@@ -7,13 +7,15 @@ export class ResumenMarcacion{
   totalCantRetrasos:number;
   totalMinRetrasos: number;
   totalSinMarcar: number;
+  totalAusencias: number;
   infoMarcaciones: InfoMarcacion[];
 
-  constructor(usuario: Usuario, totalCantRetrasos: number, totalMinRetrasos: number, totalSinMarcar: number, infoMarcaciones: InfoMarcacion[]) {
+  constructor(usuario: Usuario, totalCantRetrasos: number, totalMinRetrasos: number, totalSinMarcar: number, totalAusencias: number, infoMarcaciones: InfoMarcacion[]) {
     this.usuario = usuario
     this.totalCantRetrasos = totalCantRetrasos
     this.totalMinRetrasos = totalMinRetrasos
     this.totalSinMarcar = totalSinMarcar
+    this.totalAusencias = totalAusencias
     this.infoMarcaciones = infoMarcaciones
   }
 }

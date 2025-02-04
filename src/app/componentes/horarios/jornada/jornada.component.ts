@@ -81,7 +81,7 @@ export class JornadaComponent {
   getAnchoBorde() {
     let res="1px"
     let estado = this.jornada.estado
-    if(estado === 1 || estado === 0 || estado === 6) {
+    if(estado === 1 || estado === 0 || estado === 8) {
       res="1px"
     } else {
       res = "3px"

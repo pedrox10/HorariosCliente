@@ -4,14 +4,24 @@
     <button class="delete" aria-label="close"></button>
   </header>
   <section class="modal-card-body">
-    <table class="table is-bordered is-hoverable">
+    <div class="hbox" style="align-content: space-between !important;">
+      <div class="hitem" style="align-self: flex-end">
+
+      </div>
+      <div class="hitem" style="margin-left: auto; align-self: flex-end">
+        <button class="button"><span class="icon" (click)="exportexcel()">
+          <i class="fas fa-file-excel" style="color: rgb(16, 129, 16);"></i></span>
+        </button>
+      </div>
+    </div>
+    <table class="table is-bordered is-hoverable" id="tabla_reporte">
       <tr>
         <th>#</th>
         <th>Nombre</th>
         <th>CI</th>
         <th>Retraso [min]</th>
         <th>Sin Marcar</th>
-        <th>Ausencias</th>
+        <th>Faltas</th>
       </tr>
       <tbody>
       @for (reporte of reportes; track reporte; let index = $index) {
@@ -20,14 +30,16 @@
         <td>
           <div class="hitem">
             {{reporte.usuario.nombre}}
-            <div class="dropdown is-up is-hoverable">
+            <div class="dropdown is-up is-hoverable" style="self-align: end">
               <div class="dropdown-trigger">
-                 <span><i class="far fa-question-circle has-text-link"></i></span>
+                 <span><i class="far fa-question-circle has-text-info"></i></span>
               </div>
               <div class="dropdown-menu" role="menu">
-                <div class="dropdown-content">
-                  <div style="padding: 10px; border-radius: 15px; background-color: yellow;">
-                    Ahora si esta mejor
+                <div class="dropdown-content popup">
+
+                  <div class="hitem" style="color: #786450;">
+                    <span style="font-weight: 600;">Fecha de Alta: </span>
+                    <span>{{ formatear(reporte.usuario.fechaAlta) }}</span>
                   </div>
                 </div>
               </div>
@@ -37,18 +49,11 @@
   <td>{{reporte.usuario.ci}}</td>
         <td>{{reporte.totalMinRetrasos}}</td>
         <td>{{reporte.totalSinMarcar}}</td>
-        <td></td>
+        <td>{{reporte.totalAusencias}}</td>
       </tr>
       }
       </tbody>
     </table>
   </section>
-  <footer class="modal-card-foot">
-    <div class="buttons">
-      <button class="button es-primario" type="button">
-        Guardar
-      </button>
-      <button class="button" type="button">Cancelar</button>
-    </div>
-  </footer>
+
 </div>

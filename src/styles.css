@@ -207,4 +207,30 @@ p.modal-card-title {
   height: auto !important;
 }
 
+.popup {
+  padding: 10px;
+  font-size: 0.90em;
+  background: linear-gradient(360deg, #f7fbfa 0%, #E6ECEB 100%);
+  border: 1px #d4dcdb solid;
+  width: auto;
+  min-width: 185px;
+}
+
+.popup .cabecera {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.1em;
+  border-bottom: 1px;
+  border-bottom: 1px dashed gray;
+}
+
+.popup .contenido {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
 

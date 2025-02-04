@@ -6,6 +6,7 @@ import {Usuario} from "../../../modelos/Usuario";
 import {HttpClientModule} from "@angular/common/http";
 import {concatMap, from, toArray} from "rxjs";
 import {ResumenMarcacion} from "../../../modelos/ResumenMarcacion";
+import {format} from "../../inicio/Global";
 
 @Component({
   selector: 'app-ver-reporte',
@@ -60,6 +61,7 @@ export class VerReporteComponent implements OnInit{
           );
       result$.subscribe((data: any) => {
           this.reportes = data
+          console.log(data)
         },
         (error: any) => {
           console.error('An error occurred:', error);
@@ -70,7 +72,7 @@ export class VerReporteComponent implements OnInit{
   exportexcel(): void
   {
     /* pass here the table id */
-    let element = document.getElementById('tabla_marcaciones');
+    let element = document.getElementById('tabla_reporte');
     const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
 
     for (var i in ws) {
@@ -113,5 +115,9 @@ export class VerReporteComponent implements OnInit{
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
     /* save to file */
     XLSX.writeFile(wb, this.fileName);
+  }
+
+  formatear(fecha: Date) {
+    return format(fecha)
   }
 }

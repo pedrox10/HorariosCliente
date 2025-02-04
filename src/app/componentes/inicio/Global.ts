@@ -1,5 +1,6 @@
 import {env} from "../../../environments/environments";
 import {toast, ToastType} from "bulma-toast";
+import moment from "moment";
 
 export function color(nombre: string) {
   let res = ""
@@ -51,4 +52,8 @@ export function notificacion(mensaje: string) {
     animate: {in: 'backInUp', out: 'backOutDown'},
     extraClasses: "bordes-redondeados"
   })
+}
+
+export function format(fecha: Date) {
+  return moment(fecha).format("DD/MM/YYYY")
 }
