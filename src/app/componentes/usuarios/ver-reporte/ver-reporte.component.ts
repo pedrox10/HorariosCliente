@@ -7,6 +7,9 @@ import {HttpClientModule} from "@angular/common/http";
 import {concatMap, from, toArray} from "rxjs";
 import {ResumenMarcacion} from "../../../modelos/ResumenMarcacion";
 import {format} from "../../inicio/Global";
+import {InfoMarcacion} from "../../../modelos/InfoMarcacion";
+import {IFecha} from "../../../modelos/Fecha";
+import moment from "moment";
 
 @Component({
   selector: 'app-ver-reporte',
@@ -44,6 +47,7 @@ export class VerReporteComponent implements OnInit{
           );
         result$.subscribe((data: any) => {
           this.reportes = data
+          console.log(data)
         },
         (error: any) => {
           console.error('An error occurred:', error);
@@ -73,7 +77,7 @@ export class VerReporteComponent implements OnInit{
   {
     /* pass here the table id */
     let element = document.getElementById('tabla_reporte');
-    const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
 
     for (var i in ws) {
       console.log(ws[i]);
@@ -119,5 +123,15 @@ export class VerReporteComponent implements OnInit{
 
   formatear(fecha: Date) {
     return format(fecha)
+  }
+
+  getRetrasos(infoMarcaciones: InfoMarcacion[]) {
+    let retrasos = "";
+    for (let info of infoMarcaciones) {
+      if(info.cantRetrasos > 0) {
+        retrasos = retrasos + "<span class=''> "+ moment(info.fecha).format("DD/MM/YYYY") + " " + info.minRetrasos+ "</span>"
+      }
+    }
+    return retrasos
   }
 }

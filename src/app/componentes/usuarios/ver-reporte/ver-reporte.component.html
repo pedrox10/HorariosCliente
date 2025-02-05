@@ -4,9 +4,28 @@
     <button class="delete" aria-label="close"></button>
   </header>
   <section class="modal-card-body">
-    <div class="hbox" style="align-content: space-between !important;">
-      <div class="hitem" style="align-self: flex-end">
-
+    <div class="hbox" style="gap: 30px;">
+      <div class="vinput">
+        <div class="icon-text">
+        <span class="icon has-text-primary">
+        <i class="far fa-calendar-alt"></i>
+        </span>
+          <span class="label">Rango de fechas</span>
+        </div>
+        <p class="block">
+          desde - hasta
+        </p>
+      </div>
+      <div class="vinput">
+        <div class="icon-text">
+        <span class="icon has-text-danger">
+        <i class="fas fa-sort-numeric-up"></i>
+        </span>
+          <span class="label">Total Días</span>
+        </div>
+        <p class="block has-text-centered">
+          31
+        </p>
       </div>
       <div class="hitem" style="margin-left: auto; align-self: flex-end">
         <button class="button"><span class="icon" (click)="exportexcel()">
@@ -28,9 +47,9 @@
       <tr>
         <td>{{index +1}}</td>
         <td>
-          <div class="hitem">
-            {{reporte.usuario.nombre}}
-            <div class="dropdown is-up is-hoverable" style="self-align: end">
+          <div class="hitem" style="justify-content: space-between">
+            <span>{{reporte.usuario.nombre}}</span>
+            <div class="dropdown is-up is-hoverable">
               <div class="dropdown-trigger">
                  <span><i class="far fa-question-circle has-text-info"></i></span>
               </div>
@@ -45,15 +64,14 @@
               </div>
             </div>
          </div>
-  </td>
-  <td>{{reporte.usuario.ci}}</td>
-        <td>{{reporte.totalMinRetrasos}}</td>
+        </td>
+        <td>{{reporte.usuario.ci}}</td>
+        <td [innerHTML] = getRetrasos(reporte.infoMarcaciones)></td>
         <td>{{reporte.totalSinMarcar}}</td>
         <td>{{reporte.totalAusencias}}</td>
       </tr>
       }
-      </tbody>
+     </tbody>
     </table>
   </section>
-
 </div>
