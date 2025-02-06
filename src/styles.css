@@ -233,4 +233,7 @@ p.modal-card-title {
   gap: 5px;
 }
 
+.semibold {
+  font-weight: 600;
+}
 

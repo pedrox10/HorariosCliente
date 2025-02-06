@@ -1,16 +1,16 @@
 <div class="modal-card" style="min-height: 650px; width: 850px">
   <header class="modal-card-head">
-    <p class="modal-card-title">Reporte</p>
+    <p class="modal-card-title">Reporte General</p>
     <button class="delete" aria-label="close"></button>
   </header>
   <section class="modal-card-body">
     <div class="hbox" style="gap: 30px;">
       <div class="vinput">
         <div class="icon-text">
-        <span class="icon has-text-primary">
+        <span class="icon has-text-success" style="font-size: 1.2em">
         <i class="far fa-calendar-alt"></i>
         </span>
-          <span class="label">Rango de fechas</span>
+          <span class="label">Rango de Fechas</span>
         </div>
         <p class="block">
           desde - hasta
@@ -19,7 +19,7 @@
       <div class="vinput">
         <div class="icon-text">
         <span class="icon has-text-danger">
-        <i class="fas fa-sort-numeric-up"></i>
+        <i class="fas fa-sort-numeric-up" style="font-size: 1.2em"></i>
         </span>
           <span class="label">Total Días</span>
         </div>
@@ -27,25 +27,47 @@
           31
         </p>
       </div>
-      <div class="hitem" style="margin-left: auto; align-self: flex-end">
+      <div class="vinput">
+        <div class="icon-text">
+        <span class="icon has-text-primary">
+        <i class="fas fa-gift" style="font-size: 1.2em"></i>
+        </span>
+          <span class="label">Días festivos</span>
+        </div>
+        <p class="block has-text-centered">
+          1
+        </p>
+      </div>
+    </div>
+    <div>
+      <div class="hitem" style="align-self: flex-end">
         <button class="button"><span class="icon" (click)="exportexcel()">
           <i class="fas fa-file-excel" style="color: rgb(16, 129, 16);"></i></span>
         </button>
       </div>
-    </div>
-    <table class="table is-bordered is-hoverable" id="tabla_reporte">
-      <tr>
-        <th>#</th>
-        <th>Nombre</th>
-        <th>CI</th>
-        <th>Retraso [min]</th>
-        <th>Sin Marcar</th>
-        <th>Faltas</th>
-      </tr>
-      <tbody>
-      @for (reporte of reportes; track reporte; let index = $index) {
-      <tr>
-        <td>{{index +1}}</td>
+      <table class="table is-bordered is-hoverable" id="tabla_reporte">
+        <tr>
+          <th>#</th>
+          <th style="width: 265px;">Nombre</th>
+          <th style="width: 95px;">CI</th>
+          <th>
+            <div class="vinput has-text-centered">
+              <span>Retraso</span>
+              <span>[min]</span>
+            </div>
+          </th>
+          <th>
+            <div class="vinput has-text-centered">
+              <span>Sin</span>
+              <span>Marcar</span>
+            </div>
+          </th>
+          <th>Faltas</th>
+        </tr>
+        <tbody>
+        @for (reporte of reportes; track reporte; let index = $index) {
+        <tr>
+          <td>{{index +1}}</td>
         <td>
           <div class="hitem" style="justify-content: space-between">
             <span>{{reporte.usuario.nombre}}</span>
@@ -55,7 +77,7 @@
               </div>
               <div class="dropdown-menu" role="menu">
                 <div class="dropdown-content popup">
-
+                  <div class="cabecera">Más Detalles</div>
                   <div class="hitem" style="color: #786450;">
                     <span style="font-weight: 600;">Fecha de Alta: </span>
                     <span>{{ formatear(reporte.usuario.fechaAlta) }}</span>
@@ -66,12 +88,73 @@
          </div>
         </td>
         <td>{{reporte.usuario.ci}}</td>
-        <td [innerHTML] = getRetrasos(reporte.infoMarcaciones)></td>
+        @if(reporte.totalMinRetrasos > 0) {
+        <td>
+          <div class="hitem" style="justify-content: space-between">
+            <span>{{reporte.totalMinRetrasos}}</span>
+            <div class="dropdown is-up is-hoverable">
+              <div class="dropdown-trigger">
+                <span><i class="far fa-caret-square-up" style="color: #888; background-color: {{getColor('Amarillo')}}"></i></span>
+              </div>
+              <div class="dropdown-menu" role="menu">
+                <div class="dropdown-content popup">
+                  <div class='cabecera'>Fechas con Retraso</div>
+                  <div class="contenido" style='color: #786450;' [innerHtml]="getRetrasos(reporte.infoMarcaciones)">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+        } @else {
+        <td>{{reporte.totalMinRetrasos}}</td>
+        }
+        @if(reporte.totalMinRetrasos > 0) {
+        <td>
+          <div class="hitem" style="justify-content: space-between">
+            <span>{{reporte.totalSinMarcar}}</span>
+            <div class="dropdown is-up is-hoverable">
+              <div class="dropdown-trigger">
+                <span><i class="far fa-caret-square-up" style="color: #888; background-color: {{getColor('Rojo')}}"></i></span>
+              </div>
+              <div class="dropdown-menu" role="menu">
+                <div class="dropdown-content popup">
+                  <div class='cabecera'>Fechas sin Marcar</div>
+                  <div class="contenido" style='color: #786450;' [innerHtml]="getSinMarcar(reporte.infoMarcaciones)">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+        } @else {
         <td>{{reporte.totalSinMarcar}}</td>
+        }
+        @if(reporte.totalAusencias > 0) {
+        <td>
+          <div class="hitem" style="justify-content: space-between">
+            <span>{{reporte.totalAusencias}}</span>
+            <div class="dropdown is-up is-hoverable">
+              <div class="dropdown-trigger">
+                <span><i class="far fa-caret-square-up has-text-danger"></i></span>
+              </div>
+              <div class="dropdown-menu" role="menu">
+                <div class="dropdown-content popup">
+                  <div class='cabecera'>Fechas con Falta</div>
+                  <div class="contenido" style='color: #786450;' [innerHtml]="getAusencias(reporte.infoMarcaciones)">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+        } @else {
         <td>{{reporte.totalAusencias}}</td>
-      </tr>
-      }
-     </tbody>
-    </table>
+        }
+        </tr>
+        }
+        </tbody>
+      </table>
+    </div>
   </section>
 </div>

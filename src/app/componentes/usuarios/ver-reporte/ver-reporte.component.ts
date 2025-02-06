@@ -6,10 +6,10 @@ import {Usuario} from "../../../modelos/Usuario";
 import {HttpClientModule} from "@angular/common/http";
 import {concatMap, from, toArray} from "rxjs";
 import {ResumenMarcacion} from "../../../modelos/ResumenMarcacion";
-import {format} from "../../inicio/Global";
+import {color, format} from "../../inicio/Global";
 import {InfoMarcacion} from "../../../modelos/InfoMarcacion";
-import {IFecha} from "../../../modelos/Fecha";
 import moment from "moment";
+import {EstadoJornada} from "../../../modelos/Jornada";
 
 @Component({
   selector: 'app-ver-reporte',
@@ -129,9 +129,44 @@ export class VerReporteComponent implements OnInit{
     let retrasos = "";
     for (let info of infoMarcaciones) {
       if(info.cantRetrasos > 0) {
-        retrasos = retrasos + "<span class=''> "+ moment(info.fecha).format("DD/MM/YYYY") + " " + info.minRetrasos+ "</span>"
+        retrasos = retrasos + "<div class='hbox'><div class='hitem'>" +
+          "<span><i class='fas fa-calendar-alt'></i></span>" +
+          "<span class='semibold'>" + moment(info.fecha).format("DD/MM/YYYY") + "</span></div>" +
+        "<div class='hitem'>" +
+          "<span>" + info.minRetrasos + " min.</span></div></div>"
       }
     }
     return retrasos
+  }
+
+  getSinMarcar(infoMarcaciones: InfoMarcacion[]) {
+    let noMarcados = "";
+    for (let info of infoMarcaciones) {
+      if(info.noMarcados > 0) {
+        noMarcados = noMarcados + "<div class='hbox'><div class='hitem'>" +
+          "<span><i class='fas fa-calendar-alt'></i></span>" +
+          "<span class='semibold'>" + moment(info.fecha).format("DD/MM/YYYY") + "</span></div>" +
+          "<div class='hitem'>" +
+          "<span>" + info.noMarcados + "</span></div></div>"
+      }
+    }
+    return noMarcados;
+  }
+
+  getAusencias(infoMarcaciones: InfoMarcacion[]) {
+    let ausencias = "";
+    for (let info of infoMarcaciones) {
+      if(info.estado == EstadoJornada.ausencia) {
+        ausencias = ausencias + "<div class='hbox'><div class='hitem'>" +
+          "<span><i class='fas fa-calendar-alt'></i></span>" +
+          "<span class='semibold'>" + moment(info.fecha).format("DD/MM/YYYY") + "</span></div>" +
+          "</div>"
+      }
+    }
+    return ausencias;
+  }
+
+  getColor(nombre: string) {
+    return color(nombre);
   }
 }
