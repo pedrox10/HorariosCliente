@@ -237,3 +237,46 @@ p.modal-card-title {
   font-weight: 600;
 }
 
+/*Estilos para el spinner de carga*/
+.spinner {
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid #70b5d2;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 2s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loader-text {
+  color: #fff;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.loader-box {
+  text-align: center;
+  position: absolute;
+  padding: 20px;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.loader-backdrop {
+  position: fixed;
+  z-index: 1051;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: block;
+  background-color: rgba(8, 8, 8, 0.6);
+}
+

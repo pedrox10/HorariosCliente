@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import * as XLSX from "xlsx-js-style";
 import {ModalService} from "ngx-modal-ease";
 import {TerminalService} from "../../../servicios/terminal.service";
@@ -10,12 +10,14 @@ import {color, format} from "../../inicio/Global";
 import {InfoMarcacion} from "../../../modelos/InfoMarcacion";
 import moment from "moment";
 import {EstadoJornada} from "../../../modelos/Jornada";
+import {Location} from "@angular/common";
+import {DataService} from "../../../servicios/data.service";
 
 @Component({
   selector: 'app-ver-reporte',
   standalone: true,
   imports: [HttpClientModule],
-  providers: [TerminalService],
+  providers: [TerminalService, DataService],
   templateUrl: './ver-reporte.component.html',
   styleUrl: './ver-reporte.component.css'
 })
@@ -27,50 +29,18 @@ export class VerReporteComponent implements OnInit{
   fechaFin: string|any = undefined;
   reportes: ResumenMarcacion[] = [];
 
-  constructor(private modalService: ModalService, public terminalService: TerminalService) {
+  constructor(private modalService: ModalService, public terminalService: TerminalService, private dataService: DataService) {
 
   }
 
   ngOnInit() {
-    let data: any = this.modalService.options?.data
-    if(data){
-      this.usuarios = data.usuarios;
-      this.fechaIni = data.fechaIni;
-      this.fechaFin = data.fechaFin;
-      const result$ =
-        from(this.usuarios)
-          .pipe(
-            concatMap(usuario => {
-              return this.terminalService.getInfoMarcaciones(usuario.id!, this.fechaIni, this.fechaFin)
-            }),
-            toArray()
-          );
-        result$.subscribe((data: any) => {
-          this.reportes = data
-          console.log(data)
-        },
-        (error: any) => {
-          console.error('An error occurred:', error);
-        })
-    } else {
-      let ids_usuarios: number[] = []
-      ids_usuarios.push(2,3,4,5,80,81)
-      const result$ =
-        from(ids_usuarios)
-          .pipe(
-            concatMap(id_usuario => {
-              return this.terminalService.getInfoMarcaciones(id_usuario, "20250101", "20250131")
-            }),
-            toArray()
-          );
-      result$.subscribe((data: any) => {
-          this.reportes = data
-          console.log(data)
-        },
-        (error: any) => {
-          console.error('An error occurred:', error);
-        })
-    }
+    this.dataService.datoCompartido.subscribe((data: any) => {
+        this.reportes = data;
+        console.log(data)
+      },
+      (error: any) => {
+        console.error('An error occurred:', error);
+      })
   }
 
   exportexcel(): void

@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {TerminalService} from '../../servicios/terminal.service';
 import {HttpClientModule} from '@angular/common/http';
 import {env} from '../../../environments/environments';
@@ -17,12 +17,15 @@ import {VerHorarioComponent} from "./ver-horario/ver-horario.component";
 import {EditarUsuarioComponent} from "./editar-usuario/editar-usuario.component";
 import {color, mensaje} from "../inicio/Global";
 import {VerReporteComponent} from "./ver-reporte/ver-reporte.component";
+import {ResumenMarcacion} from "../../modelos/ResumenMarcacion";
+import {concatMap, from, toArray} from "rxjs";
+import {DataService} from "../../servicios/data.service";
 
 @Component({
   selector: 'app-usuarios',
   standalone: true,
   imports: [RouterLink, HttpClientModule, FormsModule],
-  providers: [TerminalService],
+  providers: [TerminalService, DataService],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css'
 })
@@ -42,8 +45,9 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   fechaFin: string|any;
   inputRango: HTMLInputElement | any;
   dd_acciones: HTMLDivElement | any;
+  reportes: ResumenMarcacion[] = [];
 
-  constructor(public terminalService: TerminalService, private modalService: ModalService, private location: Location) {
+  constructor(public terminalService: TerminalService, private dataService: DataService, private router: Router, public modalService: ModalService) {
 
     this.terminalService.getUsuarios(this.idTerminal).subscribe(
       (data: any) => {
@@ -206,7 +210,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   }
 
   irAtras() {
-    this.location.back();
+    //this.location.back();
   }
 
   getEstado(usuario: Usuario) {
@@ -337,19 +341,23 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   }
 
   verReporte() {
-    let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
-    let usuarios = this.usuariosSeleccionados;
-    let fechaIni = this.fechaIni;
-    let fechaFin = this.fechaFin;
-    this.modalService.open(VerReporteComponent, {
-      modal: {enter: `${config.animation} ${config.duration}`,},
-      size: {padding: '0.5rem'},
-      data: {usuarios, fechaIni, fechaFin}
-    })
-      .subscribe((data) => {
-        if (data !== undefined)
-          this.edit(data)
-      });
+    const result$ =
+      from(this.usuariosSeleccionados)
+        .pipe(
+          concatMap(usuario => {
+            return this.terminalService.getInfoMarcaciones(usuario.id!, this.fechaIni, this.fechaFin)
+          }),
+          toArray()
+        );
+    result$.subscribe((data: any) => {
+        this.reportes = data;
+        this.dataService.cambiarDato(this.reportes)
+        //this.router.navigate(['/', 'ver-reporte']);
+      },
+      (error: any) => {
+        console.error('An error occurred:', error);
+      })
+
   }
 
   edit(usuario: Usuario) {
@@ -378,5 +386,4 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   getColor(nombre: string) {
     return color(nombre)
   }
-
 }
