@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink, RouterModule} from '@angular/router';
 import {TerminalService} from '../../servicios/terminal.service';
 import {HttpClientModule} from '@angular/common/http';
 import {env} from '../../../environments/environments';
@@ -24,7 +24,7 @@ import {DataService} from "../../servicios/data.service";
 @Component({
   selector: 'app-usuarios',
   standalone: true,
-  imports: [RouterLink, HttpClientModule, FormsModule],
+  imports: [RouterLink, HttpClientModule, FormsModule, RouterModule],
   providers: [TerminalService, DataService],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css'
@@ -349,14 +349,21 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
           }),
           toArray()
         );
-    result$.subscribe((data: any) => {
-        this.reportes = data;
-        this.dataService.cambiarDato(this.reportes)
-        //this.router.navigate(['/', 'ver-reporte']);
-      },
-      (error: any) => {
-        console.error('An error occurred:', error);
-      })
+    // result$.subscribe((data: any) => {
+    //     // this.reportes = data;
+    //     console.log(data)
+    //   sessionStorage.setItem('reporte', data)
+    //     this.dataService.cambiarDato(data)
+    //     this.router.navigateByUrl('/ver-reporte');
+    //   },
+    //   (error: any) => {
+    //     console.error('An error occurred:', error);
+    //   },)
+
+    result$.subscribe( { next:(data:any)=>{
+      this.dataService.cambiarDato(data);
+      sessionStorage.setItem('reporte', JSON.stringify(data));},
+      complete:()=>{this.router.navigateByUrl('/ver-reporte');}})
 
   }
 

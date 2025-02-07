@@ -34,13 +34,15 @@ export class VerReporteComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.dataService.datoCompartido.subscribe((data: any) => {
+    /*this.dataService.datoCompartido.subscribe((data: any) => {
         this.reportes = data;
         console.log(data)
       },
       (error: any) => {
         console.error('An error occurred:', error);
-      })
+      })*/
+  const data=JSON.parse(sessionStorage.getItem('reporte')??'')
+    this.reportes = data;
   }
 
   exportexcel(): void
