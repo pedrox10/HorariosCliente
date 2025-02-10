@@ -1,4 +1,11 @@
 <div class="terminal box">
+  <div class="etiqueta">
+    @if(terminal.tieneConexion) {
+    <div class="circle" style="background-color: {{getColor('Verde')}}; border: 1px #999 solid;"></div>
+    } @else {
+    <div class="circle" style="background-color: {{getColor('Guindo')}}; border: 1px #999 solid;"></div>
+    }
+  </div>
   <header>
     <p>{{ terminal.nombre }}</p>
   </header>

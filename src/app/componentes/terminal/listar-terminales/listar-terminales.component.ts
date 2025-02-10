@@ -4,6 +4,7 @@ import { TerminalService } from '../../../servicios/terminal.service';
 import { HttpClientModule } from '@angular/common/http';
 import {Location} from '@angular/common';
 import {Terminal} from "../../../modelos/Terminal";
+import {color} from "../../inicio/Global";
 
 @Component({
   selector: 'app-listar-terminales',
@@ -35,5 +36,4 @@ export class ListarTerminalesComponent implements OnInit{
       }
     );
   }
-
 }

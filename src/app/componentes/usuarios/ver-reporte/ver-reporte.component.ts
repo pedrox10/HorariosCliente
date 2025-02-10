@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import * as XLSX from "xlsx-js-style";
 import {ModalService} from "ngx-modal-ease";
 import {TerminalService} from "../../../servicios/terminal.service";
@@ -12,11 +12,12 @@ import moment from "moment";
 import {EstadoJornada} from "../../../modelos/Jornada";
 import {Location} from "@angular/common";
 import {DataService} from "../../../servicios/data.service";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-ver-reporte',
   standalone: true,
-  imports: [HttpClientModule],
+  imports: [HttpClientModule, RouterLink],
   providers: [TerminalService, DataService],
   templateUrl: './ver-reporte.component.html',
   styleUrl: './ver-reporte.component.css'
@@ -29,20 +30,21 @@ export class VerReporteComponent implements OnInit{
   fechaFin: string|any = undefined;
   reportes: ResumenMarcacion[] = [];
 
-  constructor(private modalService: ModalService, public terminalService: TerminalService, private dataService: DataService) {
+  constructor(private modalService: ModalService, public terminalService: TerminalService, public dataService: DataService, private location: Location) {
 
   }
 
   ngOnInit() {
-    /*this.dataService.datoCompartido.subscribe((data: any) => {
-        this.reportes = data;
-        console.log(data)
-      },
-      (error: any) => {
-        console.error('An error occurred:', error);
-      })*/
-  const data=JSON.parse(sessionStorage.getItem('reporte')??'')
+    const data=JSON.parse(sessionStorage.getItem('reporte')??'')
     this.reportes = data;
+    this.usuarios = this.dataService.usuarios
+    this.fechaIni = this.dataService.fechaIni
+    this.fechaFin = this.dataService.fechaFin
+    console.log(this.fechaIni)
+  }
+
+  irAtras() {
+    this.location.back();
   }
 
   exportexcel(): void

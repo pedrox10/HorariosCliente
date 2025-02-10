@@ -21,11 +21,12 @@ export class AccionTerminalComponent implements OnInit {
   formAccion = new FormGroup({
     nombre: new FormControl('', [Validators.required, Validators.maxLength(14)]),
     ip: new FormControl('', [Validators.required, Validators.pattern('(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)')]),
-    puerto: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]\d*$/)])
+    puerto: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]\d*$/)]),
+    tieneConexion: new FormControl(false)
   });
 
   public accion: string = "";
-  id_actual: number = -1;
+  idActual: number = -1;
 
   constructor(private terminalService: TerminalService,
               public modalService: ModalService, private router: Router) {
@@ -35,16 +36,18 @@ export class AccionTerminalComponent implements OnInit {
     this.accion = this.modalService.options?.data !== undefined ? "Editar" : "Agregar";
     if (this.accion == "Editar") {
       let terminal: any = this.modalService.options?.data;
-      this.id_actual = terminal.id;
+      this.idActual = terminal.id;
       this.formAccion.patchValue({
         nombre: terminal.nombre,
         ip: terminal.ip,
         puerto: terminal.puerto,
+        tieneConexion: terminal.tieneConexion
       })
     }
   }
 
   onSubmit(): void {
+    console.log(this.formAccion.value)
     if (this.accion === "Agregar") {
       this.terminalService.agregarTerminal(this.formAccion.value).subscribe(
         (data: any) => {
@@ -55,7 +58,7 @@ export class AccionTerminalComponent implements OnInit {
         }
       );
     } else {
-      this.terminalService.editarTerminal(this.id_actual, this.formAccion.value).subscribe(
+      this.terminalService.editarTerminal(this.idActual, this.formAccion.value).subscribe(
         (data: any) => {
           this.accionTerminal(data)
         },

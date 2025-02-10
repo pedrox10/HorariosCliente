@@ -1,6 +1,6 @@
 <div class="box" style="height: 100%;">
   <div class="title">
-    <h1>Administracion de Terminales</h1>
+    <h1>Administración de Terminales</h1>
   </div>
   <div class="animate__animated animate__fadeIn" style="box-sizing: border-box; width: fit-content;">
     <div class="hbox">
@@ -22,15 +22,26 @@
         <th>Nombre</th>
         <th>Dirección IP</th>
         <th>Puerto</th>
-        <th>Acciones</th>
+        <th>Ult. Sicronización</th>
+        <th></th>
       </tr>
       <tbody>
       @for (t of terminales; track t; let i = $index) {
          <tr id={{t.id}}>
           <td>{{i + 1}}</td>
-          <td>{{t.nombre}}</td>
+          <td>
+            <div class= "hitem" style="justify-content: space-between">
+              {{t.nombre}}
+                @if(t.tieneConexion) {
+                <div class="circle" style="margin-top: 6px; background-color: {{getColor('Verde')}}; border: 1px #999 solid;"></div>
+                } @else {
+                <div class="circle" style="margin-top: 6px; background-color: {{getColor('Guindo')}}; border: 1px #999 solid;"></div>
+                }
+            </div>
+          </td>
           <td>{{t.ip}}</td>
           <td>{{t.puerto}}</td>
+          <td>{{formatear(t.ult_sincronizacion!)}}</td>
           <td>
             <div class="hitem">
               <span class="icon has-tooltip-arrow" data-tooltip="Editar" (click) = "agregarEditarModal(t)">

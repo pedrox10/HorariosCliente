@@ -57,3 +57,7 @@ export function notificacion(mensaje: string) {
 export function format(fecha: Date) {
   return moment(fecha).format("DD/MM/YYYY")
 }
+
+export function formatTime(fecha: Date) {
+  return moment(fecha).format("DD/MM/YYYY hh:mm")
+}

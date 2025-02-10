@@ -2,6 +2,7 @@ import { Component, Input, numberAttribute } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {Terminal} from "../../modelos/Terminal";
 import moment from "moment";
+import {color} from "../inicio/Global";
 
 @Component({
   selector: 'app-terminal',
@@ -25,5 +26,9 @@ export class  TerminalComponent {
     else
       res = "Nunca"
     return res;
+  }
+
+  getColor(nombre: string) {
+    return color(nombre)
   }
 }

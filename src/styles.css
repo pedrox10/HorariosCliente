@@ -188,6 +188,16 @@ p.modal-card-title {
   visibility: hidden;
 }
 
+.punto {
+  border-radius: 50%;
+  font-size: 0.7em;
+}
+
+.circle {
+  height: 10px;
+  border-radius: 50%;
+  width: 10px;
+}
 @media print {
   .hidden-print {
     display: none !important;
@@ -255,7 +265,7 @@ p.modal-card-title {
 
 .loader-text {
   color: #fff;
-  font-size: 1.5em;
+  font-size: 1.3em;
   font-weight: bold;
 }
 
@@ -277,6 +287,6 @@ p.modal-card-title {
   top: 0;
   bottom: 0;
   display: block;
-  background-color: rgba(8, 8, 8, 0.6);
+  background-color: rgba(10, 10, 10, 0.75);
 }
 

@@ -7,6 +7,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {Terminal} from "../../../modelos/Terminal";
 import {Router} from '@angular/router';
 import {toast} from "bulma-toast";
+import {color, format, formatTime} from "../../inicio/Global";
 
 @Component({
   selector: 'app-adm-terminales',
@@ -23,7 +24,7 @@ import {toast} from "bulma-toast";
 export class AdmTerminalesComponent implements OnInit {
 
   public terminales: Terminal[] = [];
-  id_actual: number = -1;
+  idActual: number = -1;
 
   constructor(public terminalService: TerminalService, private modalService: ModalService, private router: Router) {
 
@@ -53,10 +54,10 @@ export class AdmTerminalesComponent implements OnInit {
   }
 
   delete() {
-    this.terminalService.eliminarTerminal(this.id_actual).subscribe(
+    this.terminalService.eliminarTerminal(this.idActual).subscribe(
       (data: any) => {
         this.ocultarEliminar();
-        const index = this.terminales.map(i => i.id).indexOf(this.id_actual);
+        const index = this.terminales.map(i => i.id).indexOf(this.idActual);
         this.terminales.splice(index, 1);
         toast({
           message: '<span class="icon" style="min-width: 175px;"><i style="color: white; font-size: 2em; padding-right: 10px" class="fas fa-check"></i>Terminal eliminado</span>',
@@ -118,18 +119,25 @@ export class AdmTerminalesComponent implements OnInit {
 
   mostrarEliminar(terminal: Terminal) {
     document.getElementById("eliminar_modal")?.classList.add("is-active");
-    this.id_actual = terminal.id;
-    console.log(this.id_actual)
+    this.idActual = terminal.id;
+    console.log(this.idActual)
   }
 
   ocultarEliminar() {
     document.getElementById("eliminar_modal")?.classList.remove("is-active");
   }
 
-  refrescar() {
-    let currentUrl = this.router.url;
-    this.router.navigateByUrl('/adm-terminales').then(() => {
-      window.location.reload()
-    });
+  getColor(nombre: string) {
+    return color(nombre)
+  }
+
+  formatear(fecha: Date){
+    let res=""
+    if(fecha === null) {
+      res = "Nunca"
+    } else {
+      res = formatTime(fecha)
+    }
+    return res;
   }
 }

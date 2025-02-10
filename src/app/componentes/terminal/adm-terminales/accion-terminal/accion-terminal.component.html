@@ -5,24 +5,33 @@
   </header>
   <form [formGroup]="formAccion">
     <section class="modal-card-body">
-      <div class="field">
-        <label class="label">Nombre</label>
-        <div class="control">
-          <input class="input" id="nombre" type="text" (change)="cambio($event)" formControlName="nombre"
-                 placeholder="Planta Baja"/>
-          @if(f['nombre'].invalid) {
-            @if(f['nombre'].touched && f['nombre'].hasError('required')) {
-              <p class='help is-danger'>¡El nombre es requerido!</p>
-            } @else {
-              @if(f['nombre'].hasError('maxlength')) {
-                <p class='help is-danger'>¡El nombre es demasiado largo!</p>
+      <div class="hitem">
+        <div class="field" style="flex: 1">
+          <label class="label">Nombre</label>
+          <div class="control">
+            <input class="input" id="nombre" type="text" (change)="cambio($event)" formControlName="nombre"
+                   placeholder="Planta Baja"/>
+            @if(f['nombre'].invalid) {
+              @if(f['nombre'].touched && f['nombre'].hasError('required')) {
+                <p class='help is-danger'>¡El nombre es requerido!</p>
               } @else {
-                <p class='help is-info'>* Maximo 14 caracteres</p>
+                @if(f['nombre'].hasError('maxlength')) {
+                  <p class='help is-danger'>¡El nombre es demasiado largo!</p>
+                } @else {
+                  <p class='help is-info'>* Maximo 14 caracteres</p>
+                }
               }
+            } @else {
+              <p class='help is-info'>* Maximo 14 caracteres</p>
             }
-          } @else {
-            <p class='help is-info'>* Maximo 14 caracteres</p>
-          }
+          </div>
+        </div>
+        <div class="field  has-text-centered" style="margin-top: 2px;">
+          <label class="label">¿Tiene conexión?</label>
+          <label class="b-checkbox checkbox is-dark" style="justify-content: center">
+            <input type="checkbox" formControlName="tieneConexion">
+            <span class="check"></span>
+          </label>
         </div>
       </div>
       <div class="hitem">

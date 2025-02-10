@@ -16,7 +16,6 @@ import {LockPlugin} from "@easepick/lock-plugin";
 import {VerHorarioComponent} from "./ver-horario/ver-horario.component";
 import {EditarUsuarioComponent} from "./editar-usuario/editar-usuario.component";
 import {color, mensaje} from "../inicio/Global";
-import {VerReporteComponent} from "./ver-reporte/ver-reporte.component";
 import {ResumenMarcacion} from "../../modelos/ResumenMarcacion";
 import {concatMap, from, toArray} from "rxjs";
 import {DataService} from "../../servicios/data.service";
@@ -36,18 +35,19 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   public usuariosSeleccionados: Usuario[] = [];
   public usuarios: Usuario[] = [];
   public terminal: any | Terminal;
-  ultimaSincronizacion: Date|any = undefined
+  ultimaSincronizacion: Date | any = undefined
   private activatedRoute = inject(ActivatedRoute);
   idTerminal = this.activatedRoute.snapshot.params['id'];
   estado: EstadoUsuario | any = undefined;
-  fechaMin: string|any;
-  fechaIni: string|any;
-  fechaFin: string|any;
+  fechaMin: string | any;
+  fechaIni: string | any;
+  fechaFin: string | any;
   inputRango: HTMLInputElement | any;
   dd_acciones: HTMLDivElement | any;
   reportes: ResumenMarcacion[] = [];
 
-  constructor(public terminalService: TerminalService, private dataService: DataService, private router: Router, public modalService: ModalService) {
+  constructor(public terminalService: TerminalService, public dataService: DataService, private router: Router,
+              public modalService: ModalService, private location: Location) {
 
     this.terminalService.getUsuarios(this.idTerminal).subscribe(
       (data: any) => {
@@ -101,8 +101,6 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
           botonVerReporte.disabled = false;
           this.fechaIni = moment(picker.getStartDate()).format("YYYYMMDD");
           this.fechaFin = moment(picker.getEndDate()).format('YYYYMMDD');
-          console.log("Ini: " + this.fechaIni + "Fin: " + this.fechaFin)
-          //this.getResumenMarcaciones(this.id, start, end)
         })
       },
       (error: any) => {
@@ -210,7 +208,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   }
 
   irAtras() {
-    //this.location.back();
+    this.location.back();
   }
 
   getEstado(usuario: Usuario) {
@@ -221,7 +219,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
     return moment(usuario.fechaAlta).format('DD/MM/YYYY')
   }
 
-  getJornada(usuario: Usuario| any) {
+  getJornada(usuario: Usuario | any) {
     let fecha = moment().format("YYYYMMDD")
     this.terminalService.getJornada(usuario.id, fecha).subscribe(
       (data: any) => {
@@ -242,9 +240,9 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   }
 
   asignarHorario() {
-    if(this.usuariosSeleccionados.length > 0) {
+    if (this.usuariosSeleccionados.length > 0) {
       this.terminalService.getFechaPriMarcacion(this.idTerminal).subscribe(
-        (data:any)=> {
+        (data: any) => {
           this.fechaMin = data;
           let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
           let usuarios = this.usuariosSeleccionados;
@@ -259,7 +257,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
                 console.log(data)
             });
         },
-        (error:any) => {
+        (error: any) => {
           console.error('An error occurred:', error);
         })
     } else {
@@ -301,7 +299,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   }
 
   seleccionarRango() {
-    if(this.usuariosSeleccionados.length > 0) {
+    if (this.usuariosSeleccionados.length > 0) {
       document.getElementById("reporte_modal")?.classList.add("is-active");
     } else {
       mensaje("Debes seleccionar al menos un funcionario", "is-warning")
@@ -312,7 +310,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
     document.getElementById("reporte_modal")?.classList.remove("is-active");
   }
 
-  verHorario(id_usuario: number|any) {
+  verHorario(id_usuario: number | any) {
     let id = id_usuario;
     let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
     this.modalService.open(VerHorarioComponent, {
@@ -326,7 +324,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
       });
   }
 
-  editarUsuario(id_usuario: number|any) {
+  editarUsuario(id_usuario: number | any) {
     let id = id_usuario;
     let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
     this.modalService.open(EditarUsuarioComponent, {
@@ -341,6 +339,9 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   }
 
   verReporte() {
+    let loader = document.getElementById("loader") as HTMLDivElement
+    this.ocultarSeleccionarRango()
+    loader.classList.remove("is-hidden")
     const result$ =
       from(this.usuariosSeleccionados)
         .pipe(
@@ -349,29 +350,26 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
           }),
           toArray()
         );
-    // result$.subscribe((data: any) => {
-    //     // this.reportes = data;
-    //     console.log(data)
-    //   sessionStorage.setItem('reporte', data)
-    //     this.dataService.cambiarDato(data)
-    //     this.router.navigateByUrl('/ver-reporte');
-    //   },
-    //   (error: any) => {
-    //     console.error('An error occurred:', error);
-    //   },)
 
-    result$.subscribe( { next:(data:any)=>{
-      this.dataService.cambiarDato(data);
-      sessionStorage.setItem('reporte', JSON.stringify(data));},
-      complete:()=>{this.router.navigateByUrl('/ver-reporte');}})
-
+    result$.subscribe({
+      next: (data: any) => {
+        this.dataService.cambiarDatos(this.usuariosSeleccionados, this.fechaIni, this.fechaFin);
+        sessionStorage.setItem('reporte', JSON.stringify(data));
+      },
+      complete: () => {
+        this.router.navigateByUrl('/ver-reporte');
+      },
+      error(error: any) {
+        console.log(error)
+      }
+    })
   }
 
   edit(usuario: Usuario) {
     let index = this.usuarios.map(i => i.id).indexOf(usuario.id);
     this.usuarios[index] = usuario
-    if(this.estado !== undefined) {
-      if(this.estado === usuario.estado) {
+    if (this.estado !== undefined) {
+      if (this.estado === usuario.estado) {
         let index = this.usuariosFiltrados.map(i => i.id).indexOf(usuario.id);
         this.usuariosFiltrados[index] = usuario
       } else {
@@ -381,7 +379,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
     }
   }
 
-  mostrarAcciones(id: number|any) {
+  mostrarAcciones(id: number | any) {
     this.dd_acciones = document.getElementById("dd_acciones" + id) as HTMLDivElement
     if (this.dd_acciones.classList.contains("is-active")) {
       this.dd_acciones.classList.remove("is-active")
