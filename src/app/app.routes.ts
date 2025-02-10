@@ -15,7 +15,7 @@ export const routes: Routes = [
   {path: "", component: ListarTerminalesComponent},
   {path: "ver-terminales", component: ListarTerminalesComponent},
   {path: "terminal/:id/usuarios", component: UsuariosComponent},
-  {path: "ver-marcaciones/:id", component: VerMarcacionesComponent},
+  {path: "ver-marcaciones/:id/:ini/:fin", component: VerMarcacionesComponent},
   {path: "horarios", component: HorariosComponent},
   {path: "nuevo-horario", component: NuevoHorarioComponent},
   {path: "asignar-horarios", component: AsignarHorariosComponent},

@@ -9,7 +9,7 @@ export const env = {
       {"color" : "Lima", "valor": "#E9FAB6"}, {"color" : "Crema", "valor": "#ECE4DB"},{"color" : "Gris", "valor": "#F2F2F2"},
       {"color" : "Guindo", "valor": "#E7B9C0"}, {"color" : "Rojo", "valor": "#FBCFD0"}, {"color" : "Naranja", "valor": "#FFE5D4"},
     ],
-    filtrarEstado: false,
-    estado: -1,
+    filtrarEstado: true,
+    estado: 1,
     textoBusqueda: ""
 }

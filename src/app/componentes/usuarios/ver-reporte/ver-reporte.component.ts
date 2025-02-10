@@ -30,17 +30,15 @@ export class VerReporteComponent implements OnInit{
   fechaFin: string|any = undefined;
   reportes: ResumenMarcacion[] = [];
 
-  constructor(private modalService: ModalService, public terminalService: TerminalService, public dataService: DataService, private location: Location) {
+  constructor(private modalService: ModalService, public terminalService: TerminalService, private location: Location) {
 
   }
 
   ngOnInit() {
     const data=JSON.parse(sessionStorage.getItem('reporte')??'')
     this.reportes = data;
-    this.usuarios = this.dataService.usuarios
-    this.fechaIni = this.dataService.fechaIni
-    this.fechaFin = this.dataService.fechaFin
-    console.log(this.fechaIni)
+    this.fechaIni = sessionStorage.getItem("fechaIni")
+    this.fechaFin = sessionStorage.getItem("fechaFin")
   }
 
   irAtras() {
@@ -97,6 +95,20 @@ export class VerReporteComponent implements OnInit{
 
   formatear(fecha: Date) {
     return format(fecha)
+  }
+
+  getFechaIni() {
+    return moment(this.fechaIni).format("DD/MM/YYYY")
+  }
+
+  getFechaFin() {
+    return moment(this.fechaFin).format("DD/MM/YYYY")
+  }
+
+  getTotalDias() {
+    let fin = moment(this.fechaFin);
+    let ini = moment(this.fechaIni);
+    return fin.diff(ini, 'days') + 1 // =1
   }
 
   getRetrasos(infoMarcaciones: InfoMarcacion[]) {

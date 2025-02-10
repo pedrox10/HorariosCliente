@@ -15,7 +15,7 @@
         </span>
            <span class="label">Rango de Fechas</span>
          </div>
-         <p class="block has-text-centered">14/05/2025 - 25/06/2025</p>
+         <p class="block has-text-centered">{{getFechaIni()}} - {{getFechaFin()}}</p>
        </div>
        <div class="vinput">
          <div class="icon-text">
@@ -25,7 +25,7 @@
            <span class="label">Total Días</span>
          </div>
          <p class="block has-text-centered">
-           31
+           {{getTotalDias()}}
          </p>
        </div>
      </div>
@@ -41,6 +41,12 @@
        <th>#</th>
        <th style="width: 265px;">Nombre</th>
        <th style="width: 95px;">CI</th>
+       <th>
+         <div class="vinput has-text-centered">
+           <span>Fecha de</span>
+           <span>Alta</span>
+         </div>
+       </th>
        <th>
          <div class="vinput has-text-centered">
            <span>Retraso</span>
@@ -80,6 +86,7 @@
          </div>
         </td>
         <td>{{reporte.usuario.ci}}</td>
+        <td>{{formatear(reporte.usuario.fechaAlta)}}</td>
         @if(reporte.totalMinRetrasos > 0) {
      <td>
        <div class="hitem" style="justify-content: space-between">
@@ -145,8 +152,8 @@
      }
      <td>
       <div class="hitem">
-        <span class="icon has-tooltip-arrow" data-tooltip="Ver Marcaciones" routerLink="/ver-marcaciones/{{reporte.usuario.id}}">
-          <i class="far fa-calendar-check icon-btn"></i>
+        <span class="icon has-tooltip-arrow" data-tooltip="Ver Marcaciones" routerLink="/ver-marcaciones/{{reporte.usuario.id}}/{{fechaIni}}/{{fechaFin}}">
+          <i class="fas fa-external-link-alt"></i>
         </span>
       </div>
      </td>

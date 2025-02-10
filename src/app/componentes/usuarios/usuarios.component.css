@@ -1,5 +1,5 @@
-.dropdown-menu {
-  min-width: 100px!important;
-  width: 114px;
+.stick {
+  position: sticky !important;
+  top: 0;
+  z-index: 1;
 }
-

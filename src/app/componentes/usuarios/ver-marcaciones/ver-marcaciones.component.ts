@@ -21,7 +21,6 @@ import {NuevaExcepcionParcialComponent} from "./nueva-excepcion-parcial/nueva-ex
 import {VerExcepcionesComponent} from "./ver-excepciones/ver-excepciones.component";
 import {EstadoJornada} from "../../../modelos/Jornada";
 
-
 @Component({
   selector: 'app-ver-marcaciones',
   standalone: true,
@@ -36,6 +35,8 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   public usuario: any | Usuario;
   private activatedRoute = inject(ActivatedRoute);
   public id = this.activatedRoute.snapshot.params['id'];
+  public ini = this.activatedRoute.snapshot.params['ini'];
+  public fin = this.activatedRoute.snapshot.params['fin'];
   inputRango: HTMLInputElement | any;
   momentExt = extendMoment(Moment);
   resumenMarcacion: ResumenMarcacion | any = undefined;
@@ -81,10 +82,9 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
           },
         });
         picker.gotoDate(moment().subtract(1, "month").toDate());
-        let inicioMes = moment(this.ultimaSincronizacion, 'YYYY-MM-DD').startOf('month').format('YYYYMMDD');
-        picker.setStartDate(moment(this.ultimaSincronizacion, 'YYYY-MM-DD').startOf('month').toDate());
-        picker.setEndDate(this.ultimaSincronizacion)
-        this.getResumenMarcaciones(this.id, inicioMes, moment(this.ultimaSincronizacion).format("YYYYMMDD"))
+        picker.setStartDate(moment(this.ini, "YYYYMMDD").toDate());
+        picker.setEndDate(moment(this.fin, "YYYYMMDD").toDate())
+        this.getResumenMarcaciones(this.id, this.ini, this.fin)
 
         picker.on('select', (e) => {
           const start = moment(picker.getStartDate()).format("YYYYMMDD");

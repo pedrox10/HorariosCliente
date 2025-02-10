@@ -44,9 +44,8 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   fechaFin: string | any;
   inputRango: HTMLInputElement | any;
   dd_acciones: HTMLDivElement | any;
-  reportes: ResumenMarcacion[] = [];
 
-  constructor(public terminalService: TerminalService, public dataService: DataService, private router: Router,
+  constructor(public terminalService: TerminalService,private router: Router,
               public modalService: ModalService, private location: Location) {
 
     this.terminalService.getUsuarios(this.idTerminal).subscribe(
@@ -54,7 +53,18 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
         this.usuarios = data;
         console.log(this.usuarios)
         this.usuariosFiltrados = data;
-        (document.getElementById("rb_activo") as HTMLInputElement)?.click()
+        if(env.filtrarEstado) {
+          if(env.estado == 1)
+            (document.getElementById("rb_activo") as HTMLInputElement)?.click()
+          else
+            (document.getElementById("rb_inactivo") as HTMLInputElement)?.click()
+          this.filtrarFuncionarios(env.textoBusqueda);
+          (document.getElementById("tf_busqueda") as HTMLInputElement).value = env.textoBusqueda
+
+        } else {
+          this.quitarFiltros()
+        }
+
       },
       (error: any) => {
         console.error('An error occurred:', error);
@@ -126,6 +136,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
 
   applyFilter($event: any) {
     let texto = $event.target.value.toLowerCase();
+    env.textoBusqueda = texto;
     this.filtrarFuncionarios(texto)
   }
 
@@ -295,7 +306,14 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
       env.filtrarEstado = false;
       env.estado = -1
     }
-    console.log(this.estado)
+  }
+
+  getIni() {
+    return moment(this.ultimaSincronizacion, 'YYYY-MM-DD').startOf('month').format('YYYYMMDD');
+  }
+
+  getFin() {
+    return moment(this.ultimaSincronizacion).format("YYYYMMDD");
   }
 
   seleccionarRango() {
@@ -353,8 +371,9 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
 
     result$.subscribe({
       next: (data: any) => {
-        this.dataService.cambiarDatos(this.usuariosSeleccionados, this.fechaIni, this.fechaFin);
         sessionStorage.setItem('reporte', JSON.stringify(data));
+        sessionStorage.setItem("fechaIni", this.fechaIni)
+        sessionStorage.setItem("fechaFin", this.fechaFin)
       },
       complete: () => {
         this.router.navigateByUrl('/ver-reporte');
