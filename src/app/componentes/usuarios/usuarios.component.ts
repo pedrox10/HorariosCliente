@@ -16,7 +16,6 @@ import {LockPlugin} from "@easepick/lock-plugin";
 import {VerHorarioComponent} from "./ver-horario/ver-horario.component";
 import {EditarUsuarioComponent} from "./editar-usuario/editar-usuario.component";
 import {color, mensaje} from "../inicio/Global";
-import {ResumenMarcacion} from "../../modelos/ResumenMarcacion";
 import {concatMap, from, toArray} from "rxjs";
 import {DataService} from "../../servicios/data.service";
 
@@ -218,8 +217,22 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
     this.location.back();
   }
 
+/*  getHorario(usuario: Usuario) {
+    let horario = "";
+
+    "<span class='help has-text-centered'>Sin asignar</span>" +
+    "<span class='badge is-bottom mb-2' style="background-color: {{getColor('Amarillo')}}; color: #444'>" +
+    "<span>hasta 28 de Feb</span>"+
+    "</span>"
+  }*/
+
   getEstado(usuario: Usuario) {
-    return EstadoUsuario[usuario.estado];
+    let clase = usuario.estado == EstadoUsuario.Activo ? "usuario-activo" : "usuario-inactivo";
+    let estado =
+      "<div class='help has-text-centered mt-1'>" +
+        "<div class='" + clase + "'>" + EstadoUsuario[usuario.estado] + "</div>" +
+      "</div>";
+    return estado
   }
 
   getFechaAlta(usuario: Usuario) {
@@ -371,6 +384,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
     result$.subscribe({
       next: (data: any) => {
         sessionStorage.setItem('reporte', JSON.stringify(data));
+        sessionStorage.setItem('terminal', this.terminal.nombre);
         sessionStorage.setItem("fechaIni", this.fechaIni)
         sessionStorage.setItem("fechaFin", this.fechaFin)
       },

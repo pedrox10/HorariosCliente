@@ -290,3 +290,16 @@ p.modal-card-title {
   background-color: rgba(10, 10, 10, 0.75);
 }
 
+.usuario-activo {
+  border-radius: 5px;
+  padding: 2px;
+  background-color: #C6FBF9;
+}
+
+.usuario-inactivo {
+  border-radius: 5px;
+  padding: 2px;
+  background-color: #E7B9C0;
+}
+
+

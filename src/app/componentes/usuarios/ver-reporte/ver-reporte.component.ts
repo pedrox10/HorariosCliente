@@ -26,6 +26,7 @@ export class VerReporteComponent implements OnInit{
 
   usuarios: Usuario[] = [];
   fileName= 'ExcelSheet.xlsx';
+  terminal: string|any = undefined;
   fechaIni: string|any = undefined;
   fechaFin: string|any = undefined;
   reportes: ResumenMarcacion[] = [];
@@ -37,12 +38,17 @@ export class VerReporteComponent implements OnInit{
   ngOnInit() {
     const data=JSON.parse(sessionStorage.getItem('reporte')??'')
     this.reportes = data;
+    this.terminal = sessionStorage.getItem("terminal")
     this.fechaIni = sessionStorage.getItem("fechaIni")
     this.fechaFin = sessionStorage.getItem("fechaFin")
   }
 
   irAtras() {
     this.location.back();
+  }
+
+  imprimir() {
+    window.print();
   }
 
   exportexcel(): void
