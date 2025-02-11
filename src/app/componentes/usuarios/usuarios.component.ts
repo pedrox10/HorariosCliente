@@ -30,7 +30,6 @@ import {DataService} from "../../servicios/data.service";
 })
 
 export class UsuariosComponent implements OnInit, AfterViewInit {
-  public colores: any = env.colores;
   public usuariosFiltrados: Usuario[] = [];
   public usuariosSeleccionados: Usuario[] = [];
   public usuarios: Usuario[] = [];
@@ -55,16 +54,14 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
         this.usuariosFiltrados = data;
         if(env.filtrarEstado) {
           if(env.estado == 1)
-            (document.getElementById("rb_activo") as HTMLInputElement)?.click()
+            (document.getElementById("rb_activo") as HTMLInputElement)?.click();
           else
-            (document.getElementById("rb_inactivo") as HTMLInputElement)?.click()
+            (document.getElementById("rb_inactivo") as HTMLInputElement)?.click();
+        }
+        if(env.textoBusqueda !== "") {
           this.filtrarFuncionarios(env.textoBusqueda);
           (document.getElementById("tf_busqueda") as HTMLInputElement).value = env.textoBusqueda
-
-        } else {
-          this.quitarFiltros()
         }
-
       },
       (error: any) => {
         console.error('An error occurred:', error);
@@ -207,7 +204,6 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
         cbTodos.classList.remove("is-indeterminate")
         this.usuariosSeleccionados = []
         this.quitarFiltros()
-        console.log(data)
         setTimeout(() => {
           document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
         }, 1000);
@@ -279,12 +275,13 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   filtrarUsuarios(ev: any) {
     let valor = (<HTMLInputElement>ev.target).value;
     this.estado = parseInt(valor)
-    console.log(this.estado)
     env.filtrarEstado = true;
-    console.log(env.filtrarEstado)
     env.estado = this.estado;
-    console.log(env.estado)
     this.usuariosFiltrados = this.usuarios.filter((item: Usuario) => item.estado == this.estado)
+    if(env.textoBusqueda !== "") {
+      this.filtrarFuncionarios(env.textoBusqueda);
+      (document.getElementById("tf_busqueda") as HTMLInputElement).value = env.textoBusqueda
+    }
     this.marcarTodos(false);
     (document.getElementById("cb_todos") as HTMLInputElement).checked = false;
   }
@@ -305,6 +302,8 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
       (document.getElementById("cb_todos") as HTMLInputElement).checked = false;
       env.filtrarEstado = false;
       env.estado = -1
+      env.textoBusqueda = "";
+      (document.getElementById("tf_busqueda") as HTMLInputElement).value = "";
     }
   }
 

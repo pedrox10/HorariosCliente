@@ -1,8 +1,9 @@
 import { Component, Input, numberAttribute } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {Terminal} from "../../modelos/Terminal";
 import moment from "moment";
 import {color} from "../inicio/Global";
+import {env} from "../../../environments/environments";
 
 @Component({
   selector: 'app-terminal',
@@ -15,7 +16,7 @@ import {color} from "../inicio/Global";
 export class  TerminalComponent {
   @Input() terminal!:Terminal;
 
-  constructor() {
+  constructor(private router: Router) {
 
   }
 
@@ -30,5 +31,12 @@ export class  TerminalComponent {
 
   getColor(nombre: string) {
     return color(nombre)
+  }
+
+  irA(terminalId: number) {
+    env.filtrarEstado = true;
+    env.estado = 1;
+    env.textoBusqueda = "";
+    this.router.navigateByUrl("/terminal/" + terminalId + "/usuarios");
   }
 }
