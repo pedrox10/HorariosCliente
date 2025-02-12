@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {TerminalService} from "../../../servicios/terminal.service";
 import {ModalService} from "ngx-modal-ease";
 import {Location} from "@angular/common";
@@ -11,6 +11,8 @@ import {Asueto, TipoAsueto} from "../../../modelos/Asueto";
 import {Licencia} from "../../../modelos/Licencia";
 import moment from "moment";
 import {color} from "../../inicio/Global";
+import {easepick} from "@easepick/core";
+import {RangePlugin} from "@easepick/range-plugin";
 
 @Component({
   selector: 'app-asuetos',
@@ -20,10 +22,12 @@ import {color} from "../../inicio/Global";
   templateUrl: './asuetos.component.html',
   styleUrl: './asuetos.component.css'
 })
-export class AsuetosComponent implements OnInit {
+export class AsuetosComponent implements OnInit, AfterViewInit {
 
   asuetos: Asueto[] = [];
   licencias: Licencia[] = [];
+  idActual: number = -1;
+  picker: HTMLInputElement| any = undefined;
 
   constructor(public terminalService: TerminalService, public horarioService: HorarioService) {
 
@@ -49,6 +53,19 @@ export class AsuetosComponent implements OnInit {
     );
   }
 
+  ngAfterViewInit() {
+    this.picker = new easepick.create({
+      element: document.getElementById('picker_fecha')!,
+      inline: true,
+      lang: 'es-ES',
+      format: "DD/MM/YYYY",
+      zIndex: 10,
+      css: [
+        '../../../assets/easepick_small.css',
+      ],
+    });
+  }
+
   getTipo(asueto: Asueto) {
     return TipoAsueto[asueto.tipo]
   }
@@ -59,5 +76,22 @@ export class AsuetosComponent implements OnInit {
 
   getColor(nombre: string) {
     return color(nombre);
+  }
+
+  ocultarModal() {
+    document.getElementById("fecha_modal")?.classList.remove("is-active");
+  }
+
+  asignarFecha(asueto: Asueto ) {
+    document.getElementById("fecha_modal")?.classList.add("is-active");
+    this.idActual = asueto.id!;
+    if(asueto.fecha) {
+      this.picker.setDate(moment(asueto.fecha).toDate())
+      this.picker.gotoDate(moment(asueto.fecha).toDate())
+    } else {
+      this.picker.setDate(null);
+      this.picker.gotoDate(null)
+    }
+    document.getElementById("nombre_feriado")!.innerText = asueto.nombre;
   }
 }

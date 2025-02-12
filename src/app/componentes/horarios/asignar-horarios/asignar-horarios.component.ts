@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {HttpClientModule} from "@angular/common/http";
-import {FormControl, FormGroup, FormsModule, Validators} from "@angular/forms";
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ModalService} from "ngx-modal-ease";
 import {Usuario} from "../../../modelos/Usuario";
 import {easepick} from "@easepick/core";
@@ -12,12 +12,12 @@ import {env} from "../../../../environments/environments";
 import moment from "moment";
 import {LockPlugin} from "@easepick/lock-plugin";
 import {TerminalService} from "../../../servicios/terminal.service";
-import {color} from "../../inicio/Global";
+import {color, mensaje} from "../../inicio/Global";
 
 @Component({
   selector: 'app-asignar-horarios',
   standalone: true,
-  imports: [RouterLink, HttpClientModule, FormsModule],
+  imports: [RouterLink, HttpClientModule, FormsModule, ReactiveFormsModule],
   providers: [HorarioService, TerminalService],
   templateUrl: './asignar-horarios.component.html',
   styleUrl: './asignar-horarios.component.css'
@@ -113,12 +113,13 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
     let jornadas = JSON.stringify(this.jornadaDias);
     this.horarioService.asignarHorario(parseInt(id_horario), ids.toString(), ini, fin, jornadas).
     subscribe((data:any)=>{
-      console.log(data)
       setTimeout(() => {
         document.getElementById("btn_asignar")?.classList.remove("is-loading")
+        mensaje("Horario asignado a " + this.usuarios.length + " funcionarios", "is-success")
+        this.modalService.close()
       }, 1000);
     }, (error: any) => {
-
+        mensaje("Error, no se pudio asignar el horario", "is-danger")
     })
   }
 

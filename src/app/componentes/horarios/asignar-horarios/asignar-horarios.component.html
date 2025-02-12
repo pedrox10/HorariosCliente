@@ -21,14 +21,14 @@
     </div>
         }
       </div>
-      <div class="column">
+      <div class="column" [formGroup]="formAsignar">
         <div class="hbox" style="justify-content: space-between;">
           <div class="hitem">
             <label class="label mt-1">
               Selecciona un rango de fechas:
             </label>
             <p class="control has-icons-right">
-              <input id="datepicker" class="input" style="width: 210px"/>
+              <input id="datepicker" class="input" style="width: 210px" formControlName="fecha"/>
               <span class="icon is-right"><i class="fas fa-calendar-alt"></i></span>
             </p>
           </div>
@@ -37,7 +37,7 @@
               Elije un horario como plantilla:
             </label>
             <div class="select" >
-              <select id="select_horarios" (change)="seleccionar($event)">
+              <select id="select_horarios" (change)="seleccionar($event)"  formControlName="horario">
                 <option disabled selected style="display: none"></option>
                 @for (horario of horarios; track horario; let i = $index ) {
                   <option value={{horario.id}}>{{horario.nombre}}</option>
