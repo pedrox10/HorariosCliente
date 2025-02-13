@@ -19,3 +19,13 @@ export class ResumenMarcacion{
     this.infoMarcaciones = infoMarcaciones
   }
 }
+
+export interface IReporte {
+  nombre: string;
+  ci: number;
+  fechaAlta: string,
+  retraso: number,
+  sinMarcar: number,
+  faltas: number,
+}
+

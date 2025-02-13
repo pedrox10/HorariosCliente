@@ -5,7 +5,7 @@ import {TerminalService} from "../../../servicios/terminal.service";
 import {Usuario} from "../../../modelos/Usuario";
 import {HttpClientModule} from "@angular/common/http";
 import {concatMap, from, toArray} from "rxjs";
-import {ResumenMarcacion} from "../../../modelos/ResumenMarcacion";
+import {IReporte, ResumenMarcacion} from "../../../modelos/ResumenMarcacion";
 import {color, format} from "../../inicio/Global";
 import {InfoMarcacion} from "../../../modelos/InfoMarcacion";
 import moment from "moment";
@@ -22,6 +22,7 @@ import {RouterLink} from "@angular/router";
   templateUrl: './ver-reporte.component.html',
   styleUrl: './ver-reporte.component.css'
 })
+
 export class VerReporteComponent implements OnInit{
 
   usuarios: Usuario[] = [];
@@ -30,6 +31,7 @@ export class VerReporteComponent implements OnInit{
   fechaIni: string|any = undefined;
   fechaFin: string|any = undefined;
   reportes: ResumenMarcacion[] = [];
+  filasExcel = [] as Array<IReporte>
 
   constructor(private modalService: ModalService, public terminalService: TerminalService, private location: Location) {
 
@@ -41,6 +43,19 @@ export class VerReporteComponent implements OnInit{
     this.terminal = sessionStorage.getItem("terminal")
     this.fechaIni = sessionStorage.getItem("fechaIni")
     this.fechaFin = sessionStorage.getItem("fechaFin")
+    for(let reporte of this.reportes) {
+      let fila = {} as IReporte;
+      fila.nombre = reporte.usuario.nombre;
+      fila.ci = reporte.usuario.ci;
+      fila.fechaAlta = format(reporte.usuario.fechaAlta);
+      fila.retraso = reporte.totalMinRetrasos;
+      fila.sinMarcar = reporte.totalSinMarcar;
+      fila.faltas = reporte.totalAusencias;
+
+      this.filasExcel.push(fila)
+    }
+
+    console.log(this.filasExcel)
   }
 
   irAtras() {
@@ -53,48 +68,102 @@ export class VerReporteComponent implements OnInit{
 
   exportexcel(): void
   {
-    /* pass here the table id */
-    let element = document.getElementById('tabla_reporte');
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+    // define your headers
+    const headers = [
+      "Nombre",
+      "CI",
+      "Fecha de Alta",
+      "Retraso [min]",
+      "Sin Marcar",
+      "Faltas",
+    ]
 
-    for (var i in ws) {
-      console.log(ws[i]);
-      if (typeof ws[i] != 'object') continue;
-      let cell = XLSX.utils.decode_cell(i);
-      ws[i].s = {
-        // styling for all cells
-        font: {
-          name: 'arial',
-        },
-        alignment: {
-          vertical: 'center',
-          horizontal: 'center',
-          wrapText: '1', // any truthy value here
-        },
-        border: {
-          top: {
-            style: 'thin',
-            color: '000000',
-          },
-          bottom: {
-            style: 'thin',
-            color: '000000',
-          },
-        },
-      };
+// set column widths
+    const colWidths = [
+      { wch: 32 },
+      { wch: 10 },
+      { wch: 12 },
+    ]
 
-      if (cell.r == 0) {
-        // first row
-        ws[i].s.border.bottom = {
-          // bottom border
-          style: 'thin',
-          color: 'FF0000',
-        };
+// get the data
+    const userData = this.filasExcel
+
+// set header row height
+// consider if you have vertical headers
+    const headerRowHeight = [
+      { hpt: 30 },
+    ]
+
+// Dynamically set row height based on size of data
+    const dataRowHeight = Array.from({ length: userData.length }, () => ({ hpt: 20 }))
+
+// Combine header row height and data row height
+    const rowHeight = [...headerRowHeight, ...dataRowHeight]
+
+// Create a new worksheet:
+    const worksheet = XLSX.utils.json_to_sheet([])
+
+// Assign widths to columns
+    worksheet['!cols'] = colWidths
+
+// Assign height to rows
+    worksheet['!rows'] = rowHeight
+
+// Enable auto-filter for columns
+    worksheet['!autofilter'] = { ref: "A1:C1" }
+
+// Add the headers to the worksheet:
+    XLSX.utils.sheet_add_aoa(worksheet, [headers])
+
+// add data to sheet
+    XLSX.utils.sheet_add_json(worksheet, userData, {
+      skipHeader: true,
+      origin: -1
+    })
+
+// get size of sheet
+    const range = XLSX.utils.decode_range(worksheet["!ref"] ?? "")
+    const rowCount = range.e.r
+    const columnCount = range.e.c
+
+// Add formatting by looping through data in sheet
+    for (let row = 0; row <= rowCount; row++) {
+      for (let col = 0; col <= columnCount; col++) {
+        const cellRef = XLSX.utils.encode_cell({ r: row, c: col })
+        // Add this format to every cell
+        worksheet[cellRef].s = {
+          alignment: {
+            horizontal: "left",
+            wrapText: true,
+          },
+        }
+
+        // vertical header - 1st column only
+        /*if (row === 0 && col === 0) {
+          worksheet[cellRef].s = {
+            //spreads in previous cell settings
+            ...worksheet[cellRef].s,
+            alignment: {
+              horizontal: "center",
+              vertical: "center",
+              wrapText: false,
+            },
+          }
+        }*/
+        // Format headers bold
+        if (row === 0) {
+          worksheet[cellRef].s = {
+            //spreads in previous cell settings
+            ...worksheet[cellRef].s,
+            font: { bold: true, color: { rgb: 'FFFFFF' } },
+            fill: { fgColor: { rgb: '295A8C' } },
+          }
+        }
       }
     }
     /* generate workbook and add the worksheet */
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
     /* save to file */
     XLSX.writeFile(wb, this.fileName);
   }
