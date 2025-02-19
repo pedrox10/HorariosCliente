@@ -46,6 +46,10 @@ export class HorarioService {
     return this.http.get(`${this.apiUrl}/usuario/${id}/gestion/${gestion}/mes/${mes}`)
   }
 
+  public  getJornadasPorMes(id: number, ini: string, fin: string) {
+    return this.http.get(`${this.apiUrl}/usuario/${id}/jornadas/ini/${ini}/fin/${fin}`)
+  }
+
   public  getExcepciones(id: number, gestion: number) {
     return this.http.get(`${this.apiUrl}/excepciones/${id}/gestion/${gestion}`)
   }
