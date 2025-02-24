@@ -18,11 +18,12 @@ import {EditarUsuarioComponent} from "./editar-usuario/editar-usuario.component"
 import {color, mensaje} from "../inicio/Global";
 import {concatMap, from, toArray} from "rxjs";
 import {DataService} from "../../servicios/data.service";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-usuarios',
   standalone: true,
-  imports: [RouterLink, HttpClientModule, FormsModule, RouterModule],
+  imports: [RouterLink, HttpClientModule, FormsModule, RouterModule, CommonModule],
   providers: [TerminalService, DataService],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css'
