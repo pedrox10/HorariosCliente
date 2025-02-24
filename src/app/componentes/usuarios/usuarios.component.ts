@@ -195,8 +195,9 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
     document.getElementById("btn_sincronizar")?.classList.add("is-loading");
     this.terminalService.sincronizarTerminal(this.idTerminal).subscribe(
       (data: any) => {
-        this.usuarios = data;
-        this.usuariosFiltrados = data;
+        let respuesta = data;
+        this.usuarios = respuesta.usuarios
+        this.usuariosFiltrados = respuesta.usuarios;
         document.getElementById("ult_sync")!.innerText = "Ult. vez: " + moment(data.ult_sincronizacion).format('DD/MM/YYYY HH:mm');
         let cbTodos = (document.getElementById("cb_todos") as HTMLInputElement);
         cbTodos.checked = false;
