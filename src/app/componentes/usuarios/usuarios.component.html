@@ -62,7 +62,7 @@
             <th style="width: 245px;">Nombre</th>
             <th style="width: 90px;">CI</th>
             <th>Fecha de Alta</th>
-            <th>Horario Mes</th>
+            <th>Horario {{mesActual()}}</th>
             <th>Estado</th>
             <th></th>
           </tr>
@@ -79,9 +79,8 @@
             <td>{{usuario.nombre}}</td>
             <td>{{usuario.ci}}</td>
             <td>{{getFechaAlta(usuario)}}</td>
-            <td>{{ usuario.ultimaJornadaDelMes | date:'dd/MM/yyyy' }}</td>
-            <td  [innerHtml]="getEstado(usuario)">
-            <td>
+            <td [innerHtml]="getHorario(usuario.horarioMes)"></td>
+            <td  [innerHtml]="getEstado(usuario)"><td>
               <div class="hitem">
               <span class="icon has-tooltip-arrow" data-tooltip="Ver Marcaciones" routerLink="/ver-marcaciones/{{usuario.id}}/{{getIni()}}/{{getFin()}}">
                   <i class="far fa-calendar-check icon-btn"></i>

@@ -19,6 +19,7 @@ import {color, mensaje} from "../inicio/Global";
 import {concatMap, from, toArray} from "rxjs";
 import {DataService} from "../../servicios/data.service";
 import { CommonModule } from '@angular/common';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-usuarios',
@@ -45,7 +46,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   dd_acciones: HTMLDivElement | any;
 
   constructor(public terminalService: TerminalService,private router: Router,
-              public modalService: ModalService, private location: Location) {
+              public modalService: ModalService, private location: Location, private sanitizer: DomSanitizer) {
 
     this.terminalService.getUsuarios(this.idTerminal).subscribe(
       (data: any) => {
@@ -221,23 +222,24 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
     this.location.back();
   }
 
-/*  getHorario(usuario: Usuario) {
-    let horario = "";
-
-    "<span class='help has-text-centered'>Sin asignar</span>" +
-    "<span class='badge is-bottom mb-2' style="background-color: {{getColor('Amarillo')}}; color: #444'>" +
-    "<span>hasta 28 de Feb</span>"+
-    "</span>"
-  }*/
+  getHorario(str: string) {
+    let color = str == "Sin Asignar" ? this.getColor("Gris") :  this.getColor("Purpura");
+    let horario =
+      "<div class='help has-text-centered mt-1'>" +
+        "<div class='etiqueta' style='background-color: " + color + ";'>" + str + "</div>" +
+      "</div>";
+    return this.sanitizer.bypassSecurityTrustHtml(horario);
+  }
 
   getEstado(usuario: Usuario) {
-    let clase = usuario.estado == EstadoUsuario.Activo ? "usuario-activo" : "usuario-inactivo";
+    let color = usuario.estado == EstadoUsuario.Activo ? "#C6FBF9" : "#E7B9C0";
     let estado =
       "<div class='help has-text-centered mt-1'>" +
-        "<div class='" + clase + "'>" + EstadoUsuario[usuario.estado] + "</div>" +
+      "<div class='etiqueta' style='background-color: " + color + ";'>" + EstadoUsuario[usuario.estado] + "</div>" +
       "</div>";
-    return estado
+    return this.sanitizer.bypassSecurityTrustHtml(estado);
   }
+
 
   getFechaAlta(usuario: Usuario) {
     return moment(usuario.fechaAlta).format('DD/MM/YYYY')
@@ -426,5 +428,11 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
 
   getColor(nombre: string) {
     return color(nombre)
+  }
+
+  mesActual() {
+    let mes = moment().locale("es").format("MMM")
+    mes = mes.charAt(0).toUpperCase() + mes.substring(1)
+    return mes;
   }
 }
