@@ -38,6 +38,10 @@ export class TerminalService {
     return this.http.get(`${this.apiUrl}/terminal/sincronizar/${id}`);
   }
 
+  public conectarTerminal(id: number) {
+    return this.http.get(`${this.apiUrl}/terminal/conectar/${id}`);
+  }
+
   public getUsuarios(idTerminal: number) {
     return this.http.get(`${this.apiUrl}/terminal/${idTerminal}/usuarios`);
   }
