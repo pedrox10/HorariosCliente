@@ -3,7 +3,7 @@ import {EstadoJornada} from "./Jornada";
 export class InfoMarcacion{
   fecha: Date;
   dia:string;
-  horario: string;
+  horario: any;
   priEntradas: string[]
   priSalidas: string[]
   segEntradas: string[]
@@ -18,7 +18,7 @@ export class InfoMarcacion{
   numTurnos: number
   estado: EstadoJornada
 
-  constructor(fecha: Date, dia:string, horario: string, priEntradas: string[], priSalidas: string[], segEntradas: string[],
+  constructor(fecha: Date, dia:string, horario: any, priEntradas: string[], priSalidas: string[], segEntradas: string[],
               segSalidas: string[], cantRetrasos: number, minRetrasos: number, noMarcados: number, hayPriRetraso: boolean,
               haySegRetraso: boolean, mensaje: string, activo: boolean, numTurnos: number, estado: EstadoJornada) {
 

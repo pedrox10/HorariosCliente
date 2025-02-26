@@ -120,7 +120,12 @@
         @if(infoMarcacion.activo) {
         <tr>
           <th>{{getInfoActual().dia}}</th>
-          <td>{{getInfoActual().horario}}</td>
+          <td>
+            <div class="hitem">
+              <div class="circle" style="background-color: {{getColor(getInfoActual().horario.color)}}; border: 1px lightgray solid; align-self: center"></div>
+              {{getInfoActual().horario.nombre}}
+            </div>
+          </td>
           <td>
             <marcacion tipo="entrada" [registros]="getInfoActual().priEntradas"></marcacion>
             @if(infoMarcacion.hayPriRetraso) {
@@ -150,14 +155,24 @@
         @case (estado.dia_libre) {
         <tr class="inactivo">
           <th>{{getInfoActual().dia}}</th>
-          <td>{{getInfoActual().horario}}</td>
+          <td>
+            <div class="hitem">
+              <div class="circle" style="background-color: {{getColor(getInfoActual().horario.color)}}; border: 1px lightgray solid; align-self: center"></div>
+              {{getInfoActual().horario.nombre}}
+            </div>
+          </td>
           <td colspan="7" style="text-align: left">{{getInfoActual().mensaje}}</td>
         </tr>
         }
         @case (estado.feriado) {
         <tr>
           <th>{{getInfoActual().dia}}</th>
-          <td>{{getInfoActual().horario}}</td>
+          <td>
+            <div class="hitem">
+              <i class="fas fa-gift" style="align-self: center; color: #575CAD;"></i>
+              {{getInfoActual().horario}}
+            </div>
+          </td>
           <td colspan="7" style="text-align: left">{{getInfoActual().mensaje}}</td>
         </tr>
         }

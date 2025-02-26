@@ -208,13 +208,14 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
         this.quitarFiltros()
         setTimeout(() => {
           document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
-          mensaje("¡Terminal Sincronizado!", "is-success")
+          mensaje(respuesta.mensaje, "is-success")
         }, 1000);
       },
       (error: any) => {
+        let respuesta = error
         console.error('An error occurred:', error);
         document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
-        mensaje("No se pudo sincronizar", "is-danger")
+        mensaje(respuesta.error.mensaje, "is-danger")
       })
   }
 
