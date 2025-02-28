@@ -27,7 +27,7 @@ export class AsuetosComponent implements OnInit, AfterViewInit {
   asuetos: Asueto[] = [];
   licencias: Licencia[] = [];
   idActual: number = -1;
-  picker: HTMLInputElement| any = undefined;
+  picker: HTMLInputElement | any = undefined;
 
   constructor(public terminalService: TerminalService, public horarioService: HorarioService) {
 
@@ -51,6 +51,16 @@ export class AsuetosComponent implements OnInit, AfterViewInit {
         console.error('An error occurred:', error);
       }
     );
+
+    document.addEventListener('keydown', (e) => {
+      if ((e as KeyboardEvent).key === 'Escape') {
+        this.ocultarModal()
+      }
+    });
+    document.getElementById("background")?.addEventListener("click", (e) => {
+      this.ocultarModal()
+    })
+
   }
 
   ngAfterViewInit() {
@@ -82,10 +92,10 @@ export class AsuetosComponent implements OnInit, AfterViewInit {
     document.getElementById("fecha_modal")?.classList.remove("is-active");
   }
 
-  asignarFecha(asueto: Asueto ) {
+  asignarFecha(asueto: Asueto) {
     document.getElementById("fecha_modal")?.classList.add("is-active");
     this.idActual = asueto.id!;
-    if(asueto.fecha) {
+    if (asueto.fecha) {
       this.picker.setDate(moment(asueto.fecha).toDate())
       this.picker.gotoDate(moment(asueto.fecha).toDate())
     } else {
@@ -93,5 +103,17 @@ export class AsuetosComponent implements OnInit, AfterViewInit {
       this.picker.gotoDate(null)
     }
     document.getElementById("nombre_feriado")!.innerText = asueto.nombre;
+  }
+
+  editarFecha() {
+    let nuevaFecha = this.picker.getDate().format('YYYYMMDD')
+    this.horarioService.editarFechaAsueto(this.idActual, nuevaFecha).subscribe(
+      (data: any) => {
+        this.asuetos = data;
+      },
+      (error: any) => {
+        console.error('An error occurred:', error);
+      }
+    );
   }
 }

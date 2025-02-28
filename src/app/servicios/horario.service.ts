@@ -38,6 +38,10 @@ export class HorarioService {
     return this.http.get(`${this.apiUrl}/asuetos`);
   }
 
+  public editarFechaAsueto(id:number, fecha: string) {
+    return this.http.get(`${this.apiUrl}/asueto/${id}/editarFecha/${fecha}`);
+  }
+
   public getLicencias() {
     return this.http.get(`${this.apiUrl}/licencias`);
   }
