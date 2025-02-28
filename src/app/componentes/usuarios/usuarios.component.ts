@@ -193,6 +193,16 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
     (document.getElementById("cb_todos") as HTMLInputElement).classList.remove("is-indeterminate");
   }
 
+  conectar() {
+    this.terminalService.conectarTerminal(this.idTerminal).subscribe(
+      (data: any) => {
+        console.log(data)
+      },
+      (error: any) => {
+        console.error('An error occurred:', error);
+      })
+  }
+
   sincronizar() {
     document.getElementById("btn_sincronizar")?.classList.add("is-loading");
     this.terminalService.sincronizarTerminal(this.idTerminal).subscribe(

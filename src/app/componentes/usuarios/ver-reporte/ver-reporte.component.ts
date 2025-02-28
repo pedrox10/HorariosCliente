@@ -80,7 +80,7 @@ export class VerReporteComponent implements OnInit{
 
 // set column widths
     const colWidths = [
-      { wch: 32 },
+      { wch: 30 },
       { wch: 10 },
       { wch: 12 },
     ]
