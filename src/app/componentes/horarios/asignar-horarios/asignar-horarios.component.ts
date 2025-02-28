@@ -116,10 +116,10 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
       setTimeout(() => {
         document.getElementById("btn_asignar")?.classList.remove("is-loading")
         mensaje("Horario asignado a " + this.usuarios.length + " funcionarios", "is-success")
-        this.modalService.close()
+        this.modalService.close(data)
       }, 1000);
     }, (error: any) => {
-        mensaje("Error, no se pudio asignar el horario", "is-danger")
+        mensaje("Error, no se pudo asignar el horario", "is-danger")
     })
   }
 

@@ -19,7 +19,7 @@ import {color, mensaje} from "../inicio/Global";
 import {concatMap, from, toArray} from "rxjs";
 import {DataService} from "../../servicios/data.service";
 import { CommonModule } from '@angular/common';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-usuarios',
@@ -51,7 +51,6 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
     this.terminalService.getUsuarios(this.idTerminal).subscribe(
       (data: any) => {
         this.usuarios = data;
-        console.log(this.usuarios)
         this.usuariosFiltrados = data;
         if(env.filtrarEstado) {
           if(env.estado == 1)
@@ -291,7 +290,9 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
           })
             .subscribe((data) => {
               if (data !== undefined)
-                console.log(data)
+                for(let usuario of this.usuariosSeleccionados) {
+                  usuario.horarioMes = data.ultDiaAsignado;
+                }
             });
         },
         (error: any) => {
@@ -418,11 +419,10 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
     let index = this.usuarios.map(i => i.id).indexOf(usuario.id);
     this.usuarios[index] = usuario
     if (this.estado !== undefined) {
+      let index = this.usuariosFiltrados.map(i => i.id).indexOf(usuario.id);
       if (this.estado === usuario.estado) {
-        let index = this.usuariosFiltrados.map(i => i.id).indexOf(usuario.id);
         this.usuariosFiltrados[index] = usuario
       } else {
-        let index = this.usuariosFiltrados.map(i => i.id).indexOf(usuario.id);
         this.usuariosFiltrados.splice(index, 1)
       }
     }
