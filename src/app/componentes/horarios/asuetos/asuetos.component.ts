@@ -1,18 +1,14 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {TerminalService} from "../../../servicios/terminal.service";
-import {ModalService} from "ngx-modal-ease";
-import {Location} from "@angular/common";
 import {HorarioService} from "../../../servicios/horario.service";
 import {HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule} from "@angular/forms";
 import {RouterLink} from "@angular/router";
-import {Horario} from "../../../modelos/Horario";
 import {Asueto, TipoAsueto} from "../../../modelos/Asueto";
 import {Licencia} from "../../../modelos/Licencia";
 import moment from "moment";
-import {color} from "../../inicio/Global";
+import {color, mensaje} from "../../inicio/Global";
 import {easepick} from "@easepick/core";
-import {RangePlugin} from "@easepick/range-plugin";
 
 @Component({
   selector: 'app-asuetos',
@@ -92,7 +88,7 @@ export class AsuetosComponent implements OnInit, AfterViewInit {
     document.getElementById("fecha_modal")?.classList.remove("is-active");
   }
 
-  asignarFecha(asueto: Asueto) {
+  mostrarModal(asueto: Asueto) {
     document.getElementById("fecha_modal")?.classList.add("is-active");
     this.idActual = asueto.id!;
     if (asueto.fecha) {
@@ -108,11 +104,15 @@ export class AsuetosComponent implements OnInit, AfterViewInit {
   editarFecha() {
     let nuevaFecha = this.picker.getDate().format('YYYYMMDD')
     this.horarioService.editarFechaAsueto(this.idActual, nuevaFecha).subscribe(
-      (data: any) => {
-        this.asuetos = data;
+      (asueto: any) => {
+        let index = this.asuetos.map(i => i.id).indexOf(asueto.id);
+        this.asuetos[index] = asueto;
+        mensaje("¡Fecha modificada!", "is-success")
+        this.ocultarModal()
       },
       (error: any) => {
         console.error('An error occurred:', error);
+        mensaje("¡No se pudo modificar la fecha!", "is-danger")
       }
     );
   }

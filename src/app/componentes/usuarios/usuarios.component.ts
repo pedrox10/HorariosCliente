@@ -15,7 +15,7 @@ import {RangePlugin} from "@easepick/range-plugin";
 import {LockPlugin} from "@easepick/lock-plugin";
 import {VerHorarioComponent} from "./ver-horario/ver-horario.component";
 import {EditarUsuarioComponent} from "./editar-usuario/editar-usuario.component";
-import {color, mensaje} from "../inicio/Global";
+import {color, mensaje, notificacion} from "../inicio/Global";
 import {concatMap, from, toArray} from "rxjs";
 import {DataService} from "../../servicios/data.service";
 import { CommonModule } from '@angular/common';
@@ -219,6 +219,13 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
           document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
           mensaje(respuesta.mensaje, "is-success")
         }, 1000);
+        setTimeout(() => {
+          let resumen = "Nuevas marcaciones: " + respuesta.nuevas_marcaciones + "<br>" +
+            "Usuarios agregados: " + respuesta.usuarios_agregados + "<br>" +
+            "Usuarios editados: " + respuesta.usuarios_editados + "<br>" +
+            "Usuarios eliminados: " + respuesta.usuarios_eliminados + "<br>"
+          notificacion(resumen)
+        }, 4000);
       },
       (error: any) => {
         let respuesta = error

@@ -42,10 +42,10 @@ export function mensaje(mensaje: string, tipo: ToastType) {
 
 export function notificacion(mensaje: string) {
   toast({
-    message: '<span class="icon" style="min-width: 215px; width: auto; max-width: 300px;"><i style="color: white; font-size: 1.5em; padding-right: 15px" class="fas fa-info"></i>' + mensaje + '</span>',
+    message: '<span class="icon" style="min-width: 215px; width: auto; max-width: 300px; height: 70px;"><i style="color: white; font-size: 1.5em; padding-right: 30px" class="fas fa-info"></i><p style="text-align: left;">' + mensaje + '</p></span>',
     type: "is-info",
     position: "bottom-center",
-    duration: 6000,
+    duration: 8000,
     dismissible: true,
     closeOnClick: false,
     pauseOnHover: true,
