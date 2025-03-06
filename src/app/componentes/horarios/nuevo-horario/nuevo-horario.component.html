@@ -61,14 +61,14 @@
         <div class="vbox">
           <div class="field">
             <label class="switch is-rounded">
-              <input type="checkbox" value="false">
+              <input type="checkbox" formControlName="diasIntercalados" (change)="onDiasIntercaladosChange($event)">
               <span class="check is-danger"></span>
               <span class="control-label" style="min-width: 130px">Días intercalados</span>
             </label>
           </div>
           <div class="field">
             <label class="switch is-rounded">
-              <input type="checkbox" value="false">
+              <input type="checkbox" formControlName="jornadasDosDias" (change)="onJornadasDosDiasChange($event)">
               <span class="check is-danger"></span>
               <span class="control-label" style="min-width: 130px">Jornadas de dos dias</span>
             </label>
@@ -100,8 +100,8 @@
           <tr id="{{dia}}">
             <td>
               <label class="b-checkbox checkbox">
-                <input name="{{dia}}_habilitado" type="checkbox" formControlName="{{dia}}_habilitado" (change)="seleccionarDia($event)">
-                <span class="check es-secundario"></span>
+                <input id="{{dia}}_habilitado" name="{{dia}}_habilitado" type="checkbox" formControlName="{{dia}}_habilitado" (change)="seleccionarDia($event.target)">
+                <span id="{{dia}}_css" class="check es-secundario"></span>
               </label>
             </td>
             <td class="desactivado" style="text-transform: capitalize;">{{dia}}</td>
@@ -115,8 +115,11 @@
                 </div>
                 <div style="position: relative">
                   <input type="time" class="input" formControlName="{{dia}}_pri_salida">
+                  @if(formHorario.get('jornadasDosDias').value == true) {
+                    <span class="badge is-bottom is-info is-light">¡Siguiente día!</span>
+                  }
                   @if(getControl(dia + '_pri_salida').touched && getControl(dia + '_pri_salida').hasError('required')) {
-                    <span class="badge is-bottom is-danger is-light">Hora requerida!</span>
+                    <span class="badge is-bottom is-danger is-light">¡Hora requerida!</span>
                   }
                 </div>
                 <button class="button btn-accion has-tooltip-arrow" data-tooltip="Agregar Turno" (click)="agregarTurno(dia)">

@@ -52,8 +52,20 @@ input[type="number"]::-webkit-inner-spin-button {
 @keyframes fadeIn {
   from {
     background-color: inherit;
+
   }
   to {
     background-color: #FBCFD0;
   }
 }
+
+.b-checkbox.checkbox input[type=checkbox]:checked + .es-impar.check {
+  background-color: #ee768f !important;
+  border-color: #d35871 !important;
+}
+
+.b-checkbox.checkbox input[type=checkbox]:checked + .es-par.check {
+  background-color: #d5b461 !important;
+  border-color: #c09f45 !important;
+}
+

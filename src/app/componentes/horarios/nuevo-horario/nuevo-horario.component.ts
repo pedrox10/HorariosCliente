@@ -17,6 +17,8 @@ import {mensaje} from "../../inicio/Global";
 })
 export class NuevoHorarioComponent implements OnInit {
   dias = env.dias.map((dia) => dia.toLowerCase());
+  dias_impares =  env.dias_impares;
+  dias_pares =  env.dias_pares;
   colores: any = env.colores;
   formHorario: FormGroup | any = new FormGroup({});
   formJornadas: FormGroup | any = new FormGroup({});
@@ -27,16 +29,21 @@ export class NuevoHorarioComponent implements OnInit {
     let fc_tolerancia = new FormControl("5", [Validators.required])
     let fc_color = new FormControl("", [Validators.required])
     let fc_descripcion = new FormControl("", [])
+    let fc_dias_intercalados= new FormControl(false, [])
+    let fc_jornadas_dos_dias = new FormControl(false, [])
 
     this.formHorario.addControl("nombre", fc_nombre)
     this.formHorario.addControl("tolerancia", fc_tolerancia)
     this.formHorario.addControl("color", fc_color)
     this.formHorario.addControl("descripcion", fc_descripcion)
+    this.formHorario.addControl("diasIntercalados", fc_dias_intercalados)
+    this.formHorario.addControl("jornadasDosDias", fc_jornadas_dos_dias)
 
   }
 
   ngOnInit() {
 
+    console.log(this.formHorario.get('jornadasDosDias').value);
     this.dd_color = document.getElementById("dd_color") as HTMLDivElement
     for (let dia of this.dias) {
       this.formJornadas.addControl(dia + "_habilitado", new FormControl(false, [Validators.required]))
@@ -132,8 +139,9 @@ export class NuevoHorarioComponent implements OnInit {
   }
 
   seleccionarDia(evt: any) {
-    let isChecked = (<HTMLInputElement>evt.target).checked
-    let id = evt.target.name.split("_");
+    let isChecked = (evt).checked
+    this.formJornadas.controls[evt.name].setValue(isChecked)
+    let id = evt.name.split("_");
     let dia = document.getElementById(id[0]);
     let collection = dia?.getElementsByTagName("td") || []
     for (let i = 0; i < collection.length; i++) {
@@ -186,5 +194,52 @@ export class NuevoHorarioComponent implements OnInit {
 
   esVacio(value: string) {
     return (value == null || (typeof value === "string" && value.trim().length === 0));
+  }
+
+  onDiasIntercaladosChange(event: Event) {
+    const checked = (event.target as HTMLInputElement).checked;
+    if (checked)
+      this.formHorario.get('jornadasDosDias')?.setValue(false);
+    this.intercalarDias(checked)
+  }
+
+  onJornadasDosDiasChange(event: Event) {
+    const checked = (event.target as HTMLInputElement).checked;
+    if (checked)
+      this.formHorario.get('diasIntercalados')?.setValue(false);
+    this.intercalarDias(checked)
+  }
+
+  intercalarDias(checked: boolean) {
+    for (let dia of this.dias) {
+      let check_dia = document.getElementById(dia + "_habilitado") as HTMLInputElement;
+      check_dia.checked = checked
+      check_dia.disabled = checked
+      this.seleccionarDia(check_dia)
+      let css_dia = document.getElementById(dia + "_css") as HTMLSpanElement;
+      if(checked) {
+        this.agregarEstilos(dia, css_dia)
+      } else {
+        this.quitarEstilos(dia, css_dia)
+      }
+    }
+  }
+
+  agregarEstilos(dia: string, css_dia: HTMLSpanElement) {
+    css_dia.classList.remove("es-secundario")
+    if(this.dias_impares.includes(dia)) {
+      css_dia.classList.add("es-impar")
+    } else {
+      css_dia.classList.add("es-par")
+    }
+  }
+
+  quitarEstilos(dia: string, css_dia: HTMLSpanElement) {
+    if(this.dias_impares.includes(dia)) {
+      css_dia.classList.remove("es-impar")
+    } else {
+      css_dia.classList.remove("es-par")
+    }
+    css_dia.classList.add("es-secundario")
   }
 }
