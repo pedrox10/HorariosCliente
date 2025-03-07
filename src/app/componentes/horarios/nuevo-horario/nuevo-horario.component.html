@@ -8,23 +8,26 @@
   <div class="animate__animated animate__fadeIn">
     <div class="columns">
       <div class="column is-one-quarter" [formGroup]="formHorario">
-        <div class="field">
-          <label class="label">Nombre</label>
-          <div class="control">
-            <input class="input" type="text" placeholder="Oficina" formControlName="nombre">
+        <div class="hitem" style="justify-content: space-between; margin-bottom: .75rem;">
+          <div class="field">
+            <label class="label">Nombre</label>
+            <div class="control">
+              <input class="input" type="text" placeholder="Oficina" formControlName="nombre">
+            </div>
+            <p class="help is-info">Máximo 12 caracteres</p>
           </div>
-          <p class="help is-info">Máximo 12 caracteres</p>
-        </div>
-        <div class="hitem" style="justify-content: space-between">
           <div class="field">
             <label class="label">Tolerancia</label>
             <div class="hitem">
               <div class="control">
                 <input class="input" type="number" value="0" min="0" max="10" placeholder="5" style="width: 60px" formControlName="tolerancia">
               </div>
-              <span class="mt-2">min.</span>
             </div>
+            <p class="help is-info">Minutos</p>
           </div>
+        </div>
+        <div class="hitem" style="justify-content: space-between; margin-bottom: .75rem;">
+
           <div class="field">
             <label class="label">Color</label>
             <div class="dropdown" id="dd_color">
@@ -51,9 +54,19 @@
               </div>
             </div>
           </div>
+          <div class="field">
+            <label class="label">Área</label>
+            <div class="select" >
+              <select formControlName="area">
+                <option>Central</option>
+                <option>Salud</option>
+              </select>
+            </div>
+          </div>
         </div>
+
         <div class="field">
-          <label class="label">Descripcion</label>
+          <label class="label">Descripción</label>
           <div class="control">
             <textarea class="textarea" rows="2" formControlName="descripcion" style="resize: none;"></textarea>
           </div>

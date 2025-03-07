@@ -28,6 +28,7 @@ export class NuevoHorarioComponent implements OnInit {
     let fc_nombre = new FormControl("", [Validators.required, Validators.maxLength(12)])
     let fc_tolerancia = new FormControl("5", [Validators.required])
     let fc_color = new FormControl("", [Validators.required])
+    let fc_area = new FormControl("Central", [Validators.required])
     let fc_descripcion = new FormControl("", [])
     let fc_dias_intercalados= new FormControl(false, [])
     let fc_jornadas_dos_dias = new FormControl(false, [])
@@ -35,14 +36,13 @@ export class NuevoHorarioComponent implements OnInit {
     this.formHorario.addControl("nombre", fc_nombre)
     this.formHorario.addControl("tolerancia", fc_tolerancia)
     this.formHorario.addControl("color", fc_color)
+    this.formHorario.addControl("area", fc_area)
     this.formHorario.addControl("descripcion", fc_descripcion)
     this.formHorario.addControl("diasIntercalados", fc_dias_intercalados)
     this.formHorario.addControl("jornadasDosDias", fc_jornadas_dos_dias)
-
   }
 
   ngOnInit() {
-
     console.log(this.formHorario.get('jornadasDosDias').value);
     this.dd_color = document.getElementById("dd_color") as HTMLDivElement
     for (let dia of this.dias) {

@@ -20,9 +20,13 @@
       <tr>
         <th>#</th>
         <th>Nombre</th>
-        <th>Tolerancia</th>
+        <th style="position: relative">
+          Tolerancia
+          <span class="badge is-bottom is-info is-light">[min]</span>
+        </th>
         <th>Color</th>
-        <th>Descripcion</th>
+        <th>Área</th>
+        <th>Descripción</th>
         <th></th>
       </tr>
       <tbody>
@@ -39,6 +43,7 @@
               </span>
             </div>
           </td>
+          <td>{{horario.area}}</td>
           <td>{{horario.descripcion}}</td>
           <td>
             <div class="hitem">

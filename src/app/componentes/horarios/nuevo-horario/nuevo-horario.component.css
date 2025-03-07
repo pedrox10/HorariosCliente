@@ -65,7 +65,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .b-checkbox.checkbox input[type=checkbox]:checked + .es-par.check {
-  background-color: #d5b461 !important;
-  border-color: #c09f45 !important;
+  background-color: #f6a66e !important;
+  border-color: #ef8f4b !important;
 }
 
