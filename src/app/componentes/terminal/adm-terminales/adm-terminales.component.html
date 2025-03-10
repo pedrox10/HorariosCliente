@@ -22,6 +22,8 @@
         <th>Nombre</th>
         <th>Dirección IP</th>
         <th>Puerto</th>
+        <th>Número de Serie</th>
+        <th>Marcaciones</th>
         <th>Ult. Sicronización</th>
         <th></th>
       </tr>
@@ -41,7 +43,9 @@
           </td>
           <td>{{t.ip}}</td>
           <td>{{t.puerto}}</td>
-          <td>{{formatear(t.ult_sincronizacion!)}}</td>
+          <td>{{t.numSerie}}</td>
+          <td>{{t.totalMarcaciones}}</td>
+          <td>{{formatear(t.ultSincronizacion!)}}</td>
           <td>
             <div class="hitem">
               <span class="icon has-tooltip-arrow" data-tooltip="Editar" (click) = "agregarEditarModal(t)">
