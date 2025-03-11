@@ -1,4 +1,13 @@
-import {AfterContentInit, AfterViewChecked, AfterViewInit, Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {
+  AfterContentInit,
+  AfterViewChecked,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink, RouterModule} from '@angular/router';
 import {TerminalService} from '../../servicios/terminal.service';
 import {HttpClientModule} from '@angular/common/http';
@@ -10,13 +19,13 @@ import moment from "moment";
 import {ModalService} from "ngx-modal-ease";
 import {AsignarHorariosComponent} from "../horarios/asignar-horarios/asignar-horarios.component";
 import {FormsModule} from "@angular/forms";
-import {easepick} from "@easepick/core";
+import {Core, easepick} from "@easepick/core";
 import {RangePlugin} from "@easepick/range-plugin";
 import {LockPlugin} from "@easepick/lock-plugin";
 import {VerHorarioComponent} from "./ver-horario/ver-horario.component";
 import {EditarUsuarioComponent} from "./editar-usuario/editar-usuario.component";
 import {color, mensaje, notificacion} from "../inicio/Global";
-import {concatMap, from, toArray} from "rxjs";
+import {concatMap, from, Subject, takeUntil, toArray} from "rxjs";
 import {DataService} from "../../servicios/data.service";
 import { CommonModule } from '@angular/common';
 import { DomSanitizer} from '@angular/platform-browser';
@@ -27,10 +36,11 @@ import { DomSanitizer} from '@angular/platform-browser';
   imports: [RouterLink, HttpClientModule, FormsModule, RouterModule, CommonModule],
   providers: [TerminalService, DataService],
   templateUrl: './usuarios.component.html',
-  styleUrl: './usuarios.component.css'
+  styleUrl: './usuarios.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class UsuariosComponent implements OnInit, AfterViewInit {
+export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   public usuariosFiltrados: Usuario[] = [];
   public usuariosSeleccionados: Usuario[] = [];
   public usuarios: Usuario[] = [];
@@ -42,13 +52,15 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   fechaMin: string | any;
   fechaIni: string | any;
   fechaFin: string | any;
+  picker : Core| any;
   inputRango: HTMLInputElement | any;
   dd_acciones: HTMLDivElement | any;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(public terminalService: TerminalService,private router: Router,
               public modalService: ModalService, private location: Location, private sanitizer: DomSanitizer) {
 
-    this.terminalService.getUsuarios(this.idTerminal).subscribe(
+    this.terminalService.getUsuarios(this.idTerminal).pipe(takeUntil(this.destroy$)).subscribe(
       (data: any) => {
         this.usuarios = data;
         this.usuariosFiltrados = data;
@@ -73,7 +85,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
         this.terminal = data;
         this.ultimaSincronizacion = moment(this.terminal.ultSincronizacion, "YYYY-MM-DD").toDate()
         this.inputRango = document.getElementById('picker_reporte');
-        const picker = new easepick.create({
+        this.picker = new easepick.create({
           element: this.inputRango,
           inline: true,
           lang: 'es-ES',
@@ -100,14 +112,14 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
           },
         });
         let botonVerReporte = (document.getElementById("btn_ver_reporte") as HTMLButtonElement)
-        picker.gotoDate(moment().subtract(1, "month").toDate());
-        picker.on('preselect', (e) => {
+        this.picker.gotoDate(moment().subtract(1, "month").toDate());
+        this.picker.on('preselect', (e: any) => {
           botonVerReporte.disabled = true;
         })
-        picker.on('select', (e) => {
+        this.picker.on('select', (e: any) => {
           botonVerReporte.disabled = false;
-          this.fechaIni = moment(picker.getStartDate()).format("YYYYMMDD");
-          this.fechaFin = moment(picker.getEndDate()).format('YYYYMMDD');
+          this.fechaIni = moment(this.picker.getStartDate()).format("YYYYMMDD");
+          this.fechaFin = moment(this.picker.getEndDate()).format('YYYYMMDD');
         })
 
       },
@@ -136,6 +148,12 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
         left: 0
       });
     }, 500);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.complete();
+    this.picker.destroy()
   }
 
   applyFilter($event: any) {
