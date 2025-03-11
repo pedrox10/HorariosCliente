@@ -1,6 +1,4 @@
 import {
-  AfterContentInit,
-  AfterViewChecked,
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
@@ -37,7 +35,6 @@ import { DomSanitizer} from '@angular/platform-browser';
   providers: [TerminalService, DataService],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -55,6 +52,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   picker : Core| any;
   inputRango: HTMLInputElement | any;
   dd_acciones: HTMLDivElement | any;
+  escuchaEscape: EventListener | any;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(public terminalService: TerminalService,private router: Router,
@@ -63,7 +61,11 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     this.terminalService.getUsuarios(this.idTerminal).pipe(takeUntil(this.destroy$)).subscribe(
       (data: any) => {
         this.usuarios = data;
-        this.usuariosFiltrados = data;
+        this.usuariosFiltrados = this.usuarios.map(usuario => ({
+          ...usuario,
+          horarioHtml: this.getHorario(usuario.horarioMes),
+          estadoHtml: this.getEstado(usuario)
+        }));
         if(env.filtrarEstado) {
           if(env.estado == 1)
             (document.getElementById("rb_activo") as HTMLInputElement)?.click();
@@ -130,11 +132,13 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    document.addEventListener('keydown', (e) => {
-      if ((e as KeyboardEvent).key === 'Escape') {
-        this.ocultarSeleccionarRango()
+    this.escuchaEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        this.ocultarSeleccionarRango();
       }
-    });
+    };
+    document.addEventListener('keydown', this.escuchaEscape);
+
     document.getElementById("background")?.addEventListener("click", (e) => {
       this.ocultarSeleccionarRango()
     })
@@ -154,6 +158,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     this.destroy$.next(true);
     this.destroy$.complete();
     this.picker.destroy()
+    document.removeEventListener('keydown', this.escuchaEscape);
   }
 
   applyFilter($event: any) {

@@ -83,7 +83,8 @@
             <td>{{usuario.ci}}</td>
             <td>{{getFechaAlta(usuario)}}</td>
             <td [innerHtml]="getHorario(usuario.horarioMes)"></td>
-            <td  [innerHtml]="getEstado(usuario)"><td>
+            <td  [innerHtml]="getEstado(usuario)"></td>
+            <td>
               <div class="hitem">
               <span class="icon has-tooltip-arrow" data-tooltip="Ver Marcaciones" (click)="verMarcaciones(usuario)">
                   <i class="far fa-calendar-check icon-btn"></i>

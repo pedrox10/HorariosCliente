@@ -53,7 +53,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       (data: any) => {
         this.usuario = data;
         console.log(this.usuario)
-        this.ultimaSincronizacion = moment(this.usuario.terminal.ultimaSincronizacion, "YYYY-MM-DD").toDate()
+        this.ultimaSincronizacion = moment(this.usuario.terminal.ultSincronizacion, "YYYY-MM-DD").toDate()
         this.textUltSincronizacion = moment(this.usuario.terminal.ultSincronizacion).format("DD/MM/YYYY HH:mm")
 
         this.inputRango = document.getElementById('datepicker');
