@@ -13,5 +13,6 @@ export const env = {
   estado: 1,
   textoBusqueda: "",
   dias_impares: ["lunes", "miercoles", "viernes", "domingo"],
-  dias_pares: ["martes", "jueves", "sabado"]
+  dias_pares: ["martes", "jueves", "sabado"],
+  posY: 0
 }

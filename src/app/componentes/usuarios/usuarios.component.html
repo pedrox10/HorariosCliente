@@ -1,4 +1,4 @@
-<div class="box hidden-print" style="height: 100%;">
+<div class="box hidden-print" style="height: 100%;" id="principal">
     <div class="hitem mb-5">
       <span (click)="irAtras()" class="icon button mt-1"><i class="fas fa-arrow-left"></i></span>
       <div class="title">
@@ -62,7 +62,10 @@
             <th style="width: 245px;">Nombre</th>
             <th style="width: 90px;">CI</th>
             <th>Fecha de Alta</th>
-            <th>Horario {{mesActual()}}</th>
+            <th style="position: relative; text-align: center">
+              Horario
+              <span class="badge is-bottom is-light">{{mesActual()}}</span>
+            </th>
             <th>Estado</th>
             <th></th>
           </tr>
@@ -82,7 +85,7 @@
             <td [innerHtml]="getHorario(usuario.horarioMes)"></td>
             <td  [innerHtml]="getEstado(usuario)"><td>
               <div class="hitem">
-              <span class="icon has-tooltip-arrow" data-tooltip="Ver Marcaciones" routerLink="/ver-marcaciones/{{usuario.id}}/{{getIni()}}/{{getFin()}}">
+              <span class="icon has-tooltip-arrow" data-tooltip="Ver Marcaciones" (click)="verMarcaciones(usuario)">
                   <i class="far fa-calendar-check icon-btn"></i>
                 </span>
                 <span class="icon has-tooltip-arrow" data-tooltip="Ver Horario" (click)="verHorario(usuario.id)">

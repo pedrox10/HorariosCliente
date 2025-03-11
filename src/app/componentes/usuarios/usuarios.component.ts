@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, inject, OnInit} from '@angular/core';
+import {AfterContentInit, AfterViewChecked, AfterViewInit, Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink, RouterModule} from '@angular/router';
 import {TerminalService} from '../../servicios/terminal.service';
 import {HttpClientModule} from '@angular/common/http';
@@ -109,6 +109,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
           this.fechaIni = moment(picker.getStartDate()).format("YYYYMMDD");
           this.fechaFin = moment(picker.getEndDate()).format('YYYYMMDD');
         })
+
       },
       (error: any) => {
         console.error('An error occurred:', error);
@@ -125,10 +126,16 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
     document.getElementById("background")?.addEventListener("click", (e) => {
       this.ocultarSeleccionarRango()
     })
+
   }
 
   ngAfterViewInit() {
-
+    setTimeout(() => {
+      window.scrollTo({
+        top: env.posY,
+        left: 0
+      });
+    }, 500);
   }
 
   applyFilter($event: any) {
@@ -190,16 +197,6 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
     else
       this.usuariosSeleccionados = [];
     (document.getElementById("cb_todos") as HTMLInputElement).classList.remove("is-indeterminate");
-  }
-
-  conectar() {
-    this.terminalService.conectarTerminal(this.idTerminal).subscribe(
-      (data: any) => {
-        console.log(data)
-      },
-      (error: any) => {
-        console.error('An error occurred:', error);
-      })
   }
 
   sincronizar() {
@@ -394,6 +391,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   }
 
   verReporte() {
+    env.posY = 0;
     let loader = document.getElementById("loader") as HTMLDivElement
     this.ocultarSeleccionarRango()
     loader.classList.remove("is-hidden")
@@ -449,8 +447,13 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   }
 
   mesActual() {
-    let mes = moment().locale("es").format("MMM")
+    let mes = moment().locale("es").format("MMMM")
     mes = mes.charAt(0).toUpperCase() + mes.substring(1)
     return mes;
+  }
+
+  verMarcaciones(usuario: Usuario) {
+    env.posY = window.scrollY
+    this.router.navigate(['/ver-marcaciones', usuario.id, this.getIni(), this.getFin()]);
   }
 }
