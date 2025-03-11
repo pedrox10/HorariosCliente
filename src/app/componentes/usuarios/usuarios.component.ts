@@ -71,7 +71,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
     this.terminalService.getTerminal(this.idTerminal).subscribe(
       (data: any) => {
         this.terminal = data;
-        this.ultimaSincronizacion = moment(this.terminal.ult_sincronizacion, "YYYY-MM-DD").toDate()
+        this.ultimaSincronizacion = moment(this.terminal.ultSincronizacion, "YYYY-MM-DD").toDate()
         this.inputRango = document.getElementById('picker_reporte');
         const picker = new easepick.create({
           element: this.inputRango,
@@ -272,10 +272,10 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
 
   getUltSincronizacion() {
     let res = ""
-    if (this.terminal?.ult_sincronizacion === null)
+    if (this.terminal?.ultSincronizacion === null)
       res = "Ult. vez: Nunca"
     else
-      res = "Ult. vez: " + moment(this.terminal?.ult_sincronizacion).format('DD/MM/YYYY HH:mm');
+      res = "Ult. vez: " + moment(this.terminal?.ultSincronizacion).format('DD/MM/YYYY HH:mm');
     return res
   }
 

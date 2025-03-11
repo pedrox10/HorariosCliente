@@ -52,8 +52,9 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
     this.terminalService.getUsuario(this.id).subscribe(
       (data: any) => {
         this.usuario = data;
-        this.ultimaSincronizacion = moment(this.usuario.terminal.ult_sincronizacion, "YYYY-MM-DD").toDate()
-        this.textUltSincronizacion = moment(this.usuario.terminal.ult_sincronizacion).format("DD/MM/YYYY HH:mm")
+        console.log(this.usuario)
+        this.ultimaSincronizacion = moment(this.usuario.terminal.ultimaSincronizacion, "YYYY-MM-DD").toDate()
+        this.textUltSincronizacion = moment(this.usuario.terminal.ultSincronizacion).format("DD/MM/YYYY HH:mm")
 
         this.inputRango = document.getElementById('datepicker');
         const picker = new easepick.create({
