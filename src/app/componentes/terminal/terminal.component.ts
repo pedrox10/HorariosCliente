@@ -23,7 +23,7 @@ export class  TerminalComponent {
   getUltimaSincronizacion () {
     let res=""
     if(this.terminal.ultSincronizacion)
-      res = moment(this.terminal.ultSincronizacion).format("DD-MM-YYYY HH:mm");
+      res = moment(this.terminal.ultSincronizacion).format("DD/MM/YYYY HH:mm");
     else
       res = "Nunca"
     return res;

@@ -251,7 +251,11 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
         let respuesta = error
         console.error('An error occurred:', error);
         document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
-        mensaje(respuesta.error.mensaje, "is-danger")
+        if(respuesta.error.mensaje === undefined) {
+          mensaje("No se puede acceder al servidor", "is-danger")
+        } else {
+          mensaje(respuesta.error.mensaje, "is-danger")
+        }
       })
   }
 
