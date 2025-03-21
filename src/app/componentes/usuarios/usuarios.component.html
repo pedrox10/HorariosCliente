@@ -72,11 +72,11 @@
           <tbody>
           @for (usuario of usuariosFiltrados; track usuario; let index = $index) {
           <tr>
-              <td>
-                  <label class="b-checkbox checkbox">
-                    <input type="checkbox" [checked]="usuario.seleccionado" (change)="seleccionar(usuario)" value={{usuario.seleccionado}}>
-                  <span class="check es-secundario"></span>
-                </label>
+            <td>
+              <label class="b-checkbox checkbox">
+                <input type="checkbox" [checked]="usuario.seleccionado" (change)="seleccionar(usuario)" value={{usuario.seleccionado}}>
+                <span class="check es-secundario"></span>
+              </label>
             </td>
             <td>{{index +1}}</td>
             <td>{{usuario.nombre}}</td>

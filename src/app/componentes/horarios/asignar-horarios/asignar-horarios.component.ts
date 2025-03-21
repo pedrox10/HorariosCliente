@@ -99,6 +99,7 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
     document.getElementById("nombre_color")!.innerText = horario.color;
     document.getElementById("valor_color")!.style.color = color(horario.color)
     document.getElementById("descripcion")!.innerText = horario.descripcion;
+    document.getElementById("area")!.innerText = horario.area;
     this.jornadaDias = horario.jornadaDias
     console.log(this.jornadaDias)
   }

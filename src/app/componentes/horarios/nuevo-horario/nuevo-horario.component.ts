@@ -25,7 +25,7 @@ export class NuevoHorarioComponent implements OnInit {
   dd_color: any;
 
   constructor(private modalService: ModalService, private location: Location, public horarioService: HorarioService) {
-    let fc_nombre = new FormControl("", [Validators.required, Validators.maxLength(12)])
+    let fc_nombre = new FormControl("", [Validators.required, Validators.maxLength(14)])
     let fc_tolerancia = new FormControl("5", [Validators.required])
     let fc_color = new FormControl("", [Validators.required])
     let fc_area = new FormControl("Central", [Validators.required])
@@ -68,12 +68,12 @@ export class NuevoHorarioComponent implements OnInit {
         fila = document.getElementById(dia)
         let habilitado = this.getControl(dia + "_habilitado").value
         if (habilitado) {
-          let pri_entrada = this.getControl(dia + "_pri_entrada").value
-          let pri_salida = this.getControl(dia + "_pri_salida").value
+          let priEntrada = this.getControl(dia + "_pri_entrada").value
+          let priSalida = this.getControl(dia + "_pri_salida").value
           if (this.tieneSegTurno(dia)) {
-            let seg_entrada = this.getControl(dia + "_seg_entrada").value
-            let seg_salida = this.getControl(dia + "_seg_salida").value
-            if (this.esVacio(pri_entrada) || this.esVacio(pri_salida) || this.esVacio(seg_entrada) || this.esVacio(seg_salida)) {
+            let segEntrada = this.getControl(dia + "_seg_entrada").value
+            let segSalida = this.getControl(dia + "_seg_salida").value
+            if (this.esVacio(priEntrada) || this.esVacio(priSalida) || this.esVacio(segEntrada) || this.esVacio(segSalida)) {
               fila.classList.add("animado")
               setTimeout(() => {
                 fila.classList.remove("animado")
@@ -82,7 +82,7 @@ export class NuevoHorarioComponent implements OnInit {
               break;
             }
           } else {
-            if (this.esVacio(pri_entrada) || this.esVacio(pri_salida)) {
+            if (this.esVacio(priEntrada) || this.esVacio(priSalida)) {
               fila.classList.add("animado")
               setTimeout(() => {
                 fila.classList.remove("animado")
@@ -180,7 +180,7 @@ export class NuevoHorarioComponent implements OnInit {
       this.dd_color.classList.remove("is-active")
     } else {
       this.dd_color.classList.add("is-active")
-    }
+                    }
   }
 
   seleccionarColor(item: any) {
@@ -212,34 +212,36 @@ export class NuevoHorarioComponent implements OnInit {
 
   intercalarDias(checked: boolean) {
     for (let dia of this.dias) {
-      let check_dia = document.getElementById(dia + "_habilitado") as HTMLInputElement;
-      check_dia.checked = checked
-      check_dia.disabled = checked
-      this.seleccionarDia(check_dia)
-      let css_dia = document.getElementById(dia + "_css") as HTMLSpanElement;
+      let checkDia = document.getElementById(dia + "_habilitado") as HTMLInputElement;
+      let btnDia = document.getElementById(dia + "_agregar_turno") as HTMLButtonElement;
+      btnDia.disabled = checked
+      checkDia.checked = checked
+      checkDia.disabled = checked
+      this.seleccionarDia(checkDia)
+      let cssDia = document.getElementById(dia + "_css") as HTMLSpanElement;
       if(checked) {
-        this.agregarEstilos(dia, css_dia)
+        this.agregarEstilos(dia, cssDia)
       } else {
-        this.quitarEstilos(dia, css_dia)
+        this.quitarEstilos(dia, cssDia)
       }
     }
   }
 
-  agregarEstilos(dia: string, css_dia: HTMLSpanElement) {
-    css_dia.classList.remove("es-secundario")
+  agregarEstilos(dia: string, cssDia: HTMLSpanElement) {
+    cssDia.classList.remove("es-secundario")
     if(this.dias_impares.includes(dia)) {
-      css_dia.classList.add("es-impar")
+      cssDia.classList.add("es-impar")
     } else {
-      css_dia.classList.add("es-par")
+      cssDia.classList.add("es-par")
     }
   }
 
-  quitarEstilos(dia: string, css_dia: HTMLSpanElement) {
+  quitarEstilos(dia: string, cssDia: HTMLSpanElement) {
     if(this.dias_impares.includes(dia)) {
-      css_dia.classList.remove("es-impar")
+      cssDia.classList.remove("es-impar")
     } else {
-      css_dia.classList.remove("es-par")
+      cssDia.classList.remove("es-par")
     }
-    css_dia.classList.add("es-secundario")
+    cssDia.classList.add("es-secundario")
   }
 }

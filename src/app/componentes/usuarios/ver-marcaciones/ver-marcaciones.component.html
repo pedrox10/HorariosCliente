@@ -34,6 +34,10 @@
             <span>Sin Marcar</span>
             <span id="totalSinMarcar" style="font-weight: bold;"></span>
           </div>
+          <div class="hbox">
+            <span>Faltas</span>
+            <span id="totalFaltas" style="font-weight: bold;"></span>
+          </div>
         </div>
       </div>
       <div class="info">
@@ -164,23 +168,36 @@
           <td colspan="7" style="text-align: left">{{getInfoActual().mensaje}}</td>
         </tr>
         }
-        @case (estado.feriado) {
-        <tr>
+        @case (estado.sin_registros) {
+        <tr class="inactivo">
           <th>{{getInfoActual().dia}}</th>
           <td>
-            <div class="hitem">
-              <i class="fas fa-gift" style="align-self: center; color: #575CAD;"></i>
-              {{getInfoActual().horario}}
-            </div>
+            {{getInfoActual().horario}}
+          </td>
+          <td colspan="7" style="text-align: left">{{getInfoActual().mensaje}}</td>
+        </tr>
+        }
+        @case (estado.sin_asignar) {
+        <tr class="inactivo">
+          <th>{{getInfoActual().dia}}</th>
+          <td>
+            {{getInfoActual().horario}}
           </td>
           <td colspan="7" style="text-align: left">{{getInfoActual().mensaje}}</td>
         </tr>
         }
         @default {
-        <tr class="inactivo">
+        <tr>
           <th>{{getInfoActual().dia}}</th>
-          <td>{{getInfoActual().horario}}</td>
-          <td colspan="7" style="text-align: left">{{getInfoActual().mensaje}}</td>
+          <td>
+            <div class="hitem">
+              <i class="far fa-circle" style="align-self: center; color: {{getInfoActual().horario.color}}"></i>
+              {{getInfoActual().horario.nombre}}
+            </div>
+          </td>
+          <td colspan="7" style="text-align: left">
+              {{getInfoActual().mensaje}}
+          </td>
         </tr>
         }
         }

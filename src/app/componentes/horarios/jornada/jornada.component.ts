@@ -20,7 +20,7 @@ export class JornadaComponent {
   getNombre() {
     let res = ""
     let estado = this.jornada.estado
-    if(estado === EstadoJornada.activa || estado ===EstadoJornada.dia_libre) {
+    if(estado === EstadoJornada.activa || estado === EstadoJornada.dia_libre) {
       if(estado === EstadoJornada.activa)
         res= this.jornada.horario.nombre
       else
@@ -36,7 +36,10 @@ export class JornadaComponent {
     if(turno) {
       let horaEntrada = turno.horaEntrada.substring(0, 5)
       let horaSalida = turno.horaSalida.substring(0, 5)
-      res = horaEntrada + "-" + horaSalida;
+      if(this.jornada.horario.jornadasDosDias)
+        res = horaEntrada + "-" + horaSalida + " *";
+      else
+        res = horaEntrada + "-" + horaSalida
     }
     return res;
   }

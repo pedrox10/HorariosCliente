@@ -1,4 +1,3 @@
-import {EstadoUsuario} from "./Usuario";
 import {EstadoJornada} from "./Jornada";
 export class InfoMarcacion{
   fecha: Date;

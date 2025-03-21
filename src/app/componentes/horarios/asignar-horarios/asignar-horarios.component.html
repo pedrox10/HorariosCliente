@@ -1,24 +1,23 @@
-<div class="modal-card" style="width: 920px; height: 700px; background-color: white;">
+<div class="modal-card" style="width: 920px; height: 720px; background-color: white;">
   <header class="modal-card-head">
     <p class="modal-card-title">Asignar Horario</p>
     <button (click)="cerrarModal()" class="delete" aria-label="close"></button>
   </header>
   <div class="animate__animated animate__fadeIn">
     <div class="columns" style="margin: 10px">
-      <div class="column box is-one-quarter"
-           style="background-color: #f2fffe; overflow-y: auto; height: 550px; overflow-x: hidden;">
+      <div class="column box is-one-quarter" style="background-color: #f2fffe; overflow-y: auto; height: 570px; overflow-x: hidden;">
         <label class="label" style="font-size: 1.15em">Lista de Funcionarios</label>
         @for (usuario of usuarios;track usuario; let i = $index ) {
         <div class="list-item">
           <div class="list-item-content">
-          <div class="hitem mt-2">
-            <label class="label">{{i+1}}. </label>
-            <div class="list-item-title">
-        {{usuario.nombre}}
+            <div class="hitem mt-2">
+              <label class="label">{{i+1}}. </label>
+              <div class="list-item-title">
+                {{usuario.nombre}}
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      </div>
-    </div>
         }
       </div>
       <div class="column" [formGroup]="formAsignar">
@@ -40,29 +39,49 @@
               <select id="select_horarios" (change)="seleccionar($event)"  formControlName="horario">
                 <option disabled selected style="display: none"></option>
                 @for (horario of horarios; track horario; let i = $index ) {
-                  <option value={{horario.id}}>{{horario.nombre}}</option>
+                <option value={{horario.id}}>{{horario.nombre}}</option>
                 }
               </select>
             </div>
           </div>
         </div>
-        <div class="hbox" style="justify-content: space-between; margin-bottom: 0px !important; height: 30px;">
-          <div class="hbox">
-            <div class="hitem">
-              <span class="has-text-weight-bold">Tolerancia: </span>
-              <span id="tolerancia" style="min-width: 50px">--</span>
+        <div class="hbox mb-3" style="justify-content: space-between;">
+          <div class="vbox">
+            <div class="hbox" style="gap: 20px">
+              <div class="hitem">
+                <span class="has-text-weight-bold">Tolerancia: </span>
+                <span id="tolerancia">--</span>
+              </div>
+              <div class="hitem">
+                <span class="has-text-weight-bold">Color: </span>
+                <span id="nombre_color"> -- </span>
+                <span class="color">
+                  <i id="valor_color" class="fas fa-circle" style="color: white"></i>
+                </span>
+              </div>
+              <div class="hitem">
+                <span class="has-text-weight-bold">Área: </span>
+                <span id="area">--</span>
+              </div>
             </div>
-            <div class= "hitem">
-              <span class="has-text-weight-bold">Color: </span>
-              <span id="nombre_color"> -- </span>
-              <span class="color" >
-                <i id="valor_color" class="fas fa-circle" style="color: white"></i>
-              </span>
+            <div class="hitem">
+              <span class="has-text-weight-bold">Descripcion: </span>
+              <span id="descripcion" style="min-width: 50px">--</span>
             </div>
           </div>
-          <div class="hbox">
-            <div class="field" style="margin-top: 2px">
-              <label class="b-checkbox checkbox is-dark">
+          <div class="vbox">
+            <div>
+              <label class="switch is-rounded">
+                <input type="checkbox">
+                <span class="check is-info "></span>
+                <div class="hitem">
+                  <span class="control-label" style="min-width: 70px">Invierno</span>
+                  <i class="fas fa-mitten mt-1" style=" color: gray"></i>
+                </div>
+              </label>
+            </div>
+            <div>
+              <label class="switch is-rounded is-dark">
                 <input type="checkbox" value="false">
                 <span class="check is-warning"></span>
                 <div class="hitem">
@@ -71,23 +90,9 @@
                 </div>
               </label>
             </div>
-            <div class="field">
-              <label class="switch is-rounded is-info">
-                <input type="checkbox">
-                <span class="check is-info "></span>
-                <div class="hitem">
-                  <span class="control-label">Invierno</span>
-                  <i class="fas fa-mitten mt-1" style=" color: gray"></i>
-                </div>
-
-              </label>
-            </div>
           </div>
         </div>
-        <div class="hitem mb-3">
-          <span class="has-text-weight-bold">Descripcion: </span>
-          <span id="descripcion" style="min-width: 50px">--</span>
-        </div>
+
         <table class="table horario">
           <thead>
           <tr>
@@ -108,42 +113,41 @@
           <tr id="{{jornadaDia.dia}}">
             <td>{{jornadaDia.dia}}</td>
             @if(jornadaDia.habilitado) {
-            <td colspan="2">
-              <div class="hitem">
-                <input type="time" value="{{jornadaDia.priEntrada}}" class="input" (keyup)="cambiaHora($event, jornadaDia.priEntrada, 'priEntrada', index)">
-                <input type="time" value="{{jornadaDia.priSalida}}" class="input" (keyup)="cambiaHora($event, jornadaDia.priSalida, 'priSalida', index)">
-              </div>
-            </td>
-            <td colspan="2">
-              @if(jornadaDia.segEntrada === null  && jornadaDia.segSalida === null) {
-              <div class="hitem oculto">
-              </div>
-              } @else {
-              <div class="hitem">
-              <input type="time" value="{{jornadaDia.segEntrada}}"  class="input" (keyup)="cambiaHora($event, jornadaDia.segEntrada, 'segEntrada', index)">
+          <td colspan="2">
+            <div class="hitem">
+              <input type="time" value="{{jornadaDia.priEntrada}}" class="input" (keyup)="cambiaHora($event, jornadaDia.priEntrada, 'priEntrada', index)">
+              <input type="time" value="{{jornadaDia.priSalida}}" class="input" (keyup)="cambiaHora($event, jornadaDia.priSalida, 'priSalida', index)">
+            </div>
+          </td>
+          <td colspan="2">
+            @if(jornadaDia.segEntrada === null  && jornadaDia.segSalida === null) {
+            <div class="hitem oculto">
+            </div>
+            } @else {
+            <div class="hitem">
+            <input type="time" value="{{jornadaDia.segEntrada}}"  class="input" (keyup)="cambiaHora($event, jornadaDia.segEntrada, 'segEntrada', index)">
                 <input type="time" value="{{jornadaDia.segSalida}}"  class="input" (keyup)="cambiaHora($event, jornadaDia.segSalida, 'segSalida', index)">
               </div>
-              }
-            </td>
-            } @else {
-            <td colspan="4">
-              <div class="hitem" style="min-height: 35px"></div>
-            </td>
             }
+          </td>
+          } @else {
+          <td colspan="4">
+            <div class="hitem" style="min-height: 35px"></div>
+          </td>
+          }
           </tr>
           }
           </tbody>
         </table>
       </div>
+      <footer class="modal-card-foot" style="position: absolute; bottom: 0px; width: 100%">
+        <div class="buttons">
+          <button id="btn_asignar" class="button es-primario" (click) = "asignarHorario()">
+            Guardar
+          </button>
+          <button class="button" (click)="cerrarModal()" >Cancelar</button>
+        </div>
+      </footer>
     </div>
-    <footer class="modal-card-foot" style="position: absolute; bottom: 0px; width: 100%">
-      <div class="buttons">
-        <button id="btn_asignar" class="button es-primario" (click) = "asignarHorario()">
-          Guardar
-        </button>
-        <button class="button" (click)="cerrarModal()" >Cancelar</button>
-      </div>
-    </footer>
   </div>
 </div>
-

@@ -14,7 +14,19 @@
             <div class="control">
               <input class="input" type="text" placeholder="Oficina" formControlName="nombre">
             </div>
-            <p class="help is-info">Máximo 12 caracteres</p>
+            @if(f['nombre'].invalid) {
+            @if(f['nombre'].touched && f['nombre'].hasError('required')) {
+            <p class='help is-danger'>¡El nombre es requerido!</p>
+            } @else {
+            @if(f['nombre'].hasError('maxlength')) {
+            <p class='help is-danger'>¡El nombre es demasiado largo!</p>
+            } @else {
+            <p class='help is-info'>Maximo 14 caracteres</p>
+            }
+            }
+            } @else {
+            <p class='help is-info'>Maximo 14 caracteres</p>
+            }
           </div>
           <div class="field">
             <label class="label">Tolerancia</label>
@@ -135,7 +147,7 @@
                     <span class="badge is-bottom is-danger is-light">¡Hora requerida!</span>
                   }
                 </div>
-                <button class="button btn-accion has-tooltip-arrow" data-tooltip="Agregar Turno" (click)="agregarTurno(dia)">
+                <button  id="{{dia}}_agregar_turno" class="button btn-accion has-tooltip-arrow" data-tooltip="Agregar Turno" (click)="agregarTurno(dia)">
                   <span class="icon"><i class="fas fa-plus "></i></span>
                 </button>
               </div>

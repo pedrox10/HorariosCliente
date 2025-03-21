@@ -8,7 +8,7 @@ export enum EstadoJornada {
   licencia,
   otro,
   sin_asignar,
-  con_excepcion,
+  sin_registros,
   ausencia
 }
 
