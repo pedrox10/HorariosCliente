@@ -47,6 +47,12 @@
           <td>{{horario.descripcion}}</td>
           <td>
             <div class="hitem">
+            <span class="icon has-tooltip-arrow" data-tooltip="Ver Horario" (click) = "modalVerHorario(horario)">
+                 <i class="far fa-eye icon-btn"></i>
+              </span>
+              <span class="icon has-tooltip-arrow" data-tooltip="Editar" (click) = "modalEditar(horario.id)">
+                 <i class="far fa-edit icon-btn"></i>
+              </span>
               <span class="icon has-tooltip-arrow" data-tooltip="Eliminar" (click) = "verificarHorario(horario)">
                 <i class="far fa-times-circle icon-btn"></i>
               </span>
@@ -57,8 +63,56 @@
       </tbody>
     </table>
   </div>
+  <div class="modal " id="ver_horario">
+    <div class="modal-background" id="fondo_ver" style="opacity: 0.75;"></div>
+    <div class="modal-card" style="width: 450px">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Ver horario</p>
+        <button class="delete" aria-label="close" (click)="ocultarVerHorario()"></button>
+      </header>
+      <section class="modal-card-body">
+        <label for="" class="label mb-3">{{getNombreHorario()}}</label>
+        <table class="table horario">
+          <thead>
+          <tr>
+            <th></th>
+            <th colspan="2" style="text-align: center;min-width: 150px">Primer Turno</th>
+            <th style="min-width: 25px;"></th>
+            <th colspan="2" style="text-align: center;min-width: 150px">Segundo Turno</th>
+          </tr>
+          <tr>
+            <th style="min-width: 80px">Dia</th>
+            <th>Entrada</th>
+            <th>Salida</th>
+            <th></th>
+            <th>Entrada</th>
+            <th>Salida</th>
+          </tr>
+          </thead>
+          <tbody>
+          @for (jornadaDia of jornadaDias; track jornadaDia; let index = $index ) {
+          <tr id="{{jornadaDia.dia}}" style="min-height: 35px !important;">
+            <td>{{jornadaDia.dia}}</td>
+            @if(jornadaDia.habilitado) {
+            <td><div style="min-height: 30px"><span class="celda">{{getHora(jornadaDia.priEntrada)}}</span></div></td>
+            <td><span>{{getHora(jornadaDia.priSalida)}}</span></td>
+            <td></td>
+            <td><span>{{getHora(jornadaDia.segEntrada)}}</span></td>
+            <td><span>{{getHora(jornadaDia.segSalida)}}</span></td>
+          } @else {
+          <td colspan="4">
+            <div style="min-height: 30px"><span></span></div>
+          </td>
+          }
+          </tr>
+          }
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </div>
   <div class="modal " id="eliminar_modal">
-    <div class="modal-background" id="background" style="opacity: 0.75;"></div>
+    <div class="modal-background" id="fondo_eliminar" style="opacity: 0.75;"></div>
     <div class="modal-card" style="width: 400px">
       <header class="modal-card-head">
         <p class="modal-card-title">Eliminar horario</p>

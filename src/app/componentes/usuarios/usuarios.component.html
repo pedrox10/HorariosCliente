@@ -70,11 +70,11 @@
             <th></th>
           </tr>
           <tbody>
-          @for (usuario of usuariosFiltrados; track usuario; let index = $index) {
+          @for (usuario of usuariosFiltrados; track trackByUsuario; let index = $index) {
           <tr>
             <td>
               <label class="b-checkbox checkbox">
-                <input type="checkbox" [checked]="usuario.seleccionado" (change)="seleccionar(usuario)" value={{usuario.seleccionado}}>
+                <input type="checkbox" [checked]="usuario.seleccionado" (click)="seleccionar(usuario)" [id]="'checkbox-' + usuario.id">
                 <span class="check es-secundario"></span>
               </label>
             </td>
@@ -86,7 +86,7 @@
             <td  [innerHtml]="getEstado(usuario)"></td>
             <td>
               <div class="hitem">
-              <span class="icon has-tooltip-arrow" data-tooltip="Ver Marcaciones" (click)="verMarcaciones(usuario)">
+                <span class="icon has-tooltip-arrow" data-tooltip="Ver Marcaciones" (click)="verMarcaciones(usuario)">
                   <i class="far fa-calendar-check icon-btn"></i>
                 </span>
                 <span class="icon has-tooltip-arrow" data-tooltip="Ver Horario" (click)="verHorario(usuario.id)">

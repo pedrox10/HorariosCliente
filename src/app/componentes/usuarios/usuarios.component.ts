@@ -35,6 +35,7 @@ import { DomSanitizer} from '@angular/platform-browser';
   providers: [TerminalService, DataService],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css',
+  //changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -53,7 +54,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   inputRango: HTMLInputElement | any;
   dd_acciones: HTMLDivElement | any;
   escuchaEscape: EventListener | any;
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private destroy$ = new Subject<void>();
 
   constructor(public terminalService: TerminalService,private router: Router,
               public modalService: ModalService, private location: Location, private sanitizer: DomSanitizer) {
@@ -82,48 +83,11 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     );
 
-    this.terminalService.getTerminal(this.idTerminal).subscribe(
+    this.terminalService.getTerminal(this.idTerminal).pipe(takeUntil(this.destroy$)).subscribe(
       (data: any) => {
         this.terminal = data;
         this.ultimaSincronizacion = moment(this.terminal.ultSincronizacion, "YYYY-MM-DD").toDate()
-        this.inputRango = document.getElementById('picker_reporte');
-        this.picker = new easepick.create({
-          element: this.inputRango,
-          inline: true,
-          lang: 'es-ES',
-          format: "DD/MM/YYYY",
-          zIndex: 10,
-          grid: 2,
-          calendars: 2,
-          css: [
-            '../../../assets/easepick.css',
-            "../../../assets/easepick_small.css"
-          ],
-          plugins: [RangePlugin, LockPlugin],
-          RangePlugin: {
-            tooltipNumber(num) {
-              return num;
-            },
-            locale: {
-              one: 'dia',
-              other: 'dias',
-            },
-          },
-          LockPlugin: {
-            maxDate: this.ultimaSincronizacion,
-          },
-        });
-        let botonVerReporte = (document.getElementById("btn_ver_reporte") as HTMLButtonElement)
-        this.picker.gotoDate(moment().subtract(1, "month").toDate());
-        this.picker.on('preselect', (e: any) => {
-          botonVerReporte.disabled = true;
-        })
-        this.picker.on('select', (e: any) => {
-          botonVerReporte.disabled = false;
-          this.fechaIni = moment(this.picker.getStartDate()).format("YYYYMMDD");
-          this.fechaFin = moment(this.picker.getEndDate()).format('YYYYMMDD');
-        })
-
+        setTimeout(() => this.inicializarPicker(), 0);
       },
       (error: any) => {
         console.error('An error occurred:', error);
@@ -155,10 +119,53 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroy$.next(true);
+    this.destroy$.next();
     this.destroy$.complete();
     this.picker.destroy()
     document.removeEventListener('keydown', this.escuchaEscape);
+    this.usuarios = [];
+    this.usuariosFiltrados = [];
+    this.usuariosSeleccionados = [];
+  }
+
+  private inicializarPicker() {
+    this.inputRango = document.getElementById('picker_reporte');
+    this.picker = new easepick.create({
+      element: this.inputRango,
+      inline: true,
+      lang: 'es-ES',
+      format: "DD/MM/YYYY",
+      zIndex: 10,
+      grid: 2,
+      calendars: 2,
+      css: [
+        '../../../assets/easepick.css',
+        "../../../assets/easepick_small.css"
+      ],
+      plugins: [RangePlugin, LockPlugin],
+      RangePlugin: {
+        tooltipNumber(num) {
+          return num;
+        },
+        locale: {
+          one: 'dia',
+          other: 'dias',
+        },
+      },
+      LockPlugin: {
+        maxDate: this.ultimaSincronizacion,
+      },
+    });
+    let botonVerReporte = (document.getElementById("btn_ver_reporte") as HTMLButtonElement)
+    this.picker.gotoDate(moment().subtract(1, "month").toDate());
+    this.picker.on('preselect', (e: any) => {
+      botonVerReporte.disabled = true;
+    })
+    this.picker.on('select', (e: any) => {
+      botonVerReporte.disabled = false;
+      this.fechaIni = moment(this.picker.getStartDate()).format("YYYYMMDD");
+      this.fechaFin = moment(this.picker.getEndDate()).format('YYYYMMDD');
+    })
   }
 
   applyFilter($event: any) {
@@ -180,14 +187,16 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   seleccionar(usuario: Usuario) {
+    console.time("seleccionar")
     let cb_todos = (document.getElementById("cb_todos") as HTMLInputElement);
     usuario.seleccionado = !usuario.seleccionado;
-    if (usuario.seleccionado)
-      this.usuariosSeleccionados.push(usuario)
-    else {
-      const index = this.usuariosSeleccionados.map(u => u.ci).indexOf(usuario.ci);
-      this.usuariosSeleccionados.splice(index, 1);
+    if (usuario.seleccionado) {
+      this.usuariosSeleccionados = [...this.usuariosSeleccionados, usuario];
+    } else {
+      this.usuariosSeleccionados = this.usuariosSeleccionados.filter(u => u.ci !== usuario.ci);
     }
+    console.timeEnd("seleccionar")
+    console.time("lista")
     let lista: Usuario[] = []
     lista = this.estado != undefined ? this.usuarios.filter((item: Usuario) => item.estado == this.estado) : lista = this.usuarios
     if (this.usuariosSeleccionados.length == lista.length) {
@@ -201,6 +210,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
         cb_todos.classList.add("is-indeterminate");
       }
     }
+    console.timeEnd("lista")
   }
 
   aplicarTodos(ev: any) {
@@ -224,7 +234,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   sincronizar() {
     document.getElementById("btn_sincronizar")?.classList.add("is-loading");
-    this.terminalService.sincronizarTerminal(this.idTerminal).subscribe(
+    this.terminalService.sincronizarTerminal(this.idTerminal).pipe(takeUntil(this.destroy$)).subscribe(
       (data: any) => {
         let respuesta = data;
         this.usuarios = respuesta.usuarios
@@ -281,7 +291,6 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.sanitizer.bypassSecurityTrustHtml(estado);
   }
 
-
   getFechaAlta(usuario: Usuario) {
     return moment(usuario.fechaAlta).format('DD/MM/YYYY')
   }
@@ -308,7 +317,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   asignarHorario() {
     if (this.usuariosSeleccionados.length > 0) {
-      this.terminalService.getFechaPriMarcacion(this.idTerminal).subscribe(
+      this.terminalService.getFechaPriMarcacion(this.idTerminal).pipe(takeUntil(this.destroy$)).subscribe(
         (data: any) => {
           this.fechaMin = data;
           let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
@@ -482,5 +491,9 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   verMarcaciones(usuario: Usuario) {
     env.posY = window.scrollY
     this.router.navigate(['/ver-marcaciones', usuario.id, this.getIni(), this.getFin()]);
+  }
+
+  trackByUsuario(index: number, usuario: Usuario): number | undefined {
+    return usuario.id; // Asegura que sea un valor único y persistente
   }
 }

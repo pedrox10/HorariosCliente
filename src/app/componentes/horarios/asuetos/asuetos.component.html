@@ -1,6 +1,6 @@
 <div class="box" style="height: 100%;">
   <div class="title">
-    <h1>Feriados, Asuetos y Licencias</h1>
+    <h1>Feriados y Asuetos</h1>
   </div>
   <div class="columns animate__animated animate__fadeIn">
     <div class="column is-narrow">
@@ -19,7 +19,7 @@
           <th>Fecha</th>
           <th style="width: 250px;">Nombre</th>
           <th>Aplica a</th>
-          <th style="width: 200px;">Descripción</th>
+          <th>Descripción</th>
           <th></th>
         </tr>
         <tbody>
@@ -44,23 +44,6 @@
           </td>
         </tr>
         }
-        </tbody>
-      </table>
-    </div>
-    <div class="column">
-      <label for="" class="label">Licencias para Funcionarios</label>
-      <table class="table is-bordered is-hoverable">
-        <tr>
-          <th>#</th>
-          <th style="width: 225px;">Tipo de Licencia</th>
-        </tr>
-        <tbody>
-          @for (licencia of licencias; track licencia; let index = $index) {
-            <tr id={{licencia.id}}>
-                <td>{{index+1}}</td>
-                <td>{{licencia.nombre}}</td>
-              </tr>
-          }
         </tbody>
       </table>
     </div>

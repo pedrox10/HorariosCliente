@@ -1,0 +1,34 @@
+/* Spin Buttons modified */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  background: #FFF url("/../assets/arrows.png") no-repeat center center;
+  width: 1.5em;
+  border-left: 1px solid #BBB;
+  opacity: 1; /* shows Spin Buttons per default (Chrome >= 39) */
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.dropdown-item {
+  font-size: 1em;
+  padding: .375rem 0.5rem;
+}
+
+.dropdown-item i{
+  border: 1px #999 solid;
+  border-radius: 25px;
+  font-size: 0.85em;
+}
+
+.dropdown-menu {
+  min-width: 100px!important;
+  width: 114px;
+}
+
+#btn_color {
+  min-width: 100px!important;
+  width: 114px;
+}

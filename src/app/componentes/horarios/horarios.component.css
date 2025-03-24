@@ -3,3 +3,7 @@
   border-radius: 50%;
   font-size: 1em;
 }
+
+table.table.horario > span.celda {
+  background-color: red;
+}

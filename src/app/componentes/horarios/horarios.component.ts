@@ -8,6 +8,8 @@ import {HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule} from "@angular/forms";
 import {color, mensaje} from "../inicio/Global";
 import {Terminal} from "../../modelos/Terminal";
+import {EditarHorarioComponent} from "./editar-horario/editar-horario.component";
+import moment from "moment";
 
 @Component({
   selector: 'app-horarios',
@@ -26,6 +28,7 @@ export class HorariosComponent implements OnInit {
 
   horarios: Horario[] = [];
   horario: Horario|any = undefined;
+  jornadaDias: any[] = [];
 
   constructor(public horarioService: HorarioService, private modalService: ModalService) {
   }
@@ -33,7 +36,6 @@ export class HorariosComponent implements OnInit {
   ngOnInit(): void {
     this.horarioService.getHorarios().subscribe(
       (data: any) => {
-        console.log(data)
         this.horarios = data;
       },
       (error: any) => {
@@ -44,11 +46,30 @@ export class HorariosComponent implements OnInit {
     document.addEventListener('keydown', (e) => {
       if ((e as KeyboardEvent).key === 'Escape') {
         this.ocultarEliminar()
+        this.ocultarVerHorario()
       }
     });
-    document.getElementById("background")?.addEventListener("click", (e) => {
+    document.getElementById("fondo_eliminar")?.addEventListener("click", (e) => {
       this.ocultarEliminar()
     })
+    document.getElementById("fondo_ver")?.addEventListener("click", (e) => {
+      this.ocultarVerHorario()
+    })
+  }
+
+  modalEditar(id_horario: number | any) {
+    let id = id_horario;
+    let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
+    this.modalService.open(EditarHorarioComponent, {
+      modal: {enter: `${config.animation} ${config.duration}`,},
+      size: {padding: '0.5rem'},
+      data: {id}
+    })
+      .subscribe((data) => {
+        if (data !== undefined)
+          console.log("submmit")
+        //this.edit(data)
+      });
   }
 
   verificarHorario(horario: Horario) {
@@ -89,6 +110,12 @@ export class HorariosComponent implements OnInit {
     )
   }
 
+  modalVerHorario(horario: Horario) {
+    document.getElementById("ver_horario")?.classList.add("is-active");
+    this.horario = horario;
+    this.jornadaDias = this.horario.jornadaDias
+  }
+
   getNombreHorario() {
     let res = ""
     if(this.horario !== undefined)
@@ -100,7 +127,18 @@ export class HorariosComponent implements OnInit {
     document.getElementById("eliminar_modal")?.classList.remove("is-active");
   }
 
+  ocultarVerHorario() {
+    document.getElementById("ver_horario")?.classList.remove("is-active");
+  }
+
   getColor(nombre: string) {
     return color(nombre);
+  }
+
+  getHora(hora: string) {
+    let res=""
+    if(hora)
+      res = hora.substring(0, 5)
+    return res;
   }
 }

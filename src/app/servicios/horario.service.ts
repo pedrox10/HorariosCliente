@@ -30,6 +30,10 @@ export class HorarioService {
     return this.http.get(`${this.apiUrl}/horario/crear/${horario}/${jornadas}`)
   }
 
+  public editarHorario(id: number, body: any) {
+    return this.http.put(`${this.apiUrl}/horario/editar/${id}`, body);
+  }
+
   public eliminarHorario(id: number) {
     return this.http.get(`${this.apiUrl}/horario/${id}/eliminar`)
   }

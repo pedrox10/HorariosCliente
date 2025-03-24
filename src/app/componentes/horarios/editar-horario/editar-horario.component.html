@@ -1,0 +1,90 @@
+<div class="modal-card" style="width: 400px; height: 670px">
+  <header class="modal-card-head">
+    <p class="modal-card-title">Editar horario</p>
+    <button class="delete" aria-label="close" ></button>
+  </header>
+  <section class="modal-card-body" [formGroup] = "formHorario">
+    <div class="hitem" style="justify-content: space-between; margin-bottom: .75rem;">
+      <div class="field">
+        <label class="label">Nombre</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="Oficina" formControlName="nombre">
+        </div>
+        @if(f['nombre'].invalid) {
+        @if(f['nombre'].touched && f['nombre'].hasError('required')) {
+        <p class='help is-danger'>¡El nombre es requerido!</p>
+        } @else {
+        @if(f['nombre'].hasError('maxlength')) {
+        <p class='help is-danger'>¡El nombre es demasiado largo!</p>
+        } @else {
+        <p class='help is-info'>Maximo 14 caracteres</p>
+        }
+        }
+        } @else {
+        <p class='help is-info'>Maximo 14 caracteres</p>
+        }
+      </div>
+      <div class="field">
+        <label class="label">Tolerancia</label>
+        <div class="hitem">
+          <div class="control">
+            <input class="input" type="number" value="0" min="0" max="10" placeholder="5" style="width: 60px" formControlName="tolerancia">
+          </div>
+        </div>
+        <p class="help is-info">Minutos</p>
+      </div>
+    </div>
+    <div class="hitem" style="justify-content: space-between; margin-bottom: .75rem;">
+
+      <div class="field">
+        <label class="label">Color</label>
+        <div class="dropdown" id="dd_color">
+          <div class="dropdown-trigger">
+            <button id="btn_color" class="input" value="otro" aria-haspopup="true" aria-controls="dropdown-menu"
+                    (click)="mostrarColores($event)" >
+              <span id="txt_color" class="ml-1 mr-2" style="min-width: 70px;">Selecciona</span>
+              <span class="icon is-small">
+                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                  </span>
+            </button>
+          </div>
+          <div class="dropdown-menu" id="dropdown-menu" role="menu">
+            <div class="dropdown-content">
+              @for (item of colores; track item; let i = $index ) {
+              <a class="dropdown-item"  (click)="seleccionarColor(item)" >
+               <span class="icon" >
+                <i class="fas fa-circle" style="color:{{item.valor}};"></i>
+                     </span>
+              {{item.color}}
+              </a>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Área</label>
+        <div class="select" >
+          <select formControlName="area">
+            <option>Central</option>
+            <option>Salud</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Descripción</label>
+      <div class="control">
+        <textarea class="textarea" rows="2" formControlName="descripcion" style="resize: none;"></textarea>
+      </div>
+    </div>
+    <footer class="modal-card-foot" style="position: absolute; bottom: 0; width: 400px; left: 0px" >
+      <div class="buttons">
+        <button class="button es-primario" type="button" [disabled]="formHorario.invalid" (click)="editarHorario()">
+          Guardar
+        </button>
+        <button class="button" type="button" >Cancelar</button>
+      </div>
+    </footer>
+  </section>
+</div>
