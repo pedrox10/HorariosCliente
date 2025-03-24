@@ -124,4 +124,8 @@ export class EditarHorarioComponent {
       }
     );
   }
+
+  cerrarModal() {
+    this.modalService.close();
+  }
 }

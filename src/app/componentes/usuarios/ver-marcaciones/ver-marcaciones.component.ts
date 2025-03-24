@@ -103,6 +103,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
     this.terminalService.getInfoMarcaciones(id, ini, fin).subscribe(
       (data: any) => {
         this.resumenMarcacion = data;
+        console.log(data)
         this.infoMarcaciones = this.resumenMarcacion.infoMarcaciones;
         this.cambiarTotales()
       },

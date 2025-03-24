@@ -1,7 +1,7 @@
 <div class="modal-card" style="width: 400px; height: 670px">
   <header class="modal-card-head">
     <p class="modal-card-title">Editar horario</p>
-    <button class="delete" aria-label="close" ></button>
+    <button class="delete" aria-label="close" (click)="cerrarModal()"></button>
   </header>
   <section class="modal-card-body" [formGroup] = "formHorario">
     <div class="hitem" style="justify-content: space-between; margin-bottom: .75rem;">
@@ -83,7 +83,7 @@
         <button class="button es-primario" type="button" [disabled]="formHorario.invalid" (click)="editarHorario()">
           Guardar
         </button>
-        <button class="button" type="button" >Cancelar</button>
+        <button class="button" type="button" (click)="cerrarModal()">Cancelar</button>
       </div>
     </footer>
   </section>

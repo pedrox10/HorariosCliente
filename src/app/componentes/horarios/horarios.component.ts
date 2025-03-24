@@ -67,9 +67,13 @@ export class HorariosComponent implements OnInit {
     })
       .subscribe((data) => {
         if (data !== undefined)
-          console.log("submmit")
-        //this.edit(data)
+          this.editarHorario(data)
       });
+  }
+
+  editarHorario( horario: Horario) {
+    const index = this.horarios.map(i => i.id).indexOf(horario.id);
+    this.horarios[index] = horario;
   }
 
   verificarHorario(horario: Horario) {
@@ -113,7 +117,7 @@ export class HorariosComponent implements OnInit {
   modalVerHorario(horario: Horario) {
     document.getElementById("ver_horario")?.classList.add("is-active");
     this.horario = horario;
-    this.jornadaDias = this.horario.jornadaDias
+    this.jornadaDias = horario.jornadaDias
   }
 
   getNombreHorario() {
