@@ -54,9 +54,11 @@ export class AdmTerminalesComponent implements OnInit {
   }
 
   delete() {
+    document.getElementById("btn_eliminar")?.classList.add("is-loading");
     this.terminalService.eliminarTerminal(this.idActual).subscribe(
       (data: any) => {
         this.ocultarEliminar();
+        document.getElementById("btn_eliminar")?.classList.remove("is-loading");
         const index = this.terminales.map(i => i.id).indexOf(this.idActual);
         this.terminales.splice(index, 1);
         toast({
@@ -68,6 +70,7 @@ export class AdmTerminalesComponent implements OnInit {
         })
       },
       (error: any) => {
+        document.getElementById("btn_eliminar")?.classList.remove("is-loading");
         console.error('An error occurred:', error);
         toast({
           message: '<span class="icon"><i style="color: white; font-size: 2em; padding-right: 15px" class="fas fa-delete"></i></span>Ha ocurrido un error',
