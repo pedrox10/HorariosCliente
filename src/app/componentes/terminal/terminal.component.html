@@ -19,7 +19,7 @@
         <span class="help is-info has-text-weight-semibold">{{ getUltimaSincronizacion() }}</span>
         <div class="hitem" style="justify-content: center">
           <span class="help">Total marcaciones: </span>
-          <span class="help is-primary" >{{terminal.totalMarcaciones}}</span>
+          <span [ngClass]="getClase()" >{{terminal.totalMarcaciones}}</span>
         </div>
       </div>
     </div>

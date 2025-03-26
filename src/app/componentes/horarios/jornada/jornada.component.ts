@@ -20,11 +20,8 @@ export class JornadaComponent {
   getNombre() {
     let res = ""
     let estado = this.jornada.estado
-    if(estado === EstadoJornada.activa || estado === EstadoJornada.dia_libre) {
-      if(estado === EstadoJornada.activa)
+    if(estado === EstadoJornada.activa || estado === EstadoJornada.teletrabajo || estado === EstadoJornada.dia_libre) {
         res= this.jornada.horario.nombre
-      else
-        res = "DiaLibre"
     } else {
       res = this.jornada.infoExtra.nombre
     }
@@ -84,7 +81,7 @@ export class JornadaComponent {
   getAnchoBorde() {
     let res="1px"
     let estado = this.jornada.estado
-    if(estado === 1 || estado === 0 || estado === 8) {
+    if(estado === 1 || estado === 0 || estado === 8 || estado === 11) {
       res="1px"
     } else {
       res = "3px"

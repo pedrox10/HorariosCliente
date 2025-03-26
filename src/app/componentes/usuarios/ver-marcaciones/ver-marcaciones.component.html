@@ -156,6 +156,18 @@
         </tr>
         } @else {
         @switch (infoMarcacion.estado) {
+        @case (estado.teletrabajo) {
+        <tr>
+          <th>{{getInfoActual().dia}}</th>
+          <td>
+            <div class="hitem">
+              <div class="circle" style="background-color: {{getColor(getInfoActual().horario.color)}}; border: 1px lightgray solid; align-self: center"></div>
+              {{getInfoActual().horario.nombre}}
+            </div>
+          </td>
+          <td colspan="7" style="text-align: left">{{getInfoActual().mensaje}}</td>
+        </tr>
+        }
         @case (estado.dia_libre) {
         <tr class="inactivo">
           <th>{{getInfoActual().dia}}</th>

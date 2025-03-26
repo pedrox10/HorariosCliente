@@ -44,7 +44,7 @@
           <td>{{horario.descripcion}}</td>
           <td>
             <div class="hitem">
-            <span class="icon has-tooltip-arrow" data-tooltip="Ver Horario" (click) = "modalVerHorario(horario)">
+            <span class="icon has-tooltip-arrow mr-1" data-tooltip="Ver Horario" (click) = "modalVerHorario(horario)">
                  <i class="far fa-eye icon-btn"></i>
               </span>
               <span class="icon has-tooltip-arrow" data-tooltip="Editar" (click) = "modalEditar(horario.id)">
@@ -68,7 +68,10 @@
         <button class="delete" aria-label="close" (click)="ocultarVerHorario()"></button>
       </header>
       <section class="modal-card-body">
-        <label for="" class="label mb-3">{{getNombreHorario()}}</label>
+        <div class="hitem mb-3 etiqueta" style="justify-content: center; background-color: {{getColor(getColorHorario())}}">
+          <i class="fas fa-clock has-text-grey" style="font-size: 1.15em; align-self: center"></i>
+          <span style="font-size: 1.15em">{{getNombreHorario()}}</span>
+        </div>
         <table class="table horario">
           <thead>
           <tr>

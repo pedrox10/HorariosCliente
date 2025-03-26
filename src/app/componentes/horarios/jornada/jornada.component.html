@@ -3,9 +3,13 @@
     <h1 style="font-size: 0.8em; font-weight: 500">{{getNombre()}}</h1>
   </header>
   <div class="vbox-centered">
-    @if(jornada.estado === 1 || jornada.estado === 0)  {
+    @if(jornada.estado === 1 || jornada.estado === 0 || jornada.estado === 11)  {
+    @if(jornada.estado === 0) {
+    <span style="font-size: 0.75em">Día Libre</span>
+    } @else {
     <span style="font-size: 0.75em">{{getTurno(jornada.priTurno)}}</span>
     <span style="font-size: 0.75em">{{getTurno(jornada.segTurno)}}</span>
+    }
     } @else {
     <span style="font-size: 0.60em; text-align: center">{{getDetalle()}}</span>
     }

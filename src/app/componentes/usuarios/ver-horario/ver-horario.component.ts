@@ -1,16 +1,12 @@
-import {AfterViewInit, Component, inject, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {HttpClientModule} from "@angular/common/http";
 import {TerminalService} from "../../../servicios/terminal.service";
 import {JornadaComponent} from "../../horarios/jornada/jornada.component";
-import {easepick} from "@easepick/core";
-import {RangePlugin} from "@easepick/range-plugin";
-import {Location} from '@angular/common';
 import {Usuario} from "../../../modelos/Usuario";
 import moment from "moment";
 import 'moment/locale/es'
 import {ModalService} from "ngx-modal-ease";
-import {Jornada} from "../../../modelos/Jornada";
 import {Terminal} from "../../../modelos/Terminal";
 import {HorarioService} from "../../../servicios/horario.service";
 import {env} from "../../../../environments/environments";
@@ -104,6 +100,4 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
   imprimir() {
     window.print()
   }
-
-
 }

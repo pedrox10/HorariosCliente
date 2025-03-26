@@ -127,6 +127,14 @@ export class HorariosComponent implements OnInit {
     return res;
   }
 
+  getColorHorario() {
+    let res = ""
+    if(this.horario !== undefined)
+      res = this.horario.color
+    return res;
+  }
+
+
   ocultarEliminar() {
     document.getElementById("eliminar_modal")?.classList.remove("is-active");
   }
@@ -145,4 +153,5 @@ export class HorariosComponent implements OnInit {
       res = hora.substring(0, 5)
     return res;
   }
+
 }
