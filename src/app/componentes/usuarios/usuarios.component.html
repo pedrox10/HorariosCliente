@@ -101,6 +101,7 @@
           }
           </tbody>
         </table>
+
       </div>
       <div class="column is-narrow">
         <div class="vbox mt-1" style="padding: 5px 0px">
@@ -128,6 +129,9 @@
               </label>
             </div>
           </div>
+          <button class="scroll-to-top" (click)="scrollToTop()" *ngIf="showScrollButton">
+            <span class="icon is-right"><i class="fas fa-arrow-up"></i></span>
+          </button>
         </div>
       </div>
     </div>

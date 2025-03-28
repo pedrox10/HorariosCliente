@@ -1,7 +1,7 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  Component,
+  Component, HostListener,
   inject,
   OnDestroy,
   OnInit
@@ -38,6 +38,7 @@ import { DomSanitizer} from '@angular/platform-browser';
   //changeDetection: ChangeDetectionStrategy.OnPush
 })
 
+
 export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   public usuariosFiltrados: Usuario[] = [];
   public usuariosSeleccionados: Usuario[] = [];
@@ -55,6 +56,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   dd_acciones: HTMLDivElement | any;
   escuchaEscape: EventListener | any;
   private destroy$ = new Subject<void>();
+  showScrollButton = false;
 
   constructor(public terminalService: TerminalService,private router: Router,
               public modalService: ModalService, private location: Location, private sanitizer: DomSanitizer) {
@@ -187,7 +189,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   seleccionar(usuario: Usuario) {
-    console.time("seleccionar")
+    //console.time("seleccionar")
     let cb_todos = (document.getElementById("cb_todos") as HTMLInputElement);
     usuario.seleccionado = !usuario.seleccionado;
     if (usuario.seleccionado) {
@@ -195,8 +197,8 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.usuariosSeleccionados = this.usuariosSeleccionados.filter(u => u.ci !== usuario.ci);
     }
-    console.timeEnd("seleccionar")
-    console.time("lista")
+    //console.timeEnd("seleccionar")
+    //console.time("lista")
     let lista: Usuario[] = []
     lista = this.estado != undefined ? this.usuarios.filter((item: Usuario) => item.estado == this.estado) : lista = this.usuarios
     if (this.usuariosSeleccionados.length == lista.length) {
@@ -210,7 +212,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
         cb_todos.classList.add("is-indeterminate");
       }
     }
-    console.timeEnd("lista")
+    //console.timeEnd("lista")
   }
 
   aplicarTodos(ev: any) {
@@ -495,5 +497,15 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   trackByUsuario(index: number, usuario: Usuario): number | undefined {
     return usuario.id; // Asegura que sea un valor único y persistente
+  }
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    // Muestra el botón si el usuario ha hecho scroll más allá del viewport
+    this.showScrollButton = window.scrollY > window.innerHeight;
+  }
+
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }
