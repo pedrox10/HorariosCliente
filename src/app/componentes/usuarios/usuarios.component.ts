@@ -331,10 +331,12 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
             data: {usuarios, fechaMin}
           })
             .subscribe((data) => {
-              if (data !== undefined)
+              if (data !== undefined) {
                 for(let usuario of this.usuariosSeleccionados) {
-                  usuario.horarioMes = data.ultDiaAsignado;
+                  if(data.res === true)
+                    usuario.horarioMes = data.ultDiaAsignado;
                 }
+              }
             });
         },
         (error: any) => {
