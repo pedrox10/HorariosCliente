@@ -22,8 +22,13 @@ export class HorarioService {
     return this.http.get(`${this.apiUrl}/horarios`);
   }
 
-  public asignarHorario(id: number, ids: string, ini: string, fin: any, jornadas: string) {
-    return this.http.get(`${this.apiUrl}/asignar-horario/${id}/usuarios/${ids}/ini/${ini}/fin/${fin}/jornadas/${jornadas}`)
+  public asignarHorario(id: number, ids: string, ini: string, fin: any, jornadas: string, esInvierno: boolean, esLactancia: boolean) {
+    return this.http.get(`${this.apiUrl}/asignar-horario/${id}/usuarios/${ids}/ini/${ini}/fin/${fin}/jornadas/${jornadas}`, {
+      params: {
+        invierno: esInvierno.toString(),
+        lactancia: esLactancia.toString()
+      }
+    });
   }
 
   public crearHorario(horario: any, jornadas: any) {

@@ -8,7 +8,7 @@
       <div class="field">
         <label class="label">Nombre</label>
         <div class="control">
-          <input class="input" type="text" placeholder="Oficina" formControlName="nombre">
+          <input class="input" type="text" placeholder="Oficina" formControlName="nombre" (change)="quitarEspacios($event)">
         </div>
         @if(f['nombre'].invalid) {
         @if(f['nombre'].touched && f['nombre'].hasError('required')) {

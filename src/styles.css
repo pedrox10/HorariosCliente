@@ -320,4 +320,21 @@ p.modal-card-title {
   transform: scale(0.9);
 }
 
+.numero {
+  width: 35px; /* Ajusta el tamaño según necesites */
+  height: 35px;
+  border: 2px solid #e7cb84; /* Borde púrpura */
+  font-size: 0.9em;
+  font-weight: bold;
+  text-align: center;
+  line-height: 32.5px; /* Centra el número verticalmente */
+  border-radius: 50%; /* Hace el borde circular */
+  display: inline-block;
+}
+
+.lactancia input[type="checkbox"]:checked + .check {
+  background-color: #F4C2C2 !important; /* Palo de rosa */
+  border-color: #F4C2C2 !important;
+}
+
 

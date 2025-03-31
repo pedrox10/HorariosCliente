@@ -6,7 +6,10 @@
   <div class="animate__animated animate__fadeIn">
     <div class="columns" style="margin: 10px">
       <div class="column box is-one-quarter" style="background-color: #f2fffe; overflow-y: auto; height: 570px; overflow-x: hidden;">
-        <label class="label" style="font-size: 1.15em">Lista de Funcionarios</label>
+        <div class="hitem" style="justify-content: space-between">
+          <label class="label" style="font-size: 1.15em">Lista de Funcionarios</label>
+          <div class="numero">{{usuarios.length}}</div>
+        </div>
         @for (usuario of usuarios;track usuario; let i = $index ) {
         <div class="list-item">
           <div class="list-item-content">
@@ -72,7 +75,7 @@
           <div class="vbox">
             <div>
               <label class="switch is-rounded">
-                <input type="checkbox">
+                <input type="checkbox" formControlName="invierno" (click)="aplicaInvierno($event)">
                 <span class="check is-info "></span>
                 <div class="hitem">
                   <span class="control-label" style="min-width: 70px">Invierno</span>
@@ -81,9 +84,9 @@
               </label>
             </div>
             <div>
-              <label class="switch is-rounded is-dark">
-                <input type="checkbox" value="false">
-                <span class="check is-warning"></span>
+              <label class="switch is-rounded lactancia">
+                <input type="checkbox" formControlName="lactancia" >
+                <span class="check"></span>
                 <div class="hitem">
                   <span class="control-label">Lactancia</span>
                   <i class="fas fa-baby mt-1" style="color: gray" ></i>
@@ -142,8 +145,8 @@
       </div>
       <footer class="modal-card-foot" style="position: absolute; bottom: 0px; width: 100%">
         <div class="buttons">
-          <button id="btn_asignar" class="button es-primario" (click) = "asignarHorario()">
-            Guardar
+          <button id="btn_asignar" class="button es-primario" (click)="asignarHorario()" [disabled]="formAsignar.invalid">
+            Asignar
           </button>
           <button class="button" (click)="cerrarModal()" >Cancelar</button>
         </div>

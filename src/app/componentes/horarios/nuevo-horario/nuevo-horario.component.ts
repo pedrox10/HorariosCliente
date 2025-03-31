@@ -244,4 +244,11 @@ export class NuevoHorarioComponent implements OnInit {
     }
     cssDia.classList.add("es-secundario")
   }
+
+  quitarEspacios(ev: any) {
+    let texto = ev.target.value.trim();
+    let str = texto.split(" ").filter((c: string) => c !== "")
+    let res = str.join(" ")
+    this.f["nombre"].setValue(res)
+  }
 }

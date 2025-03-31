@@ -125,6 +125,13 @@ export class EditarHorarioComponent {
     );
   }
 
+  quitarEspacios(ev: any) {
+    let texto = ev.target.value.trim();
+    let str = texto.split(" ").filter((c: string) => c !== "")
+    let res = str.join(" ")
+    this.f["nombre"].setValue(res)
+  }
+
   cerrarModal() {
     this.modalService.close();
   }

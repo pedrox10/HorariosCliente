@@ -39,10 +39,14 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
       }, (error: any) => {
         console.error("Error cargando horarios", error)
       })
-      let fc_fecha = new FormControl("", [Validators.required])
+      let fc_fecha = new FormControl("", [Validators.required]);
       let fc_horario = new FormControl("", [Validators.required])
+      let fc_invierno = new FormControl({ value: false, disabled: true })
+      let fc_lactancia = new FormControl({ value: false, disabled: true })
       this.formAsignar.addControl("fecha", fc_fecha)
       this.formAsignar.addControl("horario", fc_horario)
+      this.formAsignar.addControl("invierno", fc_invierno)
+      this.formAsignar.addControl("lactancia", fc_lactancia)
   }
 
   ngOnInit(): void {
@@ -54,7 +58,6 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
       this.usuarios.forEach(usuario => {
         console.log(usuario.nombre)
       })
-
     }
   }
 
@@ -87,7 +90,9 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
     });
     this.picker.gotoDate(moment().subtract(1, "month").toDate());
     this.picker.on("select", (e: any) => {
-      console.log(this.picker.getStartDate().format('DD-MM-YYYY'))
+      const startDate = moment(this.picker.getStartDate()).format("DD/MM/YYYY");
+      const endDate = moment(this.picker.getEndDate()).format("DD/MM/YYYY");
+      this.formAsignar.get("fecha")?.setValue(`${startDate} - ${endDate}`);
     })
   }
 
@@ -95,28 +100,34 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
     let id: number = parseInt(ev.target.value)
     const index = this.horarios.findIndex(x => x.id === id);
     let horario = this.horarios[index];
+    this.formAsignar.get('invierno')?.enable();
+    this.formAsignar.get('lactancia')?.enable();
+    this.jornadaDias = JSON.parse(JSON.stringify(horario.jornadaDias));
+    this.formAsignar.get("invierno").setValue(false);
+    this.formAsignar.get("lactancia").setValue(false);
     document.getElementById("tolerancia")!.innerText = horario.tolerancia + " min.";
     document.getElementById("nombre_color")!.innerText = horario.color;
     document.getElementById("valor_color")!.style.color = color(horario.color)
     document.getElementById("descripcion")!.innerText = horario.descripcion;
     document.getElementById("area")!.innerText = horario.area;
-    this.jornadaDias = horario.jornadaDias
-    console.log(this.jornadaDias)
   }
 
   asignarHorario() {
+    //console.log(this.formAsignar)
     document.getElementById("btn_asignar")?.classList.add("is-loading");
     let selectHorarios = document.getElementById("select_horarios") as HTMLSelectElement
     let id_horario = selectHorarios.value
     let ids = this.usuarios.map(({ id }) => id);
     let ini = this.picker.getStartDate().format('YYYYMMDD')
     let fin = this.picker.getEndDate().format('YYYYMMDD')
+    let esInvierno = this.formAsignar.get('invierno');
+    let esLactancia = this.formAsignar.get('lactancia')
     let jornadas = JSON.stringify(this.jornadaDias);
-    this.horarioService.asignarHorario(parseInt(id_horario), ids.toString(), ini, fin, jornadas).
+    this.horarioService.asignarHorario(parseInt(id_horario), ids.toString(), ini, fin, jornadas, esInvierno, esLactancia).
     subscribe((data:any)=>{
       setTimeout(() => {
         document.getElementById("btn_asignar")?.classList.remove("is-loading")
-        mensaje("Horario asignado a " + this.usuarios.length + " funcionarios", "is-success")
+        mensaje("Horario asignado a   " + this.usuarios.length + " funcionarios", "is-success")
         this.modalService.close(data)
       }, 1000);
     }, (error: any) => {
@@ -144,6 +155,30 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
       }
     }
     console.log(this.jornadaDias)
+  }
+
+  aplicaInvierno(event: any) {
+    let esSeleccionado = (<HTMLInputElement>event.target).checked
+    this.ajustarHorarioInvierno(esSeleccionado);
+  }
+
+  ajustarHorarioInvierno(isInvierno: boolean) {
+    this.jornadaDias.forEach((jornada) => {
+      if (jornada.habilitado) {
+        jornada.priEntrada = this.ajustarHora(jornada.priEntrada, isInvierno);
+        jornada.priSalida = this.ajustarHora(jornada.priSalida, isInvierno);
+        if (jornada.segEntrada && jornada.segSalida) {
+          jornada.segEntrada = this.ajustarHora(jornada.segEntrada, isInvierno);
+          jornada.segSalida = this.ajustarHora(jornada.segSalida, isInvierno);
+        }
+      }
+    });
+  }
+
+  ajustarHora(hora: string, sumar: boolean): string {
+    return moment(hora, "HH:mm")
+      .add(sumar ? 30 : -30, "minutes")
+      .format("HH:mm");
   }
 
   cerrarModal() {
