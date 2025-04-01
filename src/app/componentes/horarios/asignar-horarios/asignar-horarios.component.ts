@@ -120,8 +120,10 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
     let ids = this.usuarios.map(({ id }) => id);
     let ini = this.picker.getStartDate().format('YYYYMMDD')
     let fin = this.picker.getEndDate().format('YYYYMMDD')
-    let esInvierno = this.formAsignar.get('invierno');
-    let esLactancia = this.formAsignar.get('lactancia')
+    let esInvierno = this.formAsignar.get('invierno').value;
+    let esLactancia = this.formAsignar.get('lactancia').value
+    console.log("Es Invierno:", esInvierno);
+    console.log("Es Lactancia:", esLactancia);
     let jornadas = JSON.stringify(this.jornadaDias);
     this.horarioService.asignarHorario(parseInt(id_horario), ids.toString(), ini, fin, jornadas, esInvierno, esLactancia).
     subscribe((data:any)=>{

@@ -323,7 +323,7 @@ p.modal-card-title {
 .numero {
   width: 35px; /* Ajusta el tamaño según necesites */
   height: 35px;
-  border: 2px solid #e7cb84; /* Borde púrpura */
+  border: 1px solid #e7ba25; /* Borde púrpura */
   font-size: 0.9em;
   font-weight: bold;
   text-align: center;
@@ -332,9 +332,22 @@ p.modal-card-title {
   display: inline-block;
 }
 
+.invierno input[type="checkbox"]:checked + .check {
+  background-color: #7ab0dc !important; /* Palo de rosa */
+  border-color: #7ab0dc !important;
+}
+
+.invierno input[type="checkbox"]:checked ~ .hitem i {
+  color: #7ab0dc !important;
+}
+
 .lactancia input[type="checkbox"]:checked + .check {
-  background-color: #F4C2C2 !important; /* Palo de rosa */
-  border-color: #F4C2C2 !important;
+  background-color: #f6a7a7 !important; /* Palo de rosa */
+  border-color: #f6a7a7 !important;
+}
+
+.lactancia input[type="checkbox"]:checked ~ .hitem i {
+  color: #f6a7a7 !important;
 }
 
 

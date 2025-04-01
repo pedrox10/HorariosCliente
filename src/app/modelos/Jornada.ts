@@ -20,15 +20,19 @@ export class Jornada {
   priTurno: any;
   segTurno: any;
   estado: EstadoJornada;
+  esInvierno: boolean;
+  esLactancia: boolean;
   infoExtra: any;
 
-  constructor(id: number, fecha: string, horario:any, priTurno: any, segTurno: any, estado: EstadoJornada, infoExtra: any) {
+  constructor(id: number, fecha: string, horario:any, priTurno: any, segTurno: any, estado: EstadoJornada, esInvierno: boolean, esLactancia: boolean, infoExtra: any) {
     this.id = id;
     this.fecha = fecha;
     this.horario = horario;
     this.priTurno = priTurno;
     this.segTurno = segTurno;
     this.estado = estado;
+    this.esInvierno = esInvierno;
+    this.esLactancia = esLactancia;
     this.infoExtra = infoExtra;
   }
 }

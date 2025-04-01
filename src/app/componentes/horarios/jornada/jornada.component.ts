@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 import {EstadoJornada, Jornada} from "../../../modelos/Jornada";
 import {RouterLink} from "@angular/router";
 import {color} from "../../inicio/Global";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-jornada',
@@ -13,7 +14,7 @@ import {color} from "../../inicio/Global";
 export class JornadaComponent {
   @Input() jornada!:Jornada;
 
-  constructor() {
+  constructor(private sanitizer: DomSanitizer) {
 
   }
 
@@ -48,6 +49,15 @@ export class JornadaComponent {
     else
       res = this.jornada.infoExtra.detalle.substring(0, 48)
     return res;
+  }
+
+  test() {
+   let res = "<span class='badge is-bottom mb-2' style='background-color: transparent; border-color: transparent; box-shadow: none;font-size:0.85em;'>" +
+    "<div class='hitem'>" +
+      "<i class='fas fa-mitten' style='color: #7ab0dc'></i>" +
+      "<i class='fas fa-baby' style='color: #f6a7a7' ></i>" +
+    "</div></span>";
+    return this.sanitizer.bypassSecurityTrustHtml(res);
   }
 
   getFondo() {
