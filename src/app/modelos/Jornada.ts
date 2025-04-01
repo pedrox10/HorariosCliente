@@ -16,7 +16,7 @@ export enum EstadoJornada {
 export class Jornada {
   id: number;
   fecha: string;
-  horario: any;
+  horario?: any;
   priTurno: any;
   segTurno: any;
   estado: EstadoJornada;

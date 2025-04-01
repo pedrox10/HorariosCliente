@@ -85,8 +85,6 @@
           <button title="imprimir" class="button" (click)="imprimir()"><span class="icon">
             <i class="fas fa-print"></i></span>
           </button>
-          <!--<button class="button"><span class="icon" (click)="exportexcel()"><i class="fas fa-file-excel"
-                                                       style="color: rgb(16, 129, 16);"></i></span></button>-->
         </div>
       </div>
       <table class="table marcaciones is-bordered">
@@ -128,6 +126,28 @@
             <div class="hitem">
               <div class="circle" style="background-color: {{getColor(getInfoActual().horario.color)}}; border: 1px lightgray solid; align-self: center"></div>
               {{getInfoActual().horario.nombre}}
+              @if(infoMarcacion.esInvierno || infoMarcacion.esLactancia || infoMarcacion.esJornadaDosDias ) {
+              <div class="dropdown is-hoverable">
+                <div class="dropdown-trigger">
+                  <span><i class="fas fa-ellipsis-v" style="color: #999; font-size:0.85em;"></i></span>
+                </div>
+                <div class="dropdown-menu" role="menu">
+                  <div class="dropdown-content custom-dropdown">
+                    <div style= "padding-left: 10px; padding-right: 5px;">
+                      @if(infoMarcacion.esInvierno) {
+                      <div class="hitem"><i class='fas fa-mountain mt-1' style='color: #639ac5'></i>Horario de Invierno</div>
+                      }
+                      @if(infoMarcacion.esLactancia) {
+                      <div class="hitem"><i class='fas fa-baby mt-1' style='color: #e08686' ></i>Horario de Lactancia</div>
+                      }
+                      @if(infoMarcacion.esJornadaDosDias) {
+                      <div class="hitem"><i class='fas fa-moon mt-1' style='color: #878ae3' ></i>Jornada de 2 dias</div>
+                      }
+                    </div>
+                  </div>
+                </div>
+              </div>
+              }
             </div>
           </td>
           <td>

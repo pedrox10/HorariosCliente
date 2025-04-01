@@ -86,13 +86,13 @@
             <td  [innerHtml]="getEstado(usuario)"></td>
             <td>
               <div class="hitem">
-                <span class="icon has-tooltip-arrow" data-tooltip="Ver Marcaciones" (click)="verMarcaciones(usuario)">
+                <span class="icon has-tooltip-arrow expand" data-tooltip="Ver Marcaciones" (click)="verMarcaciones(usuario)">
                   <i class="far fa-calendar-check icon-btn"></i>
                 </span>
-                <span class="icon has-tooltip-arrow" data-tooltip="Ver Horario" (click)="verHorario(usuario.id)">
+                <span class="icon has-tooltip-arrow expand" data-tooltip="Ver Horario" (click)="verHorario(usuario.id)">
                   <i class="far fa-calendar-alt icon-btn"></i>
                 </span>
-                <span class="icon has-tooltip-arrow" data-tooltip="Editar" (click)="editarUsuario(usuario.id)">
+                <span class="icon has-tooltip-arrow expand" data-tooltip="Editar" (click)="editarUsuario(usuario.id)">
                   <i class="far fa-edit icon-btn"></i>
                 </span>
               </div>

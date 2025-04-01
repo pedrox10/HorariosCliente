@@ -35,9 +35,9 @@ export class JornadaComponent {
       let horaEntrada = turno.horaEntrada.substring(0, 5)
       let horaSalida = turno.horaSalida.substring(0, 5)
       if(this.jornada.horario.jornadasDosDias)
-        res = horaEntrada + "-" + horaSalida + " *";
+        res = horaEntrada + " - " + horaSalida + " *";
       else
-        res = horaEntrada + "-" + horaSalida
+        res = horaEntrada + " - " + horaSalida
     }
     return res;
   }
@@ -52,11 +52,17 @@ export class JornadaComponent {
   }
 
   test() {
-   let res = "<span class='badge is-bottom mb-2' style='background-color: transparent; border-color: transparent; box-shadow: none;font-size:0.85em;'>" +
-    "<div class='hitem'>" +
-      "<i class='fas fa-mitten' style='color: #7ab0dc'></i>" +
-      "<i class='fas fa-baby' style='color: #f6a7a7' ></i>" +
-    "</div></span>";
+   let res = "<span class='badge is-bottom' style='margin-bottom: 8.5px; border: none;background-color: transparent; border-color: transparent; box-shadow: none;font-size:0.85em;'>" +
+    "<div class='hitem''>";
+   if(this.jornada.esInvierno)
+     res = res + "<span title='Horario de Invierno'><i class='fas fa-mountain' style='color: #639ac5'></i></span>"
+   if (this.jornada.esLactancia)
+     res = res + "<span title='Horario de Lactancia'><i class='fas fa-baby' style='color: #e08686' ></i></span>"
+   if(this.jornada.horario) {
+     if (this.jornada.horario.jornadasDosDias)
+       res = res + "<span title='Jornada de 2 dias'><i class='fas fa-moon' style='color: #878ae3' ></i></span>"
+   }
+    res = res + "</div></span>";
     return this.sanitizer.bypassSecurityTrustHtml(res);
   }
 

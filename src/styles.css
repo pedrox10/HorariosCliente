@@ -333,21 +333,26 @@ p.modal-card-title {
 }
 
 .invierno input[type="checkbox"]:checked + .check {
-  background-color: #7ab0dc !important; /* Palo de rosa */
-  border-color: #7ab0dc !important;
+  background-color: #639ac5 !important; /* Palo de rosa */
+  border-color: #639ac5 !important;
 }
 
 .invierno input[type="checkbox"]:checked ~ .hitem i {
-  color: #7ab0dc !important;
+  color: #639ac5 !important;
 }
 
 .lactancia input[type="checkbox"]:checked + .check {
-  background-color: #f6a7a7 !important; /* Palo de rosa */
-  border-color: #f6a7a7 !important;
+  background-color: #e08686 !important; /* Palo de rosa */
+  border-color: #e08686 !important;
 }
 
 .lactancia input[type="checkbox"]:checked ~ .hitem i {
-  color: #f6a7a7 !important;
+  color: #e08686 !important;
 }
 
+.custom-dropdown {
+  width: 150px;
+  border: 1px #bdb8b4 solid;
+  font-size:0.85em;
+}
 

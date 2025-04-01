@@ -14,7 +14,8 @@
     <span style="font-size: 0.60em; text-align: center">{{getDetalle()}}</span>
     }
   </div>
-  @if(jornada.esInvierno || jornada.esLactancia)  {
+  @if(jornada.esInvierno || jornada.esLactancia || jornada.horario?.jornadasDosDias)  {
   <div [innerHtml]="test()"></div>
   }
+
 </div>

@@ -16,10 +16,14 @@ export class InfoMarcacion{
   activo:boolean
   numTurnos: number
   estado: EstadoJornada
+  esInvierno:boolean
+  esLactancia:boolean
+  esJornadaDosDias:boolean
 
   constructor(fecha: Date, dia:string, horario: any, priEntradas: string[], priSalidas: string[], segEntradas: string[],
               segSalidas: string[], cantRetrasos: number, minRetrasos: number, noMarcados: number, hayPriRetraso: boolean,
-              haySegRetraso: boolean, mensaje: string, activo: boolean, numTurnos: number, estado: EstadoJornada) {
+              haySegRetraso: boolean, mensaje: string, activo: boolean, numTurnos: number, estado: EstadoJornada,
+              esInvierno: boolean, esLactancia: boolean, esJornadaDosDias: boolean) {
 
     this.fecha = fecha;
     this.dia = dia;
@@ -37,6 +41,9 @@ export class InfoMarcacion{
     this.activo = activo
     this.numTurnos = numTurnos
     this.estado = estado
+    this.esInvierno = esInvierno
+    this.esLactancia = esLactancia
+    this.esJornadaDosDias = esJornadaDosDias
   }
 }
 
