@@ -10,7 +10,7 @@
       </div>
       <div class="hitem">
       </div>
-      <div class="hitem has-tooltip-arrow" data-tooltip="Agregar Terminal" style="margin-left: auto;">
+      <div class="hitem has-tooltip-arrow expand" data-tooltip="Agregar Terminal" style="margin-left: auto;">
           <button class="button" (click) = "agregarEditarModal(undefined)">
             <span class="icon"><i class="fas fa-plus "></i></span>
           </button>
@@ -48,10 +48,10 @@
           <td>{{formatear(t.ultSincronizacion!)}}</td>
           <td>
             <div class="hitem">
-              <span class="icon has-tooltip-arrow" data-tooltip="Editar" (click) = "agregarEditarModal(t)">
+              <span class="icon has-tooltip-arrow expand" data-tooltip="Editar" (click) = "agregarEditarModal(t)">
                 <i class="far fa-edit icon-btn"></i>
               </span>
-              <span class="icon has-tooltip-arrow " data-tooltip="Eliminar" (click) = "mostrarEliminar(t)">
+              <span class="icon has-tooltip-arrow expand" data-tooltip="Eliminar" (click) = "mostrarEliminar(t)">
                 <i class="far fa-times-circle icon-btn"></i>
               </span>
             </div>

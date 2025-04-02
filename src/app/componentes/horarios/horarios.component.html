@@ -8,7 +8,7 @@
       <div class="hitem"></div>
       <div class="hitem"></div>
       <div class="hitem"></div>
-      <div class="hitem has-tooltip-arrow" data-tooltip="Agregar Horario" style="margin-left: auto;">
+      <div class="hitem has-tooltip-arrow expand" data-tooltip="Agregar Horario" style="margin-left: auto;">
         <button class="button" routerLink="/nuevo-horario"><span class="icon"><i class="fas fa-plus "></i></span>
         </button>
       </div>
@@ -44,13 +44,13 @@
           <td>{{horario.descripcion}}</td>
           <td>
             <div class="hitem">
-            <span class="icon has-tooltip-arrow mr-1" data-tooltip="Ver Horario" (click) = "modalVerHorario(horario)">
+            <span class="icon has-tooltip-arrow expand mr-1" data-tooltip="Ver Horario" (click) = "modalVerHorario(horario)">
                  <i class="far fa-eye icon-btn"></i>
               </span>
-              <span class="icon has-tooltip-arrow" data-tooltip="Editar" (click) = "modalEditar(horario.id)">
+              <span class="icon has-tooltip-arrow expand" data-tooltip="Editar" (click) = "modalEditar(horario.id)">
                  <i class="far fa-edit icon-btn"></i>
               </span>
-              <span class="icon has-tooltip-arrow" data-tooltip="Eliminar" (click) = "verificarHorario(horario)">
+              <span class="icon has-tooltip-arrow expand" data-tooltip="Eliminar" (click) = "verificarHorario(horario)">
                 <i class="far fa-times-circle icon-btn"></i>
               </span>
             </div>
