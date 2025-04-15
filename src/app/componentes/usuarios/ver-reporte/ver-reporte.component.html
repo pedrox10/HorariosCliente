@@ -66,86 +66,89 @@
        <th></th>
      </tr>
      <tbody>
-     @for (reporte of reportes; track reporte; let index = $index) {
+     @for (rm of resumenMarcaciones; track rm; let index = $index) {
      <tr>
        <td>{{index +1}}</td>
         <td>
           <div class="hitem" style="justify-content: space-between">
-            <span>{{reporte.usuario.nombre}}</span>
+            <span>{{rm.usuario.nombre}}</span>
          </div>
         </td>
-        <td>{{reporte.usuario.ci}}</td>
-        <td>{{formatear(reporte.usuario.fechaAlta)}}</td>
-        @if(reporte.totalMinRetrasos > 0) {
-     <td>
-       <div class="hitem" style="justify-content: space-between">
-         <span>{{reporte.totalMinRetrasos}}</span>
-         <div class="dropdown is-up is-hoverable">
-           <div class="dropdown-trigger">
-             <span><i class="far fa-caret-square-up" style="color: #888; background-color: {{getColor('Amarillo')}}"></i></span>
-           </div>
-           <div class="dropdown-menu" role="menu">
-             <div class="dropdown-content popup">
-               <div class='cabecera'>Fechas con Retraso</div>
-               <div class="contenido" style='color: #786450;' [innerHtml]="getRetrasos(reporte.infoMarcaciones)">
-               </div>
-             </div>
-           </div>
-         </div>
-       </div>
-     </td>
-     } @else {
-     <td>{{reporte.totalMinRetrasos}}</td>
-     }
-     @if(reporte.totalSinMarcar > 0) {
-     <td>
-       <div class="hitem" style="justify-content: space-between">
-         <span>{{reporte.totalSinMarcar}}</span>
-         <div class="dropdown is-up is-hoverable">
-           <div class="dropdown-trigger">
-             <span><i class="far fa-caret-square-up" style="color: #888; background-color: {{getColor('Rojo')}}"></i></span>
-           </div>
-           <div class="dropdown-menu" role="menu">
-             <div class="dropdown-content popup">
-               <div class='cabecera'>Fechas sin Marcar</div>
-               <div class="contenido" style='color: #786450;' [innerHtml]="getSinMarcar(reporte.infoMarcaciones)">
-               </div>
-             </div>
-           </div>
-         </div>
-       </div>
-     </td>
-     } @else {
-     <td>{{reporte.totalSinMarcar}}</td>
-     }
-     @if(reporte.totalAusencias > 0) {
-     <td>
-       <div class="hitem" style="justify-content: space-between">
-         <span>{{reporte.totalAusencias}}</span>
-         <div class="dropdown is-up is-hoverable">
-           <div class="dropdown-trigger">
-             <span><i class="far fa-caret-square-up has-text-danger"></i></span>
-           </div>
-           <div class="dropdown-menu" role="menu">
-             <div class="dropdown-content popup">
-               <div class='cabecera'>Fechas con Falta</div>
-               <div class="contenido" style='color: #786450;' [innerHtml]="getAusencias(reporte.infoMarcaciones)">
-               </div>
-             </div>
-           </div>
-         </div>
-       </div>
-     </td>
-     } @else {
-     <td>{{reporte.totalAusencias}}</td>
-     }
-     <td>
-      <div class="hitem">
-        <span class="icon has-tooltip-arrow" data-tooltip="Ver Marcaciones" routerLink="/ver-marcaciones/{{reporte.usuario.id}}/{{fechaIni}}/{{fechaFin}}">
-          <i class="fas fa-external-link-alt"></i>
-        </span>
-      </div>
-     </td>
+        <td>{{rm.usuario.ci}}</td>
+        <td>{{formatear(rm.usuario.fechaAlta)}}</td>
+        @if(rm.totalMinRetrasos > 0) {
+        <td>
+          <div class="hitem" style="justify-content: space-between">
+            <span>{{rm.totalMinRetrasos}}</span>
+            <div class="dropdown is-up is-hoverable">
+              <div class="dropdown-trigger">
+                <span><i class="far fa-caret-square-up" style="color: #888; background-color: {{getColor('Amarillo')}}"></i></span>
+              </div>
+              <div class="dropdown-menu" role="menu">
+                <div class="dropdown-content popup">
+                  <div class='cabecera'>Fechas con Retraso</div>
+                  <div class="contenido" style='color: #786450;' [innerHtml]="getRetrasos(rm.infoMarcaciones)"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+        } @else {
+        <td>{{rm.totalMinRetrasos}}</td>
+        }
+        @if(rm.totalSinMarcar > 0) {
+        <td>
+          <div class="hitem" style="justify-content: space-between">
+            <span>{{rm.totalSinMarcar}}</span>
+            <div class="dropdown is-up is-hoverable">
+              <div class="dropdown-trigger">
+                <span><i class="far fa-caret-square-up" style="color: #888; background-color: {{getColor('Rojo')}}"></i></span>
+              </div>
+              <div class="dropdown-menu" role="menu">
+                <div class="dropdown-content popup">
+                  <div class='cabecera'>Fechas sin Marcar</div>
+                  <div class="contenido" style='color: #786450;' [innerHtml]="getSinMarcar(rm.infoMarcaciones)"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+        } @else {
+        <td>{{rm.totalSinMarcar}}</td>
+        }
+        @if(rm.totalAusencias > 0) {
+        <td>
+          <div class="hitem" style="justify-content: space-between">
+            <span>{{rm.totalAusencias}}</span>
+            <div class="dropdown is-up is-hoverable">
+              <div class="dropdown-trigger">
+                <span><i class="far fa-caret-square-up has-text-danger"></i></span>
+              </div>
+              <div class="dropdown-menu" role="menu">
+                <div class="dropdown-content popup">
+                  <div class='cabecera'>Fechas con Falta</div>
+                  <div class="contenido" style='color: #786450;' [innerHtml]="getAusencias(rm.infoMarcaciones)"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+        } @else {
+        <td>{{rm.totalAusencias}}</td>
+        }
+        <td>
+          <div class="hitem">
+            <span class="icon has-tooltip-arrow expand" data-tooltip="Ver Marcaciones" routerLink="/ver-marcaciones/{{rm.usuario.id}}/{{fechaIni}}/{{fechaFin}}">
+              <i class="far fa-calendar-check icon-btn"></i>
+            </span>
+            <span class="icon has-tooltip-arrow expand" data-tooltip="Ver Horario" (click)="verHorario(rm.usuario.id)">
+              <i class="far fa-calendar-alt icon-btn"></i>
+            </span>
+            <span class="icon has-tooltip-arrow expand" data-tooltip="Editar" (click)="editarUsuario(rm.usuario.id)">
+              <i class="far fa-edit icon-btn"></i>
+            </span>
+          </div>
+        </td>
      </tr>
      }
      </tbody>

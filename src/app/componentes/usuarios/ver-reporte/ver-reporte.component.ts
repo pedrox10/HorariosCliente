@@ -13,6 +13,8 @@ import {EstadoJornada} from "../../../modelos/Jornada";
 import {Location} from "@angular/common";
 import {DataService} from "../../../servicios/data.service";
 import {RouterLink} from "@angular/router";
+import {VerHorarioComponent} from "../ver-horario/ver-horario.component";
+import {EditarUsuarioComponent} from "../editar-usuario/editar-usuario.component";
 
 @Component({
   selector: 'app-ver-reporte',
@@ -30,32 +32,73 @@ export class VerReporteComponent implements OnInit{
   terminal: string|any = undefined;
   fechaIni: string|any = undefined;
   fechaFin: string|any = undefined;
-  reportes: ResumenMarcacion[] = [];
+  resumenMarcaciones: ResumenMarcacion[] = [];
   filasExcel = [] as Array<IReporte>
 
-  constructor(private modalService: ModalService, public terminalService: TerminalService, private location: Location) {
+  constructor(private modalService: ModalService, private location: Location) {
 
   }
 
   ngOnInit() {
     const data=JSON.parse(sessionStorage.getItem('reporte')??'')
-    this.reportes = data;
+    this.resumenMarcaciones = data;
     this.terminal = sessionStorage.getItem("terminal")
     this.fechaIni = sessionStorage.getItem("fechaIni")
     this.fechaFin = sessionStorage.getItem("fechaFin")
-    for(let reporte of this.reportes) {
+    for(let resumenMarcacion of this.resumenMarcaciones) {
       let fila = {} as IReporte;
-      fila.nombre = reporte.usuario.nombre;
-      fila.ci = reporte.usuario.ci;
-      fila.fechaAlta = format(reporte.usuario.fechaAlta);
-      fila.retraso = reporte.totalMinRetrasos;
-      fila.sinMarcar = reporte.totalSinMarcar;
-      fila.faltas = reporte.totalAusencias;
+      fila.nombre = resumenMarcacion.usuario.nombre;
+      fila.ci = resumenMarcacion.usuario.ci;
+      fila.fechaAlta = format(resumenMarcacion.usuario.fechaAlta);
+      fila.retraso = resumenMarcacion.totalMinRetrasos;
+      fila.sinMarcar = resumenMarcacion.totalSinMarcar;
+      fila.faltas = resumenMarcacion.totalAusencias;
 
       this.filasExcel.push(fila)
     }
 
     console.log(this.filasExcel)
+  }
+
+  verHorario(id_usuario: number | any) {
+    let id = id_usuario;
+    let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
+    this.modalService.open(VerHorarioComponent, {
+      modal: {enter: `${config.animation} ${config.duration}`,},
+      size: {padding: '0.5rem'},
+      data: {id}
+    })
+      .subscribe((data) => {
+        if (data !== undefined)
+          console.log(data)
+      });
+  }
+
+  editarUsuario(id_usuario: number | any) {
+    let id = id_usuario;
+    let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
+    this.modalService.open(EditarUsuarioComponent, {
+      modal: {enter: `${config.animation} ${config.duration}`,},
+      size: {padding: '0.5rem'},
+      data: {id}
+    })
+      .subscribe((data) => {
+        if (data !== undefined)
+          this.edit(data)
+      });
+  }
+
+  edit(usuario: Usuario) {
+    let index = this.usuarios.map(i => i.id).indexOf(usuario.id);
+    this.usuarios[index] = usuario
+    /*if (this.estado !== undefined) {
+      let index = this.usuariosFiltrados.map(i => i.id).indexOf(usuario.id);
+      if (this.estado === usuario.estado) {
+        this.usuariosFiltrados[index] = usuario
+      } else {
+        this.usuariosFiltrados.splice(index, 1)
+      }
+    }*/
   }
 
   irAtras() {

@@ -239,9 +239,10 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     this.terminalService.sincronizarTerminal(this.idTerminal).pipe(takeUntil(this.destroy$)).subscribe(
       (data: any) => {
         let respuesta = data;
+        console.log(respuesta)
         this.usuarios = respuesta.usuarios
         this.usuariosFiltrados = respuesta.usuarios;
-        document.getElementById("ult_sync")!.innerText = "Ult. vez: " + moment(data.ult_sincronizacion).format('DD/MM/YYYY HH:mm');
+        document.getElementById("ult_sync")!.innerText = "Ult. vez: " + moment(respuesta.hora_terminal).format('DD/MM/YYYY HH:mm');
         let cbTodos = (document.getElementById("cb_todos") as HTMLInputElement);
         cbTodos.checked = false;
         cbTodos.classList.remove("is-indeterminate")
@@ -471,6 +472,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
         this.usuariosFiltrados.splice(index, 1)
       }
     }
+    mensaje("¡Funcionario editado!", "is-success")
   }
 
   mostrarAcciones(id: number | any) {

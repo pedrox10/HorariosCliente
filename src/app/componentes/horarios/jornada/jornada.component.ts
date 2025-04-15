@@ -51,7 +51,7 @@ export class JornadaComponent {
     return res;
   }
 
-  test() {
+  agregarIconos() {
    let res = "<span class='badge is-bottom' style='margin-bottom: 8.5px; border: none;background-color: transparent; border-color: transparent; box-shadow: none;font-size:0.85em;'>" +
     "<div class='hitem''>";
    if(this.jornada.esInvierno)

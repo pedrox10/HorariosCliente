@@ -76,7 +76,6 @@ export class EditarUsuarioComponent implements AfterViewInit {
       (data: any) => {
         this.modalService.close(data);
         this.formAccion.reset();
-        mensaje("¡Funcionario editado!", "is-success")
       },
       (error: any) => {
         console.log(error)
