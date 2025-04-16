@@ -100,7 +100,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   }
 
   getResumenMarcaciones(id: number, ini: string, fin: string) {
-    this.terminalService.getInfoMarcaciones(id, ini, fin).subscribe(
+    this.terminalService.getResumenMarcaciones(id, ini, fin).subscribe(
       (data: any) => {
         this.resumenMarcacion = data;
         console.log(data)

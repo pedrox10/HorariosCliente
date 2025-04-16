@@ -35,12 +35,12 @@ export class VerReporteComponent implements OnInit{
   resumenMarcaciones: ResumenMarcacion[] = [];
   filasExcel = [] as Array<IReporte>
 
-  constructor(private modalService: ModalService, private location: Location) {
+  constructor(private modalService: ModalService, private terminalService: TerminalService, private location: Location) {
 
   }
 
   ngOnInit() {
-    const data=JSON.parse(sessionStorage.getItem('reporte')??'')
+    const data=JSON.parse(sessionStorage.getItem('reporte') || '[]')
     this.resumenMarcaciones = data;
     this.terminal = sessionStorage.getItem("terminal")
     this.fechaIni = sessionStorage.getItem("fechaIni")
@@ -56,11 +56,10 @@ export class VerReporteComponent implements OnInit{
 
       this.filasExcel.push(fila)
     }
-
     console.log(this.filasExcel)
   }
 
-  verHorario(id_usuario: number | any) {
+  modalVerHorario(id_usuario: number | any) {
     let id = id_usuario;
     let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
     this.modalService.open(VerHorarioComponent, {
@@ -74,7 +73,7 @@ export class VerReporteComponent implements OnInit{
       });
   }
 
-  editarUsuario(id_usuario: number | any) {
+  modalEditarUsuario(id_usuario: number | any) {
     let id = id_usuario;
     let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
     this.modalService.open(EditarUsuarioComponent, {
@@ -84,21 +83,28 @@ export class VerReporteComponent implements OnInit{
     })
       .subscribe((data) => {
         if (data !== undefined)
-          this.edit(data)
+          this.editarUsuario(data)
       });
   }
 
-  edit(usuario: Usuario) {
-    let index = this.usuarios.map(i => i.id).indexOf(usuario.id);
-    this.usuarios[index] = usuario
-    /*if (this.estado !== undefined) {
-      let index = this.usuariosFiltrados.map(i => i.id).indexOf(usuario.id);
-      if (this.estado === usuario.estado) {
-        this.usuariosFiltrados[index] = usuario
-      } else {
-        this.usuariosFiltrados.splice(index, 1)
+  editarUsuario(usuario: Usuario) {
+    const indice = this.resumenMarcaciones.findIndex(
+      resumen => resumen.usuario.id === usuario.id
+    );
+
+    this.terminalService.getResumenMarcaciones(usuario.id!, this.fechaIni, this.fechaFin).subscribe(
+      (data: any) => {
+        let rm: ResumenMarcacion = data;
+        this.resumenMarcaciones[indice] = rm
+        let reporte = JSON.parse(sessionStorage.getItem('reporte') || '[]');
+        reporte[indice] = rm
+        sessionStorage.setItem('reporte', JSON.stringify(reporte));
+      },
+      (error: any) => {
+        console.error('An error occurred:', error);
       }
-    }*/
+    );
+
   }
 
   irAtras() {

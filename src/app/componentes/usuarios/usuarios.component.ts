@@ -440,7 +440,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
       from(this.usuariosSeleccionados)
         .pipe(
           concatMap(usuario => {
-            return this.terminalService.getInfoMarcaciones(usuario.id!, this.fechaIni, this.fechaFin)
+            return this.terminalService.getResumenMarcaciones(usuario.id!, this.fechaIni, this.fechaFin)
           }),
           toArray()
         );
