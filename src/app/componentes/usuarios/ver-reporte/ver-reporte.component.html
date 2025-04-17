@@ -10,7 +10,7 @@
      <div class="hitem" style="background-color: {{getColor('Amarillo')}}; padding: 10px; border-radius: 10px; gap: 30px;">
        <div class="vinput">
          <div class="icon-text">
-        <span class="icon has-text-success hast" style="font-size: 1.2em">
+        <span class="icon has-text-primary" style="font-size: 1.2em">
           <i class="far fa-calendar-alt"></i>
         </span>
            <span class="label">Rango de Fechas</span>
@@ -27,6 +27,15 @@
          <p class="block has-text-centered">
            {{getTotalDias()}}
          </p>
+       </div>
+       <div class="vinput">
+         <div class="icon-text">
+        <span class="icon has-text-success" style="font-size: 1.2em">
+          <i class="far fa-file-alt"></i>
+        </span>
+           <span class="label">Fecha de Creación</span>
+         </div>
+         <p class="block has-text-centered">{{getFechaFin()}}</p>
        </div>
      </div>
      <div class="hitem" style="align-self: flex-end; margin-left: auto">
@@ -48,6 +57,12 @@
          <div class="vinput has-text-centered">
            <span>Fecha de</span>
            <span>Alta</span>
+         </div>
+       </th>
+       <th>
+         <div class="vinput has-text-centered">
+           <span>Num.</span>
+           <span>Días</span>
          </div>
        </th>
        <th>
@@ -76,6 +91,7 @@
         </td>
         <td>{{rm.usuario.ci}}</td>
         <td>{{formatear(rm.usuario.fechaAlta)}}</td>
+        <td></td>
         @if(rm.totalMinRetrasos > 0) {
         <td>
           <div class="hitem" style="justify-content: space-between">
@@ -149,6 +165,9 @@
             </span>
             <span class="icon has-tooltip-arrow expand" data-tooltip="Ver Horario" (click)="modalVerHorario(rm.usuario.id)">
               <i class="far fa-calendar-alt icon-btn"></i>
+            </span>
+            <span class="icon has-tooltip-arrow expand" data-tooltip="Recargar" (click)="modalVerHorario(rm.usuario.id)">
+              <i class="fas fa-redo-alt icon-btn"></i>
             </span>
             <span class="icon has-tooltip-arrow expand" data-tooltip="Ocultar Registro" (click)="modalEditarUsuario(rm.usuario.id)">
               <i class="fas fa-eye-slash icon-btn"></i>
