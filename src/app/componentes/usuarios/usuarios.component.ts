@@ -451,6 +451,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
         sessionStorage.setItem('terminal', this.terminal.nombre);
         sessionStorage.setItem("fechaIni", this.fechaIni)
         sessionStorage.setItem("fechaFin", this.fechaFin)
+        sessionStorage.setItem("fechaCreacion", moment().format("DD/MM/YYYY"))
       },
       complete: () => {
         this.router.navigateByUrl('/ver-reporte');

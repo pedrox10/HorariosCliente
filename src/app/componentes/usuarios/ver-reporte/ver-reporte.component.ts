@@ -4,7 +4,7 @@ import {ModalService} from "ngx-modal-ease";
 import {TerminalService} from "../../../servicios/terminal.service";
 import {Usuario} from "../../../modelos/Usuario";
 import {HttpClientModule} from "@angular/common/http";
-import {concatMap, from, toArray} from "rxjs";
+import {concatMap, from, Subject, takeUntil, toArray} from "rxjs";
 import {IReporte, ResumenMarcacion} from "../../../modelos/ResumenMarcacion";
 import {color, format} from "../../inicio/Global";
 import {InfoMarcacion} from "../../../modelos/InfoMarcacion";
@@ -15,6 +15,7 @@ import {DataService} from "../../../servicios/data.service";
 import {RouterLink} from "@angular/router";
 import {VerHorarioComponent} from "../ver-horario/ver-horario.component";
 import {EditarUsuarioComponent} from "../editar-usuario/editar-usuario.component";
+import {AsignarHorariosComponent} from "../../horarios/asignar-horarios/asignar-horarios.component";
 
 @Component({
   selector: 'app-ver-reporte',
@@ -29,11 +30,13 @@ export class VerReporteComponent implements OnInit{
 
   usuarios: Usuario[] = [];
   fileName= 'ExcelSheet.xlsx';
-  terminal: string|any = undefined;
-  fechaIni: string|any = undefined;
-  fechaFin: string|any = undefined;
+  terminal: string | any;
+  fechaIni: string | any;
+  fechaFin: string | any;
+  fechaCreacion: string | any;
   resumenMarcaciones: ResumenMarcacion[] = [];
   filasExcel = [] as Array<IReporte>
+  private destroy$ = new Subject<void>();
 
   constructor(private modalService: ModalService, private terminalService: TerminalService, private location: Location) {
 
@@ -45,11 +48,13 @@ export class VerReporteComponent implements OnInit{
     this.terminal = sessionStorage.getItem("terminal")
     this.fechaIni = sessionStorage.getItem("fechaIni")
     this.fechaFin = sessionStorage.getItem("fechaFin")
+    this.fechaCreacion = sessionStorage.getItem("fechaCreacion")
     for(let resumenMarcacion of this.resumenMarcaciones) {
       let fila = {} as IReporte;
       fila.nombre = resumenMarcacion.usuario.nombre;
       fila.ci = resumenMarcacion.usuario.ci;
       fila.fechaAlta = format(resumenMarcacion.usuario.fechaAlta);
+      fila.diasComputados = resumenMarcacion.diasComputados;
       fila.retraso = resumenMarcacion.totalMinRetrasos;
       fila.sinMarcar = resumenMarcacion.totalSinMarcar;
       fila.faltas = resumenMarcacion.totalAusencias;
@@ -57,6 +62,28 @@ export class VerReporteComponent implements OnInit{
       this.filasExcel.push(fila)
     }
     console.log(this.filasExcel)
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+
+  modalCambiarHorario(usuario: Usuario) {
+    console.log(usuario)
+    let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
+    let usuarios: Usuario[] = [];
+    usuarios.push(usuario);
+    let fechaMin = usuario.fechaAlta;
+    this.modalService.open(AsignarHorariosComponent, {
+      modal: {enter: `${config.animation} ${config.duration}`,},
+      size: {padding: '0.5rem'},
+      data: {usuarios, fechaMin}
+    })
+      .subscribe((data) => {
+          this.actualizarResumenMarcaciones(usuario)
+      });
   }
 
   modalVerHorario(id_usuario: number | any) {
@@ -83,11 +110,11 @@ export class VerReporteComponent implements OnInit{
     })
       .subscribe((data) => {
         if (data !== undefined)
-          this.editarUsuario(data)
+          this.actualizarResumenMarcaciones(data)
       });
   }
 
-  editarUsuario(usuario: Usuario) {
+  actualizarResumenMarcaciones(usuario: Usuario) {
     const indice = this.resumenMarcaciones.findIndex(
       resumen => resumen.usuario.id === usuario.id
     );
@@ -104,7 +131,6 @@ export class VerReporteComponent implements OnInit{
         console.error('An error occurred:', error);
       }
     );
-
   }
 
   irAtras() {
@@ -122,6 +148,7 @@ export class VerReporteComponent implements OnInit{
       "Nombre",
       "CI",
       "Fecha de Alta",
+      "Num. Días",
       "Retraso [min]",
       "Sin Marcar",
       "Faltas",

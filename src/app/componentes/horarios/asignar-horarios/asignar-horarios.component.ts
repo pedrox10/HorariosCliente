@@ -28,8 +28,8 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
   jornadaDias: any[] = [];
   formAsignar: FormGroup | any = new FormGroup({});
   usuarios: Usuario[] = [];
-  picker: HTMLInputElement| any = undefined;
-  fechaMin: string|any = undefined;
+  picker: HTMLInputElement | any;
+  fechaMin: string | any;
 
   constructor(private modalService: ModalService, public horarioService: HorarioService, public terminalService: TerminalService) {
     this.horarioService.getHorarios().subscribe(
@@ -54,10 +54,6 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
     if(data){
       this.usuarios = data.usuarios;
       this.fechaMin = data.fechaMin;
-      console.log(this.fechaMin)
-      this.usuarios.forEach(usuario => {
-        console.log(usuario.nombre)
-      })
     }
   }
 

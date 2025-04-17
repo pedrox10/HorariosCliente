@@ -19,13 +19,24 @@
        </div>
        <div class="vinput">
          <div class="icon-text">
-        <span class="icon has-text-danger">
+        <span class="icon has-text-info">
         <i class="fas fa-sort-numeric-up" style="font-size: 1.2em"></i>
         </span>
            <span class="label">Total Días</span>
          </div>
          <p class="block has-text-centered">
            {{getTotalDias()}}
+         </p>
+       </div>
+       <div class="vinput">
+         <div class="icon-text">
+        <span class="icon has-text-danger-70">
+        <i class="fas fa-exclamation-triangle" style="font-size: 1.2em"></i>
+        </span>
+           <span class="label">Cortes / Fallas</span>
+         </div>
+         <p class="block has-text-centered">
+           0
          </p>
        </div>
        <div class="vinput">
@@ -91,7 +102,7 @@
         </td>
         <td>{{rm.usuario.ci}}</td>
         <td>{{formatear(rm.usuario.fechaAlta)}}</td>
-        <td></td>
+        <td>{{rm.diasComputados}}</td>
         @if(rm.totalMinRetrasos > 0) {
         <td>
           <div class="hitem" style="justify-content: space-between">
@@ -160,13 +171,13 @@
             <span class="icon has-tooltip-arrow expand" data-tooltip="Editar Funcionario" (click)="modalEditarUsuario(rm.usuario.id)">
               <i class="far fa-edit icon-btn"></i>
             </span>
-            <span class="icon has-tooltip-arrow expand" data-tooltip="Cambiar Horario" (click)="modalEditarUsuario(rm.usuario.id)">
+            <span class="icon has-tooltip-arrow expand" data-tooltip="Cambiar Horario" (click)="modalCambiarHorario(rm.usuario)">
               <i class="far fa-clock icon-btn"></i>
             </span>
             <span class="icon has-tooltip-arrow expand" data-tooltip="Ver Horario" (click)="modalVerHorario(rm.usuario.id)">
               <i class="far fa-calendar-alt icon-btn"></i>
             </span>
-            <span class="icon has-tooltip-arrow expand" data-tooltip="Recargar" (click)="modalVerHorario(rm.usuario.id)">
+            <span class="icon has-tooltip-arrow expand" data-tooltip="Recargar" (click)="actualizarResumenMarcaciones(rm.usuario)">
               <i class="fas fa-redo-alt icon-btn"></i>
             </span>
             <span class="icon has-tooltip-arrow expand" data-tooltip="Ocultar Registro" (click)="modalEditarUsuario(rm.usuario.id)">
