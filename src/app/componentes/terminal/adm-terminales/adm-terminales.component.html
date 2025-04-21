@@ -51,11 +51,14 @@
               <span class="icon has-tooltip-arrow expand" data-tooltip="Editar" (click) = "agregarEditarModal(t)">
                 <i class="far fa-edit icon-btn"></i>
               </span>
-              <span class="icon has-tooltip-arrow expand" data-tooltip="Eliminar" (click) = "mostrarEliminar(t)">
-                <i class="far fa-times-circle icon-btn"></i>
+              <span class="icon has-tooltip-arrow expand" data-tooltip="Historial de Sincronizaciones" (click) = "mostrarEliminar(t)">
+                <i class="fas fa-history icon-btn"></i>
               </span>
-              <span class="icon has-tooltip-arrow expand" data-tooltip="Eliminar" (click) = "mostrarEliminar(t)">
+              <span class="icon has-tooltip-arrow expand" data-tooltip="Cortes y Fallas" (click) = "mostrarEliminar(t)">
                 <i class="fas fa-exclamation-triangle icon-btn"></i>
+              </span>
+              <span class="icon has-tooltip-arrow expand" data-tooltip="Eliminar Terminal" (click) = "mostrarEliminar(t)">
+                <i class="far fa-times-circle icon-btn"></i>
               </span>
             </div>
           </td>
@@ -72,7 +75,8 @@
         <button class="delete" aria-label="close" (click) = "ocultarEliminar()"></button>
       </header>
       <section class="modal-card-body">
-        <label class="label">Se borrará el terminal seleccionado ¿Esta seguro? </label>
+        <label class="label">¿Esta seguro que quiere borrar el Terminal?</label>
+        <span>Se borrará el terminal seleccionado, todos sus usuarios, marcaciones y horarios asignados</span>
       </section>
       <footer class="modal-card-foot">
         <div class="buttons">
