@@ -51,7 +51,7 @@
               <span class="icon has-tooltip-arrow expand" data-tooltip="Editar" (click) = "agregarEditarModal(t)">
                 <i class="far fa-edit icon-btn"></i>
               </span>
-              <span class="icon has-tooltip-arrow expand" data-tooltip="Historial de Sincronizaciones" (click) = "mostrarEliminar(t)">
+              <span class="icon has-tooltip-arrow expand" data-tooltip="Historial de Sincronizaciones" (click) = "mostrarSincronizaciones(t)">
                 <i class="fas fa-history icon-btn"></i>
               </span>
               <span class="icon has-tooltip-arrow expand" data-tooltip="Cortes y Fallas" (click) = "mostrarEliminar(t)">
@@ -67,8 +67,53 @@
       </tbody>
     </table>
   </div>
+  <div class="modal " id="sincronizaciones_modal">
+    <div class="modal-background" id="fondo_sinc" style="opacity: 0.75;"></div>
+    <div class="modal-card" style="width: 800px">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Sincronizaciones</p>
+        <button class="delete" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+        <table class="table">
+          <thead>
+          <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th colspan="3" style="text-align: center;min-width: 150px">Usuarios</th>
+          </tr>
+          <tr>
+            <th>#</th>
+            <th>Fecha Terminal</th>
+            <th>Fecha Servidor</th>
+            <th style="position: relative; min-width: 85px">
+              Nuevas
+              <span class="badge is-bottom is-light">Marcaciones</span>
+            </th>
+            <th>Agregados</th>
+            <th>Editados</th>
+            <th>Eliminados</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>1</td>
+            <td>21/12/87</td>
+            <td>21/12/87</td>
+            <td>100</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+          </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </div>
   <div class="modal " id="eliminar_modal">
-    <div class="modal-background" id="background" style="opacity: 0.75;"></div>
+    <div class="modal-background" id="fondo_eliminar" style="opacity: 0.75;"></div>
     <div class="modal-card" style="width: 400px">
       <header class="modal-card-head">
         <p class="modal-card-title">Eliminar terminal</p>

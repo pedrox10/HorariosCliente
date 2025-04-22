@@ -35,9 +35,13 @@ export class AdmTerminalesComponent implements OnInit {
     document.addEventListener('keydown', (e) => {
       if ((e as KeyboardEvent).key === 'Escape') {
         this.ocultarEliminar()
+        this.ocultarSincronizaciones()
       }
     });
-    document.getElementById("background")?.addEventListener("click", (e) => {
+    document.getElementById("fondo_sinc")?.addEventListener("click", (e) => {
+      this.ocultarSincronizaciones()
+    })
+    document.getElementById("fondo_eliminar")?.addEventListener("click", (e) => {
       this.ocultarEliminar()
     })
   }
@@ -120,10 +124,20 @@ export class AdmTerminalesComponent implements OnInit {
     }
   }
 
+  mostrarSincronizaciones(terminal: Terminal) {
+    document.getElementById("sincronizaciones_modal")?.classList.add("is-active");
+    this.idActual = terminal.id;
+    console.log(this.idActual)
+  }
+
   mostrarEliminar(terminal: Terminal) {
     document.getElementById("eliminar_modal")?.classList.add("is-active");
     this.idActual = terminal.id;
     console.log(this.idActual)
+  }
+
+  ocultarSincronizaciones() {
+    document.getElementById("sincronizaciones_modal")?.classList.remove("is-active");
   }
 
   ocultarEliminar() {
