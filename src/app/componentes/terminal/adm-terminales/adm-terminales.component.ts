@@ -5,14 +5,14 @@ import {TerminalService} from "../../../servicios/terminal.service";
 import {HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule} from "@angular/forms";
 import {Terminal} from "../../../modelos/Terminal";
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {toast} from "bulma-toast";
 import {color, format, formatTime} from "../../inicio/Global";
 
 @Component({
   selector: 'app-adm-terminales',
   standalone: true,
-  imports: [HttpClientModule, ReactiveFormsModule],
+  imports: [HttpClientModule, ReactiveFormsModule, RouterLink],
   providers: [TerminalService],
   templateUrl: './adm-terminales.component.html',
   styleUrl: './adm-terminales.component.css'
@@ -133,7 +133,6 @@ export class AdmTerminalesComponent implements OnInit {
   mostrarEliminar(terminal: Terminal) {
     document.getElementById("eliminar_modal")?.classList.add("is-active");
     this.idActual = terminal.id;
-    console.log(this.idActual)
   }
 
   ocultarSincronizaciones() {

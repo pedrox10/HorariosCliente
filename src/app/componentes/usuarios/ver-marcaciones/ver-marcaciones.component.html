@@ -63,7 +63,7 @@
             <span class="icon is-right"><i class="fas fa-calendar-alt"></i></span>
           </p>
         </div>
-        <div class="vinput" style="gap: 0px !important;">
+        <div class="vinput" style="gap: 0px !important; display: none">
           <label class="label" style="margin-bottom: 0px; text-align: center">Agregar Excepcion de Tickeo</label>
           <div class="hitem">
             <button class="button" (click)="agregarExcepcionCompleta()" style="background-color: {{getColor('Esmeralda')}}; border-radius: 5px">
@@ -76,7 +76,7 @@
             </button>
           </div>
         </div>
-        <div class="hitem" style="align-self: flex-end">
+        <div class="hitem" style="align-self: flex-end; display: none">
           <button title="Ver" class="button" (click)="verExcepciones()"><span class="icon">
               <i class="fas fa-eye"></i></span>
           </button>

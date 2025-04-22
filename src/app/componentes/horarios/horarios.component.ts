@@ -1,15 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {RouterLink} from "@angular/router";
 import {ModalService} from "ngx-modal-ease";
-import {NuevoHorarioComponent} from "./nuevo-horario/nuevo-horario.component";
 import {Horario} from "../../modelos/Horario";
 import {HorarioService} from "../../servicios/horario.service";
 import {HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule} from "@angular/forms";
 import {color, mensaje} from "../inicio/Global";
-import {Terminal} from "../../modelos/Terminal";
 import {EditarHorarioComponent} from "./editar-horario/editar-horario.component";
-import moment from "moment";
 
 @Component({
   selector: 'app-horarios',
@@ -101,7 +98,6 @@ export class HorariosComponent implements OnInit {
   eliminarHorario() {
     this.horarioService.eliminarHorario(this.horario.id).subscribe(
       (data: any) => {
-        console.log(data)
         this.ocultarEliminar()
         const index = this.horarios.map(i => i.id).indexOf(this.horario.id);
         this.horarios.splice(index, 1);

@@ -51,10 +51,10 @@
               <span class="icon has-tooltip-arrow expand" data-tooltip="Editar" (click) = "agregarEditarModal(t)">
                 <i class="far fa-edit icon-btn"></i>
               </span>
-              <span class="icon has-tooltip-arrow expand" data-tooltip="Historial de Sincronizaciones" (click) = "mostrarSincronizaciones(t)">
+              <span class="icon has-tooltip-arrow expand" data-tooltip="Sincronizaciones" (click) = "mostrarSincronizaciones(t)">
                 <i class="fas fa-history icon-btn"></i>
               </span>
-              <span class="icon has-tooltip-arrow expand" data-tooltip="Cortes y Fallas" (click) = "mostrarEliminar(t)">
+              <span class="icon has-tooltip-arrow expand" data-tooltip="Cortes y Fallas" routerLink="/interrupciones">
                 <i class="fas fa-exclamation-triangle icon-btn"></i>
               </span>
               <span class="icon has-tooltip-arrow expand" data-tooltip="Eliminar Terminal" (click) = "mostrarEliminar(t)">
@@ -71,8 +71,8 @@
     <div class="modal-background" id="fondo_sinc" style="opacity: 0.75;"></div>
     <div class="modal-card" style="width: 800px">
       <header class="modal-card-head">
-        <p class="modal-card-title">Sincronizaciones</p>
-        <button class="delete" aria-label="close"></button>
+        <p class="modal-card-title">Historial de Sincronizaciones</p>
+        <button class="delete" aria-label="close" (click)="ocultarSincronizaciones()"></button>
       </header>
       <section class="modal-card-body">
         <table class="table">
@@ -88,7 +88,7 @@
             <th>#</th>
             <th>Fecha Terminal</th>
             <th>Fecha Servidor</th>
-            <th style="position: relative; min-width: 85px">
+            <th style="position: relative; min-width: 75px">
               Nuevas
               <span class="badge is-bottom is-light">Marcaciones</span>
             </th>

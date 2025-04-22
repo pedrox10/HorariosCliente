@@ -16,6 +16,7 @@ import {RouterLink} from "@angular/router";
 import {VerHorarioComponent} from "../ver-horario/ver-horario.component";
 import {EditarUsuarioComponent} from "../editar-usuario/editar-usuario.component";
 import {AsignarHorariosComponent} from "../../horarios/asignar-horarios/asignar-horarios.component";
+import {Terminal} from "../../../modelos/Terminal";
 
 @Component({
   selector: 'app-ver-reporte',
@@ -35,6 +36,7 @@ export class VerReporteComponent implements OnInit{
   fechaFin: string | any;
   fechaCreacion: string | any;
   resumenMarcaciones: ResumenMarcacion[] = [];
+  rmActual: ResumenMarcacion | any;
   filasExcel = [] as Array<IReporte>
   private destroy$ = new Subject<void>();
 
@@ -62,6 +64,15 @@ export class VerReporteComponent implements OnInit{
       this.filasExcel.push(fila)
     }
     console.log(this.filasExcel)
+
+    document.addEventListener('keydown', (e) => {
+      if ((e as KeyboardEvent).key === 'Escape') {
+        this.cerrarOcultar()
+      }
+    });
+    document.getElementById("fondo_ocultar")?.addEventListener("click", (e) => {
+      this.cerrarOcultar()
+    })
   }
 
   ngOnDestroy() {
@@ -133,6 +144,28 @@ export class VerReporteComponent implements OnInit{
     );
   }
 
+  ocultarRegistro() {
+    const index = this.resumenMarcaciones.findIndex(i => i.usuario.id === this.rmActual.usuario.id);
+    if (index !== -1) {
+      // Eliminar del array en memoria
+      this.resumenMarcaciones.splice(index, 1);
+      // Eliminar del sessionStorage
+      let reporte = JSON.parse(sessionStorage.getItem('reporte') || '[]');
+      reporte.splice(index, 1);
+      sessionStorage.setItem('reporte', JSON.stringify(reporte));
+      this.cerrarOcultar()
+    }
+  }
+
+  mostrarOcultar(rm: ResumenMarcacion) {
+    document.getElementById("ocultar_modal")?.classList.add("is-active");
+    this.rmActual = rm;
+  }
+
+  cerrarOcultar() {
+    document.getElementById("ocultar_modal")?.classList.remove("is-active");
+  }
+
   irAtras() {
     this.location.back();
   }
@@ -148,7 +181,7 @@ export class VerReporteComponent implements OnInit{
       "Nombre",
       "CI",
       "Fecha de Alta",
-      "Num. Días",
+      "Días Computados",
       "Retraso [min]",
       "Sin Marcar",
       "Faltas",
@@ -158,6 +191,7 @@ export class VerReporteComponent implements OnInit{
     const colWidths = [
       { wch: 30 },
       { wch: 10 },
+      { wch: 12 },
       { wch: 12 },
     ]
 
