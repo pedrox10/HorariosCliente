@@ -69,7 +69,7 @@
   </div>
   <div class="modal " id="sincronizaciones_modal">
     <div class="modal-background" id="fondo_sinc" style="opacity: 0.75;"></div>
-    <div class="modal-card" style="width: 800px">
+    <div class="modal-card" style="width: 800px; height: 600px">
       <header class="modal-card-head">
         <p class="modal-card-title">Historial de Sincronizaciones</p>
         <button class="delete" aria-label="close" (click)="ocultarSincronizaciones()"></button>
@@ -86,11 +86,30 @@
           </tr>
           <tr>
             <th>#</th>
-            <th>Fecha Terminal</th>
+            <th>
+              <div class="hitem">
+                Fecha Sincronización
+                <div class="dropdown is-hoverable">
+                  <div class="dropdown-trigger">
+                    <span><i class="far fa-question-circle" style="color: #888; background-color: {{getColor('Azul')}}"></i></span>
+                  </div>
+                  <div class="dropdown-menu" role="menu">
+                    <div class="dropdown-content popup">
+                      <div class="contenido" style='color: #786450;'>
+                        <span style="font-weight: normal">
+                          Se utiliza la fecha y hora del biométrico al momento de la sincronización
+                          para evitar duplicidad o pérdida de marcaciones
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </th>
             <th>Fecha Servidor</th>
             <th style="position: relative; min-width: 75px">
-              Nuevas
-              <span class="badge is-bottom is-light">Marcaciones</span>
+              Marcaciones
+              <span class="badge is-bottom is-light">Nuevas</span>
             </th>
             <th>Agregados</th>
             <th>Editados</th>
