@@ -46,6 +46,10 @@ export class TerminalService {
     return this.http.get(`${this.apiUrl}/terminal/${idTerminal}/usuarios`);
   }
 
+  public getSincronizaciones(idTerminal: number) {
+    return this.http.get(`${this.apiUrl}/terminal/${idTerminal}/sincronizaciones`);
+  }
+
   public getUsuario(id: number) {
     return this.http.get(`${this.apiUrl}/usuario/${id}`);
   }

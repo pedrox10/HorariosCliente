@@ -151,7 +151,31 @@
             </div>
           </td>
           <td>
-            @if(infoMarcacion.hayPriEntExcepcion) {
+            @if(infoMarcacion.hayPriEntExcepcion.existe) {
+            <div class="dropdown is-up is-hoverable">
+              <div class="dropdown-trigger">
+                <i class="fas fa-check-double has-text-success"></i>
+              </div>
+              <div class="dropdown-menu" role="menu">
+                <div class="dropdown-content popup">
+                  <div class='cabecera'>{{infoMarcacion.hayPriEntExcepcion.licencia}}</div>
+                  <div class="contenido" style='color: #786450;'>
+                    <div class="hitem">
+                      <span class="semibold">Jornada: </span>
+                      <span>{{infoMarcacion.hayPriEntExcepcion.jornada}}</span>
+                    </div>
+                    <div class="hitem">
+                      <span class="semibold">Rango Horas: </span>
+                      <span>{{infoMarcacion.hayPriEntExcepcion.horaIni + "-" + infoMarcacion.hayPriEntExcepcion.horaFin}}</span>
+                    </div>
+                    <div class="vitem has-text-left">
+                      <span class="semibold">Detalle: </span>
+                      <span>{{infoMarcacion.hayPriEntExcepcion.detalle}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Verde')}}">Excepción</span>
             } @else {
             <marcacion tipo="entrada" [registros]="getInfoActual().priEntradas"></marcacion>
@@ -159,10 +183,37 @@
             <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Amarillo')}}">Retraso</span>
             }
             }
-
           </td>
           <td>
+            @if(infoMarcacion.hayPriSalExcepcion.existe) {
+            <div class="dropdown is-up is-hoverable">
+              <div class="dropdown-trigger">
+                <i class="fas fa-check-double has-text-success"></i>
+              </div>
+              <div class="dropdown-menu" role="menu">
+                <div class="dropdown-content popup">
+                  <div class='cabecera'>{{infoMarcacion.hayPriSalExcepcion.licencia}}</div>
+                  <div class="contenido" style='color: #786450;'>
+                    <div class="hitem">
+                      <span class="semibold">Jornada: </span>
+                      <span>{{infoMarcacion.hayPriSalExcepcion.jornada}}</span>
+                    </div>
+                    <div class="hitem">
+                      <span class="semibold">Rango Horas: </span>
+                      <span>{{infoMarcacion.hayPriSalExcepcion.horaIni + "-" + infoMarcacion.hayPriSalExcepcion.horaFin}}</span>
+                    </div>
+                    <div class="vitem has-text-left">
+                      <span class="semibold">Detalle: </span>
+                      <span>{{infoMarcacion.hayPriSalExcepcion.detalle}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Verde')}}">Excepción</span>
+            } @else {
             <marcacion tipo="salida" [registros]="getInfoActual().priSalidas"></marcacion>
+            }
           </td>
           @if(infoMarcacion.numTurnos == 2) {
           <td>

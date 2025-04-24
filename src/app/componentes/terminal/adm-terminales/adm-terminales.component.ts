@@ -7,7 +7,8 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {Terminal} from "../../../modelos/Terminal";
 import {Router, RouterLink} from '@angular/router';
 import {toast} from "bulma-toast";
-import {color, format, formatTime} from "../../inicio/Global";
+import {color, format, formatDateTime, formatTime} from "../../inicio/Global";
+import {Sincronizacion} from "../../../modelos/Sincronizacion";
 
 @Component({
   selector: 'app-adm-terminales',
@@ -25,6 +26,9 @@ export class AdmTerminalesComponent implements OnInit {
 
   public terminales: Terminal[] = [];
   idActual: number = -1;
+  nombreTerminal: string | any;
+  tieneConexion: boolean | any;
+  sincronizaciones: Sincronizacion[] = [];
 
   constructor(public terminalService: TerminalService, private modalService: ModalService, private router: Router) {
 
@@ -127,7 +131,17 @@ export class AdmTerminalesComponent implements OnInit {
   mostrarSincronizaciones(terminal: Terminal) {
     document.getElementById("sincronizaciones_modal")?.classList.add("is-active");
     this.idActual = terminal.id;
-    console.log(this.idActual)
+    this.nombreTerminal = terminal.nombre
+    this.tieneConexion = terminal.tieneConexion
+    this.terminalService.getSincronizaciones(this.idActual).subscribe(
+      (data: any) => {
+        this.sincronizaciones = data;
+      },
+      (error: any) => {
+        console.error('An error occurred:', error);
+      }
+    );
+    console.log(this.sincronizaciones)
   }
 
   mostrarEliminar(terminal: Terminal) {
@@ -153,6 +167,16 @@ export class AdmTerminalesComponent implements OnInit {
       res = "Nunca"
     } else {
       res = formatTime(fecha)
+    }
+    return res;
+  }
+
+  formatearTime(fecha: Date){
+    let res=""
+    if(fecha === null) {
+      res = "Nunca"
+    } else {
+      res = formatDateTime(fecha)
     }
     return res;
   }

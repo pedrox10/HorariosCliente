@@ -220,8 +220,8 @@ p.modal-card-title {
 .popup {
   padding: 10px;
   font-size: 0.90em;
-  background: linear-gradient(360deg, #f7fbfa 0%, #fffff4 100%);
-  border: 1px #eee9a3 solid;
+  background: linear-gradient(360deg, #f7fbfa 0%, #E6ECEB 100%);
+  border: 1px #d4dcdb solid;
   width: auto;
   min-width: 185px;
 }

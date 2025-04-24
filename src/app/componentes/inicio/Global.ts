@@ -61,3 +61,7 @@ export function format(fecha: Date) {
 export function formatTime(fecha: Date) {
   return moment(fecha).format("DD/MM/YYYY hh:mm")
 }
+
+export function formatDateTime(fecha: Date) {
+  return moment(fecha).format("DD/MM/YYYY hh:mm:ss")
+}

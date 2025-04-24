@@ -69,19 +69,30 @@
   </div>
   <div class="modal " id="sincronizaciones_modal">
     <div class="modal-background" id="fondo_sinc" style="opacity: 0.75;"></div>
-    <div class="modal-card" style="width: 800px; height: 600px">
+    <div class="modal-card" style="width: auto; height: 600px">
       <header class="modal-card-head">
+        <i class="fas fa-history mt-1" style="padding-right: 10px; color: white; font-size: 1.25em"></i>
         <p class="modal-card-title">Historial de Sincronizaciones</p>
         <button class="delete" aria-label="close" (click)="ocultarSincronizaciones()"></button>
       </header>
       <section class="modal-card-body">
+        <div class="hitem">
+          <p class="label" style="font-size: 1.25em">{{ nombreTerminal}}</p>
+          <div class="etiqueta mt-2">
+            @if(tieneConexion) {
+            <div class="circle" style="background-color: {{getColor('Verde')}}; border: 1px #999 solid;"></div>
+            } @else {
+            <div class="circle" style="background-color: {{getColor('Guindo')}}; border: 1px #999 solid;"></div>
+            }
+          </div>
+        </div>
         <table class="table">
           <thead>
           <tr>
             <th></th>
             <th></th>
             <th></th>
-            <th></th>
+            <th colspan="2" style="text-align: center">Marcaciones</th>
             <th colspan="3" style="text-align: center;min-width: 150px">Usuarios</th>
           </tr>
           <tr>
@@ -94,7 +105,7 @@
                     <span><i class="far fa-question-circle" style="color: #888; background-color: {{getColor('Azul')}}"></i></span>
                   </div>
                   <div class="dropdown-menu" role="menu">
-                    <div class="dropdown-content popup">
+                    <div class="dropdown-content popup" style="background: linear-gradient(360deg, #fcfaf7 0%, #fdf7e7 100%); border: 1px #f4d27b solid;">
                       <div class="contenido" style='color: #786450;'>
                         <span style="font-weight: normal">
                           Se utiliza la fecha y hora del biométrico al momento de la sincronización
@@ -107,25 +118,26 @@
               </div>
             </th>
             <th>Fecha Servidor</th>
-            <th style="position: relative; min-width: 75px">
-              Marcaciones
-              <span class="badge is-bottom is-light">Nuevas</span>
-            </th>
+            <th>Nuevas</th>
+            <th>Total</th>
             <th>Agregados</th>
             <th>Editados</th>
             <th>Eliminados</th>
           </tr>
           </thead>
           <tbody>
+          @for (s of sincronizaciones; track s; let i = $index) {
           <tr>
-            <td>1</td>
-            <td>21/12/87</td>
-            <td>21/12/87</td>
-            <td>100</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
+            <td>{{i + 1}}</td>
+            <td>{{formatearTime(s.fecha)}}</td>
+            <td>{{formatearTime(s.horaServidor)}}</td>
+            <td>{{s.nuevasMarcaciones}}</td>
+            <td>{{s.totalMarcaciones}}</td>
+            <td>{{s.usuariosAgregados}}</td>
+            <td>{{s.usuariosEditados}}</td>
+            <td>{{s.usuariosEliminados}}</td>
           </tr>
+          }
           </tbody>
         </table>
       </section>
