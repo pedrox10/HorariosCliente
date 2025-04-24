@@ -151,10 +151,15 @@
             </div>
           </td>
           <td>
+            @if(infoMarcacion.hayPriEntExcepcion) {
+            <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Verde')}}">Excepción</span>
+            } @else {
             <marcacion tipo="entrada" [registros]="getInfoActual().priEntradas"></marcacion>
             @if(infoMarcacion.hayPriRetraso) {
             <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Amarillo')}}">Retraso</span>
             }
+            }
+
           </td>
           <td>
             <marcacion tipo="salida" [registros]="getInfoActual().priSalidas"></marcacion>

@@ -10,6 +10,7 @@ export class InfoMarcacion{
   cantRetrasos: number
   minRetrasos: number
   noMarcados: number
+  hayPriEntExcepcion: boolean
   hayPriRetraso: boolean
   haySegRetraso: boolean
   mensaje: string
@@ -21,7 +22,8 @@ export class InfoMarcacion{
   esJornadaDosDias:boolean
 
   constructor(fecha: Date, dia:string, horario: any, priEntradas: string[], priSalidas: string[], segEntradas: string[],
-              segSalidas: string[], cantRetrasos: number, minRetrasos: number, noMarcados: number, hayPriRetraso: boolean,
+              segSalidas: string[], cantRetrasos: number, minRetrasos: number, noMarcados: number, hayPriEntExcepcion: boolean,
+              hayPriRetraso: boolean,
               haySegRetraso: boolean, mensaje: string, activo: boolean, numTurnos: number, estado: EstadoJornada,
               esInvierno: boolean, esLactancia: boolean, esJornadaDosDias: boolean) {
 
@@ -35,6 +37,7 @@ export class InfoMarcacion{
     this.cantRetrasos = cantRetrasos
     this.minRetrasos = minRetrasos;
     this.noMarcados = noMarcados
+    this.hayPriEntExcepcion = hayPriEntExcepcion
     this.hayPriRetraso = hayPriRetraso
     this.haySegRetraso = haySegRetraso
     this.mensaje = mensaje
