@@ -217,9 +217,37 @@
           </td>
           @if(infoMarcacion.numTurnos == 2) {
           <td>
+          @if(infoMarcacion.haySegEntExcepcion.existe) {
+          <div class="dropdown is-up is-hoverable">
+            <div class="dropdown-trigger">
+              <i class="fas fa-check-double has-text-success"></i>
+            </div>
+            <div class="dropdown-menu" role="menu">
+              <div class="dropdown-content popup">
+                <div class='cabecera'>{{infoMarcacion.haySegEntExcepcion.licencia}}</div>
+                <div class="contenido" style='color: #786450;'>
+                  <div class="hitem">
+                    <span class="semibold">Jornada: </span>
+                    <span>{{infoMarcacion.haySegEntExcepcion.jornada}}</span>
+                  </div>
+                  <div class="hitem">
+                    <span class="semibold">Rango Horas: </span>
+                    <span>{{infoMarcacion.haySegEntExcepcion.horaIni + "-" + infoMarcacion.haySegEntExcepcion.horaFin}}</span>
+                  </div>
+                  <div class="vitem has-text-left">
+                    <span class="semibold">Detalle: </span>
+                    <span>{{infoMarcacion.haySegEntExcepcion.detalle}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Verde')}}">Excepción</span>
+          } @else {
           <marcacion tipo="entrada" [registros]="getInfoActual().segEntradas"></marcacion>
           @if(infoMarcacion.haySegRetraso) {
           <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Amarillo')}}">Retraso</span>
+          }
           }
           </td>
           <td><marcacion tipo="salida" [registros]="getInfoActual().segSalidas"></marcacion></td>

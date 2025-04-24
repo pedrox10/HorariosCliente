@@ -12,6 +12,8 @@ export class InfoMarcacion{
   noMarcados: number
   hayPriEntExcepcion?: any
   hayPriSalExcepcion?: any
+  haySegEntExcepcion?: any
+  haySegSalExcepcion?: any
   hayPriRetraso: boolean
   haySegRetraso: boolean
   mensaje: string
