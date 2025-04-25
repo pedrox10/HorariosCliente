@@ -152,11 +152,17 @@
       </header>
       <section class="modal-card-body">
         <label class="label">¿Esta seguro que quiere borrar el Terminal?</label>
-        <span>Se borrará el terminal seleccionado, todos sus usuarios, marcaciones y horarios asignados</span>
+        <div class="hitem">
+          <label class="b-checkbox checkbox" style="justify-content: center">
+            <input type="checkbox" [formControl]="fc_confirmado">
+            <span class="check"></span>
+          </label>
+          <span>Se borrará el terminal seleccionado, todos sus usuarios, marcaciones y horarios asignados</span>
+        </div>
       </section>
       <footer class="modal-card-foot">
         <div class="buttons">
-          <button id="btn_eliminar" class="button es-primario" (click)="delete()">Aceptar</button>
+          <button id="btn_eliminar" class="button es-primario" (click)="delete()" [disabled]="!fc_confirmado.value">Aceptar</button>
           <button class="button" type="button" (click) = "ocultarEliminar()">Cancelar</button>
         </div>
       </footer>

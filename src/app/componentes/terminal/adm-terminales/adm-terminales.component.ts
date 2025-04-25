@@ -3,7 +3,7 @@ import {ModalService} from "ngx-modal-ease";
 import {AccionTerminalComponent} from "./accion-terminal/accion-terminal.component";
 import {TerminalService} from "../../../servicios/terminal.service";
 import {HttpClientModule} from "@angular/common/http";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {Terminal} from "../../../modelos/Terminal";
 import {Router, RouterLink} from '@angular/router';
 import {toast} from "bulma-toast";
@@ -29,6 +29,7 @@ export class AdmTerminalesComponent implements OnInit {
   nombreTerminal: string | any;
   tieneConexion: boolean | any;
   sincronizaciones: Sincronizacion[] = [];
+  fc_confirmado = new FormControl(false);
 
   constructor(public terminalService: TerminalService, private modalService: ModalService, private router: Router) {
 
@@ -145,6 +146,7 @@ export class AdmTerminalesComponent implements OnInit {
   }
 
   mostrarEliminar(terminal: Terminal) {
+    this.fc_confirmado.setValue(false)
     document.getElementById("eliminar_modal")?.classList.add("is-active");
     this.idActual = terminal.id;
   }

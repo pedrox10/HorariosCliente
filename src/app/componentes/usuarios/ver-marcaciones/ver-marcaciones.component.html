@@ -40,7 +40,7 @@
           </div>
         </div>
       </div>
-      <div class="info">
+      <div class="info" style="display: none">
         <div class="vbox-centered">
           <span class="label">Ausencias</span>
           <div class="hbox">
@@ -62,24 +62,6 @@
             <input id="datepicker" class="input" style="min-width: 210px;"/>
             <span class="icon is-right"><i class="fas fa-calendar-alt"></i></span>
           </p>
-        </div>
-        <div class="vinput" style="gap: 0px !important; display: none">
-          <label class="label" style="margin-bottom: 0px; text-align: center">Agregar Excepcion de Tickeo</label>
-          <div class="hitem">
-            <button class="button" (click)="agregarExcepcionCompleta()" style="background-color: {{getColor('Esmeralda')}}; border-radius: 5px">
-              <span class="icon"><i class="fas fa-calendar-day"></i></span>
-              <span>Jornada Completa</span>
-            </button>
-            <button class="button" (click)="agregarExcepcionParcial()" style="background-color: {{getColor('Lima')}}; border-radius: 5px;">
-              <span class="icon"><i class="fas fa-stopwatch"></i></span>
-              <span>Rango de Horas</span>
-            </button>
-          </div>
-        </div>
-        <div class="hitem" style="align-self: flex-end; display: none">
-          <button title="Ver" class="button" (click)="verExcepciones()"><span class="icon">
-              <i class="fas fa-eye"></i></span>
-          </button>
         </div>
         <div class="hitem" style="margin-left: auto; align-self: flex-end">
           <button title="imprimir" class="button" (click)="imprimir()"><span class="icon">

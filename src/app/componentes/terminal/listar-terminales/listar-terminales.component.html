@@ -2,10 +2,10 @@
   <div class="title">
     <h1>Lista de Terminales</h1>
   </div>
-  <div class="hbox">
-<!--    <input #buscador class="input" type="text" placeholder="Buscar terminal..." (input)="buscar(buscador.value)">-->
+  <div class="hbox" style="margin-bottom: 0px;">
+  <!--<input #buscador class="input" type="text" placeholder="Buscar terminal..." (input)="buscar(buscador.value)">-->
     <span class="label mt-2">Filtrar por estado: </span>
-    <div class="buttons has-addons is-centered mb-3">
+    <div class="buttons has-addons is-centered mb-1">
       <button class="button" (click)="filtrarPorEstado(null)">
         <div class="hitem">
           <div class="circle" style="background-color: {{getColor('Gris')}}; border: 1px #999 solid; align-self: center"></div>
