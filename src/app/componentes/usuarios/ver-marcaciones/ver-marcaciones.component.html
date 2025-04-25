@@ -250,7 +250,37 @@
           }
           }
           </td>
-          <td><marcacion tipo="salida" [registros]="getInfoActual().segSalidas"></marcacion></td>
+          <td>
+          @if(infoMarcacion.haySegSalExcepcion.existe) {
+          <div class="dropdown is-up is-hoverable">
+            <div class="dropdown-trigger">
+              <i class="fas fa-check-double has-text-success"></i>
+            </div>
+            <div class="dropdown-menu" role="menu">
+              <div class="dropdown-content popup">
+                <div class='cabecera'>{{infoMarcacion.haySegSalExcepcion.licencia}}</div>
+                <div class="contenido" style='color: #786450;'>
+                  <div class="hitem">
+                    <span class="semibold">Jornada: </span>
+                    <span>{{infoMarcacion.haySegSalExcepcion.jornada}}</span>
+                  </div>
+                  <div class="hitem">
+                    <span class="semibold">Rango Horas: </span>
+                    <span>{{infoMarcacion.haySegSalExcepcion.horaIni + "-" + infoMarcacion.haySegSalExcepcion.horaFin}}</span>
+                  </div>
+                  <div class="vitem has-text-left">
+                    <span class="semibold">Detalle: </span>
+                    <span>{{infoMarcacion.haySegSalExcepcion.detalle}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Verde')}}">Excepción</span>
+          } @else {
+          <marcacion tipo="salida" [registros]="getInfoActual().segSalidas"></marcacion>
+          }
+          </td>
           } @else {
           <td></td><td></td>
           }

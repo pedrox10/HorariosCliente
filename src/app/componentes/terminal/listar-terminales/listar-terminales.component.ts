@@ -17,6 +17,7 @@ import {color} from "../../inicio/Global";
 
 export class ListarTerminalesComponent implements OnInit{
   public terminales: Terminal[] = [];
+  public terminalesFiltrados: Terminal[] = [];
   public element = document.getElementById("terminales");
   public constructor(public terminalService: TerminalService, public location: Location) {
 
@@ -30,10 +31,31 @@ export class ListarTerminalesComponent implements OnInit{
     this.terminalService.getTerminales().subscribe(
       (data: any) => {
         this.terminales = data;
+        this.terminalesFiltrados = data
       },
       (error: any) => {
         console.error('An error occurred:', error);
       }
     );
+  }
+
+  buscar(texto: string) {
+    const lower = texto.toLowerCase();
+    this.terminalesFiltrados = this.terminales.filter(t =>
+      t.nombre.toLowerCase().includes(lower) ||
+      t.ip.toLowerCase().includes(lower)
+    );
+  }
+
+  filtrarPorEstado(estado: boolean | null) {
+    if (estado === null) {
+      this.terminalesFiltrados = this.terminales;
+    } else {
+      this.terminalesFiltrados = this.terminales.filter(t => t.tieneConexion === estado);
+    }
+  }
+
+  getColor(nombre: string) {
+    return color(nombre)
   }
 }
