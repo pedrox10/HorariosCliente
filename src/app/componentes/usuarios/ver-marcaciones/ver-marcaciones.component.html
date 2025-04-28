@@ -40,7 +40,7 @@
           </div>
         </div>
       </div>
-      @if(resumenMarcacion.mensajeError) {
+      @if(resumenMarcacion?.mensajeError) {
       <div class="message info is-danger" style="border: 1px solid #DA9B9D; min-height: auto">
         <div class="vbox-centered">
           <div class="hitem">
@@ -51,7 +51,6 @@
           </div>
           <span>{{resumenMarcacion.mensajeError}}</span>
         </div>
-
       </div>
       }
     </div>

@@ -79,9 +79,16 @@
               </label>
             </td>
             <td>{{index +1}}</td>
-            <td>{{usuario.nombre}}</td>
+            <td>
+              {{usuario.nombre}}
+            </td>
             <td>{{usuario.ci}}</td>
-            <td>{{getFechaAlta(usuario)}}</td>
+            <td  style="position: relative;">
+              {{getFechaAlta(usuario)}}
+              @if(usuario.fechaBaja) {
+              <span class="badge is-bottom mb-1" style="background-color: {{getColor('Rojo')}}; color: black">Baja {{usuario.fechaBaja}}</span>
+              }
+            </td>
             <td [innerHtml]="getHorario(usuario.horarioMes)"></td>
             <td  [innerHtml]="getEstado(usuario)"></td>
             <td>

@@ -62,7 +62,7 @@
    <table class="table is-bordered is-hoverable" id="tabla_reporte">
      <tr class="stick">
        <th>#</th>
-       <th style="width: 245px;">Nombre</th>
+       <th style="width: 265px;">Nombre</th>
        <th style="width: 95px;">CI</th>
        <th>
          <div class="vinput has-text-centered">
@@ -98,10 +98,28 @@
         <td>
           <div class="hitem" style="justify-content: space-between">
             <span>{{rm.usuario.nombre}}</span>
+            @if(rm.mensajeError) {
+            <div class="dropdown is-up is-hoverable">
+              <div class="dropdown-trigger">
+                <span class="has-text-danger-70"><i class="fas fa-exclamation-circle" ></i></span>
+              </div>
+              <div class="dropdown-menu" role="menu">
+                <div class="dropdown-content popup">
+                  <div class='cabecera'>¡Alerta!</div>
+                  <div class="contenido" style='color: #786450;'>{{rm.mensajeError}}</div>
+                </div>
+              </div>
+            </div>
+            }
          </div>
         </td>
         <td>{{rm.usuario.ci}}</td>
-        <td>{{formatear(rm.usuario.fechaAlta)}}</td>
+        <td style="position: relative">
+          {{formatear(rm.usuario.fechaAlta)}}
+          @if(rm.usuario.fechaBaja) {
+          <span class="badge is-bottom mb-1" style="background-color: {{getColor('Rojo')}}; color: black">Baja {{rm.usuario.fechaBaja}}</span>
+          }
+        </td>
         <td>{{rm.diasComputados}}</td>
         @if(rm.totalMinRetrasos > 0) {
         <td>
