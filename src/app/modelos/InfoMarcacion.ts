@@ -10,6 +10,7 @@ export class InfoMarcacion{
   cantRetrasos: number
   minRetrasos: number
   noMarcados: number
+  mensajeError?: string | any
   hayPriEntExcepcion?: any
   hayPriSalExcepcion?: any
   haySegEntExcepcion?: any

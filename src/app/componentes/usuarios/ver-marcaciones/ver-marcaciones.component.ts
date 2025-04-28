@@ -104,6 +104,9 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       (data: any) => {
         this.resumenMarcacion = data;
         console.log(data)
+        if(this.resumenMarcacion.mensajeError) {
+          console.log(this.resumenMarcacion.mensajeError)
+        }
         this.infoMarcaciones = this.resumenMarcacion.infoMarcaciones;
         this.cambiarTotales()
       },

@@ -40,19 +40,20 @@
           </div>
         </div>
       </div>
-      <div class="info" style="display: none">
+      @if(resumenMarcacion.mensajeError) {
+      <div class="message info is-danger" style="border: 1px solid #DA9B9D; min-height: auto">
         <div class="vbox-centered">
-          <span class="label">Ausencias</span>
-          <div class="hbox">
-            <span>Vacaciones</span>
-            <span style="font-weight: bold;">--</span>
+          <div class="hitem">
+            <span class="icon has-text-danger">
+            <i class="fas fa-exclamation-triangle"></i>
+            </span>
+            <label class="label has-text-danger">¡Alerta!</label>
           </div>
-          <div class="hbox">
-            <span>Baja Medica</span>
-            <span style="font-weight: bold;">--</span>
-          </div>
+          <span>{{resumenMarcacion.mensajeError}}</span>
         </div>
+
       </div>
+      }
     </div>
     <div class="column is-narrow" style="box-sizing: border-box; width: fit-content;">
       <div class="hbox" style="align-content: space-between !important;">
