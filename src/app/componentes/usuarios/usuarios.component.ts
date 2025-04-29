@@ -298,6 +298,10 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     return moment(usuario.fechaAlta).format('DD/MM/YYYY')
   }
 
+  getFechaBaja(usuario: Usuario) {
+    return moment(usuario.fechaBaja).format('DD/MM/YYYY')
+  }
+
   getJornada(usuario: Usuario | any) {
     let fecha = moment().format("YYYYMMDD")
     this.terminalService.getJornada(usuario.id, fecha).subscribe(
@@ -334,9 +338,11 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
             .subscribe((data) => {
               if (data !== undefined) {
                 for(let usuario of this.usuariosSeleccionados) {
-                  if(data.res === true)
+                  if(data.res === true) {
                     usuario.horarioMes = data.ultDiaAsignado;
+                  }
                 }
+                mensaje("Horario asignado a   " + this.usuariosSeleccionados.length + " funcionarios", "is-success")
               }
             });
         },

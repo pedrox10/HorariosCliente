@@ -61,7 +61,24 @@
             <th>#</th>
             <th style="width: 245px;">Nombre</th>
             <th style="width: 90px;">CI</th>
-            <th>Fecha de Alta</th>
+            <th>
+              Fecha de Alta
+              <div class="dropdown is-hoverable">
+                <div class="dropdown-trigger">
+                  <span><i class="far fa-question-circle" style="color: #888; background-color: {{getColor('Azul')}}"></i></span>
+                </div>
+                <div class="dropdown-menu" role="menu">
+                  <div class="dropdown-content popup" style="background: linear-gradient(360deg, #fcfaf7 0%, #fdf7e7 100%); border: 1px #f4d27b solid;">
+                    <div class="contenido" style='color: #786450;'>
+                      <span style="font-weight: normal">
+                        <span class='semibold'>Fecha de Alta:</span> fecha de la primera marcación del funcionario en biométrico.
+                        <span class='semibold'>Fecha de Baja:</span> cuando un funcionario ya no marcarcá mas en el biometrico por baja en Organigram o por rotación.
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </th>
             <th style="position: relative; text-align: center">
               Horario
               <span class="badge is-bottom is-light">{{mesActual()}}</span>
@@ -83,10 +100,10 @@
               {{usuario.nombre}}
             </td>
             <td>{{usuario.ci}}</td>
-            <td  style="position: relative;">
+            <td  style="position: relative; text-align: center;">
               {{getFechaAlta(usuario)}}
               @if(usuario.fechaBaja) {
-              <span class="badge is-bottom mb-1" style="background-color: {{getColor('Rojo')}}; color: black">Baja {{usuario.fechaBaja}}</span>
+              <span class="badge is-bottom mb-1" style="line-height: 10px; background-color: {{getColor('Rojo')}}; color: black">Baja {{getFechaBaja(usuario)}}</span>
               }
             </td>
             <td [innerHtml]="getHorario(usuario.horarioMes)"></td>

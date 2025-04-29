@@ -114,10 +114,10 @@
          </div>
         </td>
         <td>{{rm.usuario.ci}}</td>
-        <td style="position: relative">
+        <td style="position: relative;">
           {{formatear(rm.usuario.fechaAlta)}}
           @if(rm.usuario.fechaBaja) {
-          <span class="badge is-bottom mb-1" style="background-color: {{getColor('Rojo')}}; color: black">Baja {{rm.usuario.fechaBaja}}</span>
+          <span class="badge is-bottom mb-1" style="background-color: {{getColor('Rojo')}}; color: black">Baja {{formatear(rm.usuario.fechaBaja)}}</span>
           }
         </td>
         <td>{{rm.diasComputados}}</td>
@@ -190,7 +190,7 @@
               <i class="far fa-edit icon-btn"></i>
             </span>
             <span class="icon has-tooltip-arrow expand" data-tooltip="Cambiar Horario" (click)="modalCambiarHorario(rm.usuario)">
-              <i class="far fa-clock icon-btn"></i>
+              <i class="fas fa-user-clock icon-btn"></i>
             </span>
             <span class="icon has-tooltip-arrow expand" data-tooltip="Ver Horario" (click)="modalVerHorario(rm.usuario.id)">
               <i class="far fa-calendar-alt icon-btn"></i>

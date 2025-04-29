@@ -6,7 +6,7 @@ import {Usuario} from "../../../modelos/Usuario";
 import {HttpClientModule} from "@angular/common/http";
 import {concatMap, from, Subject, takeUntil, toArray} from "rxjs";
 import {IReporte, ResumenMarcacion} from "../../../modelos/ResumenMarcacion";
-import {color, format} from "../../inicio/Global";
+import {color, format, mensaje} from "../../inicio/Global";
 import {InfoMarcacion} from "../../../modelos/InfoMarcacion";
 import moment from "moment";
 import {EstadoJornada} from "../../../modelos/Jornada";
@@ -93,6 +93,7 @@ export class VerReporteComponent implements OnInit{
       data: {usuarios, fechaMin}
     })
       .subscribe((data) => {
+        if (data !== undefined)
           this.actualizarResumenMarcaciones(usuario)
       });
   }
@@ -137,6 +138,7 @@ export class VerReporteComponent implements OnInit{
         let reporte = JSON.parse(sessionStorage.getItem('reporte') || '[]');
         reporte[indice] = rm
         sessionStorage.setItem('reporte', JSON.stringify(reporte));
+        mensaje("¡Reporte actualizado!", "is-success")
       },
       (error: any) => {
         console.error('An error occurred:', error);
