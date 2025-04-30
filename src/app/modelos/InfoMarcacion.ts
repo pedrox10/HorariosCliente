@@ -24,6 +24,7 @@ export class InfoMarcacion{
   esInvierno:boolean
   esLactancia:boolean
   esJornadaDosDias:boolean
+  primerDia?: any
 
   constructor(fecha: Date, dia:string, horario: any, priEntradas: string[], priSalidas: string[], segEntradas: string[],
               segSalidas: string[], cantRetrasos: number, minRetrasos: number, noMarcados: number, hayPriRetraso: boolean,

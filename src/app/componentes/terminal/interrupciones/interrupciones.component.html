@@ -10,14 +10,15 @@
       <div class="hitem"></div>
       <div class="hitem"></div>
       <div class="hitem"></div>
-      <div class="hitem has-tooltip-arrow expand" data-tooltip="Agregar Horario" style="margin-left: auto;">
-        <button class="button" routerLink="/nuevo-horario"><span class="icon"><i class="fas fa-plus "></i></span>
+      <div class="hitem has-tooltip-arrow expand" data-tooltip="Agregar Interrupcion" style="margin-left: auto;">
+        <button class="button" (click) = "agregarEditarModal(undefined)">
+          <span class="icon"><i class="fas fa-plus "></i></span>
         </button>
       </div>
     </div>
     <table class="table is-bordered is-hoverable">
       <tr>
-        <th>Fecha</th>
+        <th style="width: 110px;">Fecha</th>
         <th style="position: relative">
           Hora
           <span class="badge is-bottom is-light">Inicio</span>
@@ -26,11 +27,12 @@
           Hora
           <span class="badge is-bottom is-light">Fin</span>
         </th>
-        <th>Tipo</th>
-        <th>Detalle</th>
+        <th style="width: 110px;">Tipo</th>
+        <th style="width: 250px;">Detalle</th>
         <th></th>
       </tr>
       <tbody>
+      @for (interrupcion of interrupciones; track interrupcion; let i = $index) {
       <tr>
         <td>21/12/2025</td>
         <td>12:00</td>
@@ -39,6 +41,7 @@
         <td>Corte programado</td>
         <td></td>
       </tr>
+      }
       <!--@for (horario of horarios; track horario; let i = $index) {
       <tr id={{horario.id}}>
           <td>{{i + 1}}</td>

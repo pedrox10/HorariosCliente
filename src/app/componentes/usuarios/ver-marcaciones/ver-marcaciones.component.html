@@ -102,8 +102,15 @@
         @for (infoMarcacion of infoMarcaciones; track infoMarcacion; let index = $index) {
         {{setInfoActual(infoMarcacion)}}
         @if(infoMarcacion.activo) {
+        @if(infoMarcacion.primerDia) {
         <tr>
-          <th>{{getInfoActual().dia}}</th>
+          <th style="position: relative;"><span class="badge is-bottom mb-2 has-background-primary">{{infoMarcacion.primerDia.mes}}</span></th>
+        </tr>
+        }
+        <tr>
+          <th style="position: relative">
+            {{getInfoActual().dia}}
+          </th>
           <td>
             <div class="hitem">
               <div class="circle" style="background-color: {{getColor(getInfoActual().horario.color)}}; border: 1px lightgray solid; align-self: center"></div>
@@ -271,6 +278,11 @@
           <td>{{mostrarCantidades(getInfoActual().noMarcados)}}</td>
         </tr>
         } @else {
+        @if(infoMarcacion.primerDia) {
+        <tr>
+          <th style="position: relative;"><span class="badge is-bottom mb-2 has-background-primary">{{infoMarcacion.primerDia.mes}}</span></th>
+        </tr>
+        }
         @switch (infoMarcacion.estado) {
         @case (estado.teletrabajo) {
         <tr>
