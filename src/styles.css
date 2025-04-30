@@ -356,3 +356,10 @@ p.modal-card-title {
   font-size:0.85em;
 }
 
+.fondo {
+  background-image: radial-gradient(
+    farthest-corner at 40px 40px,
+    #ffffff 0%,
+    #e5f6f2 100%
+  );
+}
