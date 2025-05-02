@@ -41,8 +41,6 @@ export class InterrupcionesComponent {
           data: terminal
         })
         .subscribe((data) => {
-          //
-          //
           // .if(data !== undefined)
             //this.edit(data)
         });

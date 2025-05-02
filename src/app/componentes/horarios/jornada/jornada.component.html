@@ -7,7 +7,12 @@
     @if(jornada.estado === 0) {
     <span style="font-size: 0.75em">Día Libre</span>
     } @else {
-    <span style="font-size: 0.75em">{{getTurno(jornada.priTurno)}}</span>
+    @if(jornada.horario.jornadasDosDias) {
+      <span style="font-size: 0.75em">{{getTurno(jornada.priTurno)}}</span>
+      <span title="¡Siguiente Día!"><i class="fas fa-asterisk has-text-info" style="font-size:0.45em;position: absolute; top:48px; right:14px; z-index: 1"></i></span>
+    } @else {
+      <span style="font-size: 0.75em">{{getTurno(jornada.priTurno)}}</span>
+    }
     <span style="font-size: 0.75em">{{getTurno(jornada.segTurno)}}</span>
     }
     } @else {

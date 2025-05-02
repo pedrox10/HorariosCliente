@@ -34,10 +34,7 @@ export class JornadaComponent {
     if(turno) {
       let horaEntrada = turno.horaEntrada.substring(0, 5)
       let horaSalida = turno.horaSalida.substring(0, 5)
-      if(this.jornada.horario.jornadasDosDias)
-        res = horaEntrada + " - " + horaSalida + " *";
-      else
-        res = horaEntrada + " - " + horaSalida
+      res = horaEntrada + " - " + horaSalida;
     }
     return res;
   }

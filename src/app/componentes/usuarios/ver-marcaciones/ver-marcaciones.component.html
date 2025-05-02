@@ -202,6 +202,11 @@
             <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Verde')}}">Excepción</span>
             } @else {
             <marcacion tipo="salida" [registros]="getInfoActual().priSalidas"></marcacion>
+            @if(infoMarcacion.esJornadaDosDias) {
+            <span title="¡Siguiente Día!" style="display: inline-flex; vertical-align: middle;">
+              <i class="fas fa-asterisk has-text-info" style="font-size:0.45em;"></i>
+            </span>
+            }
             }
           </td>
           @if(infoMarcacion.numTurnos == 2) {
