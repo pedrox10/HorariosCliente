@@ -73,4 +73,16 @@ export class TerminalService {
   public getFechaPriMarcacion(id: number) {
     return this.http.get(`${this.apiUrl}/terminal/${id}/pri-marcacion`);
   }
+
+  public agregarInterrupcion(body: any) {
+    return this.http.post(`${this.apiUrl}/terminal/interrupcion/agregar`, body);
+  }
+
+  public eliminarInterrupcion(id: number) {
+    return this.http.delete(`${this.apiUrl}/terminal/interrupcion/eliminar/${id}`);
+  }
+
+  public getInterrupciones(id: number) {
+    return this.http.get(`${this.apiUrl}/terminal/${id}/interrupciones`);
+  }
 }

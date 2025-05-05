@@ -25,5 +25,5 @@ export const routes: Routes = [
   {path: "adm-terminales", component: AdmTerminalesComponent},
   {path: "editar-usuario", component: EditarUsuarioComponent},
   {path: "ver-reporte", component: VerReporteComponent},
-  {path: "interrupciones", component: InterrupcionesComponent},
+  {path: "interrupciones/:id", component: InterrupcionesComponent},
 ];

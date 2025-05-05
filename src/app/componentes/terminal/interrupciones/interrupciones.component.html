@@ -34,11 +34,11 @@
       <tbody>
       @for (interrupcion of interrupciones; track interrupcion; let i = $index) {
       <tr>
-        <td>21/12/2025</td>
-        <td>12:00</td>
-        <td>14:00</td>
-        <td>Corte de Luz</td>
-        <td>Corte programado</td>
+        <td>{{formatearFecha(interrupcion.fecha)}}</td>
+        <td>{{formatearHora(interrupcion.horaIni)}}</td>
+        <td>{{formatearHora(interrupcion.horaFin)}}</td>
+        <td>{{interrupcion.motivo}}</td>
+        <td>{{interrupcion.detalle}}</td>
         <td></td>
       </tr>
       }

@@ -9,13 +9,13 @@
         <div class="field">
           <label class="label">Fecha</label>
           <div class="control">
-            <input class="input" type="date"/>
+            <input class="input" type="date" formControlName="fecha"/>
           </div>
         </div>
         <div class="field">
           <label class="label">Motivo</label>
           <div class="select" style="width: 100%;">
-            <select style="width: 100%;">
+            <select style="width: 100%;" formControlName="motivo">
               <option>Corte de Luz</option>
               <option>Fallas Técnicas</option>
               <option>Mantenimiento</option>
@@ -28,13 +28,13 @@
         <div class="field">
           <label class="label mt-2">Hora Inicio</label>
           <div class="control">
-            <input class="input" type="time"/>
+            <input class="input" type="time" formControlName="horaIni"/>
           </div>
         </div>
         <div class="field">
           <label class="label mt-2">Hora Fin</label>
           <div class="control">
-            <input class="input" type="time">
+            <input class="input" type="time" formControlName="horaFin">
           </div>
         </div>
       </div>
@@ -50,7 +50,7 @@
     </section>
     <footer class="modal-card-foot">
       <div class="buttons">
-        <button class="button es-primario" type="button" [disabled]="formAccion.invalid">
+        <button class="button es-primario" type="button" [disabled]="formAccion.invalid" (click)="verResultados()">
           Guardar
         </button>
         <button class="button" type="button">Cancelar</button>
