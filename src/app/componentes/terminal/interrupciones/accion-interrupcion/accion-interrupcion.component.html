@@ -1,0 +1,61 @@
+<div class="modal-card" style="width: 350px;">
+  <header class="modal-card-head">
+    <p class="modal-card-title">Agregar Interrupción</p>
+    <button (click)="cerrarModal()" class="delete" aria-label="close"></button>
+  </header>
+  <form [formGroup]="formAccion">
+    <section class="modal-card-body">
+      <div class="hitem" style="gap: 20px;">
+        <div class="field">
+          <label class="label">Fecha</label>
+          <div class="control">
+            <input class="input" type="date"/>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Motivo</label>
+          <div class="select" style="width: 100%;">
+            <select style="width: 100%;">
+              <option>Corte de Luz</option>
+              <option>Fallas Técnicas</option>
+              <option>Mantenimiento</option>
+              <option>Otros</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="hitem mt-4" style="justify-content: space-between">
+        <div class="field">
+          <label class="label mt-2">Hora Inicio</label>
+          <div class="control">
+            <input class="input" type="time"/>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label mt-2">Hora Fin</label>
+          <div class="control">
+            <input class="input" type="time">
+          </div>
+        </div>
+      </div>
+
+      <div class="hitem mt-4">
+        <div class="field" style="width: 100%">
+          <label class="label">Detalle</label>
+          <div class="control">
+            <textarea class="textarea" rows="2" formControlName="detalle" style="resize: none;"></textarea>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer class="modal-card-foot">
+      <div class="buttons">
+        <button class="button es-primario" type="button" [disabled]="formAccion.invalid">
+          Guardar
+        </button>
+        <button class="button" type="button">Cancelar</button>
+      </div>
+    </footer>
+  </form>
+</div>
+
