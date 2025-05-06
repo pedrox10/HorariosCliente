@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {Form, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {TerminalService} from "../../../../servicios/terminal.service";
 import {ModalService} from "ngx-modal-ease";
 import {HttpClientModule} from "@angular/common/http";
 import {CommonModule} from "@angular/common";
+import {mensaje} from "../../../inicio/Global";
 
 @Component({
   selector: 'app-accion-interrupcion',
@@ -15,35 +16,38 @@ import {CommonModule} from "@angular/common";
 })
 export class AgregarInterrupcionComponent implements OnInit {
 
-  idActual: number = -1;
-  formAccion = new FormGroup({
-    fecha: new FormControl('', [Validators.required]),
-    motivo: new FormControl(''),
-    horaIni: new FormControl('', [Validators.required]),
-    horaFin: new FormControl('', [Validators.required]),
-    detalle: new FormControl('')
-  });
+  formAccion: FormGroup | any;
 
   constructor(public modalService: ModalService, public terminalService: TerminalService) {
 
   }
 
   ngOnInit() {
-
+    let idTerminal: any = this.modalService.options?.data;
+    console.log(idTerminal)
+    this.formAccion = new FormGroup({
+      idTerminal: new FormControl(idTerminal, [Validators.required]),
+      fecha: new FormControl('', [Validators.required]),
+      motivo: new FormControl(''),
+      horaIni: new FormControl('', [Validators.required]),
+      horaFin: new FormControl('', [Validators.required]),
+      detalle: new FormControl('')
+    });
   }
 
   cerrarModal() {
-
+    this.modalService.close();
   }
 
-  verResultados() {
-    //console.log(this.formAccion.value)
+  agregarInterrupcion() {
     this.terminalService.agregarInterrupcion(this.formAccion.value).subscribe(
-      (data: any) => {  console.log(data)
+      (data: any) => {
+        mensaje("Interrupción registrada correctamente", "is-success")
+        this.modalService.close(data)
       },
       (error: any) => {
         console.log(error)
+        mensaje(error.error.info, "is-danger")
       })
   }
-
 }

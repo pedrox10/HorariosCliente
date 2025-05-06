@@ -79,7 +79,8 @@ export class TerminalService {
   }
 
   public eliminarInterrupcion(id: number) {
-    return this.http.delete(`${this.apiUrl}/terminal/interrupcion/eliminar/${id}`);
+    console.log(`${this.apiUrl}/terminal/interrupcion/${id}/eliminar`)
+    return this.http.delete(`${this.apiUrl}/terminal/interrupcion/${id}/eliminar`);
   }
 
   public getInterrupciones(id: number) {

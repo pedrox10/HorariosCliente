@@ -27,8 +27,8 @@
           Hora
           <span class="badge is-bottom is-light">Fin</span>
         </th>
-        <th style="width: 110px;">Tipo</th>
-        <th style="width: 250px;">Detalle</th>
+        <th style="width: 120px;">Motivo</th>
+        <th style="width: 350px;">Detalle</th>
         <th></th>
       </tr>
       <tbody>
@@ -39,60 +39,34 @@
         <td>{{formatearHora(interrupcion.horaFin)}}</td>
         <td>{{interrupcion.motivo}}</td>
         <td>{{interrupcion.detalle}}</td>
-        <td></td>
+        <td>
+          <span class="icon has-tooltip-arrow expand" data-tooltip="Eliminar Interrupción" (click) = "eliminarInterrupcionModal(interrupcion)">
+            <i class="far fa-times-circle icon-btn"></i>
+          </span>
+        </td>
       </tr>
       }
-      <!--@for (horario of horarios; track horario; let i = $index) {
-      <tr id={{horario.id}}>
-          <td>{{i + 1}}</td>
-          <td>{{horario.nombre}}</td>
-          <td>{{horario.tolerancia}}</td>
-          <td>
-            <div class= "hitem">
-      {{horario.color}}
-      <span class="color" >
-      <i class="fas fa-circle" style="color:{{getColor(horario.color)}};"></i>
-              </span>
-            </div>
-          </td>
-          <td>{{horario.area}}</td>
-          <td>{{horario.descripcion}}</td>
-          <td>
-            <div class="hitem">
-            <span class="icon has-tooltip-arrow expand mr-1" data-tooltip="Ver Horario" (click) = "modalVerHorario(horario)">
-                 <i class="far fa-eye icon-btn"></i>
-              </span>
-              <span class="icon has-tooltip-arrow expand" data-tooltip="Editar" (click) = "modalEditar(horario.id)">
-                 <i class="far fa-edit icon-btn"></i>
-              </span>
-              <span class="icon has-tooltip-arrow expand" data-tooltip="Eliminar" (click) = "verificarHorario(horario)">
-                <i class="far fa-times-circle icon-btn"></i>
-              </span>
-            </div>
-          </td>
-        </tr>
-      }-->
       </tbody>
     </table>
   </div>
-  <!--<div class="modal " id="eliminar_modal">
+  <div class="modal " id="eliminar_modal">
     <div class="modal-background" id="fondo_eliminar" style="opacity: 0.75;"></div>
     <div class="modal-card" style="width: 400px">
       <header class="modal-card-head">
-        <p class="modal-card-title">Eliminar horario</p>
+        <p class="modal-card-title">Eliminar interrupción</p>
         <button class="delete" aria-label="close" (click) = "ocultarEliminar()"></button>
       </header>
       <section class="modal-card-body">
-        <label class="label">Se eliminará el horario plantilla: {{getNombreHorario()}}</label>
+        <label class="label">Se eliminará la interrupción seleccionada.</label>
         <p class="label">¿Esta seguro?</p>
       </section>
       <footer class="modal-card-foot">
         <div class="buttons">
-          <button class="button es-primario" (click)="eliminarHorario()">Aceptar</button>
+          <button class="button es-primario" (click)="eliminarInterrupcion()">Aceptar</button>
           <button class="button" type="button" (click) = "ocultarEliminar()">Cancelar</button>
         </div>
       </footer>
     </div>
-  </div>-->
+  </div>
 </div>
 

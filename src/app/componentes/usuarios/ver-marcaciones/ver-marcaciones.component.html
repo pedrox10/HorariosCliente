@@ -143,11 +143,19 @@
             @if(infoMarcacion.hayPriEntExcepcion.existe) {
             <div class="dropdown is-up is-hoverable">
               <div class="dropdown-trigger">
+                @if(!infoMarcacion.hayPriEntExcepcion.esInterrupcion) {
                 <i class="fas fa-check-double has-text-success"></i>
+                } @else {
+                <i class="fas fa-exclamation-triangle has-text-gray"></i>
+                }
               </div>
               <div class="dropdown-menu" role="menu">
                 <div class="dropdown-content popup">
+                  @if(!infoMarcacion.hayPriEntExcepcion.esInterrupcion) {
                   <div class='cabecera'>{{infoMarcacion.hayPriEntExcepcion.licencia}}</div>
+                  } @else {
+                  <div class='cabecera'>{{infoMarcacion.hayPriEntExcepcion.motivo}}</div>
+                  }
                   <div class="contenido" style='color: #786450;'>
                     <div class="hitem">
                       <span class="semibold">Jornada: </span>
@@ -165,7 +173,11 @@
                 </div>
               </div>
             </div>
+            @if(!infoMarcacion.hayPriEntExcepcion.esInterrupcion) {
             <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Verde')}}">Excepción</span>
+            } @else {
+            <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Gris')}}">Interrupción</span>
+            }
             } @else {
             <marcacion tipo="entrada" [registros]="getInfoActual().priEntradas"></marcacion>
             @if(infoMarcacion.hayPriRetraso) {
@@ -177,11 +189,19 @@
             @if(infoMarcacion.hayPriSalExcepcion.existe) {
             <div class="dropdown is-up is-hoverable">
               <div class="dropdown-trigger">
+                @if(!infoMarcacion.hayPriSalExcepcion.esInterrupcion) {
                 <i class="fas fa-check-double has-text-success"></i>
+                } @else {
+                <i class="fas fa-exclamation-triangle has-text-gray"></i>
+                }
               </div>
               <div class="dropdown-menu" role="menu">
                 <div class="dropdown-content popup">
+                  @if(!infoMarcacion.hayPriSalExcepcion.esInterrupcion) {
                   <div class='cabecera'>{{infoMarcacion.hayPriSalExcepcion.licencia}}</div>
+                  } @else {
+                  <div class='cabecera'>{{infoMarcacion.hayPriSalExcepcion.motivo}}</div>
+                  }
                   <div class="contenido" style='color: #786450;'>
                     <div class="hitem">
                       <span class="semibold">Jornada: </span>
@@ -199,7 +219,11 @@
                 </div>
               </div>
             </div>
+            @if(!infoMarcacion.hayPriSalExcepcion.esInterrupcion) {
             <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Verde')}}">Excepción</span>
+            } @else {
+            <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Gris')}}">Interrupción</span>
+            }
             } @else {
             <marcacion tipo="salida" [registros]="getInfoActual().priSalidas"></marcacion>
             @if(infoMarcacion.esJornadaDosDias) {
@@ -214,11 +238,19 @@
           @if(infoMarcacion.haySegEntExcepcion.existe) {
           <div class="dropdown is-up is-hoverable">
             <div class="dropdown-trigger">
+              @if(!infoMarcacion.haySegEntExcepcion.esInterrupcion) {
               <i class="fas fa-check-double has-text-success"></i>
+              } @else {
+              <i class="fas fa-exclamation-triangle has-text-gray"></i>
+              }
             </div>
             <div class="dropdown-menu" role="menu">
               <div class="dropdown-content popup">
+                @if(!infoMarcacion.haySegEntExcepcion.esInterrupcion) {
                 <div class='cabecera'>{{infoMarcacion.haySegEntExcepcion.licencia}}</div>
+                } @else {
+                <div class='cabecera'>{{infoMarcacion.haySegEntExcepcion.motivo}}</div>
+                }
                 <div class="contenido" style='color: #786450;'>
                   <div class="hitem">
                     <span class="semibold">Jornada: </span>
@@ -236,7 +268,11 @@
               </div>
             </div>
           </div>
+          @if(!infoMarcacion.haySegEntExcepcion.esInterrupcion) {
           <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Verde')}}">Excepción</span>
+          } @else {
+          <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Gris')}}">Interrupción</span>
+          }
           } @else {
           <marcacion tipo="entrada" [registros]="getInfoActual().segEntradas"></marcacion>
           @if(infoMarcacion.haySegRetraso) {
@@ -248,11 +284,19 @@
           @if(infoMarcacion.haySegSalExcepcion.existe) {
           <div class="dropdown is-up is-hoverable">
             <div class="dropdown-trigger">
+              @if(!infoMarcacion.haySegSalExcepcion.esInterrupcion) {
               <i class="fas fa-check-double has-text-success"></i>
+              } @else {
+              <i class="fas fa-exclamation-triangle has-text-gray"></i>
+              }
             </div>
             <div class="dropdown-menu" role="menu">
               <div class="dropdown-content popup">
+                @if(!infoMarcacion.haySegSalExcepcion.esInterrupcion) {
                 <div class='cabecera'>{{infoMarcacion.haySegSalExcepcion.licencia}}</div>
+                } @else {
+                <div class='cabecera'>{{infoMarcacion.haySegSalExcepcion.motivo}}</div>
+                }
                 <div class="contenido" style='color: #786450;'>
                   <div class="hitem">
                     <span class="semibold">Jornada: </span>
@@ -270,7 +314,11 @@
               </div>
             </div>
           </div>
+          @if(!infoMarcacion.haySegSalExcepcion.esInterrupcion) {
           <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Verde')}}">Excepción</span>
+          } @else {
+          <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Gris')}}">Interrupción</span>
+          }
           } @else {
           <marcacion tipo="salida" [registros]="getInfoActual().segSalidas"></marcacion>
           }
