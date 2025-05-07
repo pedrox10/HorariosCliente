@@ -57,9 +57,11 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   escuchaEscape: EventListener | any;
   private destroy$ = new Subject<void>();
   showScrollButton = false;
+  indiceFuncionario: number | any;
 
   constructor(public terminalService: TerminalService,private router: Router,
-              public modalService: ModalService, private location: Location, private sanitizer: DomSanitizer) {
+              public modalService: ModalService, private location: Location,
+              private sanitizer: DomSanitizer) {
 
     this.terminalService.getUsuarios(this.idTerminal).pipe(takeUntil(this.destroy$)).subscribe(
       (data: any) => {
@@ -112,6 +114,8 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
+    console.log("AfterView")
+
     setTimeout(() => {
       window.scrollTo({
         top: env.posY,
@@ -390,7 +394,13 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getIni() {
-    return moment(this.ultimaSincronizacion, 'YYYY-MM-DD').startOf('month').format('YYYYMMDD');
+    const ultSincronizacion = moment(this.ultimaSincronizacion, 'YYYY-MM-DD');
+    const dia = ultSincronizacion.date();
+    if (dia < 21) {
+      return ultSincronizacion.subtract(1, 'month').date(21).format('YYYYMMDD');
+    } else {
+      return ultSincronizacion.date(21).format('YYYYMMDD');
+    }
   }
 
   getFin() {
@@ -503,6 +513,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   verMarcaciones(usuario: Usuario) {
     env.posY = window.scrollY
+    env.indexUsuario = usuario.id
     this.router.navigate(['/ver-marcaciones', usuario.id, this.getIni(), this.getFin()]);
   }
 
@@ -518,5 +529,13 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  selectRow(id: number | any) {
+    env.indexUsuario = id;
+  }
+
+  isSelected(id: number | any): boolean {
+    return env.indexUsuario === id;
   }
 }

@@ -88,7 +88,7 @@
           </tr>
           <tbody>
           @for (usuario of usuariosFiltrados; track trackByUsuario; let index = $index) {
-          <tr>
+          <tr (click)="selectRow(usuario.id)" [class.is-selected]="isSelected(usuario.id)">
             <td>
               <label class="b-checkbox checkbox">
                 <input type="checkbox" [checked]="usuario.seleccionado" (click)="seleccionar(usuario)" [id]="'checkbox-' + usuario.id">

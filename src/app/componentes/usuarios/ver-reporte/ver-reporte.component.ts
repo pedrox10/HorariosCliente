@@ -12,11 +12,12 @@ import moment from "moment";
 import {EstadoJornada} from "../../../modelos/Jornada";
 import {Location} from "@angular/common";
 import {DataService} from "../../../servicios/data.service";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {VerHorarioComponent} from "../ver-horario/ver-horario.component";
 import {EditarUsuarioComponent} from "../editar-usuario/editar-usuario.component";
 import {AsignarHorariosComponent} from "../../horarios/asignar-horarios/asignar-horarios.component";
 import {Terminal} from "../../../modelos/Terminal";
+import {env} from "../../../../environments/environments";
 
 @Component({
   selector: 'app-ver-reporte',
@@ -40,7 +41,8 @@ export class VerReporteComponent implements OnInit{
   filasExcel = [] as Array<IReporte>
   private destroy$ = new Subject<void>();
 
-  constructor(private modalService: ModalService, private terminalService: TerminalService, private location: Location) {
+  constructor(private modalService: ModalService, private terminalService: TerminalService,
+              private location: Location, private router: Router) {
 
   }
 
@@ -80,6 +82,10 @@ export class VerReporteComponent implements OnInit{
     this.destroy$.complete();
   }
 
+  verMarcaciones(usuario: Usuario) {
+    env.indexResumenMarcacion = usuario.id
+    this.router.navigate(['/ver-marcaciones', usuario.id, this.fechaIni, this.fechaFin]);
+  }
 
   modalCambiarHorario(usuario: Usuario) {
     console.log(usuario)
@@ -341,5 +347,13 @@ export class VerReporteComponent implements OnInit{
 
   getColor(nombre: string) {
     return color(nombre);
+  }
+
+  selectRow(id: number | any) {
+    env.indexResumenMarcacion = id;
+  }
+
+  isSelected(id: number | any): boolean {
+    return env.indexResumenMarcacion === id;
   }
 }

@@ -14,5 +14,7 @@ export const env = {
   textoBusqueda: "",
   dias_impares: ["lunes", "miercoles", "viernes", "domingo"],
   dias_pares: ["martes", "jueves", "sabado"],
-  posY: 0
+  posY: 0,
+  indexUsuario: -1,
+  indexResumenMarcacion: -1
 }

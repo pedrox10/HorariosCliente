@@ -93,7 +93,7 @@
      </tr>
      <tbody>
      @for (rm of resumenMarcaciones; track rm; let index = $index) {
-     <tr>
+     <tr (click)="selectRow(rm.usuario.id)" [class.is-selected]="isSelected(rm.usuario.id)">
        <td>{{index +1}}</td>
         <td>
           <div class="hitem" style="justify-content: space-between">
@@ -183,7 +183,7 @@
         }
         <td>
           <div class="hitem">
-            <span class="icon has-tooltip-arrow expand" data-tooltip="Ver Marcaciones" routerLink="/ver-marcaciones/{{rm.usuario.id}}/{{fechaIni}}/{{fechaFin}}">
+            <span class="icon has-tooltip-arrow expand" data-tooltip="Ver Marcaciones" (click)="verMarcaciones(rm.usuario)">
               <i class="far fa-calendar-check icon-btn"></i>
             </span>
             <span class="icon has-tooltip-arrow expand" data-tooltip="Editar Funcionario" (click)="modalEditarUsuario(rm.usuario.id)">

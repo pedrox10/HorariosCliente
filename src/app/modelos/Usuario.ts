@@ -6,7 +6,7 @@ export enum EstadoUsuario {
 }
 
 export class Usuario {
-  id?: number;
+  id?: number | any;
   uid: number;
   ci: number;
   nombre: string;
