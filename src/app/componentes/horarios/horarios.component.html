@@ -92,18 +92,18 @@
           <tbody>
           @for (jornadaDia of jornadaDias; track jornadaDia; let index = $index ) {
           <tr id="{{jornadaDia.dia}}" style="min-height: 35px !important;">
-            <td>{{jornadaDia.dia}}</td>
+            <td class="{{getClase(index)}}">{{jornadaDia.dia}}</td>
             @if(jornadaDia.habilitado) {
             <td><div style="min-height: 30px"><span class="celda">{{getHora(jornadaDia.priEntrada)}}</span></div></td>
             <td><span>{{getHora(jornadaDia.priSalida)}}</span></td>
             <td></td>
             <td><span>{{getHora(jornadaDia.segEntrada)}}</span></td>
             <td><span>{{getHora(jornadaDia.segSalida)}}</span></td>
-          } @else {
-          <td colspan="4">
-            <div style="min-height: 30px"><span></span></div>
-          </td>
-          }
+            } @else {
+            <td colspan="4">
+              <div style="min-height: 30px"><span></span></div>
+            </td>
+            }
           </tr>
           }
           </tbody>

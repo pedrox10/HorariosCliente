@@ -116,6 +116,16 @@ export class HorariosComponent implements OnInit {
     this.jornadaDias = horario.jornadaDias
   }
 
+  getClase(index: number) {
+    let res=""
+    if(this.horario.jornadasDosDias || this.horario.diasIntercalados) {
+      if(index % 2 == 0)
+        res="par"
+      else res="impar"
+    }
+    return res;
+  }
+
   getNombreHorario() {
     let res = ""
     if(this.horario !== undefined)

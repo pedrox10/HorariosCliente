@@ -7,3 +7,11 @@
 table.table.horario > span.celda {
   background-color: red;
 }
+
+.par {
+  background-color: #FBCFD0 !important;
+}
+
+.impar {
+  background-color: #FFE5D4 !important;
+}
