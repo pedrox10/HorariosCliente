@@ -61,6 +61,7 @@ export class VerReporteComponent implements OnInit{
       fila.diasComputados = resumenMarcacion.diasComputados;
       fila.retraso = resumenMarcacion.totalMinRetrasos;
       fila.sinMarcar = resumenMarcacion.totalSinMarcar;
+      fila.salAntes = resumenMarcacion.totalSalAntes
       fila.faltas = resumenMarcacion.totalAusencias;
 
       this.filasExcel.push(fila)
@@ -182,9 +183,7 @@ export class VerReporteComponent implements OnInit{
     window.print();
   }
 
-  exportexcel(): void
-  {
-    // define your headers
+  exportexcel(): void {
     const headers = [
       "Nombre",
       "CI",
@@ -192,97 +191,84 @@ export class VerReporteComponent implements OnInit{
       "Días Computados",
       "Retraso [min]",
       "Sin Marcar",
+      "Salió Antes",
       "Faltas",
-    ]
+    ];
 
-// set column widths
     const colWidths = [
-      { wch: 30 },
-      { wch: 10 },
-      { wch: 12 },
-      { wch: 12 },
-    ]
+      { wch: 30 }, { wch: 10 }, { wch: 12 }, { wch: 12 },
+      { wch: 7.5 }, { wch: 7.5 }, { wch: 7.5 }, { wch: 7.5 }
+    ];
 
-// get the data
-    const userData = this.filasExcel
+    const userData = this.filasExcel;
 
-// set header row height
-// consider if you have vertical headers
-    const headerRowHeight = [
-      { hpt: 30 },
-    ]
+    const worksheet = XLSX.utils.json_to_sheet([]);
 
-// Dynamically set row height based on size of data
-    const dataRowHeight = Array.from({ length: userData.length }, () => ({ hpt: 20 }))
+    // 👉 1. Agregar cabecera principal
+    const titulo = [["Reporte General " + this.terminal]];
+    const subCabecera = [
+      ["Rango de Fechas:", moment(this.fechaIni, "YYYYMMDD").format("DD/MM/YYYY") + " - " + moment(this.fechaFin, "YYYYMMDD").format("DD/MM/YYYY")],
+      ["Total Días:", this.getTotalDias()],
+      ["Fecha de Creación:", this.fechaCreacion]
+    ];
 
-// Combine header row height and data row height
-    const rowHeight = [...headerRowHeight, ...dataRowHeight]
+    XLSX.utils.sheet_add_aoa(worksheet, titulo, { origin: "A1" });
+    XLSX.utils.sheet_add_aoa(worksheet, subCabecera, { origin: "A2" });
 
-// Create a new worksheet:
-    const worksheet = XLSX.utils.json_to_sheet([])
+    // 👉 2. Aplicar estilo al título
+    worksheet["A1"].s = {
+      font: { bold: true, sz: 14 },
+      alignment: { horizontal: "center" }
+    };
 
-// Assign widths to columns
-    worksheet['!cols'] = colWidths
+    worksheet['!merges'] = [
+      { s: { r: 0, c: 0 }, e: { r: 0, c: headers.length - 1 } },
+      { s: { r: 1, c: 1 }, e: { r: 1, c: 3 } }
+    ];
 
-// Assign height to rows
-    worksheet['!rows'] = rowHeight
 
-// Enable auto-filter for columns
-    worksheet['!autofilter'] = { ref: "A1:C1" }
 
-// Add the headers to the worksheet:
-    XLSX.utils.sheet_add_aoa(worksheet, [headers])
-
-// add data to sheet
+    // 👉 3. Agregar headers y datos
+    XLSX.utils.sheet_add_aoa(worksheet, [headers], { origin: `A5` });
     XLSX.utils.sheet_add_json(worksheet, userData, {
       skipHeader: true,
-      origin: -1
-    })
+      origin: "A6"
+    });
 
-// get size of sheet
-    const range = XLSX.utils.decode_range(worksheet["!ref"] ?? "")
-    const rowCount = range.e.r
-    const columnCount = range.e.c
+    // 👉 4. Dimensiones
+    worksheet['!cols'] = colWidths;
+    worksheet['!rows'] = [
+      { hpt: 30 }, // Título
+      { hpt: 20 }, // Subcabecera 1
+      { hpt: 20 }, // Subcabecera 2
+      { hpt: 20 }, // Subcabecera 3
+      { hpt: 30 }, // Headers
+      ...Array.from({ length: userData.length }, () => ({ hpt: 20 }))
+    ];
 
-// Add formatting by looping through data in sheet
-    for (let row = 0; row <= rowCount; row++) {
-      for (let col = 0; col <= columnCount; col++) {
-        const cellRef = XLSX.utils.encode_cell({ r: row, c: col })
-        // Add this format to every cell
-        worksheet[cellRef].s = {
-          alignment: {
-            horizontal: "left",
-            wrapText: true,
-          },
-        }
+    // 👉 5. Estilos generales
+    const range = XLSX.utils.decode_range(worksheet["!ref"] ?? "");
+    for (let row = 0; row <= range.e.r; row++) {
+      for (let col = 0; col <= range.e.c; col++) {
+        const cellRef = XLSX.utils.encode_cell({ r: row, c: col });
+        worksheet[cellRef] = worksheet[cellRef] || {};
+        worksheet[cellRef].s = worksheet[cellRef].s || {};
+        worksheet[cellRef].s.alignment = { horizontal: "left", wrapText: true };
 
-        // vertical header - 1st column only
-        /*if (row === 0 && col === 0) {
+        // Estilo para headers
+        if (row === 4) {
           worksheet[cellRef].s = {
-            //spreads in previous cell settings
-            ...worksheet[cellRef].s,
-            alignment: {
-              horizontal: "center",
-              vertical: "center",
-              wrapText: false,
-            },
-          }
-        }*/
-        // Format headers bold
-        if (row === 0) {
-          worksheet[cellRef].s = {
-            //spreads in previous cell settings
             ...worksheet[cellRef].s,
             font: { bold: true, color: { rgb: 'FFFFFF' } },
-            fill: { fgColor: { rgb: '295A8C' } },
-          }
+            fill: { fgColor: { rgb: '295A8C' } }
+          };
         }
       }
     }
-    /* generate workbook and add the worksheet */
+
+    // 👉 6. Crear y descargar
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
-    /* save to file */
+    XLSX.utils.book_append_sheet(wb, worksheet, 'Reporte');
     XLSX.writeFile(wb, this.fileName);
   }
 
@@ -330,6 +316,20 @@ export class VerReporteComponent implements OnInit{
       }
     }
     return noMarcados;
+  }
+
+  getSalAntes(infoMarcaciones: InfoMarcacion[]) {
+    let salidasAnticipadas = "";
+    for (let info of infoMarcaciones) {
+      if(info.cantSalAntes > 0) {
+        salidasAnticipadas = salidasAnticipadas + "<div class='hbox'><div class='hitem'>" +
+          "<span><i class='fas fa-calendar-alt'></i></span>" +
+          "<span class='semibold'>" + moment(info.fecha).format("DD/MM/YYYY") + "</span></div>" +
+          "<div class='hitem'>" +
+          "<span>" + info.cantSalAntes + "</span></div></div>"
+      }
+    }
+    return salidasAnticipadas;
   }
 
   getAusencias(infoMarcaciones: InfoMarcacion[]) {

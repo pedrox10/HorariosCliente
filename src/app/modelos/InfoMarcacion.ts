@@ -8,6 +8,7 @@ export class InfoMarcacion{
   segEntradas: string[]
   segSalidas: string[]
   cantRetrasos: number
+  cantSalAntes: number
   minRetrasos: number
   noMarcados: number
   mensajeError?: string | any
@@ -17,6 +18,8 @@ export class InfoMarcacion{
   haySegSalExcepcion?: any
   hayPriRetraso: boolean
   haySegRetraso: boolean
+  hayPriAntes: boolean
+  haySegAntes: boolean
   mensaje: string
   activo:boolean
   numTurnos: number
@@ -26,10 +29,10 @@ export class InfoMarcacion{
   esJornadaDosDias:boolean
   primerDia?: any
 
-  constructor(fecha: Date, dia:string, horario: any, priEntradas: string[], priSalidas: string[], segEntradas: string[],
-              segSalidas: string[], cantRetrasos: number, minRetrasos: number, noMarcados: number, hayPriRetraso: boolean,
-              haySegRetraso: boolean, mensaje: string, activo: boolean, numTurnos: number, estado: EstadoJornada,
-              esInvierno: boolean, esLactancia: boolean, esJornadaDosDias: boolean) {
+  constructor(fecha: Date, dia:string, horario: any, priEntradas: string[], priSalidas: string[], segEntradas: string[], segSalidas: string[],
+              cantRetrasos: number, cantSalAntes: number, minRetrasos: number, noMarcados: number, hayPriRetraso: boolean,
+              haySegRetraso: boolean, hayPriAntes: boolean, haySegAntes: boolean, mensaje: string, activo: boolean,
+              numTurnos: number, estado: EstadoJornada, esInvierno: boolean, esLactancia: boolean, esJornadaDosDias: boolean) {
 
     this.fecha = fecha;
     this.dia = dia;
@@ -39,10 +42,13 @@ export class InfoMarcacion{
     this.segEntradas = segEntradas;
     this.segSalidas = segSalidas;
     this.cantRetrasos = cantRetrasos
+    this.cantSalAntes = cantSalAntes;
     this.minRetrasos = minRetrasos;
     this.noMarcados = noMarcados
     this.hayPriRetraso = hayPriRetraso
     this.haySegRetraso = haySegRetraso
+    this.hayPriAntes = hayPriAntes
+    this.haySegAntes = haySegAntes
     this.mensaje = mensaje
     this.activo = activo
     this.numTurnos = numTurnos

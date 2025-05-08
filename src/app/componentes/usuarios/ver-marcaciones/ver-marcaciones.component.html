@@ -31,8 +31,12 @@
             <span id="totalMinRetrasos" style="font-weight: bold;"></span>
           </div>
           <div class="hbox">
-            <span>Sin Marcar</span>
+            <span>Sin marcar</span>
             <span id="totalSinMarcar" style="font-weight: bold;"></span>
+          </div>
+          <div class="hbox">
+            <span>Salió antes</span>
+            <span id="totalSalAntes" style="font-weight: bold;"></span>
           </div>
           <div class="hbox">
             <span>Faltas</span>
@@ -80,11 +84,13 @@
             Segundo Turno
           </th>
           <th style="text-align: center;" colspan="2">
-            Retraso
+            Retrasos
             <i class="fas fa-circle ml-1"
                  style="color: {{getColor('Amarillo')}}; padding: 0px;  border-radius: 50%;border: #999 1px solid"></i>
           </th>
-          <th></th>
+          <th style="text-align: center;" colspan="2">
+            Sanciones<i class="fas fa-circle ml-1" style="color: {{getColor('Rojo')}}; border-radius: 50%;padding: 0;border: #999 1px solid"></i>
+          </th>
         </tr>
         <tr>
           <th>Dia</th>
@@ -93,10 +99,10 @@
           <th>Salida</th>
           <th>Entrada</th>
           <th>Salida</th>
-          <th>Cant.</th>
-          <th>Minutos</th>
-          <th>Sin Marcar<i class="fas fa-circle ml-1"
-                           style="color: {{getColor('Rojo')}}; border-radius: 50%;padding: 0;border: #999 1px solid"></i></th>
+          <th><span class="help">Cant.</span></th>
+          <th><span class="help">Minutos</span></th>
+          <th><span class="help">Sin Marcar</span></th>
+          <th><span class="help">Salió Antes</span></th>
         </tr>
         <tbody>
         @for (infoMarcacion of infoMarcaciones; track infoMarcacion; let index = $index) {
@@ -226,6 +232,9 @@
             }
             } @else {
             <marcacion tipo="salida" [registros]="getInfoActual().priSalidas"></marcacion>
+            @if(infoMarcacion.hayPriAntes) {
+            <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Rojo')}}">Salió antes</span>
+            }
             @if(infoMarcacion.esJornadaDosDias) {
             <span title="¡Siguiente Día!" style="display: inline-flex; vertical-align: middle;">
               <i class="fas fa-asterisk has-text-info" style="font-size:0.45em;"></i>
@@ -321,6 +330,9 @@
           }
           } @else {
           <marcacion tipo="salida" [registros]="getInfoActual().segSalidas"></marcacion>
+          @if(infoMarcacion.haySegAntes) {
+          <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Rojo')}}">Salió antes</span>
+          }
           }
           </td>
           } @else {
@@ -329,6 +341,7 @@
           <td>{{mostrarCantidades(getInfoActual().cantRetrasos)}}</td>
           <td>{{mostrarCantidades(getInfoActual().minRetrasos)}}</td>
           <td>{{mostrarCantidades(getInfoActual().noMarcados)}}</td>
+          <td>{{mostrarCantidades(getInfoActual().cantSalAntes)}}</td>
         </tr>
         } @else {
         @if(infoMarcacion.primerDia) {
@@ -346,7 +359,7 @@
               {{getInfoActual().horario.nombre}}
             </div>
           </td>
-          <td colspan="7" style="text-align: left">{{getInfoActual().mensaje}}</td>
+          <td colspan="8" style="text-align: left">{{getInfoActual().mensaje}}</td>
         </tr>
         }
         @case (estado.dia_libre) {
@@ -358,7 +371,7 @@
               {{getInfoActual().horario.nombre}}
             </div>
           </td>
-          <td colspan="7" style="text-align: left">{{getInfoActual().mensaje}}</td>
+          <td colspan="8" style="text-align: left">{{getInfoActual().mensaje}}</td>
         </tr>
         }
         @case (estado.sin_registros) {
@@ -367,7 +380,7 @@
           <td>
             {{getInfoActual().horario}}
           </td>
-          <td colspan="7" style="text-align: left">{{getInfoActual().mensaje}}</td>
+          <td colspan="8" style="text-align: left">{{getInfoActual().mensaje}}</td>
         </tr>
         }
         @case (estado.sin_asignar) {
@@ -376,7 +389,7 @@
           <td>
             {{getInfoActual().horario}}
           </td>
-          <td colspan="7" style="text-align: left">{{getInfoActual().mensaje}}</td>
+          <td colspan="8" style="text-align: left">{{getInfoActual().mensaje}}</td>
         </tr>
         }
         @default {
@@ -388,7 +401,7 @@
               {{getInfoActual().horario.nombre}}
             </div>
           </td>
-          <td colspan="7" style="text-align: left">
+          <td colspan="8" style="text-align: left">
               {{getInfoActual().mensaje}}
           </td>
         </tr>

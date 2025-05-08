@@ -28,12 +28,12 @@
            {{getTotalDias()}}
          </p>
        </div>
-       <div class="vinput">
+       <div class="vinput" style="display: none">
          <div class="icon-text">
         <span class="icon has-text-danger-70">
         <i class="fas fa-exclamation-triangle" style="font-size: 1.2em"></i>
         </span>
-           <span class="label">Cortes / Fallas</span>
+           <span class="label">Interrupciones</span>
          </div>
          <p class="block has-text-centered">
            0
@@ -88,8 +88,14 @@
            <span>Marcar</span>
          </div>
        </th>
+       <th>
+         <div class="vinput has-text-centered">
+           <span>Salió</span>
+           <span>Antes</span>
+         </div>
+       </th>
        <th>Faltas</th>
-       <th></th>
+       <th class="hidden-print"></th>
      </tr>
      <tbody>
      @for (rm of resumenMarcaciones; track rm; let index = $index) {
@@ -160,6 +166,26 @@
         </td>
         } @else {
         <td>{{rm.totalSinMarcar}}</td>
+        }
+        @if(rm.totalSalAntes > 0) {
+        <td>
+          <div class="hitem" style="justify-content: space-between">
+            <span>{{rm.totalSalAntes}}</span>
+            <div class="dropdown is-up is-hoverable">
+              <div class="dropdown-trigger">
+                <span><i class="far fa-caret-square-up" style="color: #888; background-color: {{getColor('Rojo')}}"></i></span>
+              </div>
+              <div class="dropdown-menu" role="menu">
+               <div class="dropdown-content popup">
+                 <div class='cabecera'>Salidas Anticipadas</div>
+                 <div class="contenido" style='color: #786450;' [innerHtml]="getSalAntes(rm.infoMarcaciones)"></div>
+               </div>
+              </div>
+            </div>
+          </div>
+        </td>
+        } @else {
+        <td>{{rm.totalSalAntes}}</td>
         }
         @if(rm.totalAusencias > 0) {
         <td>
