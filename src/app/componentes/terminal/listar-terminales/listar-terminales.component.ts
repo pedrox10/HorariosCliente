@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import {Location} from '@angular/common';
 import {Terminal} from "../../../modelos/Terminal";
 import {color} from "../../inicio/Global";
+import {env} from "../../../../environments/environments";
 
 @Component({
   selector: 'app-listar-terminales',
@@ -32,6 +33,7 @@ export class ListarTerminalesComponent implements OnInit{
       (data: any) => {
         this.terminales = data;
         this.terminalesFiltrados = data
+        this.filtrarPorCategoria(env.categoria)
       },
       (error: any) => {
         console.error('An error occurred:', error);
@@ -47,15 +49,17 @@ export class ListarTerminalesComponent implements OnInit{
     );
   }
 
-  filtrarPorEstado(estado: boolean | null) {
-    if (estado === null) {
-      this.terminalesFiltrados = this.terminales;
-    } else {
-      this.terminalesFiltrados = this.terminales.filter(t => t.tieneConexion === estado);
-    }
+  filtrarPorCategoria(categoria: string) {
+    this.terminalesFiltrados = this.terminales.filter(t => t.categoria === categoria);
+    if(env.categoria !== categoria)
+      env.categoria = categoria;
   }
 
   getColor(nombre: string) {
     return color(nombre)
+  }
+
+  isSelected(categoria: string): boolean {
+    return env.categoria === categoria;
   }
 }

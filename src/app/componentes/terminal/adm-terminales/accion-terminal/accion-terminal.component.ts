@@ -22,6 +22,7 @@ export class AccionTerminalComponent implements OnInit {
     nombre: new FormControl('', [Validators.required, Validators.maxLength(14)]),
     ip: new FormControl('', [Validators.required, Validators.pattern('(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)')]),
     puerto: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]\d*$/)]),
+    categoria: new FormControl('', [Validators.required]),
     tieneConexion: new FormControl(false)
   });
 
@@ -41,6 +42,7 @@ export class AccionTerminalComponent implements OnInit {
         nombre: terminal.nombre,
         ip: terminal.ip,
         puerto: terminal.puerto,
+        categoria: terminal.categoria,
         tieneConexion: terminal.tieneConexion
       })
     }

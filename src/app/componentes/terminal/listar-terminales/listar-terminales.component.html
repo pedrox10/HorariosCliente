@@ -4,24 +4,38 @@
   </div>
   <div class="hbox" style="margin-bottom: 0px;">
   <!--<input #buscador class="input" type="text" placeholder="Buscar terminal..." (input)="buscar(buscador.value)">-->
-    <span class="label mt-2">Filtrar por estado: </span>
-    <div class="buttons has-addons is-centered mb-1">
-      <button class="button" (click)="filtrarPorEstado(null)">
-        <div class="hitem">
-          <div class="circle" style="background-color: {{getColor('Gris')}}; border: 1px #999 solid; align-self: center"></div>
-          <span>Todos</span>
+    <span class="label mt-2">Filtrar por categoria: </span>
+    <div class="buttons is-centered mb-1" style="gap: 0px">
+      <button class="button"  (click)="filtrarPorCategoria('Central')" [class.seleccionado]="isSelected('Central')">
+        <div class="hitem" >
+          @if(isSelected('Central')) {
+          <i class="fas fa-check has-text-success" style="align-self: center;"></i>
+          }
+          <span>Central</span>
         </div>
       </button>
-      <button class="button" (click)="filtrarPorEstado(true)">
+      <button class="button" (click)="filtrarPorCategoria('Distrito')" [class.seleccionado]="isSelected('Distrito')">
         <div class="hitem">
-          <div class="circle" style="background-color: {{getColor('Verde')}}; border: 1px #999 solid; align-self: center"></div>
-          <span>Con Conexión</span>
+          @if(isSelected('Distrito')) {
+          <i class="fas fa-check has-text-success" style="align-self: center;"></i>
+          }
+          <span>Distrito</span>
         </div>
       </button>
-      <button class="button" (click)="filtrarPorEstado(false)">
+      <button class="button" (click)="filtrarPorCategoria('Unidad')" [class.seleccionado]="isSelected('Unidad')">
         <div class="hitem">
-          <div class="circle" style="background-color: {{getColor('Guindo')}}; border: 1px #999 solid; align-self: center"></div>
-          <span>Sin Conexión</span>
+          @if(isSelected('Unidad')) {
+          <i class="fas fa-check has-text-success" style="align-self: center;"></i>
+          }
+          <span>Unidad</span>
+        </div>
+      </button>
+      <button class="button" (click)="filtrarPorCategoria('Salud')" [class.seleccionado]="isSelected('Salud')">
+        <div class="hitem">
+          @if(isSelected('Salud')) {
+          <i class="fas fa-check has-text-success" style="align-self: center;"></i>
+          }
+          <span>Salud</span>
         </div>
       </button>
     </div>

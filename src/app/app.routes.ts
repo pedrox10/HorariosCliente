@@ -11,6 +11,7 @@ import {AsuetosComponent} from "./componentes/horarios/asuetos/asuetos.component
 import {EditarUsuarioComponent} from "./componentes/usuarios/editar-usuario/editar-usuario.component";
 import {VerReporteComponent} from "./componentes/usuarios/ver-reporte/ver-reporte.component";
 import {InterrupcionesComponent} from "./componentes/terminal/interrupciones/interrupciones.component";
+import {AccionTerminalComponent} from "./componentes/terminal/adm-terminales/accion-terminal/accion-terminal.component";
 
 export const routes: Routes = [
   {path: "", component: ListarTerminalesComponent},
@@ -26,4 +27,5 @@ export const routes: Routes = [
   {path: "editar-usuario", component: EditarUsuarioComponent},
   {path: "ver-reporte", component: VerReporteComponent},
   {path: "interrupciones/:id", component: InterrupcionesComponent},
+  {path: "accion-terminal", component: AccionTerminalComponent},
 ];

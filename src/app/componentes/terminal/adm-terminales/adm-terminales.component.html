@@ -5,6 +5,16 @@
   <div class="animate__animated animate__fadeIn" style="box-sizing: border-box; width: fit-content;">
     <div class="hbox">
       <div class="hitem">
+        <label class="label mt-2">Categoría: </label>
+        <div class="select" >
+          <select id="">
+            <option selected>Todos</option>
+            <option>Central</option>
+            <option>Distrito</option>
+            <option>Unidad</option>
+            <option>Salud</option>
+          </select>
+        </div>
       </div>
       <div class="hitem">
       </div>
@@ -25,6 +35,7 @@
         <th>Número de Serie</th>
         <th>Marcaciones</th>
         <th>Ult. Sicronización</th>
+        <th>Categoria</th>
         <th></th>
       </tr>
       <tbody>
@@ -46,6 +57,7 @@
           <td>{{t.numSerie}}</td>
           <td>{{t.totalMarcaciones}}</td>
           <td>{{formatear(t.ultSincronizacion!)}}</td>
+          <td>{{t.categoria}}</td>
           <td>
             <div class="hitem">
               <span class="icon has-tooltip-arrow expand" data-tooltip="Editar" (click) = "agregarEditarModal(t)">
@@ -54,7 +66,7 @@
               <span class="icon has-tooltip-arrow expand" data-tooltip="Sincronizaciones" (click) = "mostrarSincronizaciones(t)">
                 <i class="fas fa-history icon-btn"></i>
               </span>
-              <span class="icon has-tooltip-arrow expand" data-tooltip="Cortes y Fallas" routerLink="/interrupciones/{{t.id}}">
+              <span class="icon has-tooltip-arrow expand" data-tooltip="Interrupciones" routerLink="/interrupciones/{{t.id}}">
                 <i class="fas fa-exclamation-triangle icon-btn"></i>
               </span>
               <span class="icon has-tooltip-arrow expand" data-tooltip="Eliminar Terminal" (click) = "mostrarEliminar(t)">

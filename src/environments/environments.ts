@@ -16,5 +16,7 @@ export const env = {
   dias_pares: ["martes", "jueves", "sabado"],
   posY: 0,
   indexUsuario: -1,
-  indexResumenMarcacion: -1
+  indexResumenMarcacion: -1,
+  categoria: "Central",
+  admCategoria: "Todos"
 }
