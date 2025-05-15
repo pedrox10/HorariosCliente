@@ -7,12 +7,12 @@
       <div class="hitem">
         <label class="label mt-2">Categoría: </label>
         <div class="select" >
-          <select id="">
-            <option selected>Todos</option>
-            <option>Central</option>
-            <option>Distrito</option>
-            <option>Unidad</option>
-            <option>Salud</option>
+          <select id="" (change)="filtrarPorCategoria($event)">
+            <option [selected]="isSelected('Todos')">Todos</option>
+            <option [selected]="isSelected('Central')">Central</option>
+            <option [selected]="isSelected('Distrito')">Distrito</option>
+            <option [selected]="isSelected('Unidad')">Unidad</option>
+            <option [selected]="isSelected('Salud')">Salud</option>
           </select>
         </div>
       </div>
@@ -39,7 +39,7 @@
         <th></th>
       </tr>
       <tbody>
-      @for (t of terminales; track t; let i = $index) {
+      @for (t of terminalesFiltrados; track t; let i = $index) {
          <tr id={{t.id}}>
           <td>{{i + 1}}</td>
           <td>

@@ -9,6 +9,7 @@ import {Router, RouterLink} from '@angular/router';
 import {toast} from "bulma-toast";
 import {color, format, formatDateTime, formatTime} from "../../inicio/Global";
 import {Sincronizacion} from "../../../modelos/Sincronizacion";
+import {env} from "../../../../environments/environments";
 
 @Component({
   selector: 'app-adm-terminales',
@@ -25,6 +26,7 @@ import {Sincronizacion} from "../../../modelos/Sincronizacion";
 export class AdmTerminalesComponent implements OnInit {
 
   public terminales: Terminal[] = [];
+  public terminalesFiltrados: Terminal[] = [];
   idActual: number = -1;
   nombreTerminal: string | any;
   tieneConexion: boolean | any;
@@ -52,24 +54,50 @@ export class AdmTerminalesComponent implements OnInit {
   }
 
   add(terminal: Terminal) {
-    if (terminal !== undefined)
+    if (terminal !== undefined) {
       this.terminales.push(terminal);
+      if(env.admCategoria === "Todos") {
+        this.terminalesFiltrados.push(terminal)
+      } else {
+        if (env.admCategoria === terminal.categoria)
+          this.terminalesFiltrados.push(terminal)
+      }
+    }
   }
 
   edit(terminal: Terminal) {
-    const index = this.terminales.map(i => i.id).indexOf(terminal.id);
-    console.log(index)
+    let index = this.terminales.map(i => i.id).indexOf(terminal.id);
     this.terminales[index] = terminal;
+    if(env.admCategoria === "Todos") {
+      this.terminalesFiltrados[index] = terminal;
+    } else {
+      let indexFiltrados = this.terminalesFiltrados.map(i => i.id).indexOf(terminal.id);
+      if (env.admCategoria === terminal.categoria) {
+        this.terminalesFiltrados[indexFiltrados] = terminal;
+      } else {
+        this.terminalesFiltrados.splice(indexFiltrados, 1)
+      }
+    }
   }
 
   delete() {
     document.getElementById("btn_eliminar")?.classList.add("is-loading");
     this.terminalService.eliminarTerminal(this.idActual).subscribe(
       (data: any) => {
+        console.log(data)
         this.ocultarEliminar();
         document.getElementById("btn_eliminar")?.classList.remove("is-loading");
-        const index = this.terminales.map(i => i.id).indexOf(this.idActual);
+        let index = this.terminales.map(i => i.id).indexOf(this.idActual);
         this.terminales.splice(index, 1);
+        if(env.admCategoria === "Todos") {
+          this.terminalesFiltrados.splice(index, 1)
+        } else {
+          let indexFiltrados = this.terminalesFiltrados.map(i => i.id).indexOf(this.idActual);
+          if (env.admCategoria === this.terminalesFiltrados[indexFiltrados].categoria) {
+            this.terminalesFiltrados.splice(indexFiltrados, 1)
+          }
+        }
+
         toast({
           message: '<span class="icon" style="min-width: 175px;"><i style="color: white; font-size: 2em; padding-right: 10px" class="fas fa-check"></i>Terminal eliminado</span>',
           type: "is-success",
@@ -95,11 +123,26 @@ export class AdmTerminalesComponent implements OnInit {
     this.terminalService.getTerminales().subscribe(
       (data: any) => {
         this.terminales = data;
+        if(env.admCategoria === "Todos")
+          this.terminalesFiltrados = data;
+        else {
+          this.terminalesFiltrados = this.terminales.filter(t => t.categoria === env.admCategoria);
+        }
       },
       (error: any) => {
         console.error('An error occurred:', error);
       }
     );
+  }
+
+  filtrarPorCategoria(ev: any) {
+    let categoria = ev.target.value
+    env.admCategoria = categoria;
+    if(categoria === "Todos") {
+      this.terminalesFiltrados = this.terminales.slice();
+    } else {
+      this.terminalesFiltrados = this.terminales.filter(t => t.categoria === categoria);
+    }
   }
 
   agregarEditarModal(terminal: any) {
@@ -161,6 +204,10 @@ export class AdmTerminalesComponent implements OnInit {
 
   getColor(nombre: string) {
     return color(nombre)
+  }
+
+  isSelected(categoria: string): boolean {
+    return env.admCategoria === categoria;
   }
 
   formatear(fecha: Date){
