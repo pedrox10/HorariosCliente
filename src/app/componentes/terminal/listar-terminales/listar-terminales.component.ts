@@ -19,6 +19,7 @@ import {env} from "../../../../environments/environments";
 export class ListarTerminalesComponent implements OnInit{
   public terminales: Terminal[] = [];
   public terminalesFiltrados: Terminal[] = [];
+  public categorias = env.categorias;
   public element = document.getElementById("terminales");
   public constructor(public terminalService: TerminalService, public location: Location) {
 
@@ -32,8 +33,9 @@ export class ListarTerminalesComponent implements OnInit{
     this.terminalService.getTerminales().subscribe(
       (data: any) => {
         this.terminales = data;
-        this.terminalesFiltrados = data
-        this.filtrarPorCategoria(env.categoria)
+        console.log(this.terminales)
+        this.terminalesFiltrados = this.terminales.slice();
+        this.filtrarPorCategoria(env.posCategoria)
       },
       (error: any) => {
         console.error('An error occurred:', error);
@@ -49,17 +51,16 @@ export class ListarTerminalesComponent implements OnInit{
     );
   }
 
-  filtrarPorCategoria(categoria: string) {
-    this.terminalesFiltrados = this.terminales.filter(t => t.categoria === categoria);
-    if(env.categoria !== categoria)
-      env.categoria = categoria;
+  filtrarPorCategoria(index: number) {
+    this.terminalesFiltrados = this.terminales.filter(t => t.categoria === index);
+    env.posCategoria = index;
   }
 
   getColor(nombre: string) {
     return color(nombre)
   }
 
-  isSelected(categoria: string): boolean {
-    return env.categoria === categoria;
+  isSelected(index: number): boolean {
+    return env.posCategoria === index;
   }
 }

@@ -54,10 +54,9 @@
           <div class="control">
             <div class="select" >
               <select id="categoria" formControlName="categoria" style="width: 177.25px">
-                <option>Central</option>
-                <option>Distrito</option>
-                <option>Unidad</option>
-                <option>Salud</option>
+                @for(categoria of categorias; track categoria; let i = $index) {
+                <option value="{{i}}">{{categoria}}</option>
+                }
               </select>
             </div>
           </div>

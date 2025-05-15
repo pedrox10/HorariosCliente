@@ -8,11 +8,10 @@
         <label class="label mt-2">Categoría: </label>
         <div class="select" >
           <select id="" (change)="filtrarPorCategoria($event)">
-            <option [selected]="isSelected('Todos')">Todos</option>
-            <option [selected]="isSelected('Central')">Central</option>
-            <option [selected]="isSelected('Distrito')">Distrito</option>
-            <option [selected]="isSelected('Unidad')">Unidad</option>
-            <option [selected]="isSelected('Salud')">Salud</option>
+            <option value="-1">Todos</option>
+            @for(categoria of categorias; track categoria; let i = $index) {
+            <option [selected]="isSelected(i)" value={{i}}>{{categoria}}</option>
+            }
           </select>
         </div>
       </div>
@@ -57,7 +56,7 @@
           <td>{{t.numSerie}}</td>
           <td>{{t.totalMarcaciones}}</td>
           <td>{{formatear(t.ultSincronizacion!)}}</td>
-          <td>{{t.categoria}}</td>
+          <td>{{categorias[t.categoria]}}</td>
           <td>
             <div class="hitem">
               <span class="icon has-tooltip-arrow expand" data-tooltip="Editar" (click) = "agregarEditarModal(t)">

@@ -6,6 +6,7 @@ import {toast} from 'bulma-toast'
 import {ModalService} from "ngx-modal-ease";
 import {Router} from '@angular/router';
 import {CommonModule} from "@angular/common";
+import {env} from "../../../../../environments/environments";
 
 @Component({
   selector: 'app-accion-terminal',
@@ -18,6 +19,7 @@ import {CommonModule} from "@angular/common";
 
 export class AccionTerminalComponent implements OnInit {
 
+  public categorias = env.categorias;
   formAccion = new FormGroup({
     nombre: new FormControl('', [Validators.required, Validators.maxLength(14)]),
     ip: new FormControl('', [Validators.required, Validators.pattern('(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)')]),

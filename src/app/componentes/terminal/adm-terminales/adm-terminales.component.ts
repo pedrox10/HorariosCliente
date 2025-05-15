@@ -27,6 +27,7 @@ export class AdmTerminalesComponent implements OnInit {
 
   public terminales: Terminal[] = [];
   public terminalesFiltrados: Terminal[] = [];
+  public categorias = env.categorias;
   idActual: number = -1;
   nombreTerminal: string | any;
   tieneConexion: boolean | any;
@@ -39,6 +40,7 @@ export class AdmTerminalesComponent implements OnInit {
 
   ngOnInit() {
     this.getTerminales()
+    console.log(env.posAdmCategoria)
     document.addEventListener('keydown', (e) => {
       if ((e as KeyboardEvent).key === 'Escape') {
         this.ocultarEliminar()
@@ -55,12 +57,16 @@ export class AdmTerminalesComponent implements OnInit {
 
   add(terminal: Terminal) {
     if (terminal !== undefined) {
+      console.log("agrego a  terminales")
       this.terminales.push(terminal);
-      if(env.admCategoria === "Todos") {
+      if(env.posAdmCategoria === -1) {
         this.terminalesFiltrados.push(terminal)
+        console.log("agrego a filtrados")
       } else {
-        if (env.admCategoria === terminal.categoria)
+        if (env.posAdmCategoria === terminal.categoria){
           this.terminalesFiltrados.push(terminal)
+          console.log("agrego al filtro actual")
+        }
       }
     }
   }
@@ -68,11 +74,11 @@ export class AdmTerminalesComponent implements OnInit {
   edit(terminal: Terminal) {
     let index = this.terminales.map(i => i.id).indexOf(terminal.id);
     this.terminales[index] = terminal;
-    if(env.admCategoria === "Todos") {
+    if(env.posAdmCategoria === -1) {
       this.terminalesFiltrados[index] = terminal;
     } else {
       let indexFiltrados = this.terminalesFiltrados.map(i => i.id).indexOf(terminal.id);
-      if (env.admCategoria === terminal.categoria) {
+      if (env.posAdmCategoria === terminal.categoria) {
         this.terminalesFiltrados[indexFiltrados] = terminal;
       } else {
         this.terminalesFiltrados.splice(indexFiltrados, 1)
@@ -89,11 +95,11 @@ export class AdmTerminalesComponent implements OnInit {
         document.getElementById("btn_eliminar")?.classList.remove("is-loading");
         let index = this.terminales.map(i => i.id).indexOf(this.idActual);
         this.terminales.splice(index, 1);
-        if(env.admCategoria === "Todos") {
+        if(env.posAdmCategoria === -1) {
           this.terminalesFiltrados.splice(index, 1)
         } else {
           let indexFiltrados = this.terminalesFiltrados.map(i => i.id).indexOf(this.idActual);
-          if (env.admCategoria === this.terminalesFiltrados[indexFiltrados].categoria) {
+          if (env.posAdmCategoria === this.terminalesFiltrados[indexFiltrados].categoria) {
             this.terminalesFiltrados.splice(indexFiltrados, 1)
           }
         }
@@ -123,10 +129,10 @@ export class AdmTerminalesComponent implements OnInit {
     this.terminalService.getTerminales().subscribe(
       (data: any) => {
         this.terminales = data;
-        if(env.admCategoria === "Todos")
-          this.terminalesFiltrados = data;
+        if(env.posAdmCategoria === -1)
+          this.terminalesFiltrados = this.terminales.slice();
         else {
-          this.terminalesFiltrados = this.terminales.filter(t => t.categoria === env.admCategoria);
+          this.terminalesFiltrados = this.terminales.filter(t => t.categoria === env.posAdmCategoria);
         }
       },
       (error: any) => {
@@ -136,13 +142,13 @@ export class AdmTerminalesComponent implements OnInit {
   }
 
   filtrarPorCategoria(ev: any) {
-    let categoria = ev.target.value
-    env.admCategoria = categoria;
-    if(categoria === "Todos") {
+    let index = parseInt(ev.target.value)
+    if(index === -1) {
       this.terminalesFiltrados = this.terminales.slice();
     } else {
-      this.terminalesFiltrados = this.terminales.filter(t => t.categoria === categoria);
+      this.terminalesFiltrados = this.terminales.filter(t => t.categoria === index);
     }
+    env.posAdmCategoria = index;
   }
 
   agregarEditarModal(terminal: any) {
@@ -206,8 +212,8 @@ export class AdmTerminalesComponent implements OnInit {
     return color(nombre)
   }
 
-  isSelected(categoria: string): boolean {
-    return env.admCategoria === categoria;
+  isSelected(index: number): boolean {
+    return env.posAdmCategoria === index;
   }
 
   formatear(fecha: Date){

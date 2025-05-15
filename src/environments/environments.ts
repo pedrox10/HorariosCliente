@@ -17,6 +17,7 @@ export const env = {
   posY: 0,
   indexUsuario: -1,
   indexResumenMarcacion: -1,
-  categoria: "Central",
-  admCategoria: "Todos"
+  categorias: ["Central", "Distritos", "Unidades", "Salud"],
+  posCategoria: 0,
+  posAdmCategoria: -1
 }
