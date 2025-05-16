@@ -76,6 +76,12 @@ body {
 .vitem, .vinput {
   display: flex;
   flex-direction: column;
+  gap: 0;
+}
+
+.vitem > * {
+  margin: 0; /* Asegura que los hijos no tengan márgenes */
+  padding: 0;
 }
 
 .vinput label {
