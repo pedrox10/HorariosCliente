@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import * as XLSX from "xlsx-js-style";
 import {ModalService} from "ngx-modal-ease";
 import {TerminalService} from "../../../servicios/terminal.service";
@@ -10,7 +10,7 @@ import {color, format, mensaje} from "../../inicio/Global";
 import {InfoMarcacion} from "../../../modelos/InfoMarcacion";
 import moment from "moment";
 import {EstadoJornada} from "../../../modelos/Jornada";
-import {Location} from "@angular/common";
+import {CommonModule, Location} from "@angular/common";
 import {DataService} from "../../../servicios/data.service";
 import {Router, RouterLink} from "@angular/router";
 import {VerHorarioComponent} from "../ver-horario/ver-horario.component";
@@ -22,7 +22,7 @@ import {env} from "../../../../environments/environments";
 @Component({
   selector: 'app-ver-reporte',
   standalone: true,
-  imports: [HttpClientModule, RouterLink],
+  imports: [HttpClientModule, RouterLink, CommonModule],
   providers: [TerminalService, DataService],
   templateUrl: './ver-reporte.component.html',
   styleUrl: './ver-reporte.component.css'
@@ -40,6 +40,7 @@ export class VerReporteComponent implements OnInit{
   rmActual: ResumenMarcacion | any;
   filasExcel = [] as Array<IReporte>
   private destroy$ = new Subject<void>();
+  showScrollButton = false;
 
   constructor(private modalService: ModalService, private terminalService: TerminalService,
               private location: Location, private router: Router) {
@@ -355,5 +356,15 @@ export class VerReporteComponent implements OnInit{
 
   isSelected(id: number | any): boolean {
     return env.indexResumenMarcacion === id;
+  }
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    // Muestra el botón si el usuario ha hecho scroll más allá del viewport
+    this.showScrollButton = window.scrollY > window.innerHeight;
+  }
+
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }

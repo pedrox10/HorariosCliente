@@ -120,8 +120,8 @@
                   <i class="far fa-edit icon-btn"></i>
                 </span>
               </div>
-          </td>
-        </tr>
+            </td>
+          </tr>
           }
           </tbody>
         </table>
@@ -153,9 +153,19 @@
               </label>
             </div>
           </div>
-          <button class="scroll-to-top" (click)="scrollToTop()" *ngIf="showScrollButton">
-            <span class="icon is-right"><i class="fas fa-arrow-up"></i></span>
-          </button>
+          <div class="vitem sticker" *ngIf="showScrollButton" style="gap: 3px;">
+            <button title="Asignar Horario" class="button" (click)="asignarHorario()"
+                    style="background-color: {{getColor('Amarillo')}}; border-radius: 5px">
+              <span class="icon"><i class="fas fa-user-clock"></i></span>
+            </button>
+            <button title="Reporte General" class="button" (click)="seleccionarRango()"
+                    style="background-color: {{getColor('Naranja')}}; border-radius: 5px;">
+              <span class="icon"><i class="fas fa-file-alt"></i></span>
+            </button>
+            <button title="Subir" class="scroll-to-top" (click)="scrollToTop()">
+              <span class="icon is-right"><i class="fas fa-arrow-up"></i></span>
+            </button>
+          </div>
         </div>
       </div>
     </div>

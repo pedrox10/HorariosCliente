@@ -79,7 +79,8 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
             },
           },
           LockPlugin: {
-            maxDate: this.ultimaSincronizacion,
+            minDate: moment().startOf("year").toDate(),
+            maxDate: moment().endOf("year").toDate()
           },
         });
         picker.gotoDate(moment().subtract(1, "month").toDate());

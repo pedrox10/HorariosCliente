@@ -233,6 +233,11 @@
      }
      </tbody>
    </table>
+   <div class="vitem sticker" *ngIf="showScrollButton" style="gap: 3px;">
+     <button title="Subir" class="scroll-to-top" (click)="scrollToTop()">
+       <span class="icon is-right"><i class="fas fa-arrow-up"></i></span>
+     </button>
+   </div>
  </div>
   <div class="modal " id="ocultar_modal">
     <div class="modal-background" id="fondo_ocultar" style="opacity: 0.75;"></div>

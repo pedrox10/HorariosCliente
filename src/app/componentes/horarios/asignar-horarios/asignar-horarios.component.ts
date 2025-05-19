@@ -81,7 +81,7 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
       },
        LockPlugin: {
         minDate: moment(this.fechaMin, "YYYY-MM-DD").toDate(),
-        maxDays: 92,
+        maxDate: moment().endOf("year").toDate()
        },
     });
     this.picker.gotoDate(moment().subtract(1, "month").toDate());

@@ -301,10 +301,13 @@ p.modal-card-title {
   padding: 2px;
 }
 
-.scroll-to-top {
+.sticker {
   position: fixed;
   bottom: 20px;
   right: 20px;
+}
+
+.scroll-to-top {
   background-color: #007bff;
   color: white;
   border: none;

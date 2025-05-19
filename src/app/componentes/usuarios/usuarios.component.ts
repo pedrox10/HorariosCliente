@@ -57,7 +57,6 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   escuchaEscape: EventListener | any;
   private destroy$ = new Subject<void>();
   showScrollButton = false;
-  indiceFuncionario: number | any;
 
   constructor(public terminalService: TerminalService,private router: Router,
               public modalService: ModalService, private location: Location,
@@ -114,8 +113,6 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    console.log("AfterView")
-
     setTimeout(() => {
       window.scrollTo({
         top: env.posY,
@@ -159,7 +156,8 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
         },
       },
       LockPlugin: {
-        maxDate: this.ultimaSincronizacion,
+        minDate: moment().startOf("year").toDate(),
+        maxDate: moment().endOf("year").toDate()
       },
     });
     let botonVerReporte = (document.getElementById("btn_ver_reporte") as HTMLButtonElement)
