@@ -152,7 +152,7 @@
                 @if(!infoMarcacion.hayPriEntExcepcion.esInterrupcion) {
                 <i class="fas fa-check-double has-text-success"></i>
                 } @else {
-                <i class="fas fa-exclamation-triangle is-info"></i>
+                <i class="fas fa-exclamation-triangle has-text-grey"></i>
                 }
               </div>
               <div class="dropdown-menu" role="menu">
@@ -185,9 +185,9 @@
             <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Gris')}}">Interrupción</span>
             }
             } @else {
-            <div class="vitem" style="margin-top: -3px;">
-              <span class="help is-info" style="margin-top: 0; margin-bottom: -5px; font-size: 0.50em">{{getInfoActual().horario.priEntrada.slice(0, 5)}}</span>
-              <marcacion style= "font-size: 0.95em" tipo="entrada" [registros]="getInfoActual().priEntradas"></marcacion>
+            <div class="vitem" style="margin-top: -4px;">
+              <span class="help has-text-gray" style="margin-top: 0; margin-bottom: -5px; font-size: 0.51em">{{getInfoActual().horario.priEntrada.slice(0, 5)}}</span>
+              <marcacion style= "font-size: 1em" tipo="entrada" [registros]="getInfoActual().priEntradas"></marcacion>
             </div>
             @if(infoMarcacion.hayPriRetraso) {
             <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Amarillo')}}">Retraso</span>
@@ -201,7 +201,7 @@
                 @if(!infoMarcacion.hayPriSalExcepcion.esInterrupcion) {
                 <i class="fas fa-check-double has-text-success"></i>
                 } @else {
-                <i class="fas fa-exclamation-triangle is-info"></i>
+                <i class="fas fa-exclamation-triangle has-text-grey"></i>
                 }
               </div>
               <div class="dropdown-menu" role="menu">
@@ -234,11 +234,11 @@
             <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Gris')}}">Interrupción</span>
             }
             } @else {
-            <div class="vitem" style="margin-top: -3px;">
-              <span class="help is-info" style="margin-top: 0; margin-bottom: -5px; font-size: 0.50em">
+            <div class="vitem" style="margin-top: -4px;">
+              <span class="help has-text-gray" style="margin-top: 0; margin-bottom: -5px; font-size: 0.51em">
                 {{getInfoActual().horario.priSalida.slice(0, 5)}}
               </span>
-              <marcacion style= "font-size: 0.95em" tipo="salida" [registros]="getInfoActual().priSalidas"></marcacion>
+              <marcacion style= "font-size: 1em" tipo="salida" [registros]="getInfoActual().priSalidas"></marcacion>
             </div>
             @if(infoMarcacion.hayPriAntes) {
             <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Rojo')}}">Salió antes</span>
@@ -258,7 +258,7 @@
               @if(!infoMarcacion.haySegEntExcepcion.esInterrupcion) {
               <i class="fas fa-check-double has-text-success"></i>
               } @else {
-              <i class="fas fa-exclamation-triangle is-info"></i>
+              <i class="fas fa-exclamation-triangle has-text-grey"></i>
               }
             </div>
             <div class="dropdown-menu" role="menu">
@@ -291,9 +291,9 @@
           <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Gris')}}">Interrupción</span>
           }
           } @else {
-          <div class="vitem" style="margin-top: -3px;">
-            <span class="help is-info" style="margin-top: 0; margin-bottom: -5px; font-size: 0.50em">{{getInfoActual().horario.segEntrada.slice(0, 5)}}</span>
-            <marcacion style= "font-size: 0.95em" tipo="entrada" [registros]="getInfoActual().segEntradas"></marcacion>
+          <div class="vitem" style="margin-top: -4px;">
+            <span class="help has-text-gray" style="margin-top: 0; margin-bottom: -5px; font-size: 0.51em">{{getInfoActual().horario.segEntrada.slice(0, 5)}}</span>
+            <marcacion style= "font-size: 1em" tipo="entrada" [registros]="getInfoActual().segEntradas"></marcacion>
           </div>
           @if(infoMarcacion.haySegRetraso) {
           <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Amarillo')}}">Retraso</span>
@@ -307,7 +307,7 @@
               @if(!infoMarcacion.haySegSalExcepcion.esInterrupcion) {
               <i class="fas fa-check-double has-text-success"></i>
               } @else {
-              <i class="fas fa-exclamation-triangle is-info"></i>
+              <i class="fas fa-exclamation-triangle has-text-grey"></i>
               }
             </div>
             <div class="dropdown-menu" role="menu">
@@ -340,9 +340,9 @@
           <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Gris')}}">Interrupción</span>
           }
           } @else {
-          <div class="vitem" style="margin-top: -3px;">
-            <span class="help is-info" style="margin-top: 0; margin-bottom: -5px; font-size: 0.50em">{{getInfoActual().horario.segSalida.slice(0, 5)}}</span>
-            <marcacion style= "font-size: 0.95em" tipo="salida" [registros]="getInfoActual().segSalidas"></marcacion>
+          <div class="vitem" style="margin-top: -4px;">
+            <span class="help has-text-gray" style="margin-top: 0; margin-bottom: -5px; font-size: 0.51em">{{getInfoActual().horario.segSalida.slice(0, 5)}}</span>
+            <marcacion style= "font-size: 1em" tipo="salida" [registros]="getInfoActual().segSalidas"></marcacion>
           </div>
           @if(infoMarcacion.haySegAntes) {
           <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Rojo')}}">Salió antes</span>
