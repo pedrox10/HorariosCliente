@@ -147,6 +147,7 @@
           </td>
           <td>
             @if(infoMarcacion.hayPriEntExcepcion.existe) {
+            <span class="help has-text-gray" style="margin-top: -4px; margin-bottom: -5px; font-size: 0.51em">{{getInfoActual().horario.priEntrada.slice(0, 5)}}</span>
             <div class="dropdown is-up is-hoverable">
               <div class="dropdown-trigger">
                 @if(!infoMarcacion.hayPriEntExcepcion.esInterrupcion) {
@@ -196,6 +197,7 @@
           </td>
           <td>
             @if(infoMarcacion.hayPriSalExcepcion.existe) {
+            <span class="help has-text-gray" style="margin-top: -4px; margin-bottom: -5px; font-size: 0.51em">{{getInfoActual().horario.priSalida.slice(0, 5)}}</span>
             <div class="dropdown is-up is-hoverable">
               <div class="dropdown-trigger">
                 @if(!infoMarcacion.hayPriSalExcepcion.esInterrupcion) {
@@ -253,6 +255,7 @@
           @if(infoMarcacion.numTurnos == 2) {
           <td>
           @if(infoMarcacion.haySegEntExcepcion.existe) {
+          <span class="help has-text-gray" style="margin-top: -4px; margin-bottom: -5px; font-size: 0.51em">{{getInfoActual().horario.segEntrada.slice(0, 5)}}</span>
           <div class="dropdown is-up is-hoverable">
             <div class="dropdown-trigger">
               @if(!infoMarcacion.haySegEntExcepcion.esInterrupcion) {
@@ -302,6 +305,7 @@
           </td>
           <td>
           @if(infoMarcacion.haySegSalExcepcion.existe) {
+          <span class="help has-text-gray" style="margin-top: -4px; margin-bottom: -5px; font-size: 0.51em">{{getInfoActual().horario.segSalida.slice(0, 5)}}</span>
           <div class="dropdown is-up is-hoverable">
             <div class="dropdown-trigger">
               @if(!infoMarcacion.haySegSalExcepcion.esInterrupcion) {
