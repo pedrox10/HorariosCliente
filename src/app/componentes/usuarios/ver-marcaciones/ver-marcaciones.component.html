@@ -246,7 +246,7 @@
             <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Rojo')}}">Salió antes</span>
             }
             @if(infoMarcacion.esJornadaDosDias) {
-            <span title="¡Siguiente Día!" style="display: inline-flex; vertical-align: middle;">
+            <span title="¡Siguiente Día!" style="position: absolute; right: 4px; top: 5px;">
               <i class="fas fa-asterisk has-text-info" style="font-size:0.45em;"></i>
             </span>
             }
@@ -367,10 +367,12 @@
           <th style="position: relative;"><span class="badge is-bottom mb-2 has-background-primary">{{infoMarcacion.primerDia.mes}}</span></th>
         </tr>
         }
-        @switch (infoMarcacion.estado) {
+        @switch(infoMarcacion.estado) {
         @case (estado.teletrabajo) {
         <tr>
-          <th>{{getInfoActual().dia}}</th>
+          <th>
+            {{getInfoActual().dia}}
+          </th>
           <td>
             <div class="hitem">
               <div class="circle" style="background-color: {{getColor(getInfoActual().horario.color)}}; border: 1px lightgray solid; align-self: center"></div>

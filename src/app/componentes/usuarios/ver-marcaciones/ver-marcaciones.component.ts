@@ -141,6 +141,10 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
     return res;
   }
 
+  esUltimaSincronizacion(fecha: Date) {
+    return moment(fecha, "YYYY-MM-DD").isSame(moment(this.ultimaSincronizacion, "YYYY-MM-DD"));
+  }
+
   cambiarTotales(){
     let retrasos = <HTMLSpanElement> document.getElementById("totalCantRetrasos")
     let minutos = <HTMLSpanElement> document.getElementById("totalMinRetrasos")
