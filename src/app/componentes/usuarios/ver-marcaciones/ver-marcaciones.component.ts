@@ -152,7 +152,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
     let salAntes = <HTMLSpanElement> document.getElementById("totalSalAntes")
     let faltas = <HTMLSpanElement> document.getElementById("totalFaltas")
     retrasos.innerText = this.resumenMarcacion.totalCantRetrasos === undefined ? "--" : this.resumenMarcacion.totalCantRetrasos
-    minutos.innerText = this.resumenMarcacion.totalMinRetrasos === undefined ? "--" : this.resumenMarcacion.totalMinRetrasos
+    minutos.innerText = this.resumenMarcacion.totalMinRetrasos === undefined ? "--" : this.resumenMarcacion.totalMinRetrasos + " min"
     sinMarcar.innerText = this.resumenMarcacion.totalSinMarcar === undefined ? "--" : this.resumenMarcacion.totalSinMarcar
     salAntes.innerText = this.resumenMarcacion.totalSalAntes === undefined ? "--" : this.resumenMarcacion.totalSalAntes
     faltas.innerText = this.resumenMarcacion.totalAusencias === undefined ? "--" : this.resumenMarcacion.totalAusencias

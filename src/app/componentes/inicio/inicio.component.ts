@@ -19,6 +19,7 @@ export class InicioComponent implements OnInit{
   }
 
   ngOnInit() {
+    console.log("InicioComponent cargado");
     //mensaje("echo", "is-success")
     //notificacion("<div class=''><p>Usuarios Agregados: 0</p><p>Nuevas Marcaciones: 0</p><p>Usuarios Agregados: 0</p><p>Nuevas Marcaciones: 0</p> </div>")
     this.items = Array.from(document.querySelectorAll('.item'));
