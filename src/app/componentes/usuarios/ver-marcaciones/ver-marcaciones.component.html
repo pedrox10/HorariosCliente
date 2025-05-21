@@ -27,7 +27,7 @@
             <span id="totalCantRetrasos" style="font-weight: bold;"></span>
           </div>
           <div class="hbox">
-            <span>Retraso</span>
+            <span>Retrasos</span>
             <span id="totalMinRetrasos" style="font-weight: bold;"></span>
           </div>
           <div class="hbox">
@@ -83,13 +83,13 @@
           <th style="text-align: center;" colspan="2">
             Segundo Turno
           </th>
-          <th style="text-align: center;" colspan="2">
-            Retrasos
+          <th style="text-align: center;">
+            Retraso
             <i class="fas fa-circle ml-1"
-                 style="color: {{getColor('Amarillo')}}; padding: 0px;  border-radius: 50%;border: #999 1px solid"></i>
+                 style="color: {{getColor('Amarillo')}}; padding: 0px;  border-radius: 50%;border: #999 1px solid; font-size: 0.75em"></i>
           </th>
           <th style="text-align: center;" colspan="2">
-            Sanciones<i class="fas fa-circle ml-1" style="color: {{getColor('Rojo')}}; border-radius: 50%;padding: 0;border: #999 1px solid"></i>
+            Sanciones<i class="fas fa-circle ml-1" style="color: {{getColor('Rojo')}}; border-radius: 50%;padding: 0;border: #999 1px solid; font-size: 0.75em"></i>
           </th>
         </tr>
         <tr>
@@ -99,8 +99,7 @@
           <th>Salida</th>
           <th>Entrada</th>
           <th>Salida</th>
-          <th><span class="help">Cant.</span></th>
-          <th><span class="help">Minutos</span></th>
+          <th><span class="help" style="text-align: center;">Minutos</span></th>
           <th><span class="help">Sin Marcar</span></th>
           <th><span class="help">Salió Antes</span></th>
         </tr>
@@ -356,7 +355,6 @@
           } @else {
           <td></td><td></td>
           }
-          <td>{{mostrarCantidades(getInfoActual().cantRetrasos)}}</td>
           <td>{{mostrarCantidades(getInfoActual().minRetrasos)}}</td>
           <td>{{mostrarCantidades(getInfoActual().noMarcados)}}</td>
           <td>{{mostrarCantidades(getInfoActual().cantSalAntes)}}</td>
