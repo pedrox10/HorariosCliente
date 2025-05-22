@@ -41,6 +41,8 @@ export class VerReporteComponent implements OnInit{
   filasExcel = [] as Array<IReporte>
   private destroy$ = new Subject<void>();
   showScrollButton = false;
+  sortColumn: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
 
   constructor(private modalService: ModalService, private terminalService: TerminalService,
               private location: Location, private router: Router) {
@@ -366,5 +368,56 @@ export class VerReporteComponent implements OnInit{
 
   scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  sortBy(column: string) {
+    if (column === 'ci') return; // ❌ No ordenar por CI
+    if (this.sortColumn === column) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortColumn = column;
+      this.sortDirection = 'asc';
+    }
+
+    this.resumenMarcaciones.sort((a, b) => {
+      let aVal: any, bVal: any;
+
+      switch (column) {
+        case 'nombre':
+          aVal = a.usuario.nombre.toLowerCase();
+          bVal = b.usuario.nombre.toLowerCase();
+          break;
+        case 'fechaAlta':
+          aVal = a.usuario.fechaAlta;
+          bVal = b.usuario.fechaAlta;
+          break;
+        case 'diasComputados':
+          aVal = a.diasComputados;
+          bVal = b.diasComputados;
+          break;
+        case 'retraso':
+          aVal = a.totalMinRetrasos;
+          bVal = b.totalMinRetrasos;
+          break;
+        case 'sinMarcar':
+          aVal = a.totalSinMarcar;
+          bVal = b.totalSinMarcar;
+          break;
+        case 'salAntes':
+          aVal = a.totalSalAntes;
+          bVal = b.totalSalAntes;
+          break;
+        case 'faltas':
+          aVal = a.totalAusencias;
+          bVal = b.totalAusencias;
+          break;
+        default:
+          return 0;
+      }
+
+      if (aVal < bVal) return this.sortDirection === 'asc' ? -1 : 1;
+      if (aVal > bVal) return this.sortDirection === 'asc' ? 1 : -1;
+      return 0;
+    });
   }
 }

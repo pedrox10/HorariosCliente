@@ -62,9 +62,14 @@
    <table class="table is-bordered is-hoverable" id="tabla_reporte">
      <tr class="stick">
        <th>#</th>
-       <th style="width: 265px;">Nombre</th>
+       <th style="width: 265px;" (click)="sortBy('nombre')">
+         Nombre
+         <span *ngIf="sortColumn === 'nombre'" style="border: 1px #c7c6c6 solid;">
+          <i class="pl-1 pr-1 fas" [ngClass]="sortDirection === 'asc' ? 'fa-sort-up' : 'fa-sort-down'"></i>
+         </span>
+       </th>
        <th style="width: 95px;">CI</th>
-       <th>
+       <th (click)="sortBy('fechaAlta')">
          <div class="vinput has-text-centered">
            <span>Fecha de</span>
            <span>Alta</span>

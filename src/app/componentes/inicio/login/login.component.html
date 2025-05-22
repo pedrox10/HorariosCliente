@@ -1,60 +1,61 @@
-<section class="section is-flex is-justify-content-center is-align-items-center min-h-screen">
-  <div class="box p-6" style="max-width: 900px; width: 100%; box-shadow: 0px 4px 16px rgba(0,0,0,0.15);">
-    <div class="columns is-vcentered">
-      <div class="column is-half has-text-centered">
-        <figure class="image is-inline-block">
-          <img src="assets/logo.jpeg" alt="Logo" />
-        </figure>
-      </div>
+<div class="vitem" style="height: 100vh;justify-content: center">
+  <section class="section is-flex is-justify-content-center is-align-items-center min-h-screen">
+    <div class="box p-6" style="max-width: 900px; width: 100%; box-shadow: 0px 4px 26px rgba(0,0,0,0.25);">
+      <div class="columns is-vcentered">
+        <div class="column is-half has-text-centered">
+          <figure class="image is-inline-block">
+            <img src="assets/logo.jpeg" alt="Logo" />
+          </figure>
+        </div>
 
-      <div class="column is-half">
-        <h3 class="title is-4 has-text-centered has-text-info-bold">CONTROL DE HORARIOS Y TURNOS</h3>
-        <p class="has-text-centered mb-4">R.R.H.H</p>
+        <div class="column is-half">
+          <h3 class="has-text-centered has-text-info-bold" style="margin-bottom: 0.25rem; font-size: 2em">CONTROL DE HORARIOS Y TURNOS</h3>
+          <p class="has-text-centered mb-6">R.R.H.H</p>
 
-        <form (ngSubmit)="login()" #loginForm="ngForm" autocomplete="off">
-          <div class="field">
-            <div class="control">
-              <input
-                class="input"
-                type="text"
-                name="usuario"
-                placeholder="Ingrese su nombre de usuario"
-                required
-                [(ngModel)]="usuario"
-                #usuarioField="ngModel"
-              />
+          <form (ngSubmit)="login()" #loginForm="ngForm" autocomplete="off">
+            <div class="field mb-5">
+              <div class="control">
+                <input
+                  class="input is-medium"
+                  type="text"
+                  name="usuario"
+                  placeholder="Ingrese su nombre de usuario"
+                  required
+                  [(ngModel)]="usuario"
+                  #usuarioField="ngModel"
+                />
+              </div>
             </div>
-          </div>
 
-          <div class="field">
-            <div class="control has-icons-right">
-              <input
-                class="input"
-                [type]="mostrarClave ? 'text' : 'password'"
-                name="clave"
-                placeholder="Ingrese su contraseña"
-                required
-                [(ngModel)]="clave"
-                #claveField="ngModel"
-              />
-              <span class="icon is-small is-right" style="cursor: pointer" (click)="mostrarClave = !mostrarClave">
-                <i class="fas" [class.fa-eye]="!mostrarClave" [class.fa-eye-slash]="mostrarClave"></i>
-              </span>
+            <div class="field mb-6">
+              <div class="control has-icons-right">
+                <input
+                  class="input is-medium mb-2"
+                  [type]="mostrarClave ? 'text' : 'password'"
+                  name="clave"
+                  placeholder="Ingrese su contraseña"
+                  required
+                  [(ngModel)]="clave"
+                  #claveField="ngModel"
+                />
+                <span class="icon is-small is-right" style="cursor: pointer" (click)="mostrarClave = !mostrarClave">
+                  <i class="fas" [class.fa-eye]="!mostrarClave" [class.fa-eye-slash]="mostrarClave"></i>
+                </span>
+              </div>
+              <p class="has-text-info is-size-7">Por favor, complete todos los campos.</p>
             </div>
-          </div>
 
-          <p class="has-text-danger is-size-7" *ngIf="loginForm.invalid && loginForm.touched">
-            Por favor, complete todos los campos.
-          </p>
-
-          <div class="field mt-4">
-            <button type="submit" class="button is-fullwidth is-link is-rounded es-primario" [disabled]="loginForm.invalid" >
-              Ingresar
-            </button>
-          </div>
-        </form>
+            <div class="field mt-4">
+              <button type="submit" class="button is-fullwidth is-link is-rounded es-primario is-medium" [disabled]="loginForm.invalid" >
+                Ingresar
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
-</section>
-<p class="has-text-centered is-size-7 mt-4">2025 - Versión 1.0.0</p>
+  </section>
+  <span class="has-text-centered is-size-7" style="margin-top: -15px;">2025 - Versión 1.0.0</span>
+</div>
+
+
