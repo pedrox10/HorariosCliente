@@ -41,8 +41,9 @@ export class VerReporteComponent implements OnInit{
   filasExcel = [] as Array<IReporte>
   private destroy$ = new Subject<void>();
   showScrollButton = false;
-  sortColumn: string = '';
-  sortDirection: 'asc' | 'desc' = 'asc';
+  sortColumn: string | null = null;
+  sortDirection: 'asc' | 'desc' | null = null;
+  originalResumenMarcaciones: ResumenMarcacion[] = [];
 
   constructor(private modalService: ModalService, private terminalService: TerminalService,
               private location: Location, private router: Router) {
@@ -51,6 +52,7 @@ export class VerReporteComponent implements OnInit{
 
   ngOnInit() {
     const data=JSON.parse(sessionStorage.getItem('reporte') || '[]')
+    this.originalResumenMarcaciones = data;
     this.resumenMarcaciones = data;
     this.terminal = sessionStorage.getItem("terminal")
     this.fechaIni = sessionStorage.getItem("fechaIni")
@@ -69,7 +71,6 @@ export class VerReporteComponent implements OnInit{
 
       this.filasExcel.push(fila)
     }
-    console.log(this.filasExcel)
 
     document.addEventListener('keydown', (e) => {
       if ((e as KeyboardEvent).key === 'Escape') {
@@ -370,54 +371,75 @@ export class VerReporteComponent implements OnInit{
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  sortBy(column: string) {
-    if (column === 'ci') return; // ❌ No ordenar por CI
+  /** Lógica de clic en encabezado para alternar asc → desc → none */
+  onSort(column: string): void {
+    if (column === 'ci') return;   // ignorar CI si no quieres ordenarlo
+
     if (this.sortColumn === column) {
-      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+      if (this.sortDirection === 'asc')      this.sortDirection = 'desc';
+      else if (this.sortDirection === 'desc') this.sortDirection = null;
+      else                                    this.sortDirection = 'asc';
     } else {
-      this.sortColumn = column;
+      this.sortColumn    = column;
       this.sortDirection = 'asc';
     }
 
-    this.resumenMarcaciones.sort((a, b) => {
-      let aVal: any, bVal: any;
+    if (!this.sortDirection) {
+      // restaurar orden original
+      this.resumenMarcaciones = [...this.originalResumenMarcaciones];
+    } else {
+      this.applySort();
+    }
+  }
 
-      switch (column) {
+  /** Aplica el sort según estado */
+  applySort(): void {
+    const dir = this.sortDirection === 'asc' ? 1 : -1;
+    const col = this.sortColumn!;
+
+    this.resumenMarcaciones = [...this.resumenMarcaciones].sort((a, b) => {
+      let aVal: any, bVal: any;
+      switch (col) {
         case 'nombre':
           aVal = a.usuario.nombre.toLowerCase();
           bVal = b.usuario.nombre.toLowerCase();
           break;
         case 'fechaAlta':
-          aVal = a.usuario.fechaAlta;
-          bVal = b.usuario.fechaAlta;
+          aVal = new Date(a.usuario.fechaAlta).getTime();
+          bVal = new Date(b.usuario.fechaAlta).getTime();
           break;
         case 'diasComputados':
-          aVal = a.diasComputados;
-          bVal = b.diasComputados;
-          break;
+          aVal = a.diasComputados; bVal = b.diasComputados; break;
         case 'retraso':
-          aVal = a.totalMinRetrasos;
-          bVal = b.totalMinRetrasos;
-          break;
+          aVal = a.totalMinRetrasos; bVal = b.totalMinRetrasos; break;
         case 'sinMarcar':
-          aVal = a.totalSinMarcar;
-          bVal = b.totalSinMarcar;
-          break;
+          aVal = a.totalSinMarcar; bVal = b.totalSinMarcar; break;
         case 'salAntes':
-          aVal = a.totalSalAntes;
-          bVal = b.totalSalAntes;
-          break;
+          aVal = a.totalSalAntes; bVal = b.totalSalAntes; break;
         case 'faltas':
-          aVal = a.totalAusencias;
-          bVal = b.totalAusencias;
-          break;
+          aVal = a.totalAusencias; bVal = b.totalAusencias; break;
         default:
           return 0;
       }
 
-      if (aVal < bVal) return this.sortDirection === 'asc' ? -1 : 1;
-      if (aVal > bVal) return this.sortDirection === 'asc' ? 1 : -1;
-      return 0;
+      // comparación numérica o string
+      if (typeof aVal === 'number' && typeof bVal === 'number') {
+        return (aVal - bVal) * dir;
+      }
+      return aVal.localeCompare(bVal) * dir;
     });
+  }
+
+  getSortClass(column: string): string {
+    if (this.sortColumn !== column) {
+      return 'fa-sort';            // estado “sin ordenar”
+    }
+    if (this.sortDirection === 'asc') {
+      return 'fa-sort-up';         // orden ascendente
+    }
+    if (this.sortDirection === 'desc') {
+      return 'fa-sort-down';       // orden descendente
+    }
+    return 'fa-sort';             // fallback
   }
 }
