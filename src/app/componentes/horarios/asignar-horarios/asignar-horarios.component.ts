@@ -25,6 +25,7 @@ import {color, mensaje} from "../../inicio/Global";
 export class AsignarHorariosComponent implements OnInit, AfterViewInit {
   dias = env.dias.map((dia) => dia.toLowerCase());
   horarios: Horario[] = [];
+  horario: Horario|any = undefined;
   jornadaDias: any[] = [];
   formAsignar: FormGroup | any = new FormGroup({});
   usuarios: Usuario[] = [];
@@ -96,6 +97,7 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
     let id: number = parseInt(ev.target.value)
     const index = this.horarios.findIndex(x => x.id === id);
     let horario = this.horarios[index];
+    this.horario = this.horarios[index];
     this.formAsignar.get('invierno')?.enable();
     this.formAsignar.get('lactancia')?.enable();
     this.jornadaDias = JSON.parse(JSON.stringify(horario.jornadaDias));
@@ -178,5 +180,15 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
 
   cerrarModal() {
     this.modalService.close();
+  }
+
+  getClase(index: number) {
+    let res=""
+    if(this.horario.jornadasDosDias || this.horario.diasIntercalados) {
+      if(index % 2 == 0)
+        res="par"
+      else res="impar"
+    }
+    return res;
   }
 }

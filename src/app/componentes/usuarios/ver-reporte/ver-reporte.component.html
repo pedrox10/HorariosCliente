@@ -62,45 +62,50 @@
    <table class="table is-bordered is-hoverable" id="tabla_reporte">
      <tr class="stick">
        <th>#</th>
-       <th (click)="onSort('nombre')" style="cursor: pointer;">
+       <th (click)="onSort('nombre')" class="ordenable" style="min-width: 225px;">
          Nombre
-         <i class="fas" [ngClass]="getSortClass('nombre')"></i>
+           <i class=" sort fas" [ngClass]="getSortClass('nombre')"></i>
        </th>
        <th style="width: 95px;">CI</th>
-       <th (click)="onSort('fechaAlta')" style="cursor: pointer;">
-         <div class="hitem">
-           <div class="vitem" style="min-width: 70px;">
-             <span class="help"> Fecha de Alta</span>
-             <span class="help"> en biométrico</span>
-           </div>
-           <i class="fas" [ngClass]="getSortClass('fechaAlta')" style="align-self: center"></i>
+       <th (click)="onSort('fechaAlta')"  class="ordenable" style="min-width: 105px;">
+         <div class="vitem pr-3">
+           <span class="help"> Fecha de Alta</span>
+           <span class="help"> en Biométrico</span>
          </div>
+         <i class="sort fas" [ngClass]="getSortClass('fechaAlta')"></i>
        </th>
-       <th>
-         <div class="vinput has-text-centered">
-           <span>Días</span>
-           <span class="help">Computados</span>
+       <th (click)="onSort('diasComputados')"  class="ordenable">
+         <div class="vitem has-text-centered pr-3">
+          <span class="help">Días</span>
+          <span class="help">Computados</span>
          </div>
+         <i class="sort fas" [ngClass]="getSortClass('diasComputados')"></i>
        </th>
-       <th>
-         <div class="vinput has-text-centered">
-           <span>Retraso</span>
-           <span>[min]</span>
+       <th (click)="onSort('retraso')"  class="ordenable">
+         <div class="vitem has-text-centered pr-3">
+           <span class="help">Retraso</span>
+           <span class="help">[min]</span>
          </div>
+         <i class="sort fas" [ngClass]="getSortClass('retraso')"></i>
        </th>
-       <th>
-         <div class="vinput has-text-centered">
-           <span>Sin</span>
-           <span>Marcar</span>
+       <th (click)="onSort('sinMarcar')"  class="ordenable">
+         <div class="vitem has-text-centered pr-3">
+           <span class="help">Sin</span>
+           <span class="help">Marcar</span>
          </div>
+         <i class="sort fas" [ngClass]="getSortClass('sinMarcar')"></i>
        </th>
-       <th>
-         <div class="vinput has-text-centered">
-           <span>Salió</span>
-           <span>Antes</span>
+       <th (click)="onSort('salAntes')"  class="ordenable">
+         <div class="vitem has-text-centered pr-3">
+           <span class="help">Salió</span>
+           <span class="help">Antes</span>
          </div>
+         <i class="sort fas" [ngClass]="getSortClass('salAntes')"></i>
        </th>
-       <th>Faltas</th>
+       <th (click)="onSort('faltas')"  class="ordenable">
+         <span class="help pr-3">Faltas</span>
+         <i class="sort fas" [ngClass]="getSortClass('faltas')"></i>
+       </th>
        <th class="hidden-print"></th>
      </tr>
      <tbody>

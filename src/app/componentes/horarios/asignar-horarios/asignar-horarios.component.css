@@ -14,3 +14,11 @@
   border-radius: 50%;
   font-size: 1em;
 }
+
+.par {
+  background-color: #FBCFD0 !important;
+}
+
+.impar {
+  background-color: #FFE5D4 !important;
+}

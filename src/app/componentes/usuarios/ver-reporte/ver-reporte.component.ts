@@ -191,7 +191,7 @@ export class VerReporteComponent implements OnInit{
     const headers = [
       "Nombre",
       "CI",
-      "Fecha de Alta",
+      "Fecha de Alta en Biométrico",
       "Días Computados",
       "Retraso [min]",
       "Sin Marcar",
@@ -373,8 +373,6 @@ export class VerReporteComponent implements OnInit{
 
   /** Lógica de clic en encabezado para alternar asc → desc → none */
   onSort(column: string): void {
-    if (column === 'ci') return;   // ignorar CI si no quieres ordenarlo
-
     if (this.sortColumn === column) {
       if (this.sortDirection === 'asc')      this.sortDirection = 'desc';
       else if (this.sortDirection === 'desc') this.sortDirection = null;

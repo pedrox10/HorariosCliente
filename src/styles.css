@@ -128,6 +128,21 @@ input[type=time] {
   background-color: #E5EBEA !important;
 }
 
+.table th .sort {
+  position: absolute;
+  top: 20px;
+  right: 2px;
+  color: gray;
+  border: 1px #b0afaf solid;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.ordenable {
+  cursor: pointer;
+  position: relative;
+}
+
 tr.inactivo td {
   color: darkgray;
 }

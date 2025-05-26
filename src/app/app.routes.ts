@@ -22,7 +22,7 @@ export const routes: Routes = [
   {
     path: '',
     component: InicioComponent,
-    canActivate: [AuthGuard],
+
     children: [
       { path: 'ver-terminales', component: ListarTerminalesComponent },
       { path: 'terminal/:id/usuarios', component: UsuariosComponent },
