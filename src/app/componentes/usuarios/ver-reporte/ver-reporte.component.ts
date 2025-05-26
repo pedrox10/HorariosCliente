@@ -200,7 +200,7 @@ export class VerReporteComponent implements OnInit{
     ];
 
     const colWidths = [
-      { wch: 30 }, { wch: 10 }, { wch: 12 }, { wch: 12 },
+      { wch: 30 }, { wch: 10 }, { wch: 13 }, { wch: 12 },
       { wch: 7.5 }, { wch: 7.5 }, { wch: 7.5 }, { wch: 7.5 }
     ];
 
