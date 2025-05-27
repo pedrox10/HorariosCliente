@@ -7,3 +7,21 @@
   top: 0;
   z-index: 1;
 }
+
+.dropdown-menu {
+  min-width: auto !important;
+}
+
+.dropdown-item {
+  font-size: 1em;
+  padding: .375rem 0.5rem;
+}
+
+.dropdown-content {
+  border: 1px #c2c0c0 solid;
+}
+
+.menu-btn {
+  color: #295a8c; padding: 5px;
+  font-size: 1.3em;
+}

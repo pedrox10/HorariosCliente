@@ -56,9 +56,9 @@
                 <div class="dropdown-content">
                   @for (item of colores; track item; let i = $index ) {
                   <a class="dropdown-item"  (click)="seleccionarColor(item)" >
-                   <span class="icon" >
-                    <i class="fas fa-circle" style="color:{{item.valor}};"></i>
-                     </span>
+                    <span class="icon" >
+                      <i class="fas fa-circle" style="color:{{item.valor}};"></i>
+                    </span>
                   {{item.color}}
                   </a>
                   }
@@ -147,7 +147,7 @@
                     <span class="badge is-bottom is-danger is-light">¡Hora requerida!</span>
                   }
                 </div>
-                <button  id="{{dia}}_agregar_turno" class="button btn-accion has-tooltip-arrow" data-tooltip="Agregar Turno" (click)="agregarTurno(dia)">
+                <button  id="{{dia}}_agregar_turno" class="pl-2 pr-2 btn-accion has-tooltip-arrow expand" data-tooltip="Agregar Turno" (click)="agregarTurno(dia)">
                   <span class="icon"><i class="fas fa-plus "></i></span>
                 </button>
               </div>
@@ -166,7 +166,7 @@
                 <span class="badge is-bottom is-danger is-light">Hora requerida!</span>
                 }
                 </div>
-                <button class="button btn-accion has-tooltip-arrow" data-tooltip="Quitar Turno" (click)="quitarTurno(dia)">
+                <button class="pl-2 pr-2  btn-accion has-tooltip-arrow" data-tooltip="Quitar Turno" (click)="quitarTurno(dia)">
                   <span class="icon"><i class="fas fa-minus "></i></span>
                 </button>
               </div>

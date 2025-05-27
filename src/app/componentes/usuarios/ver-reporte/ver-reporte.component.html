@@ -229,15 +229,33 @@
             <span class="icon has-tooltip-arrow expand" data-tooltip="Cambiar Horario" (click)="modalCambiarHorario(rm.usuario)">
               <i class="fas fa-user-clock icon-btn"></i>
             </span>
-            <span class="icon has-tooltip-arrow expand" data-tooltip="Ver Horario" (click)="modalVerHorario(rm.usuario.id)">
-              <i class="far fa-calendar-alt icon-btn"></i>
-            </span>
-            <span class="icon has-tooltip-arrow expand" data-tooltip="Recargar" (click)="actualizarResumenMarcaciones(rm.usuario)">
-              <i class="fas fa-redo-alt icon-btn"></i>
-            </span>
-            <span class="icon has-tooltip-arrow expand" data-tooltip="Ocultar Registro" (click)="mostrarOcultar(rm)">
-              <i class="fas fa-eye-slash icon-btn"></i>
-            </span>
+            <div class="dropdown is-hoverable is-up">
+              <div class="dropdown-trigger">
+                <span class="icon"><i class="fas fa-ellipsis-v icon-btn"></i></span>
+              </div>
+              <div class="dropdown-menu" id="" role="menu">
+                <div class="dropdown-content">
+                    <a class="dropdown-item" (click)="modalVerHorario(rm.usuario.id)" >
+                      <span class="icon" >
+                        <i class="far fa-calendar-alt menu-btn"></i>
+                      </span>
+                      Ver Horario
+                    </a>
+                    <a class="dropdown-item" (click)="actualizarResumenMarcaciones(rm.usuario)" >
+                      <span class="icon" >
+                        <i class="fas fa-redo-alt menu-btn"></i>
+                      </span>
+                      Recargar
+                    </a>
+                    <a class="dropdown-item" (click)="mostrarOcultar(rm)" >
+                      <span class="icon" >
+                        <i class="fas fa-eye-slash menu-btn"></i>
+                      </span>
+                      Ocultar Registro
+                    </a>
+                </div>
+              </div>
+            </div>
           </div>
         </td>
      </tr>

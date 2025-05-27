@@ -407,15 +407,25 @@ export class VerReporteComponent implements OnInit{
           bVal = new Date(b.usuario.fechaAlta).getTime();
           break;
         case 'diasComputados':
-          aVal = a.diasComputados; bVal = b.diasComputados; break;
+          aVal = a.diasComputados === undefined ? 0 : a.diasComputados;
+          bVal = b.diasComputados === undefined ? 0 : b.diasComputados;
+          break;
         case 'retraso':
-          aVal = a.totalMinRetrasos; bVal = b.totalMinRetrasos; break;
+          aVal = a.totalMinRetrasos === undefined ? 0 : a.totalMinRetrasos;
+          bVal = b.totalMinRetrasos === undefined ? 0 : b.totalMinRetrasos;
+          break;
         case 'sinMarcar':
-          aVal = a.totalSinMarcar; bVal = b.totalSinMarcar; break;
+          aVal = a.totalSinMarcar === undefined ? 0 : a.totalSinMarcar;
+          bVal = b.totalSinMarcar === undefined ? 0 : b.totalSinMarcar;
+          break;
         case 'salAntes':
-          aVal = a.totalSalAntes; bVal = b.totalSalAntes; break;
+          aVal = a.totalSalAntes === undefined ? 0 : a.totalSalAntes;
+          bVal = b.totalSalAntes === undefined ? 0 : b.totalSalAntes;
+          break;
         case 'faltas':
-          aVal = a.totalAusencias; bVal = b.totalAusencias; break;
+          aVal = a.totalAusencias === undefined ? 0 : a.totalAusencias;
+          bVal = b.totalAusencias === undefined ? 0 : b.totalAusencias;
+          break;
         default:
           return 0;
       }

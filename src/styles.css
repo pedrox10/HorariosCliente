@@ -158,6 +158,10 @@ tr.inactivo td {
 
 .icon-btn:hover {
   cursor: pointer;
+  background-color: rgba(25, 118, 210, 0.13);
+  border-radius: 50%;
+  transform: scale(1.2);
+  transition: all 0.2s ease-in-out;
 }
 
 /* Estilo para botones */
