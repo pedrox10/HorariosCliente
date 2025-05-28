@@ -68,6 +68,7 @@ export class VerReporteComponent implements OnInit{
       fila.sinMarcar = resumenMarcacion.totalSinMarcar;
       fila.salAntes = resumenMarcacion.totalSalAntes
       fila.faltas = resumenMarcacion.totalAusencias;
+      fila.observaciones = resumenMarcacion.mensajeError
 
       this.filasExcel.push(fila)
     }
@@ -197,6 +198,7 @@ export class VerReporteComponent implements OnInit{
       "Sin Marcar",
       "Salió Antes",
       "Faltas",
+      "Observaciones",
     ];
 
     const colWidths = [

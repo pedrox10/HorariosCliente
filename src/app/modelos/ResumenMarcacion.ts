@@ -34,5 +34,6 @@ export interface IReporte {
   sinMarcar: number,
   salAntes: number,
   faltas: number,
+  observaciones: string
 }
 
