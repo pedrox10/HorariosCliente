@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import * as XLSX from "xlsx-js-style";
+import * as ExcelJS from 'exceljs';
 import {ModalService} from "ngx-modal-ease";
 import {TerminalService} from "../../../servicios/terminal.service";
 import {Usuario} from "../../../modelos/Usuario";
@@ -18,6 +18,7 @@ import {EditarUsuarioComponent} from "../editar-usuario/editar-usuario.component
 import {AsignarHorariosComponent} from "../../horarios/asignar-horarios/asignar-horarios.component";
 import {Terminal} from "../../../modelos/Terminal";
 import {env} from "../../../../environments/environments";
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-ver-reporte',
@@ -46,7 +47,7 @@ export class VerReporteComponent implements OnInit{
   originalResumenMarcaciones: ResumenMarcacion[] = [];
 
   constructor(private modalService: ModalService, private terminalService: TerminalService,
-              private location: Location, private router: Router) {
+              private location: Location, private router: Router, private http: HttpClient) {
 
   }
 
@@ -188,94 +189,72 @@ export class VerReporteComponent implements OnInit{
     window.print();
   }
 
-  exportexcel(): void {
-    const headers = [
-      "Nombre",
-      "CI",
-      "Fecha de Alta en Biométrico",
-      "Días Computados",
-      "Retraso [min]",
-      "Sin Marcar",
-      "Salió Antes",
-      "Faltas",
-      "Observaciones",
-    ];
+  exportExcel(): void {
+    const workbook = new ExcelJS.Workbook();
+    fetch('assets/plantilla.xlsx')
+      .then(res => res.arrayBuffer())
+      .then(buffer => workbook.xlsx.load(buffer))
+      .then(() => {
+        const worksheet = workbook.getWorksheet(1); // o por nombre: workbook.getWorksheet('Reporte');
 
-    const colWidths = [
-      { wch: 30 }, { wch: 10 }, { wch: 13 }, { wch: 12 },
-      { wch: 7.5 }, { wch: 7.5 }, { wch: 7.5 }, { wch: 7.5 }
-    ];
+        // 👉 Cabecera
+        worksheet!.getCell('E2').value = `${moment(this.fechaIni, 'YYYYMMDD').format('DD/MM/YYYY')} - ${moment(this.fechaFin, 'YYYYMMDD').format('DD/MM/YYYY')}`;
+        worksheet!.getCell('E3').value = this.getTotalDias();
+        worksheet!.getCell('E4').value = this.fechaCreacion;
+        worksheet!.getCell('E5').value = 'USUARIO DE PRUEBA';
 
-    const userData = this.filasExcel;
-
-    const worksheet = XLSX.utils.json_to_sheet([]);
-
-    // 👉 1. Agregar cabecera principal
-    const titulo = [["Reporte General " + this.terminal]];
-    const subCabecera = [
-      ["Rango de Fechas:", moment(this.fechaIni, "YYYYMMDD").format("DD/MM/YYYY") + " - " + moment(this.fechaFin, "YYYYMMDD").format("DD/MM/YYYY")],
-      ["Total Días:", this.getTotalDias()],
-      ["Fecha de Creación:", this.fechaCreacion]
-    ];
-
-    XLSX.utils.sheet_add_aoa(worksheet, titulo, { origin: "A1" });
-    XLSX.utils.sheet_add_aoa(worksheet, subCabecera, { origin: "A2" });
-
-    // 👉 2. Aplicar estilo al título
-    worksheet["A1"].s = {
-      font: { bold: true, sz: 14 },
-      alignment: { horizontal: "center" }
-    };
-
-    worksheet['!merges'] = [
-      { s: { r: 0, c: 0 }, e: { r: 0, c: headers.length - 1 } },
-      { s: { r: 1, c: 1 }, e: { r: 1, c: 3 } }
-    ];
-
-
-
-    // 👉 3. Agregar headers y datos
-    XLSX.utils.sheet_add_aoa(worksheet, [headers], { origin: `A5` });
-    XLSX.utils.sheet_add_json(worksheet, userData, {
-      skipHeader: true,
-      origin: "A6"
-    });
-
-    // 👉 4. Dimensiones
-    worksheet['!cols'] = colWidths;
-    worksheet['!rows'] = [
-      { hpt: 30 }, // Título
-      { hpt: 20 }, // Subcabecera 1
-      { hpt: 20 }, // Subcabecera 2
-      { hpt: 20 }, // Subcabecera 3
-      { hpt: 30 }, // Headers
-      ...Array.from({ length: userData.length }, () => ({ hpt: 20 }))
-    ];
-
-    // 👉 5. Estilos generales
-    const range = XLSX.utils.decode_range(worksheet["!ref"] ?? "");
-    for (let row = 0; row <= range.e.r; row++) {
-      for (let col = 0; col <= range.e.c; col++) {
-        const cellRef = XLSX.utils.encode_cell({ r: row, c: col });
-        worksheet[cellRef] = worksheet[cellRef] || {};
-        worksheet[cellRef].s = worksheet[cellRef].s || {};
-        worksheet[cellRef].s.alignment = { horizontal: "left", wrapText: true };
-
-        // Estilo para headers
-        if (row === 4) {
-          worksheet[cellRef].s = {
-            ...worksheet[cellRef].s,
-            font: { bold: true, color: { rgb: 'FFFFFF' } },
-            fill: { fgColor: { rgb: '295A8C' } }
+        // 👉 2. Encabezados en A7
+        const headers = [
+          "#", "NOMBRE", "CI", "FECHA DE ALTA EN BIOMETRICO", "DÍAS COMPUTADOS",
+          "RETARSO [min]", "SIN MARCAR", "SALIÓ ANTES", "FALTAS", "OBSERVACIONES"
+        ];
+        headers.forEach((header, index) => {
+          worksheet!.getCell(7, index + 1).value = header;
+        });
+        const estiloReferencia = worksheet!.getRow(8);
+        // 👉 Datos desde fila 8
+        const startRow = 8;
+        this.filasExcel.forEach((fila, i) => {
+          const row = worksheet!.getRow(startRow + i);
+          row.height = 16.5;
+          row.getCell(1).value = i + 1;
+          row.getCell(1).note = {
+            texts: [
+              { font: { size: 11, color: { argb: 'FF000000' }, name: 'Calibri' }, text: "Este es un comentario.\n" },
+              { font: { italic: true, color: { argb: 'FF0070C0' } }, text: "Agregado automáticamente." }
+            ],
+            margins: {
+              insetmode: 'auto',
+              inset: [0.13, 0.13, 0.25, 0.25]
+            }
           };
-        }
-      }
-    }
+          row.getCell(2).value = fila.nombre;
+          row.getCell(3).value = fila.ci;
+          row.getCell(4).value = fila.fechaAlta;
+          row.getCell(5).value = fila.diasComputados === undefined ? "" : fila.diasComputados;
+          row.getCell(6).value = fila.retraso === undefined ? "" : fila.retraso;
+          row.getCell(7).value = fila.sinMarcar === undefined ? "" : fila.sinMarcar;
+          row.getCell(8).value = fila.salAntes === undefined ? "" : fila.salAntes;
+          row.getCell(9).value = fila.faltas === undefined ? "" : fila.faltas;
+          row.getCell(10).value = fila.observaciones || '';
+          row.eachCell((cell, colNumber) => {
+            const refCell = estiloReferencia.getCell(colNumber);
+            cell.style = { ...refCell.style };
+          });
+          row.commit();
+        });
 
-    // 👉 6. Crear y descargar
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, worksheet, 'Reporte');
-    XLSX.writeFile(wb, this.fileName);
+        // 👉 Descargar
+        workbook.xlsx.writeBuffer().then(buffer => {
+          const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = this.fileName || 'reporte.xlsx';
+          a.click();
+          window.URL.revokeObjectURL(url);
+        });
+      });
   }
 
   formatear(fecha: Date) {
