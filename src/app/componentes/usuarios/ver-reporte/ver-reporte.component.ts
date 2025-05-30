@@ -196,17 +196,16 @@ export class VerReporteComponent implements OnInit{
       .then(buffer => workbook.xlsx.load(buffer))
       .then(() => {
         const worksheet = workbook.getWorksheet(1); // o por nombre: workbook.getWorksheet('Reporte');
-
         // 👉 Cabecera
+        worksheet!.getCell('A1').value = "REPORTE GENERAL " + this.terminal
         worksheet!.getCell('E2').value = `${moment(this.fechaIni, 'YYYYMMDD').format('DD/MM/YYYY')} - ${moment(this.fechaFin, 'YYYYMMDD').format('DD/MM/YYYY')}`;
         worksheet!.getCell('E3').value = this.getTotalDias();
         worksheet!.getCell('E4').value = this.fechaCreacion;
-        worksheet!.getCell('E5').value = 'USUARIO DE PRUEBA';
-
+        worksheet!.getCell('E5').value = 'Usuario de Prueba';
         // 👉 2. Encabezados en A7
         const headers = [
           "#", "NOMBRE", "CI", "FECHA DE ALTA EN BIOMETRICO", "DÍAS COMPUTADOS",
-          "RETARSO [min]", "SIN MARCAR", "SALIÓ ANTES", "FALTAS", "OBSERVACIONES"
+          "RETRASO [min]", "SIN MARCAR", "SALIÓ ANTES", "FALTAS", "OBSERVACIONES"
         ];
         headers.forEach((header, index) => {
           worksheet!.getCell(7, index + 1).value = header;
@@ -218,16 +217,17 @@ export class VerReporteComponent implements OnInit{
           const row = worksheet!.getRow(startRow + i);
           row.height = 16.5;
           row.getCell(1).value = i + 1;
-          row.getCell(1).note = {
+          /*row.getCell(1).note = {
             texts: [
-              { font: { size: 11, color: { argb: 'FF000000' }, name: 'Calibri' }, text: "Este es un comentario.\n" },
-              { font: { italic: true, color: { argb: 'FF0070C0' } }, text: "Agregado automáticamente." }
+              {
+                font: { size: 8, bold: true },
+                text: 'Juan Pérez:\n' // El texto antes del salto de línea actúa como el título/autor
+              },
+              { font: { size: 8, color: { argb: 'FF000000' }, name: 'Arial' },
+                text: "Este es un comentario.\n Ottra linea \n y una mas\n Ottra linea \n y una mas \n Ottra linea \n y una mas"
+              },
             ],
-            margins: {
-              insetmode: 'auto',
-              inset: [0.13, 0.13, 0.25, 0.25]
-            }
-          };
+          };*/
           row.getCell(2).value = fila.nombre;
           row.getCell(3).value = fila.ci;
           row.getCell(4).value = fila.fechaAlta;
