@@ -66,11 +66,19 @@ export class VerReporteComponent implements OnInit{
       fila.fechaAlta = format(resumenMarcacion.usuario.fechaAlta);
       fila.diasComputados = resumenMarcacion.diasComputados;
       fila.retraso = resumenMarcacion.totalMinRetrasos;
+      if(fila.retraso > 0) {
+        let retrasos = "";
+        for (let info of resumenMarcacion.infoMarcaciones) {
+          if(info.cantRetrasos > 0) {
+            retrasos = retrasos + moment(info.fecha).format("DD/MM/YYYY") + " " + info.minRetrasos + "\n"
+          }
+        }
+        fila.detalleRetrasos= retrasos
+      }
       fila.sinMarcar = resumenMarcacion.totalSinMarcar;
       fila.salAntes = resumenMarcacion.totalSalAntes
       fila.faltas = resumenMarcacion.totalAusencias;
       fila.observaciones = resumenMarcacion.mensajeError
-
       this.filasExcel.push(fila)
     }
 
@@ -217,22 +225,25 @@ export class VerReporteComponent implements OnInit{
           const row = worksheet!.getRow(startRow + i);
           row.height = 16.5;
           row.getCell(1).value = i + 1;
-          /*row.getCell(1).note = {
-            texts: [
-              {
-                font: { size: 8, bold: true },
-                text: 'Juan Pérez:\n' // El texto antes del salto de línea actúa como el título/autor
-              },
-              { font: { size: 8, color: { argb: 'FF000000' }, name: 'Arial' },
-                text: "Este es un comentario.\n Ottra linea \n y una mas\n Ottra linea \n y una mas \n Ottra linea \n y una mas"
-              },
-            ],
-          };*/
+
           row.getCell(2).value = fila.nombre;
           row.getCell(3).value = fila.ci;
           row.getCell(4).value = fila.fechaAlta;
           row.getCell(5).value = fila.diasComputados === undefined ? "" : fila.diasComputados;
           row.getCell(6).value = fila.retraso === undefined ? "" : fila.retraso;
+          if(fila.retraso > 0 && fila.retraso !== undefined && fila.retraso !== null) {
+            row.getCell(6).note = {
+              texts: [
+                {
+                  font: { size: 8, bold: true },
+                  text: 'Retrasos:\n' // El texto antes del salto de línea actúa como el título/autor
+                },
+                { font: { size: 8, color: { argb: 'FF000000' }, name: 'Arial' },
+                  text: fila.detalleRetrasos
+                },
+              ],
+            };
+          }
           row.getCell(7).value = fila.sinMarcar === undefined ? "" : fila.sinMarcar;
           row.getCell(8).value = fila.salAntes === undefined ? "" : fila.salAntes;
           row.getCell(9).value = fila.faltas === undefined ? "" : fila.faltas;
