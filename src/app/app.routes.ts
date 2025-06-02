@@ -15,14 +15,15 @@ import {InterrupcionesComponent} from "./componentes/terminal/interrupciones/int
 import {AccionTerminalComponent} from "./componentes/terminal/adm-terminales/accion-terminal/accion-terminal.component";
 import {LoginComponent} from "./componentes/inicio/login/login.component";
 import {InicioComponent} from "./componentes/inicio/inicio.component";
+import {LoginGuard} from "./login.guard";
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
 
   {
     path: '',
     component: InicioComponent,
-
+    canActivate: [AuthGuard],
     children: [
       { path: 'ver-terminales', component: ListarTerminalesComponent },
       { path: 'terminal/:id/usuarios', component: UsuariosComponent },

@@ -12,17 +12,15 @@
           <h3 class="has-text-centered has-text-info-bold" style="margin-bottom: 0.25rem; font-size: 2em">CONTROL DE HORARIOS Y TURNOS</h3>
           <p class="has-text-centered mb-6">R.R.H.H</p>
 
-          <form (ngSubmit)="login()" #loginForm="ngForm" autocomplete="off">
+          <form [formGroup]="loginForm" (ngSubmit)="login()" autocomplete="off">
             <div class="field mb-5">
               <div class="control">
                 <input
                   class="input is-medium"
                   type="text"
-                  name="usuario"
                   placeholder="Ingrese su nombre de usuario"
                   required
-                  [(ngModel)]="usuario"
-                  #usuarioField="ngModel"
+                  formControlName="usuario"
                 />
               </div>
             </div>
@@ -32,11 +30,9 @@
                 <input
                   class="input is-medium mb-2"
                   [type]="mostrarClave ? 'text' : 'password'"
-                  name="clave"
                   placeholder="Ingrese su contraseña"
                   required
-                  [(ngModel)]="clave"
-                  #claveField="ngModel"
+                  formControlName="clave"
                 />
                 <span class="icon is-small is-right" style="cursor: pointer" (click)="mostrarClave = !mostrarClave">
                   <i class="fas" [class.fa-eye]="!mostrarClave" [class.fa-eye-slash]="mostrarClave"></i>
