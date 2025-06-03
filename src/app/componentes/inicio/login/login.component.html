@@ -34,8 +34,8 @@
                   required
                   formControlName="clave"
                 />
-                <span class="icon is-small is-right" style="cursor: pointer" (click)="mostrarClave = !mostrarClave">
-                  <i class="fas" [class.fa-eye]="!mostrarClave" [class.fa-eye-slash]="mostrarClave"></i>
+                <span class="icon is-small is-right" style="cursor: pointer; pointer-events: auto;" (click)="mostrarClave = !mostrarClave">
+                  <i class="fas" [class.fa-eye]="!mostrarClave" [class.fa-eye-slash]="mostrarClave" ></i>
                 </span>
               </div>
               <p class="has-text-info is-size-7">Por favor, complete todos los campos.</p>

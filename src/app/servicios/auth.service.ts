@@ -15,6 +15,7 @@ export class AuthService {
         // Guardar en sessionStorage (mejor para sesiones temporales)
         sessionStorage.setItem('usuarioId', String(usuario.id));
         sessionStorage.setItem('nombre', usuario.nombre);
+        //sessionStorage.setItem('usuario', usuario.nombreUsuario);
         sessionStorage.setItem('rol', usuario.rol);
       })
     );
@@ -22,6 +23,10 @@ export class AuthService {
 
   logout() {
     sessionStorage.clear();
+  }
+
+  obtenerNombre() {
+    return sessionStorage.getItem('nombre');
   }
 
   obtenerRol() {

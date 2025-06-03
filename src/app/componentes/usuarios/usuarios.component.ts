@@ -27,6 +27,7 @@ import {concatMap, from, Subject, takeUntil, toArray} from "rxjs";
 import {DataService} from "../../servicios/data.service";
 import { CommonModule } from '@angular/common';
 import { DomSanitizer} from '@angular/platform-browser';
+import {AuthService} from "../../servicios/auth.service";
 
 @Component({
   selector: 'app-usuarios',
@@ -57,11 +58,13 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   escuchaEscape: EventListener | any;
   private destroy$ = new Subject<void>();
   showScrollButton = false;
+  isAdmin: boolean;
 
   constructor(public terminalService: TerminalService,private router: Router,
               public modalService: ModalService, private location: Location,
-              private sanitizer: DomSanitizer) {
+              private sanitizer: DomSanitizer, private authService: AuthService) {
 
+    this.isAdmin  = this.authService.obtenerRol() === 'Administrador'
     this.terminalService.getUsuarios(this.idTerminal).pipe(takeUntil(this.destroy$)).subscribe(
       (data: any) => {
         this.usuarios = data;
@@ -233,7 +236,8 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
       this.usuariosSeleccionados = this.usuariosFiltrados.slice();
     else
       this.usuariosSeleccionados = [];
-    (document.getElementById("cb_todos") as HTMLInputElement).classList.remove("is-indeterminate");
+    if(this.isAdmin)
+      (document.getElementById("cb_todos") as HTMLInputElement).classList.remove("is-indeterminate");
   }
 
   sincronizar() {
@@ -366,8 +370,10 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
       this.filtrarFuncionarios(env.textoBusqueda);
       (document.getElementById("tf_busqueda") as HTMLInputElement).value = env.textoBusqueda
     }
-    this.marcarTodos(false);
-    (document.getElementById("cb_todos") as HTMLInputElement).checked = false;
+    if(this.isAdmin) {
+      this.marcarTodos(false);
+      (document.getElementById("cb_todos") as HTMLInputElement).checked = false;
+    }
   }
 
   quitarFiltros() {
@@ -383,7 +389,8 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       this.estado = undefined
       this.marcarTodos(false);
-      (document.getElementById("cb_todos") as HTMLInputElement).checked = false;
+      if(this.isAdmin)
+        (document.getElementById("cb_todos") as HTMLInputElement).checked = false;
       env.filtrarEstado = false;
       env.estado = -1
       env.textoBusqueda = "";

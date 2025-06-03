@@ -19,6 +19,7 @@
               <span class="icon is-right"><i class="fas fa-search"></i></span>
             </p>
           </div>
+          @if(isAdmin) {
           <div class="vinput" style="gap: 0px !important;">
             <p class="help">Seleccionados: {{usuariosSeleccionados.length}}</p>
             <div class="hitem">
@@ -49,20 +50,24 @@
               </button>
             </div>
           </div>
+          }
         </div>
         <table class="table is-bordered is-hoverable" style="position: relative">
           <tr class="stick">
+            @if(isAdmin) {
             <th>
               <label class="b-checkbox checkbox">
                 <input id="cb_todos" type="checkbox" (change)="aplicarTodos($event)">
                 <span class="check is-dark"></span>
               </label>
             </th>
+            }
             <th>#</th>
             <th style="width: 245px;">Nombre</th>
             <th style="width: 90px;">CI</th>
-            <th>
+            <th style="position:relative;">
               Fecha de Alta
+              <span class="badge is-bottom is-light">en Biométrico</span>
               <div class="dropdown is-hoverable">
                 <div class="dropdown-trigger">
                   <span><i class="far fa-question-circle" style="color: #888; background-color: {{getColor('Azul')}}"></i></span>
@@ -89,12 +94,14 @@
           <tbody>
           @for (usuario of usuariosFiltrados; track trackByUsuario; let index = $index) {
           <tr (click)="selectRow(usuario.id)" [class.is-selected]="isSelected(usuario.id)">
+            @if(isAdmin) {
             <td>
               <label class="b-checkbox checkbox">
                 <input type="checkbox" [checked]="usuario.seleccionado" (click)="seleccionar(usuario)" [id]="'checkbox-' + usuario.id">
                 <span class="check es-secundario"></span>
               </label>
             </td>
+            }
             <td>{{index +1}}</td>
             <td>
               {{usuario.nombre}}
@@ -116,9 +123,11 @@
                 <span class="icon has-tooltip-arrow expand" data-tooltip="Ver Horario" (click)="verHorario(usuario.id)">
                   <i class="far fa-calendar-alt icon-btn"></i>
                 </span>
+                @if(isAdmin) {
                 <span class="icon has-tooltip-arrow expand" data-tooltip="Editar Funcionario" (click)="editarUsuario(usuario.id)">
                   <i class="far fa-edit icon-btn"></i>
                 </span>
+                }
               </div>
             </td>
           </tr>

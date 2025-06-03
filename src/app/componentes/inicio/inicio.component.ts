@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import {Router, RouterLink, RouterOutlet} from '@angular/router';
 import {color, mensaje, notificacion} from "./Global";
+import {AuthService} from "../../servicios/auth.service";
 
 @Component({
   selector: 'app-inicio',
@@ -13,15 +14,14 @@ import {color, mensaje, notificacion} from "./Global";
 export class InicioComponent implements OnInit{
   items: Array<HTMLLIElement> = [];
   action: any;
+  isAdmin: boolean;
 
-  constructor() {
+  constructor(public authService: AuthService, private router: Router) {
     this.items = [];
+    this.isAdmin  = this.authService.obtenerRol() === 'Administrador'
   }
 
   ngOnInit() {
-    console.log("InicioComponent cargado");
-    //mensaje("echo", "is-success")
-    //notificacion("<div class=''><p>Usuarios Agregados: 0</p><p>Nuevas Marcaciones: 0</p><p>Usuarios Agregados: 0</p><p>Nuevas Marcaciones: 0</p> </div>")
     this.items = Array.from(document.querySelectorAll('.item'));
     this.action  = document.getElementById('action') as HTMLDivElement
     let items = this.items;
@@ -48,5 +48,10 @@ export class InicioComponent implements OnInit{
 
     let primer = document.getElementById("primer_item") as HTMLLIElement;
     //primer.click()
+  }
+
+  cerrarSesion() {
+    this.authService.logout()
+    this.router.navigate(['/login']);
   }
 }

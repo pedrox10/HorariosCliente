@@ -30,17 +30,12 @@ export class LoginComponent {
 
   login() {
     if (this.loginForm.invalid) return;
-
+    console.log(this.loginForm.value)
     this.authService.login(this.loginForm.value).subscribe({
       next: usuario => {
         const rol = usuario.rol;
-
-        if (rol === 'admin') {
-          console.log("rol es admin")
-          //this.router.navigate(['/admin']); // Ruta para administrador
-        } else if (rol === 'visor') {
-          console.log("rol es visor")
-          //this.router.navigate(['/visor']); // Ruta para visor
+        if (rol === 'Administrador' || "Visualizador") {
+          this.router.navigate(['/ver-terminales']); // Ruta para administrador
         } else {
           this.errorMsg = 'Rol desconocido';
         }
@@ -49,5 +44,10 @@ export class LoginComponent {
         this.errorMsg = 'Usuario o clave incorrectos';
       }
     });
+  }
+
+  showClave() {
+    console.log("mostrar")
+    this.mostrarClave = !(this.mostrarClave);
   }
 }
