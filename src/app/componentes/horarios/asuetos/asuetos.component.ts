@@ -9,6 +9,7 @@ import {Licencia} from "../../../modelos/Licencia";
 import moment from "moment";
 import {color, mensaje} from "../../inicio/Global";
 import {easepick} from "@easepick/core";
+import {AuthService} from "../../../servicios/auth.service";
 
 @Component({
   selector: 'app-asuetos',
@@ -24,9 +25,11 @@ export class AsuetosComponent implements OnInit, AfterViewInit {
   licencias: Licencia[] = [];
   idActual: number = -1;
   picker: HTMLInputElement | any = undefined;
+  isAdmin: boolean;
 
-  constructor(public terminalService: TerminalService, public horarioService: HorarioService) {
-
+  constructor(public terminalService: TerminalService, public horarioService: HorarioService,
+              public authService: AuthService) {
+    this.isAdmin  = this.authService.obtenerRol() === 'Administrador'
   }
 
   ngOnInit() {

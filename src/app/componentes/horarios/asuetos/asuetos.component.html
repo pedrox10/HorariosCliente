@@ -20,7 +20,9 @@
           <th>Nombre</th>
           <th>Aplica a</th>
           <th>Descripción</th>
+          @if(isAdmin) {
           <th></th>
+          }
         </tr>
         <tbody>
         @for (asueto of asuetos; track asueto) {
@@ -37,11 +39,13 @@
           <td><div class="hitem">{{getTipo(asueto)}}<i class="fas fa-restroom mt-1 has-text-info"></i></div></td>
           }
           <td>{{asueto.descripcion}}</td>
+          @if(isAdmin) {
           <td>
             <span class="icon has-tooltip-arrow expand" data-tooltip="Editar Fecha">
                 <i class="far fa-edit icon-btn" (click)="mostrarModal(asueto)"></i>
               </span>
           </td>
+          }
         </tr>
         }
         </tbody>

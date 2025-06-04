@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Router, RouterLink, RouterOutlet} from '@angular/router';
 import {color, mensaje, notificacion} from "./Global";
 import {AuthService} from "../../servicios/auth.service";
@@ -11,7 +11,7 @@ import {AuthService} from "../../servicios/auth.service";
   styleUrl: './inicio.component.css'
 })
 
-export class InicioComponent implements OnInit{
+export class InicioComponent implements OnInit, AfterViewInit{
   items: Array<HTMLLIElement> = [];
   action: any;
   isAdmin: boolean;
@@ -22,6 +22,10 @@ export class InicioComponent implements OnInit{
   }
 
   ngOnInit() {
+
+  }
+
+  ngAfterViewInit() {
     this.items = Array.from(document.querySelectorAll('.item'));
     this.action  = document.getElementById('action') as HTMLDivElement
     let items = this.items;
@@ -47,7 +51,7 @@ export class InicioComponent implements OnInit{
     })
 
     let primer = document.getElementById("primer_item") as HTMLLIElement;
-    //primer.click()
+    primer.click()
   }
 
   cerrarSesion() {

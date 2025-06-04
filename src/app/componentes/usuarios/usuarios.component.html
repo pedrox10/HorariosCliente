@@ -163,6 +163,7 @@
             </div>
           </div>
           <div class="vitem sticker" *ngIf="showScrollButton" style="gap: 3px;">
+            @if(isAdmin) {
             <button title="Asignar Horario" class="button" (click)="asignarHorario()"
                     style="background-color: {{getColor('Amarillo')}}; border-radius: 5px">
               <span class="icon"><i class="fas fa-user-clock"></i></span>
@@ -171,6 +172,7 @@
                     style="background-color: {{getColor('Naranja')}}; border-radius: 5px;">
               <span class="icon"><i class="fas fa-file-alt"></i></span>
             </button>
+            }
             <button title="Subir" class="scroll-to-top" (click)="scrollToTop()">
               <span class="icon is-right"><i class="fas fa-arrow-up"></i></span>
             </button>

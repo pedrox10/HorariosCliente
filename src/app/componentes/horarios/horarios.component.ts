@@ -7,6 +7,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {ReactiveFormsModule} from "@angular/forms";
 import {color, mensaje} from "../inicio/Global";
 import {EditarHorarioComponent} from "./editar-horario/editar-horario.component";
+import {AuthService} from "../../servicios/auth.service";
 
 @Component({
   selector: 'app-horarios',
@@ -26,8 +27,10 @@ export class HorariosComponent implements OnInit {
   horarios: Horario[] = [];
   horario: Horario|any = undefined;
   jornadaDias: any[] = [];
+  isAdmin: boolean;
 
-  constructor(public horarioService: HorarioService, private modalService: ModalService) {
+  constructor(public authService: AuthService, public horarioService: HorarioService, private modalService: ModalService) {
+    this.isAdmin  = this.authService.obtenerRol() === 'Administrador'
   }
 
   ngOnInit(): void {

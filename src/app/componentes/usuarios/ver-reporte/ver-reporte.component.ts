@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit} from '@angular/core';
 import * as ExcelJS from 'exceljs';
 import {ModalService} from "ngx-modal-ease";
 import {TerminalService} from "../../../servicios/terminal.service";
@@ -32,7 +32,7 @@ import { HttpClient } from '@angular/common/http';
 export class VerReporteComponent implements OnInit{
 
   usuarios: Usuario[] = [];
-  fileName= 'ExcelSheet.xlsx';
+  fileName= 'ReporteGral.xlsx';
   terminal: string | any;
   fechaIni: string | any;
   fechaFin: string | any;
@@ -47,8 +47,25 @@ export class VerReporteComponent implements OnInit{
   originalResumenMarcaciones: ResumenMarcacion[] = [];
 
   constructor(private modalService: ModalService, private terminalService: TerminalService,
-              private location: Location, private router: Router, private http: HttpClient) {
+              private location: Location, private router: Router, private http: HttpClient,
+              private eRef: ElementRef) {
 
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+
+    // Si el clic NO fue dentro del input ni del ul#suggestions
+    if (
+      !this.eRef.nativeElement.querySelector('#tf_busqueda')?.contains(target) &&
+      !this.eRef.nativeElement.querySelector('#suggestions')?.contains(target)
+    ) {
+      const suggestions = this.eRef.nativeElement.querySelector('#suggestions');
+      if (suggestions) {
+        suggestions.innerHTML = ''; // Oculta limpiando
+      }
+    }
   }
 
   ngOnInit() {
@@ -81,7 +98,6 @@ export class VerReporteComponent implements OnInit{
       fila.observaciones = resumenMarcacion.mensajeError
       this.filasExcel.push(fila)
     }
-
     document.addEventListener('keydown', (e) => {
       if ((e as KeyboardEvent).key === 'Escape') {
         this.cerrarOcultar()
@@ -91,6 +107,52 @@ export class VerReporteComponent implements OnInit{
       this.cerrarOcultar()
     })
   }
+
+  sugerencias: { ci: string, nombre: string }[] = [];
+  ngAfterViewInit(): void {
+    const input = document.getElementById('tf_busqueda') as HTMLInputElement;
+    const lista = document.getElementById('suggestions') as HTMLUListElement;
+
+    if (!input || !lista) return;
+
+    input.addEventListener('input', () => {
+      const query = input.value.toLowerCase().trim();
+      lista.innerHTML = '';
+
+      if (query.length < 3) return;
+
+      this.sugerencias = Array.from(document.querySelectorAll<HTMLTableRowElement>('table tbody tr'))
+        .map(fila => ({
+          ci: fila.getAttribute('data-ci') || '',
+          nombre: fila.getAttribute('data-nombre') || ''
+        }))
+        .filter(f => f.ci.toLowerCase().includes(query) || f.nombre.toLowerCase().includes(query));
+
+      this.sugerencias.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = `${item.nombre}`;
+        li.className = 'list-item';
+        li.addEventListener('click', () => {
+          input.value = `${item.nombre}`;
+          lista.innerHTML = '';
+
+          const fila = Array.from(document.querySelectorAll<HTMLTableRowElement>('table tbody tr'))
+            .find(f =>
+              f.getAttribute('data-ci') === item.ci &&
+              f.getAttribute('data-nombre') === item.nombre
+            );
+
+          if (fila) {
+            document.querySelectorAll('tr.is-selected').forEach(f => f.classList.remove('is-selected'));
+            fila.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            fila.classList.add('is-selected');
+          }
+        });
+        lista.appendChild(li);
+      });
+    });
+  }
+
 
   ngOnDestroy() {
     this.destroy$.next();
@@ -225,7 +287,6 @@ export class VerReporteComponent implements OnInit{
           const row = worksheet!.getRow(startRow + i);
           row.height = 16.5;
           row.getCell(1).value = i + 1;
-
           row.getCell(2).value = fila.nombre;
           row.getCell(3).value = fila.ci;
           row.getCell(4).value = fila.fechaAlta;

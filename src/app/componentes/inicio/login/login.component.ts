@@ -47,7 +47,6 @@ export class LoginComponent {
   }
 
   showClave() {
-    console.log("mostrar")
     this.mostrarClave = !(this.mostrarClave);
   }
 }

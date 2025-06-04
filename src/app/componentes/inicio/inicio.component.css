@@ -178,6 +178,7 @@ ul ul {
   top: var(--top-end);
   left: 5px;
   transition: 1s;
+  z-index: 1;
 }
 
 .active li::before {

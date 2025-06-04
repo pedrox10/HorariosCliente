@@ -427,3 +427,7 @@ p.modal-card-title {
   padding-top: 120%;
   transition: width .2s ease-out, padding-top .2s ease-out;
 }
+
+.button.is-primary:hover {
+  color: white !important;
+}

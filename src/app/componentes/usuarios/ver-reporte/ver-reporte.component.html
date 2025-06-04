@@ -7,6 +7,17 @@
   </div>
  <div class="animate__animated animate__fadeIn" style="width: fit-content;">
    <div class="hbox">
+     <div class="vinput" style="position: relative">
+       <div class="hitem">
+         <label class="label" style="margin-bottom: 0px;">Buscar Funcionario </label>
+         <span class="help" style="margin-left: auto; font-weight: bold">{{resumenMarcaciones.length}}</span>
+       </div>
+       <p class="control has-icons-right">
+         <input id="tf_busqueda"  type="text" class="input" autocomplete="off" placeholder="Nombre o CI"/>
+         <span class="icon is-right"><i class="fas fa-search"></i></span>
+       </p>
+       <ul id="suggestions"></ul>
+     </div>
      <div class="hitem" style="background-color: {{getColor('Amarillo')}}; padding: 10px; border-radius: 10px; gap: 30px;">
        <div class="vinput">
          <div class="icon-text">
@@ -110,7 +121,8 @@
      </tr>
      <tbody>
      @for (rm of resumenMarcaciones; track rm; let index = $index) {
-     <tr (click)="selectRow(rm.usuario.id)" [class.is-selected]="isSelected(rm.usuario.id)">
+     <tr (click)="selectRow(rm.usuario.id)" [class.is-selected]="isSelected(rm.usuario.id)"
+     [attr.data-ci]="rm.usuario.ci" [attr.data-nombre]="rm.usuario.nombre">
        <td>{{index +1}}</td>
         <td>
           <div class="hitem" style="justify-content: space-between">
