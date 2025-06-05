@@ -127,7 +127,8 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
-    this.picker.destroy()
+    if(this.picker)
+      this.picker.destroy()
     document.removeEventListener('keydown', this.escuchaEscape);
     this.usuarios = [];
     this.usuariosFiltrados = [];

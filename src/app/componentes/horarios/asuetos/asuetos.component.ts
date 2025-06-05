@@ -22,7 +22,6 @@ import {AuthService} from "../../../servicios/auth.service";
 export class AsuetosComponent implements OnInit, AfterViewInit {
 
   asuetos: Asueto[] = [];
-  licencias: Licencia[] = [];
   idActual: number = -1;
   picker: HTMLInputElement | any = undefined;
   isAdmin: boolean;
@@ -36,15 +35,6 @@ export class AsuetosComponent implements OnInit, AfterViewInit {
     this.horarioService.getAsuetos().subscribe(
       (data: any) => {
         this.asuetos = data;
-      },
-      (error: any) => {
-        console.error('An error occurred:', error);
-      }
-    );
-
-    this.horarioService.getLicencias().subscribe(
-      (data: any) => {
-        this.licencias = data;
       },
       (error: any) => {
         console.error('An error occurred:', error);
