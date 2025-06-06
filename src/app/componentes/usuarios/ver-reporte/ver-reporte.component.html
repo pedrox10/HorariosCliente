@@ -149,7 +149,29 @@
           <span class="badge is-bottom mb-1" style="background-color: {{getColor('Rojo')}}; color: black">Baja {{formatear(rm.usuario.fechaBaja)}}</span>
           }
         </td>
-        <td>{{rm.diasComputados}}</td>
+        <td>
+          <div class="hitem" style="justify-content: space-between">
+            <span>{{rm.diasComputados}}</span>
+            @if(rm.sinAsignar) {
+            <div class="dropdown is-up is-hoverable">
+              <div class="dropdown-trigger">
+                <span><i class="far fa-question-circle" style="color: #5cc5fd"></i></span>
+              </div>
+              <div class="dropdown-menu" role="menu">
+                <div class="dropdown-content popup">
+                  <div class='cabecera'>Información</div>
+                  <div class="contenido" style='color: #786450;'>
+                    <div class="hitem">
+                      <span class="semibold">Jornadas sin asignación de horario:</span>
+                      <span style="align-self: center;">{{rm.sinAsignar}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            }
+          </div>
+        </td>
         @if(rm.totalMinRetrasos > 0) {
         <td>
           <div class="hitem" style="justify-content: space-between">

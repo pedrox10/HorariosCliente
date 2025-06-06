@@ -12,6 +12,7 @@ export class ResumenMarcacion{
   diasComputados: number;
   infoMarcaciones: InfoMarcacion[];
   mensajeError?: string | any
+  sinAsignar?: number;
 
   constructor(usuario: Usuario, totalCantRetrasos: number, totalMinRetrasos: number, totalSalAntes: number, totalSinMarcar: number, totalAusencias: number, diasComputados: number, infoMarcaciones: InfoMarcacion[]) {
     this.usuario = usuario
