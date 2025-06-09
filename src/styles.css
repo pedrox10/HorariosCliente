@@ -431,3 +431,19 @@ p.modal-card-title {
 .button.is-primary:hover {
   color: white !important;
 }
+
+.button.amarillo:hover {
+  border-color: #cbc259 !important;
+}
+
+.button.amarillo:focus {
+  border-color: #cbc259 !important;
+}
+
+.button.naranja:hover {
+  border-color: #f8b285 !important;
+}
+
+.button.naranja:focus {
+  border-color: #f8b285 !important;
+}
