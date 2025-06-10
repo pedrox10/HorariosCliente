@@ -389,6 +389,13 @@ p.modal-card-title {
   font-size:0.85em;
 }
 
+.dropdown.is-custom-right .dropdown-menu {
+  left: 100% !important;
+  top: -17.5px !important;
+  padding-left: 5px;
+  position: absolute;
+}
+
 .fondo {
   background-image: radial-gradient(
     farthest-corner at 40px 40px,

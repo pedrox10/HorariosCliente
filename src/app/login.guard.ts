@@ -8,11 +8,6 @@ export class LoginGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(): boolean {
-    if (this.authService.estaAutenticado()) {
-      // Redirige al área principal si ya está logueado
-      this.router.navigate(['/ver-terminales']);
-      return false;
-    }
     return true;
   }
 }

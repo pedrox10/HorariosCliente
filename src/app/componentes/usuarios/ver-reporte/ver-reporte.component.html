@@ -244,6 +244,7 @@
                 <div class="dropdown-content popup">
                   <div class='cabecera'>Fechas con Falta</div>
                   <div class="contenido scroll-y" style='color: #786450;' [innerHtml]="getAusencias(rm.infoMarcaciones)"></div>
+                  <a class='dropdown-item is-disabled'>Última marcación: 28/05/2025</a>
                 </div>
               </div>
             </div>
@@ -263,7 +264,7 @@
             <span class="icon has-tooltip-arrow expand" data-tooltip="Cambiar Horario" (click)="modalCambiarHorario(rm.usuario)">
               <i class="fas fa-user-clock icon-btn"></i>
             </span>
-            <div class="dropdown is-hoverable is-up">
+            <div class="dropdown is-hoverable is-custom-right">
               <div class="dropdown-trigger">
                 <span class="icon"><i class="fas fa-ellipsis-v icon-btn"></i></span>
               </div>

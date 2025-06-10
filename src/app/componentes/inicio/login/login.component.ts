@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {Router, RouterLink, RouterModule, RouterOutlet} from "@angular/router";
@@ -12,7 +12,7 @@ import {HttpClientModule} from "@angular/common/http";
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
   loginForm: FormGroup;
   errorMsg = '';
   mostrarClave = false;
@@ -26,6 +26,12 @@ export class LoginComponent {
       usuario: ['', Validators.required],
       clave: ['', Validators.required]
     });
+  }
+
+  ngOnInit(): void {
+    if (this.authService.estaAutenticado()) {
+      this.router.navigate(['/']); // mantiene la URL que Angular usaría normalmente
+    }
   }
 
   login() {

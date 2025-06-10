@@ -21,8 +21,10 @@ export class InicioComponent implements OnInit, AfterViewInit{
     this.isAdmin  = this.authService.obtenerRol() === 'Administrador'
   }
 
-  ngOnInit() {
-
+  ngOnInit(): void {
+    /*if (this.authService.estaAutenticado()) {
+      this.router.navigate(['/']); // mantiene la URL que Angular usaría normalmente
+    }*/
   }
 
   ngAfterViewInit() {
@@ -51,7 +53,7 @@ export class InicioComponent implements OnInit, AfterViewInit{
     })
 
     let primer = document.getElementById("primer_item") as HTMLLIElement;
-    primer.click()
+    //primer.click()
   }
 
   cerrarSesion() {
