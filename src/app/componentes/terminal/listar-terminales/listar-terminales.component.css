@@ -10,11 +10,15 @@
   color: black !important;
 }
 
+.button.toggle {
+  border-radius: 5px;
+}
+
 .button.seleccionado {
-  border: 1px solid #b0afaf !important;
+  border: 1px solid #96e6ea !important;
   box-shadow: none !important;
 }
 
 .button:hover {
-  border: 1px solid #b0afaf !important;
+  border: 1px solid #96e6ea  !important;
 }

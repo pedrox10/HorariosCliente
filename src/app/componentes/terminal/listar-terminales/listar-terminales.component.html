@@ -7,8 +7,8 @@
     <span class="label mt-2">Filtrar por categoria: </span>
     <div class="buttons is-centered mb-1" style="gap: 0px">
       @for(categoria of categorias; track categoria; let index = $index) {
-      <button class="button"  (click)="filtrarPorCategoria(index)" [class.seleccionado]="isSelected(index)">
-        <div class="hitem" >
+      <button class="button toggle"  (click)="filtrarPorCategoria(index)" [class.seleccionado]="isSelected(index)">
+        <div class="hitem">
           @if(isSelected(index)) {
           <i class="fas fa-check has-text-success" style="align-self: center;"></i>
           }
