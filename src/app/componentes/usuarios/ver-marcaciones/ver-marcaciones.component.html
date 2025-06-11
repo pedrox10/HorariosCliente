@@ -109,7 +109,11 @@
         @if(infoMarcacion.activo) {
         @if(infoMarcacion.primerDia) {
         <tr>
-          <th style="position: relative;"><span class="badge is-bottom mb-2 has-background-primary">{{infoMarcacion.primerDia.mes}}</span></th>
+          <th style="position: relative;">
+            <span class="badge is-bottom mb-2 has-background-primary" style="box-shadow: 0 0 0 2px transparent;">
+              {{infoMarcacion.primerDia.mes}}
+            </span>
+          </th>
         </tr>
         }
         <tr>
@@ -362,7 +366,9 @@
         } @else {
         @if(infoMarcacion.primerDia) {
         <tr>
-          <th style="position: relative;"><span class="badge is-bottom mb-2 has-background-primary">{{infoMarcacion.primerDia.mes}}</span></th>
+          <th style="position: relative;"><span class="badge is-bottom mb-2 has-background-primary" style="box-shadow: 0 0 0 2px transparent;">
+            {{infoMarcacion.primerDia.mes}}</span>
+          </th>
         </tr>
         }
         @switch(infoMarcacion.estado) {
