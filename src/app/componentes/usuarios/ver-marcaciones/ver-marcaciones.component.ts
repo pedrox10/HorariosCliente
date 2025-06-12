@@ -151,11 +151,14 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
     let sinMarcar = <HTMLSpanElement> document.getElementById("totalSinMarcar")
     let salAntes = <HTMLSpanElement> document.getElementById("totalSalAntes")
     let faltas = <HTMLSpanElement> document.getElementById("totalFaltas")
+    let permisosSG = <HTMLSpanElement> document.getElementById("totalPermisosSG")
     retrasos.innerText = this.resumenMarcacion.totalCantRetrasos === undefined ? "--" : this.resumenMarcacion.totalCantRetrasos
-    minutos.innerText = this.resumenMarcacion.totalMinRetrasos === undefined ? "--" : this.resumenMarcacion.totalMinRetrasos + " min"
+    minutos.innerText = this.resumenMarcacion.totalMinRetrasos === undefined ? "--" : this.resumenMarcacion.totalMinRetrasos + "min"
     sinMarcar.innerText = this.resumenMarcacion.totalSinMarcar === undefined ? "--" : this.resumenMarcacion.totalSinMarcar
     salAntes.innerText = this.resumenMarcacion.totalSalAntes === undefined ? "--" : this.resumenMarcacion.totalSalAntes
     faltas.innerText = this.resumenMarcacion.totalAusencias === undefined ? "--" : this.resumenMarcacion.totalAusencias
+    permisosSG.innerText = this.resumenMarcacion.totalPermisosSG === undefined ? "--" : this.resumenMarcacion.totalPermisosSG + "d"
+
   }
 
   agregarExcepcionCompleta() {

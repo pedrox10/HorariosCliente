@@ -117,6 +117,12 @@
          <span class="help pr-3">Faltas</span>
          <i class="sort fas" [ngClass]="getSortClass('faltas')"></i>
        </th>
+       <th>
+         <div class="vitem has-text-centered pr-3">
+           <span class="help">Permisos</span>
+           <span class="help">SG[días]</span>
+         </div>
+       </th>
        <th class="hidden-print"></th>
      </tr>
      <tbody>
@@ -253,6 +259,7 @@
         } @else {
         <td>{{rm.totalAusencias}}</td>
         }
+        <td>{{rm.totalPermisosSG}}</td>
         <td class="hidden-print" >
           <div class="hitem">
             <span class="icon has-tooltip-arrow expand" data-tooltip="Ver Marcaciones" (click)="verMarcaciones(rm.usuario)">

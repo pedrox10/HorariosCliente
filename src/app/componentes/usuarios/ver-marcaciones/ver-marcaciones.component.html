@@ -22,25 +22,52 @@
       <div class="info">
         <div class="vbox-centered">
           <span class="label">Dias con incidencias</span>
-          <div class="hbox">
-            <span>Llegó tarde</span>
+          <div class="hbox" style="align-">
+            <div class="hitem">
+              <i class="fas fa-long-arrow-alt-up" style="align-self: center; color: #72bddc"></i>
+              <span>Llegó tarde</span>
+            </div>
             <span id="totalCantRetrasos" style="font-weight: bold;"></span>
           </div>
-          <div class="hbox">
-            <span>Retrasos</span>
+          <div class="hbox" style="justify-content: space-between">
+            <div class="hitem">
+              <i class="far fa-clock" style="align-self: center; color: #d3d301"></i>
+              <span>Retrasos</span>
+            </div>
             <span id="totalMinRetrasos" style="font-weight: bold;"></span>
           </div>
           <div class="hbox">
-            <span>Sin marcar</span>
+            <div class="hitem">
+              <i class="far fa-clock" style="align-self: center; color: #fc9482"></i>
+              <span>Sin Marcar</span>
+            </div>
             <span id="totalSinMarcar" style="font-weight: bold;"></span>
           </div>
           <div class="hbox">
-            <span>Salió antes</span>
+            <div class="hitem">
+              <i class="far fa-clock" style="align-self: center; color: #fc9482"></i>
+              <span>Salió Antes</span>
+            </div>
             <span id="totalSalAntes" style="font-weight: bold;"></span>
           </div>
           <div class="hbox">
-            <span>Faltas</span>
+            <div class="hitem">
+              <i class="fas fa-times" style="align-self: center; color: #fa7660"></i>
+              <span>Ausencias</span>
+            </div>
             <span id="totalFaltas" style="font-weight: bold;"></span>
+          </div>
+        </div>
+      </div>
+      <div class="info">
+        <div class="vbox-centered">
+          <span class="label">Excepciones</span>
+          <div class="hbox" style="align-">
+            <div class="hitem">
+              <i title="Permisos sin Goce de Haberes" class="far fa-circle" style="align-self: center; color: #a7c454"></i>
+              <span>PermisoSG</span>
+            </div>
+            <span id="totalPermisosSG" style="font-weight: bold;"></span>
           </div>
         </div>
       </div>

@@ -393,9 +393,10 @@ export class VerReporteComponent implements OnInit{
     let ausencias = "";
     for (let info of infoMarcaciones) {
       if(info.estado == EstadoJornada.ausencia) {
-        ausencias = ausencias + "<div class='hbox'><div class='hitem'>" +
-          "<span><i class='fas fa-calendar-alt'></i></span>" +
-          "<span class='semibold'>" + moment(info.fecha).format("DD/MM/YYYY") + "</span></div>" +
+        ausencias = ausencias +
+          "<div class='hbox'><div class='hitem'>" +
+            "<span><i class='fas fa-calendar-alt'></i></span>" +
+            "<span class='semibold'>" + moment(info.fecha).format("DD/MM/YYYY") + "</span></div>" +
           "</div>"
       }
     }
