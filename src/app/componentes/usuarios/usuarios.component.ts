@@ -68,9 +68,10 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     this.terminalService.getUsuarios(this.idTerminal).pipe(takeUntil(this.destroy$)).subscribe(
       (data: any) => {
         this.usuarios = data;
+        console.log(this.usuarios)
         this.usuariosFiltrados = this.usuarios.map(usuario => ({
           ...usuario,
-          horarioHtml: this.getHorario(usuario.horarioMes),
+          horarioHtml: this.getHorario(usuario.ultAsignacion),
           estadoHtml: this.getEstado(usuario)
         }));
         if(env.filtrarEstado) {
@@ -289,6 +290,10 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
       "<div class='help has-text-centered mt-1'>" +
         "<div class='etiqueta' style='background-color: " + color + ";'>" + str + "</div>" +
       "</div>";
+    if(str == "Sin Asignar")
+      horario = horario +
+      "<span style='position: absolute; bottom: -5px; left: 40%'>" +
+        "<i title='test' class=\"far fa-question-circle\" style=\"color: #5cc5fd\"></i></span>"
     return this.sanitizer.bypassSecurityTrustHtml(horario);
   }
 
@@ -346,7 +351,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
               if (data !== undefined) {
                 for(let usuario of this.usuariosSeleccionados) {
                   if(data.res === true) {
-                    usuario.horarioMes = data.ultDiaAsignado;
+                    usuario.ultAsignacion = data.ultDiaAsignado;
                   }
                 }
                 mensaje("Horario asignado a   " + this.usuariosSeleccionados.length + " funcionarios", "is-success")

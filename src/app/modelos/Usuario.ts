@@ -15,9 +15,11 @@ export class Usuario {
   fechaAlta: Date
   fechaBaja: Date
   fechaCumpleano: Date
-  horarioMes: string
+  ultAsignacion: string
+  ultMarcacion?: string
 
-  constructor(uid:number, ci: number, nombre: string, estado: EstadoUsuario, fechaAlta: Date, fechaBaja: Date, fechaCumpleano: Date, horarioMes: string) {
+  constructor(uid:number, ci: number, nombre: string, estado: EstadoUsuario, fechaAlta: Date, fechaBaja: Date,
+              fechaCumpleano: Date, ultAsignacion: string) {
     this.uid = uid;
     this.ci = ci;
     this.nombre = nombre;
@@ -26,6 +28,6 @@ export class Usuario {
     this.fechaAlta = fechaAlta;
     this.fechaBaja = fechaBaja;
     this.fechaCumpleano = fechaCumpleano;
-    this.horarioMes = horarioMes;
+    this.ultAsignacion = ultAsignacion;
   }
 }
