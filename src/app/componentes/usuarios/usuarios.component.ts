@@ -290,10 +290,11 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
       "<div class='help has-text-centered mt-1'>" +
         "<div class='etiqueta' style='background-color: " + color + ";'>" + str + "</div>" +
       "</div>";
-    if(str == "Sin Asignar")
+    if(str == "Sin Asignar") {
       horario = horario +
       "<span style='position: absolute; bottom: -5px; left: 40%'>" +
-        "<i title='test' class=\"far fa-question-circle\" style=\"color: #5cc5fd\"></i></span>"
+      "<i title='test' class=\"far fa-question-circle\" style=\"color: #5cc5fd\"></i></span>"
+    }
     return this.sanitizer.bypassSecurityTrustHtml(horario);
   }
 

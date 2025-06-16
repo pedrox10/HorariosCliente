@@ -3,6 +3,7 @@ import {Terminal} from "./Terminal";
 export enum EstadoUsuario {
   Inactivo,
   Activo,
+  Eliminado,
 }
 
 export class Usuario {
