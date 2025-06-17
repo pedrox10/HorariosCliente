@@ -71,7 +71,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log(this.usuarios)
         this.usuariosFiltrados = this.usuarios.map(usuario => ({
           ...usuario,
-          horarioHtml: this.getHorario(usuario.ultAsignacion),
+          horarioHtml: this.getHorario(usuario),
           estadoHtml: this.getEstado(usuario)
         }));
         if(env.filtrarEstado) {
@@ -122,7 +122,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
         top: env.posY,
         left: 0
       });
-    }, 500);
+    }, 1000);
   }
 
   ngOnDestroy() {
@@ -284,16 +284,17 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     this.location.back();
   }
 
-  getHorario(str: string) {
-    let color = str == "Sin Asignar" ? this.getColor("Gris") :  this.getColor("Purpura");
+  getHorario(usuario: Usuario) {
+    let ultAsignacion = usuario.ultAsignacion
+    let color = ultAsignacion == "Sin Asignar" ? this.getColor("Gris") :  this.getColor("Purpura");
     let horario =
       "<div class='help has-text-centered mt-1'>" +
-        "<div class='etiqueta' style='background-color: " + color + ";'>" + str + "</div>" +
+        "<div class='etiqueta' style='background-color: " + color + ";'>" + ultAsignacion + "</div>" +
       "</div>";
-    if(str == "Sin Asignar") {
+    if(ultAsignacion === "Sin Asignar") {
       horario = horario +
       "<span style='position: absolute; bottom: -5px; left: 40%'>" +
-      "<i title='test' class=\"far fa-question-circle\" style=\"color: #5cc5fd\"></i></span>"
+      "<i title='" + usuario.ultMarcacion + "' class='far fa-question-circle' style='color: #5cc5fd'></i></span>"
     }
     return this.sanitizer.bypassSecurityTrustHtml(horario);
   }

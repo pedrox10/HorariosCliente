@@ -428,9 +428,13 @@ export class VerReporteComponent implements OnInit{
   /** Lógica de clic en encabezado para alternar asc → desc → none */
   onSort(column: string): void {
     if (this.sortColumn === column) {
-      if (this.sortDirection === 'asc')      this.sortDirection = 'desc';
-      else if (this.sortDirection === 'desc') this.sortDirection = null;
-      else                                    this.sortDirection = 'asc';
+      if (this.sortDirection === 'asc')
+        this.sortDirection = 'desc';
+      else
+        if (this.sortDirection === 'desc')
+          this.sortDirection = null;
+        else
+          this.sortDirection = 'asc';
     } else {
       this.sortColumn    = column;
       this.sortDirection = 'asc';
@@ -446,7 +450,7 @@ export class VerReporteComponent implements OnInit{
 
   /** Aplica el sort según estado */
   applySort(): void {
-    const dir = this.sortDirection === 'asc' ? 1 : -1;
+    const dir = this.sortDirection === 'asc' ? -1 : 1;
     const col = this.sortColumn!;
 
     this.resumenMarcaciones = [...this.resumenMarcaciones].sort((a, b) => {
@@ -475,6 +479,10 @@ export class VerReporteComponent implements OnInit{
         case 'salAntes':
           aVal = a.totalSalAntes === undefined ? 0 : a.totalSalAntes;
           bVal = b.totalSalAntes === undefined ? 0 : b.totalSalAntes;
+          break;
+        case 'permisosSG':
+          aVal = a.totalPermisosSG === undefined ? 0 : a.totalPermisosSG;
+          bVal = b.totalPermisosSG === undefined ? 0 : b.totalPermisosSG;
           break;
         case 'faltas':
           aVal = a.totalAusencias === undefined ? 0 : a.totalAusencias;

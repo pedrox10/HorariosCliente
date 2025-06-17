@@ -117,11 +117,12 @@
          <span class="help pr-3">Faltas</span>
          <i class="sort fas" [ngClass]="getSortClass('faltas')"></i>
        </th>
-       <th>
+       <th (click)="onSort('permisosSG')"  class="ordenable">
          <div class="vitem has-text-centered pr-3">
            <span class="help">Permisos</span>
            <span class="help">SG[días]</span>
          </div>
+         <i class="sort fas" [ngClass]="getSortClass('permisosSG')"></i>
        </th>
        <th class="hidden-print"></th>
      </tr>
