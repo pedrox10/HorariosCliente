@@ -72,6 +72,7 @@ export class VerReporteComponent implements OnInit{
     const data=JSON.parse(sessionStorage.getItem('reporte') || '[]')
     this.originalResumenMarcaciones = data;
     this.resumenMarcaciones = data;
+    console.log(this.resumenMarcaciones)
     this.terminal = sessionStorage.getItem("terminal")
     this.fechaIni = sessionStorage.getItem("fechaIni")
     this.fechaFin = sessionStorage.getItem("fechaFin")
@@ -450,7 +451,7 @@ export class VerReporteComponent implements OnInit{
 
   /** Aplica el sort según estado */
   applySort(): void {
-    const dir = this.sortDirection === 'asc' ? -1 : 1;
+    const dir = this.sortDirection === 'asc' ? 1 : -1;
     const col = this.sortColumn!;
 
     this.resumenMarcaciones = [...this.resumenMarcaciones].sort((a, b) => {

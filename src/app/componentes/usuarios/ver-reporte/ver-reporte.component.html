@@ -117,6 +117,13 @@
          <span class="help pr-3">Faltas</span>
          <i class="sort fas" [ngClass]="getSortClass('faltas')"></i>
        </th>
+       <th (click)="onSort('totalDescuentos')"  class="ordenable">
+         <div class="vitem has-text-centered pr-3">
+           <span class="help">Sanciones</span>
+           <span class="help">Total[días]</span>
+         </div>
+         <i class="sort fas" [ngClass]="getSortClass('permisosSG')"></i>
+       </th>
        <th (click)="onSort('permisosSG')"  class="ordenable">
          <div class="vitem has-text-centered pr-3">
            <span class="help">Permisos</span>
@@ -260,6 +267,7 @@
         } @else {
         <td>{{rm.totalAusencias}}</td>
         }
+        <td></td>
         <td>{{rm.totalPermisosSG}}</td>
         <td class="hidden-print" >
           <div class="hitem">
