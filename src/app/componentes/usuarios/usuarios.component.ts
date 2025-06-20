@@ -397,12 +397,15 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       this.estado = undefined
       this.marcarTodos(false);
-      if(this.isAdmin)
-        (document.getElementById("cb_todos") as HTMLInputElement).checked = false;
+      (document.getElementById("cb_todos") as HTMLInputElement).checked = false;
       env.filtrarEstado = false;
       env.estado = -1
       env.textoBusqueda = "";
       (document.getElementById("tf_busqueda") as HTMLInputElement).value = "";
+    } else {
+      env.textoBusqueda = "";
+      (document.getElementById("tf_busqueda") as HTMLInputElement).value = "";
+      this.usuariosFiltrados = this.usuarios
     }
   }
 

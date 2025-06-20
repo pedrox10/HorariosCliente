@@ -4,4 +4,23 @@
   z-index: 1;
 }
 
+.seleccionado {
+  background-color: #e0f7fa!important;
+  color: black !important;
+}
+
+.button.toggle {
+  border-radius: 5px;
+  background-color: #F2F2F2 !important;
+}
+
+.button.seleccionado {
+  border: 1px solid #96e6ea !important;
+  box-shadow: none !important;
+}
+
+.button:hover {
+  border: 1px solid #96e6ea  !important;
+}
+
 
