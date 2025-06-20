@@ -6,7 +6,7 @@
     </div>
   </div>
  <div class="animate__animated animate__fadeIn" style="width: fit-content;">
-   <div class="hbox">
+   <div class="hbox stick" style="background-color: white; z-index: 2">
      <div class="vinput" style="position: relative">
        <div class="hitem">
          <label class="label" style="margin-bottom: 0px;">Buscar Funcionario </label>
@@ -71,7 +71,7 @@
    </div>
 
    <table class="table is-bordered is-hoverable" id="tabla_reporte">
-     <tr class="stick">
+     <tr class="stick" style="top: 61px">
        <th>#</th>
        <th (click)="onSort('nombre')" class="ordenable" style="min-width: 225px;">
          Nombre
@@ -117,12 +117,12 @@
          <span class="help pr-3">Faltas</span>
          <i class="sort fas" [ngClass]="getSortClass('faltas')"></i>
        </th>
-       <th (click)="onSort('totalDescuentos')"  class="ordenable">
+       <th (click)="onSort('totalSanciones')"  class="ordenable">
          <div class="vitem has-text-centered pr-3">
            <span class="help">Sanciones</span>
            <span class="help">Total[días]</span>
          </div>
-         <i class="sort fas" [ngClass]="getSortClass('permisosSG')"></i>
+         <i class="sort fas" [ngClass]="getSortClass('totalSanciones')"></i>
        </th>
        <th (click)="onSort('permisosSG')"  class="ordenable">
          <div class="vitem has-text-centered pr-3">
@@ -267,7 +267,7 @@
         } @else {
         <td>{{rm.totalAusencias}}</td>
         }
-        <td></td>
+        <td>{{rm.totalSanciones}}</td>
         <td>{{rm.totalPermisosSG}}</td>
         <td class="hidden-print" >
           <div class="hitem">

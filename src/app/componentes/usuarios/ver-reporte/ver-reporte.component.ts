@@ -481,13 +481,17 @@ export class VerReporteComponent implements OnInit{
           aVal = a.totalSalAntes === undefined ? 0 : a.totalSalAntes;
           bVal = b.totalSalAntes === undefined ? 0 : b.totalSalAntes;
           break;
+        case 'faltas':
+          aVal = a.totalAusencias === undefined ? 0 : a.totalAusencias;
+          bVal = b.totalAusencias === undefined ? 0 : b.totalAusencias;
+          break;
         case 'permisosSG':
           aVal = a.totalPermisosSG === undefined ? 0 : a.totalPermisosSG;
           bVal = b.totalPermisosSG === undefined ? 0 : b.totalPermisosSG;
           break;
-        case 'faltas':
-          aVal = a.totalAusencias === undefined ? 0 : a.totalAusencias;
-          bVal = b.totalAusencias === undefined ? 0 : b.totalAusencias;
+        case 'totalSanciones':
+          aVal = a.totalSanciones === undefined ? 0 : a.totalSanciones;
+          bVal = b.totalSanciones === undefined ? 0 : b.totalSanciones;
           break;
         default:
           return 0;
