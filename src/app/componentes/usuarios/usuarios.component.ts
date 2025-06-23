@@ -49,6 +49,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   private activatedRoute = inject(ActivatedRoute);
   idTerminal = this.activatedRoute.snapshot.params['id'];
   estado: EstadoUsuario | any = undefined;
+  idGrupo: number = -1;
   fechaMin: string | any;
   fechaIni: string | any;
   fechaFin: string | any;
@@ -177,7 +178,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  applyFilter($event: any) {
+  filtrarPorTexto($event: any) {
     let texto = $event.target.value.toLowerCase();
     env.textoBusqueda = texto;
     this.filtrarFuncionarios(texto)
@@ -238,8 +239,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
       this.usuariosSeleccionados = this.usuariosFiltrados.slice();
     else
       this.usuariosSeleccionados = [];
-    if(this.isAdmin)
-      (document.getElementById("cb_todos") as HTMLInputElement).classList.remove("is-indeterminate");
+    (document.getElementById("cb_todos") as HTMLInputElement).classList.remove("is-indeterminate");
   }
 
   sincronizar() {
@@ -368,7 +368,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  filtrarUsuarios(ev: any) {
+  filtrarPorEstado(ev: any) {
     let valor = (<HTMLInputElement>ev.target).value;
     this.estado = parseInt(valor)
     env.filtrarEstado = true;
@@ -378,10 +378,8 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
       this.filtrarFuncionarios(env.textoBusqueda);
       (document.getElementById("tf_busqueda") as HTMLInputElement).value = env.textoBusqueda
     }
-    if(this.isAdmin) {
-      this.marcarTodos(false);
-      (document.getElementById("cb_todos") as HTMLInputElement).checked = false;
-    }
+    this.marcarTodos(false);
+    (document.getElementById("cb_todos") as HTMLInputElement).checked = false;
   }
 
   quitarFiltros() {
@@ -553,5 +551,28 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isSelected(id: number | any): boolean {
     return env.indexUsuario === id;
+  }
+
+  filtrarPorGrupo(index: number) {
+    if(this.idGrupo === index) {
+      this.idGrupo = -1
+      env.filtrarPorGrupo = false;
+    } else {
+      this.idGrupo = index
+      env.filtrarPorGrupo = true;
+    }
+    env.grupo = this.idGrupo;
+
+    this.usuariosFiltrados = this.usuarios.filter((item: Usuario) => item.grupo.id == this.idGrupo)
+    if(env.textoBusqueda !== "") {
+      this.filtrarFuncionarios(env.textoBusqueda);
+      (document.getElementById("tf_busqueda") as HTMLInputElement).value = env.textoBusqueda
+    }
+    this.marcarTodos(false);
+    (document.getElementById("cb_todos") as HTMLInputElement).checked = false;
+  }
+
+  isSelectedGroup(id: number | any): boolean {
+    return this.idGrupo === id
   }
 }

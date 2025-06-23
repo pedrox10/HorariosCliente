@@ -15,12 +15,18 @@
 }
 
 .button.seleccionado {
-  border: 1px solid #96e6ea !important;
-  box-shadow: none !important;
+  border: 1px solid #e8d1b6 !important;
+  background-color: #ECE4DB !important;
 }
 
-.button:hover {
-  border: 1px solid #96e6ea  !important;
+.button.toggle:hover {
+  color: black !important;
+  border: 1px solid #e8d1b6 !important;
+}
+
+.button.toggle:focus {
+  color: black !important;
+  border: 1px solid #e8d1b6 !important;
 }
 
 

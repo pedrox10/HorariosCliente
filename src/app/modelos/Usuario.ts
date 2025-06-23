@@ -1,4 +1,5 @@
 import {Terminal} from "./Terminal";
+import {Grupo} from "./Grupo";
 
 export enum EstadoUsuario {
   Inactivo,
@@ -16,11 +17,12 @@ export class Usuario {
   fechaAlta: Date
   fechaBaja: Date
   fechaCumpleano: Date
-  ultAsignacion: string
+  ultAsignacion?: string
   ultMarcacion?: string
+  grupo: Grupo;
 
   constructor(uid:number, ci: number, nombre: string, estado: EstadoUsuario, fechaAlta: Date, fechaBaja: Date,
-              fechaCumpleano: Date, ultAsignacion: string) {
+              fechaCumpleano: Date, grupo: Grupo) {
     this.uid = uid;
     this.ci = ci;
     this.nombre = nombre;
@@ -29,6 +31,6 @@ export class Usuario {
     this.fechaAlta = fechaAlta;
     this.fechaBaja = fechaBaja;
     this.fechaCumpleano = fechaCumpleano;
-    this.ultAsignacion = ultAsignacion;
+    this.grupo = grupo
   }
 }
