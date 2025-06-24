@@ -39,7 +39,6 @@ import {AuthService} from "../../servicios/auth.service";
   //changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-
 export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   public usuariosFiltrados: Usuario[] = [];
   public usuariosSeleccionados: Usuario[] = [];
@@ -65,35 +64,57 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
               public modalService: ModalService, private location: Location,
               private sanitizer: DomSanitizer, private authService: AuthService) {
 
-    this.isAdmin  = this.authService.obtenerRol() === 'Administrador'
+    this.isAdmin  = this.authService.obtenerRol() === 'Administrador';
+
+    // Carga inicial de usuarios
     this.terminalService.getUsuarios(this.idTerminal).pipe(takeUntil(this.destroy$)).subscribe(
       (data: any) => {
         this.usuarios = data;
-        console.log(this.usuarios)
-        this.usuariosFiltrados = this.usuarios.map(usuario => ({
-          ...usuario,
-          horarioHtml: this.getHorario(usuario),
-          estadoHtml: this.getEstado(usuario)
-        }));
-        if(env.filtrarEstado) {
-          if(env.estado == 1)
-            (document.getElementById("rb_activo") as HTMLInputElement)?.click();
-          else
-            (document.getElementById("rb_inactivo") as HTMLInputElement)?.click();
+        console.log("Usuarios cargados:", this.usuarios);
+        // Pre-procesa los usuarios para agregar horarioHtml y estadoHtml
+        this.usuarios.forEach(usuario => {
+          usuario.horarioHtml = this.getHorario(usuario); // Asignación válida ahora
+          usuario.estadoHtml = this.getEstado(usuario);   // Asignación válida ahora
+        });
+
+        // Aplicar filtros persistentes si existen (estado y texto de búsqueda, ahora también grupo)
+        if(env.filtrarEstado && env.estado !== undefined) {
+          this.estado = env.estado;
         }
+        // Ajuste aquí para el valor de grupo persistente, usar null si env.grupo es -1 o undefined
+        if(env.grupo !== -1) {
+          this.idGrupo = env.grupo;
+        } else {
+          this.idGrupo = -1;
+        }
+
+        this.aplicarFiltros();
+        // Actualizar el campo de búsqueda visualmente si hay texto persistente
         if(env.textoBusqueda !== "") {
-          this.filtrarFuncionarios(env.textoBusqueda);
-          (document.getElementById("tf_busqueda") as HTMLInputElement).value = env.textoBusqueda
+          (document.getElementById("tf_busqueda") as HTMLInputElement).value = env.textoBusqueda;
         }
+        // Actualizar el estado de los radio buttons de estado
+        if (env.filtrarEstado) {
+          const rbActivo = (document.getElementById("rb_activo") as HTMLInputElement);
+          const rbInactivo = (document.getElementById("rb_inactivo") as HTMLInputElement);
+
+          if (env.estado == 1 && rbActivo) { // Verificación añadida
+            rbActivo.checked = true;
+          } else if (env.estado == 0 && rbInactivo) { // Verificación añadida
+            rbInactivo.checked = true;
+          }
+        }
+
       },
       (error: any) => {
-        console.error('An error occurred:', error);
+        console.error('An error occurred loading users:', error);
       }
     );
 
     this.terminalService.getTerminal(this.idTerminal).pipe(takeUntil(this.destroy$)).subscribe(
       (data: any) => {
         this.terminal = data;
+        console.log(this.terminal)
         this.ultimaSincronizacion = moment(this.terminal.ultSincronizacion, "YYYY-MM-DD").toDate()
         setTimeout(() => this.inicializarPicker(), 0);
       },
@@ -110,7 +131,6 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     };
     document.addEventListener('keydown', this.escuchaEscape);
-
     document.getElementById("background")?.addEventListener("click", (e) => {
       this.ocultarSeleccionarRango()
     })
@@ -178,54 +198,34 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  filtrarPorTexto($event: any) {
-    let texto = $event.target.value.toLowerCase();
-    env.textoBusqueda = texto;
-    this.filtrarFuncionarios(texto)
-  }
-
-  filtrarFuncionarios(texto: string) {
-    let lista: Usuario[] = []
-    lista = this.estado != undefined ? this.usuarios.filter((item: Usuario) => item.estado == this.estado) : this.usuarios
-    if (texto === "") {
-      this.usuariosFiltrados = lista;
-    } else {
-      this.usuariosFiltrados = lista.filter((item: Usuario) =>
-        item.nombre.toLowerCase().includes(texto) || item.ci.toString().includes(texto)
-      )
-    }
-  }
-
   seleccionar(usuario: Usuario) {
-    //console.time("seleccionar")
-    let cb_todos = (document.getElementById("cb_todos") as HTMLInputElement);
     usuario.seleccionado = !usuario.seleccionado;
     if (usuario.seleccionado) {
       this.usuariosSeleccionados = [...this.usuariosSeleccionados, usuario];
     } else {
       this.usuariosSeleccionados = this.usuariosSeleccionados.filter(u => u.ci !== usuario.ci);
     }
-    //console.timeEnd("seleccionar")
-    //console.time("lista")
-    let lista: Usuario[] = []
-    lista = this.estado != undefined ? this.usuarios.filter((item: Usuario) => item.estado == this.estado) : lista = this.usuarios
-    if (this.usuariosSeleccionados.length == lista.length) {
+    this.actualizarCheckboxTodos(); // Llama a una función para actualizar el estado del checkbox "todos"
+  }
+
+  actualizarCheckboxTodos(): void {
+    let cb_todos = (document.getElementById("cb_todos") as HTMLInputElement);
+    if (this.usuariosSeleccionados.length === this.usuariosFiltrados.length && this.usuariosFiltrados.length > 0) {
       cb_todos.classList.remove("is-indeterminate");
       cb_todos.checked = true;
+    } else if (this.usuariosSeleccionados.length === 0) {
+      cb_todos.classList.remove("is-indeterminate");
+      cb_todos.checked = false;
     } else {
-      if (this.usuariosSeleccionados.length == 0) {
-        cb_todos.classList.remove("is-indeterminate");
-        cb_todos.checked = false;
-      } else {
-        cb_todos.classList.add("is-indeterminate");
-      }
+      cb_todos.classList.add("is-indeterminate");
+      cb_todos.checked = false; // Asegurarse de que no esté marcado si es indeterminado
     }
-    //console.timeEnd("lista")
   }
 
   aplicarTodos(ev: any) {
     let esSeleccionado = (<HTMLInputElement>ev.target).checked
     this.marcarTodos(esSeleccionado)
+    this.actualizarCheckboxTodos();
   }
 
   marcarTodos(seleccionar: boolean) {
@@ -248,14 +248,15 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
       (data: any) => {
         let respuesta = data;
         console.log(respuesta)
-        this.usuarios = respuesta.usuarios
-        this.usuariosFiltrados = respuesta.usuarios;
+        this.usuarios = respuesta.usuarios.map((usuario: Usuario) => ({
+          ...usuario,
+          horarioHtml: this.getHorario(usuario),
+          estadoHtml: this.getEstado(usuario)
+        })); // Actualiza la lista completa y aplica HTML
+        this.usuariosSeleccionados = []; // Limpiar selecciones
+        this.quitarFiltros(); // Quita todos los filtros para mostrar la lista completa
         document.getElementById("ult_sync")!.innerText = "Ult. vez: " + moment(respuesta.hora_terminal).format('DD/MM/YYYY HH:mm');
-        let cbTodos = (document.getElementById("cb_todos") as HTMLInputElement);
-        cbTodos.checked = false;
-        cbTodos.classList.remove("is-indeterminate")
-        this.usuariosSeleccionados = []
-        this.quitarFiltros()
+        this.actualizarCheckboxTodos(); // Asegura que el checkbox "todos" se resetee
         setTimeout(() => {
           document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
           mensaje(respuesta.mensaje, "is-success")
@@ -368,43 +369,22 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  filtrarPorEstado(ev: any) {
-    let valor = (<HTMLInputElement>ev.target).value;
-    this.estado = parseInt(valor)
-    env.filtrarEstado = true;
-    env.estado = this.estado;
-    this.usuariosFiltrados = this.usuarios.filter((item: Usuario) => item.estado == this.estado)
-    if(env.textoBusqueda !== "") {
-      this.filtrarFuncionarios(env.textoBusqueda);
-      (document.getElementById("tf_busqueda") as HTMLInputElement).value = env.textoBusqueda
-    }
-    this.marcarTodos(false);
-    (document.getElementById("cb_todos") as HTMLInputElement).checked = false;
-  }
-
   quitarFiltros() {
-    if (this.estado != undefined) {
-      const estados = document.getElementsByName("estados") as NodeListOf<HTMLInputElement>;
-      for (var i = 0; i < estados.length; i++) {
-        let ele = estados[i];
-        if (ele.checked) {
-          ele.checked = false
-          this.usuariosFiltrados = this.usuarios
-          break
-        }
-      }
-      this.estado = undefined
-      this.marcarTodos(false);
-      (document.getElementById("cb_todos") as HTMLInputElement).checked = false;
-      env.filtrarEstado = false;
-      env.estado = -1
-      env.textoBusqueda = "";
-      (document.getElementById("tf_busqueda") as HTMLInputElement).value = "";
-    } else {
-      env.textoBusqueda = "";
-      (document.getElementById("tf_busqueda") as HTMLInputElement).value = "";
-      this.usuariosFiltrados = this.usuarios
-    }
+    // Resetear filtros
+    this.estado = undefined;
+    env.filtrarEstado = false;
+    env.estado = -1;
+    env.textoBusqueda = "";
+    this.idGrupo = -1; // Quita el filtro de grupo
+
+    // Resetear inputs/radios visuales
+    const radiosEstados = document.getElementsByName("estados") as NodeListOf<HTMLInputElement>;
+    radiosEstados.forEach(radio => radio.checked = false);
+    (document.getElementById("tf_busqueda") as HTMLInputElement).value = "";
+
+    this.aplicarFiltros(); // Vuelve a aplicar los filtros para mostrar todos los usuarios
+    this.marcarTodos(false);
+    this.actualizarCheckboxTodos(); // Asegura el estado correcto del checkbox "todos"
   }
 
   getIni() {
@@ -553,26 +533,57 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     return env.indexUsuario === id;
   }
 
-  filtrarPorGrupo(index: number) {
-    if(this.idGrupo === index) {
-      this.idGrupo = -1
-      env.filtrarPorGrupo = false;
+  filtrarPorGrupo(id: number) { // Acepta null para "Todos los Grupos"
+    if (this.idGrupo === id) {
+      this.idGrupo = -1;
+      env.grupo = -1; // Usamos -1 para indicar "sin grupo" en env
     } else {
-      this.idGrupo = index
-      env.filtrarPorGrupo = true;
+      // Si es un grupo diferente o ninguno está seleccionado, seleccionamos este
+      this.idGrupo = id;
+      env.grupo = id !== null ? id : -1; // Almacena -1 en env si es null
     }
-    env.grupo = this.idGrupo;
-
-    this.usuariosFiltrados = this.usuarios.filter((item: Usuario) => item.grupo.id == this.idGrupo)
-    if(env.textoBusqueda !== "") {
-      this.filtrarFuncionarios(env.textoBusqueda);
-      (document.getElementById("tf_busqueda") as HTMLInputElement).value = env.textoBusqueda
-    }
-    this.marcarTodos(false);
-    (document.getElementById("cb_todos") as HTMLInputElement).checked = false;
+    this.aplicarFiltros(); // Re-aplicar todos los filtros
+    this.marcarTodos(false); // Desmarcar todos los usuarios seleccionados
   }
 
   isSelectedGroup(id: number | any): boolean {
     return this.idGrupo === id
+  }
+
+  aplicarFiltros(): void {
+    let tempUsuarios = [...this.usuarios]; // Siempre comienza con la lista completa de usuarios
+    // 1. Filtrar por texto de búsqueda
+    if (env.textoBusqueda && env.textoBusqueda.trim() !== "") {
+      const lowerCaseSearchTerm = env.textoBusqueda.toLowerCase();
+      tempUsuarios = tempUsuarios.filter(usuario =>
+        usuario.nombre.toLowerCase().includes(lowerCaseSearchTerm) ||
+        usuario.ci.toString().includes(lowerCaseSearchTerm)
+      );
+    }
+    // 2. Filtrar por estado
+    if (this.estado !== undefined && this.estado !== null) { // Asegura que no sea undefined ni null
+      tempUsuarios = tempUsuarios.filter(usuario => usuario.estado == this.estado);
+    }
+    // 3. Filtrar por grupo
+    if (this.idGrupo !== null && this.idGrupo !== -1) { // -1 también significa sin filtro
+      tempUsuarios = tempUsuarios.filter(usuario => usuario.grupo?.id == this.idGrupo);
+    }
+    this.usuariosFiltrados = tempUsuarios;
+    this.actualizarCheckboxTodos(); // Actualiza el estado del checkbox "todos"
+  }
+
+  filtrarPorTexto($event: any) {
+    let texto = $event.target.value.toLowerCase();
+    env.textoBusqueda = texto;
+    this.aplicarFiltros();
+  }
+
+  filtrarPorEstado(ev: any) {
+    let valor = (<HTMLInputElement>ev.target).value;
+    this.estado = parseInt(valor);
+    env.filtrarEstado = true;
+    env.estado = this.estado;
+    this.aplicarFiltros();
+    this.marcarTodos(false); // Desmarca los usuarios seleccionados al cambiar el filtro de estado
   }
 }

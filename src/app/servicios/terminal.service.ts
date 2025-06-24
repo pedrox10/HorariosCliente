@@ -46,6 +46,10 @@ export class TerminalService {
     return this.http.get(`${this.apiUrl}/terminal/${idTerminal}/usuarios`);
   }
 
+  public getGrupos(idTerminal: number) {
+    return this.http.get(`${this.apiUrl}/terminal/${idTerminal}/grupos`);
+  }
+
   public getSincronizaciones(idTerminal: number) {
     return this.http.get(`${this.apiUrl}/terminal/${idTerminal}/sincronizaciones`);
   }

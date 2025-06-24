@@ -113,8 +113,8 @@
               <span class="badge is-bottom mb-1" style="line-height: 10px; background-color: {{getColor('Rojo')}}; color: black">Baja {{getFechaBaja(usuario)}}</span>
               }
             </td>
-            <td [innerHtml]="getHorario(usuario)" style="position:relative;"></td>
-            <td  [innerHtml]="getEstado(usuario)"></td>
+            <td style="position:relative;"><div [innerHtml]="usuario.horarioHtml"></div></td>
+            <td><div [innerHtml]="usuario.estadoHtml"></div></td>
             <td>
               <div class="hitem">
                 <span class="icon has-tooltip-arrow expand" data-tooltip="Ver Marcaciones" (click)="verMarcaciones(usuario)">
@@ -163,11 +163,17 @@
             </div>
           </div>
           <div class="grupos mt-3">
-            <label class="label">Grupos</label>
+            <div class="hitem">
+              <label class="label">Grupos</label>
+              <i class="fas fa-plus-circle icon-btn" style="color: gray; margin-top: -5px"></i>
+            </div>
             <div class="buttons is-flex is-flex-direction-column" style="gap: 3px; align-items: flex-start">
-              <button class="button toggle" (click)="filtrarPorGrupo(1)" [class.seleccionado]="isSelectedGroup(1)">Limpieza</button>
-              <button class="button toggle" (click)="filtrarPorGrupo(2)" [class.seleccionado]="isSelectedGroup(2)">Serenos</button>
-              <button class="button toggle" (click)="filtrarPorGrupo(3)" [class.seleccionado]="isSelectedGroup(3)">Choferes</button>
+              @for (grupo of terminal.grupos; track grupo) {
+              <button
+                class="button toggle" (click)="filtrarPorGrupo(grupo.id)"
+                [class.seleccionado]="isSelectedGroup(grupo.id)">{{grupo.nombre}}
+              </button>
+              }
             </div>
           </div>
           <div class="vitem sticker" *ngIf="showScrollButton" style="gap: 3px;">

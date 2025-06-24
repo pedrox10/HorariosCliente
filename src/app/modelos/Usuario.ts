@@ -1,5 +1,6 @@
 import {Terminal} from "./Terminal";
 import {Grupo} from "./Grupo";
+import {SafeHtml} from "@angular/platform-browser";
 
 export enum EstadoUsuario {
   Inactivo,
@@ -20,6 +21,8 @@ export class Usuario {
   ultAsignacion?: string
   ultMarcacion?: string
   grupo: Grupo;
+  horarioHtml?: SafeHtml; // Añade esta propiedad
+  estadoHtml?: SafeHtml;  // Añade esta propiedad
 
   constructor(uid:number, ci: number, nombre: string, estado: EstadoUsuario, fechaAlta: Date, fechaBaja: Date,
               fechaCumpleano: Date, grupo: Grupo) {

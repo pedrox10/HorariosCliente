@@ -11,7 +11,6 @@ export const env = {
   ],
   filtrarEstado: true,
   estado: 1,
-  filtrarPorGrupo: false,
   grupo: -1,
   textoBusqueda: "",
   dias_impares: ["lunes", "miercoles", "viernes", "domingo"],
