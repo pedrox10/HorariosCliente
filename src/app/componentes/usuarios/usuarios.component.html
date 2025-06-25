@@ -55,17 +55,17 @@
         <table class="table is-bordered is-hoverable" style="position: relative">
           <tr class="stick">
             @if(isAdmin) {
-            <th>
+            <th style="min-width: 46.5px;">
               <label class="b-checkbox checkbox">
                 <input id="cb_todos" type="checkbox" (change)="aplicarTodos($event)">
                 <span class="check is-dark"></span>
               </label>
             </th>
             }
-            <th>#</th>
-            <th style="width: 245px;">Nombre</th>
-            <th style="width: 90px;">CI</th>
-            <th style="position:relative;">
+            <th style="min-width: 47.2px;">#</th>
+            <th style="min-width: 245px;">Nombre</th>
+            <th style="min-width: 90px;">CI</th>
+            <th style="position:relative;min-width: 132px;">
               Fecha de Alta
               <span class="badge is-bottom is-light">en Biométrico</span>
               <div class="dropdown is-hoverable">
@@ -84,12 +84,12 @@
                 </div>
               </div>
             </th>
-            <th style="position: relative; text-align: center">
+            <th style="position: relative; text-align: center; min-width: 90px">
               Horario
               <span class="badge is-bottom is-light">Ultima Asignación</span>
             </th>
             <th>Estado</th>
-            <th></th>
+            <th style="min-width: 96px;"></th>
           </tr>
           <tbody>
           @for (usuario of usuariosFiltrados; track trackByUsuario; let index = $index) {
@@ -165,14 +165,35 @@
           <div class="grupos mt-3">
             <div class="hitem">
               <label class="label">Grupos</label>
-              <i class="fas fa-plus-circle icon-btn" style="color: gray; margin-top: -5px"></i>
+              <i class="fas fa-plus-circle icon-btn"
+                 style="color: gray; margin-top: -5px"
+                 (click)="modalAccionGrupo(null)">
+              </i>
             </div>
             <div class="buttons is-flex is-flex-direction-column" style="gap: 3px; align-items: flex-start">
-              @for (grupo of terminal.grupos; track grupo) {
-              <button
-                class="button toggle" (click)="filtrarPorGrupo(grupo.id)"
-                [class.seleccionado]="isSelectedGroup(grupo.id)">{{grupo.nombre}}
-              </button>
+              @for (grupo of terminal?.grupos; track grupo) {
+              <div class="hitem" id="grupo_{{grupo.id}}">
+                <button
+                    class="button toggle" (click)="filtrarPorGrupo(grupo.id)"
+                    [class.seleccionado]="isSelectedGroup(grupo.id)">{{grupo.nombre}}
+                </button>
+                <div class="dropdown is-hoverable is-custom-right" style="margin-top: 6.5px;">
+                  <div class="dropdown-trigger">
+                    <i class="fas fa-ellipsis-v icon-btn" style="color: gray; max-width: 26px; font-size: 1.1em"></i>
+                  </div>
+                  <div class="dropdown-menu" role="menu">
+                    <div class="vitem">
+                        <i class="fas fa-pencil-alt icon-btn"
+                          style="color: gray; max-width: 26px"
+                          (click)="modalAccionGrupo(grupo)">
+                        </i>
+                        <i class="far fa-trash-alt icon-btn" style="color: #de4543; max-width: 26px"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              } @empty {
+              <p class="has-text-grey">No hay grupos</p>
               }
             </div>
           </div>
@@ -219,6 +240,25 @@
       <div class="spinner">
       </div>
       <p class="loader-text mt-2">Generando reporte ...</p>
+    </div>
+  </div>
+  <div class="modal" id="grupo_modal">
+    <div class="modal-background" id="fondo_grupo" style="opacity: 0.75;"></div>
+    <div class="modal-card" style="width: 350px;">
+      <header class="modal-card-head">
+        <p class="modal-card-title" id="titulo_grupo">"Accion Grupo"</p>
+        <button class="delete" aria-label="close" (click)="ocultarAccionGrupo()"></button>
+      </header>
+      <section class="modal-card-body">
+        <label class="label"></label>
+        <input id="nombre_grupo" class="input" style="min-width: 210px;"/>
+      </section>
+      <footer class="modal-card-foot">
+        <div class="buttons">
+          <button id="" class="button es-primario" (click)="aplicarAccionGrupo()">Aceptar</button>
+          <button class="button" type="button" (click)="ocultarAccionGrupo()">Cancelar</button>
+        </div>
+      </footer>
     </div>
   </div>
 </div>

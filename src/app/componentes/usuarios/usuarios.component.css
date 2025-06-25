@@ -27,6 +27,7 @@
 .button.toggle:focus {
   color: black !important;
   border: 1px solid #e8d1b6 !important;
+  box-shadow: none !important;
 }
 
 

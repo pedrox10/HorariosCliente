@@ -28,6 +28,7 @@ import {DataService} from "../../servicios/data.service";
 import { CommonModule } from '@angular/common';
 import { DomSanitizer} from '@angular/platform-browser';
 import {AuthService} from "../../servicios/auth.service";
+import {Grupo} from "../../modelos/Grupo";
 
 @Component({
   selector: 'app-usuarios',
@@ -49,6 +50,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   idTerminal = this.activatedRoute.snapshot.params['id'];
   estado: EstadoUsuario | any = undefined;
   idGrupo: number = -1;
+  accionGrupo: string = ""
   fechaMin: string | any;
   fechaIni: string | any;
   fechaFin: string | any;
@@ -114,7 +116,6 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     this.terminalService.getTerminal(this.idTerminal).pipe(takeUntil(this.destroy$)).subscribe(
       (data: any) => {
         this.terminal = data;
-        console.log(this.terminal)
         this.ultimaSincronizacion = moment(this.terminal.ultSincronizacion, "YYYY-MM-DD").toDate()
         setTimeout(() => this.inicializarPicker(), 0);
       },
@@ -128,11 +129,15 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     this.escuchaEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         this.ocultarSeleccionarRango();
+        this.ocultarAccionGrupo()
       }
     };
     document.addEventListener('keydown', this.escuchaEscape);
     document.getElementById("background")?.addEventListener("click", (e) => {
       this.ocultarSeleccionarRango()
+    })
+    document.getElementById("fondo_grupo")?.addEventListener("click", (e) => {
+      this.ocultarAccionGrupo()
     })
 
   }
@@ -533,14 +538,13 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     return env.indexUsuario === id;
   }
 
-  filtrarPorGrupo(id: number) { // Acepta null para "Todos los Grupos"
+  filtrarPorGrupo(id: number) {
     if (this.idGrupo === id) {
       this.idGrupo = -1;
-      env.grupo = -1; // Usamos -1 para indicar "sin grupo" en env
+      env.grupo = -1;
     } else {
-      // Si es un grupo diferente o ninguno está seleccionado, seleccionamos este
       this.idGrupo = id;
-      env.grupo = id !== null ? id : -1; // Almacena -1 en env si es null
+      env.grupo = id; // Almacena -1 en env si es null
     }
     this.aplicarFiltros(); // Re-aplicar todos los filtros
     this.marcarTodos(false); // Desmarcar todos los usuarios seleccionados
@@ -585,5 +589,45 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     env.estado = this.estado;
     this.aplicarFiltros();
     this.marcarTodos(false); // Desmarca los usuarios seleccionados al cambiar el filtro de estado
+  }
+
+  modalAccionGrupo(grupo: Grupo | null) {
+    let input = document.getElementById("nombre_grupo") as HTMLInputElement
+    let titulo = document.getElementById("titulo_grupo") as HTMLParagraphElement
+    if(grupo !== null) {
+      this.accionGrupo = "editarGrupo";
+      titulo.innerText = "Editar Grupo"
+      input.value = grupo.nombre;
+    } else {
+      this.accionGrupo = "agregarGrupo";
+      titulo.innerText = "Agregar Grupo"
+      input.value = "";
+    }
+    document.getElementById("grupo_modal")?.classList.add("is-active");
+  }
+
+  aplicarAccionGrupo() {
+    let nombre = (document.getElementById("nombre_grupo") as HTMLInputElement).value;
+    if(this.accionGrupo == "agregarGrupo") {
+      console.log("Agregar Grupo")
+      this.terminalService.agregarGrupo(this.terminal.id, nombre).subscribe(
+        (data: any) => {
+          console.log(data)
+        },
+        (error: any) => {
+          console.error('An error occurred:', error);
+        }
+      );
+    } else {
+      if(this.accionGrupo == "editarGrupo") {
+        console.log("Editar Grupo")
+        //this.terminalService.editarGrupo(this.idGrupo, nombre)
+      }
+    }
+
+  }
+
+  ocultarAccionGrupo() {
+    document.getElementById("grupo_modal")?.classList.remove("is-active");
   }
 }

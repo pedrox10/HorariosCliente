@@ -1,6 +1,8 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {env} from "../../environments/environments";
+import {Observable} from "rxjs";
+import {Grupo} from "../modelos/Grupo";
 
 @Injectable({
   providedIn: 'root'
@@ -46,10 +48,6 @@ export class TerminalService {
     return this.http.get(`${this.apiUrl}/terminal/${idTerminal}/usuarios`);
   }
 
-  public getGrupos(idTerminal: number) {
-    return this.http.get(`${this.apiUrl}/terminal/${idTerminal}/grupos`);
-  }
-
   public getSincronizaciones(idTerminal: number) {
     return this.http.get(`${this.apiUrl}/terminal/${idTerminal}/sincronizaciones`);
   }
@@ -89,5 +87,17 @@ export class TerminalService {
 
   public getInterrupciones(id: number) {
     return this.http.get(`${this.apiUrl}/terminal/${id}/interrupciones`);
+  }
+
+  public agregarGrupo(idTerminal: number, nombreGrupo: string) {
+    return this.http.post(`${this.apiUrl}/terminal/${idTerminal}/grupos/agregar`, { nombre: nombreGrupo });
+  }
+
+  public editarGrupo(idTerminal: number, idGrupo: number, nombre: string) {
+    return this.http.put(`${this.apiUrl}/terminal/${idTerminal}/grupos/editar/${idGrupo}`, { nombre: nombre });
+  }
+
+  public eliminarGrupo(idTerminal: number, idGrupo: number) {
+    return this.http.delete(`${this.apiUrl}/terminal/${idTerminal}/grupos/eliminar/${idGrupo}`);
   }
 }

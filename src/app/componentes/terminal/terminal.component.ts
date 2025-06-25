@@ -40,6 +40,7 @@ export class  TerminalComponent {
     env.textoBusqueda = "";
     env.posY = 0;
     env.indexUsuario = -1;
+    env.grupo = -1
     this.router.navigateByUrl("/terminal/" + terminalId + "/usuarios");
   }
 
