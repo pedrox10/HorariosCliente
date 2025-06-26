@@ -50,6 +50,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   idTerminal = this.activatedRoute.snapshot.params['id'];
   estado: EstadoUsuario | any = undefined;
   idGrupo: number = -1;
+  grupoActual: Grupo | any;
   accionGrupo: string = ""
   fechaMin: string | any;
   fechaIni: string | any;
@@ -130,6 +131,8 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
       if (e.key === 'Escape') {
         this.ocultarSeleccionarRango();
         this.ocultarAccionGrupo()
+        this.ocultarEliminarGrupo()
+        this.ocultarAsignarGrupo()
       }
     };
     document.addEventListener('keydown', this.escuchaEscape);
@@ -139,7 +142,12 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     document.getElementById("fondo_grupo")?.addEventListener("click", (e) => {
       this.ocultarAccionGrupo()
     })
-
+    document.getElementById("fondo_eliminar")?.addEventListener("click", (e) => {
+      this.ocultarEliminarGrupo()
+    })
+    document.getElementById("fondo_asignar")?.addEventListener("click", (e) => {
+      this.ocultarAsignarGrupo()
+    })
   }
 
   ngAfterViewInit() {
@@ -597,6 +605,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     if(grupo !== null) {
       this.accionGrupo = "editarGrupo";
       titulo.innerText = "Editar Grupo"
+      this.grupoActual = grupo;
       input.value = grupo.nombre;
     } else {
       this.accionGrupo = "agregarGrupo";
@@ -612,22 +621,71 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log("Agregar Grupo")
       this.terminalService.agregarGrupo(this.terminal.id, nombre).subscribe(
         (data: any) => {
-          console.log(data)
+          this.terminal.grupos.push(data)
+          this.ocultarAccionGrupo()
+          mensaje("¡Grupo Agregado!", "is-success")
         },
         (error: any) => {
           console.error('An error occurred:', error);
+          mensaje("¡Error, no se pudo agregar!", "is-danger")
         }
       );
     } else {
       if(this.accionGrupo == "editarGrupo") {
-        console.log("Editar Grupo")
-        //this.terminalService.editarGrupo(this.idGrupo, nombre)
+        this.terminalService.editarGrupo(this.idTerminal, this.grupoActual.id, nombre).subscribe(
+          (data: any) => {
+            let index = this.terminal.grupos.map((i: Grupo) => i.id).indexOf(data.id);
+            this.terminal.grupos[index] = data;
+            this.ocultarAccionGrupo()
+            mensaje("¡Grupo Editado!", "is-success")
+          },
+          (error: any) => {
+            console.error('An error occurred:', error);
+            mensaje("¡Error, no se pudo editar!", "is-danger")
+          }
+        );
       }
     }
-
   }
 
   ocultarAccionGrupo() {
     document.getElementById("grupo_modal")?.classList.remove("is-active");
   }
+
+  modalEliminarGrupo(grupo: Grupo) {
+    document.getElementById("eliminar_modal")?.classList.add("is-active");
+    this.grupoActual = grupo;
+  }
+
+  ocultarEliminarGrupo() {
+    document.getElementById("eliminar_modal")?.classList.remove("is-active");
+  }
+
+  eliminarGrupo() {
+    this.terminalService.eliminarGrupo(this.terminal.id, this.grupoActual.id).subscribe(
+      (data: any) => {
+        let index = this.terminal.grupos.map((i: Grupo) => i.id).indexOf(this.grupoActual.id);
+        this.terminal.grupos.splice(index, 1);
+        this.ocultarEliminarGrupo()
+        mensaje("¡Grupo Editado!", "is-success")
+      },
+      (error: any) => {
+        console.error('An error occurred:', error);
+        mensaje("¡Error, no se pudo eliminar!", "is-danger")
+      }
+    );
+  }
+
+  modalAsignarGrupo() {
+    document.getElementById("asignar_grupo")?.classList.add("is-active");
+  }
+
+  ocultarAsignarGrupo() {
+    document.getElementById("asignar_grupo")?.classList.remove("is-active");
+  }
+
+  asignarGrupo() {
+
+  }
+
 }

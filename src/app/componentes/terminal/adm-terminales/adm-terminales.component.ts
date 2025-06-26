@@ -103,7 +103,6 @@ export class AdmTerminalesComponent implements OnInit {
             this.terminalesFiltrados.splice(indexFiltrados, 1)
           }
         }
-
         toast({
           message: '<span class="icon" style="min-width: 175px;"><i style="color: white; font-size: 2em; padding-right: 10px" class="fas fa-check"></i>Terminal eliminado</span>',
           type: "is-success",

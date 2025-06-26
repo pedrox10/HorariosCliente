@@ -33,6 +33,10 @@
                 <span class="icon"><i class="fas fa-file-alt"></i></span>
                 <span>Reporte general</span>
               </button>
+              <button class="button crema" (click)="modalAsignarGrupo()"
+                style="background-color: {{getColor('Crema')}}; border-radius: 5px;">
+                <span class="icon"><i class="fas fa-users"></i></span>
+              </button>
             </div>
           </div>
           <div class="hitem" style="margin-left: auto">
@@ -84,7 +88,7 @@
                 </div>
               </div>
             </th>
-            <th style="position: relative; text-align: center; min-width: 90px">
+            <th style="position: relative; text-align: center; min-width: 94px">
               Horario
               <span class="badge is-bottom is-light">Ultima Asignación</span>
             </th>
@@ -184,10 +188,13 @@
                   <div class="dropdown-menu" role="menu">
                     <div class="vitem">
                         <i class="fas fa-pencil-alt icon-btn"
-                          style="color: gray; max-width: 26px"
+                          style="color: #299acc; max-width: 26px"
                           (click)="modalAccionGrupo(grupo)">
                         </i>
-                        <i class="far fa-trash-alt icon-btn" style="color: #de4543; max-width: 26px"></i>
+                        <i class="far fa-trash-alt icon-btn"
+                        style="color: #de4543; max-width: 26px"
+                        (click)="modalEliminarGrupo(grupo)">
+                        </i>
                     </div>
                   </div>
                 </div>
@@ -244,19 +251,65 @@
   </div>
   <div class="modal" id="grupo_modal">
     <div class="modal-background" id="fondo_grupo" style="opacity: 0.75;"></div>
-    <div class="modal-card" style="width: 350px;">
+    <div class="modal-card" style="width: 300px;">
       <header class="modal-card-head">
         <p class="modal-card-title" id="titulo_grupo">"Accion Grupo"</p>
         <button class="delete" aria-label="close" (click)="ocultarAccionGrupo()"></button>
       </header>
       <section class="modal-card-body">
-        <label class="label"></label>
-        <input id="nombre_grupo" class="input" style="min-width: 210px;"/>
+        <label class="label">Nombre</label>
+        <div class="control mb-4">
+          <input id="nombre_grupo" class="input" autocomplete="off" style="min-width: 210px;"/>
+        </div>
       </section>
       <footer class="modal-card-foot">
         <div class="buttons">
           <button id="" class="button es-primario" (click)="aplicarAccionGrupo()">Aceptar</button>
           <button class="button" type="button" (click)="ocultarAccionGrupo()">Cancelar</button>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <div class="modal " id="eliminar_modal">
+    <div class="modal-background" id="fondo_eliminar" style="opacity: 0.75;"></div>
+    <div class="modal-card" style="width: 350px">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Eliminar Grupo</p>
+        <button class="delete" aria-label="close" (click)="ocultarEliminarGrupo()"></button>
+      </header>
+      <section class="modal-card-body">
+        <label class="label">¿Esta seguro que quiere borrar el Grupo?</label>
+        <span></span>
+      </section>
+      <footer class="modal-card-foot">
+        <div class="buttons">
+          <button id="btn_eliminar" class="button es-primario" (click)="eliminarGrupo()">Aceptar</button>
+          <button class="button" type="button" (click)="ocultarEliminarGrupo()">Cancelar</button>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <div class="modal" id="asignar_grupo">
+    <div class="modal-background" id="fondo_asignar" style="opacity: 0.75;"></div>
+    <div class="modal-card" style="width: 300px;">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Asignar Grupo</p>
+        <button class="delete" aria-label="close" (click)="ocultarAsignarGrupo()"></button>
+      </header>
+      <section class="modal-card-body">
+        <label class="label">Selecciona un grupo de la lista</label>
+        <div class="select mb-4">
+          <select id="select_grupos" style="min-width: 200px">
+            @for (grupo of terminal.grupos; track grupo) {
+            <option value={{grupo.id}}>{{grupo.nombre}}</option>
+            }
+          </select>
+        </div>
+      </section>
+      <footer class="modal-card-foot">
+        <div class="buttons">
+          <button id="" class="button es-primario" (click)="asignarGrupo()">Aceptar</button>
+          <button class="button" type="button" (click)="ocultarAsignarGrupo()">Cancelar</button>
         </div>
       </footer>
     </div>
