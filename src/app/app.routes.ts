@@ -16,6 +16,7 @@ import {AccionTerminalComponent} from "./componentes/terminal/adm-terminales/acc
 import {LoginComponent} from "./componentes/inicio/login/login.component";
 import {InicioComponent} from "./componentes/inicio/inicio.component";
 import {LoginGuard} from "./login.guard";
+import {ComandosComponent} from "./componentes/terminal/comandos/comandos.component";
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
@@ -37,6 +38,7 @@ export const routes: Routes = [
       { path: 'editar-usuario', component: EditarUsuarioComponent },
       { path: 'ver-reporte', component: VerReporteComponent },
       { path: 'interrupciones/:id', component: InterrupcionesComponent },
+      { path: 'comandos/:id', component: ComandosComponent },
       { path: 'accion-terminal', component: AccionTerminalComponent },
       { path: '', redirectTo: 'ver-terminales', pathMatch: 'full' }
     ]

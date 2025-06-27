@@ -455,3 +455,11 @@ p.modal-card-title {
   border-color: #f8b285 !important;
 }
 
+.button.crema:hover {
+  border-color: #cba57a !important;
+}
+
+.button.crema:focus {
+  border-color: #cba57a  !important;
+}
+

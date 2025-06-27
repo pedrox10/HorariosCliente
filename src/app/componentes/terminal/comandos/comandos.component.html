@@ -1,0 +1,155 @@
+<div class="box fondo" style="height: 100%;">
+  <div class="hitem mb-5">
+    <span (click)="irAtras()" class="icon button mt-1"><i class="fas fa-arrow-left"></i></span>
+    <div class="title">
+      <h1>Lista de Comandos</h1>
+    </div>
+  </div>
+  <div class="hitem mb-3">
+    <p class="label" style="font-size: 1.25em">Prueba</p>
+    <div class="etiqueta mt-2">
+      @if(true) {
+      <div class="circle" style="background-color: {{getColor('Verde')}}; border: 1px #999 solid;"></div>
+      } @else {
+      <div class="circle" style="background-color: {{getColor('Guindo')}}; border: 1px #999 solid;"></div>
+      }
+    </div>
+  </div>
+  <div class="comandos  animate__animated animate__fadeIn" id="comandos">
+    <div class="card comando">
+      <header class="card-header">
+        <p class="card-header-title">Conexión</p>
+        <button class="card-header-icon" aria-label="more options">
+      <span class="icon">
+        <i class="fas fa-network-wired" aria-hidden="true"></i>
+      </span>
+        </button>
+      </header>
+      <div class="card-content">
+        <div class="content">
+          Comando para probar la conexión a la red del dispositivo
+        </div>
+      </div>
+      <footer class="card-footer">
+        <a href="#" class="card-footer-item">Probar Conexión</a>
+      </footer>
+    </div>
+
+    <div class="card comando">
+      <header class="card-header">
+        <p class="card-header-title">Capacidad y Espacio</p>
+        <button class="card-header-icon" aria-label="more options">
+      <span class="icon">
+        <i class="fas fa-database"></i>
+      </span>
+        </button>
+      </header>
+      <div class="card-content">
+        <div class="content">
+          Comando para obtener información acerca de capacidad y espacio del dispositivo
+        </div>
+      </div>
+      <footer class="card-footer">
+        <a href="#" class="card-footer-item">Obtener Información</a>
+      </footer>
+    </div>
+
+    <div class="card comando">
+      <header class="card-header">
+        <p class="card-header-title">Información Extra</p>
+        <button class="card-header-icon" aria-label="more options">
+      <span class="icon">
+        <i class="fas fa-info-circle"></i>
+      </span>
+        </button>
+      </header>
+      <div class="card-content">
+        <div class="content">
+          Comando para obtener información extra y version de firmware del dispositivo
+        </div>
+      </div>
+      <footer class="card-footer">
+        <a href="#" class="card-footer-item">Obtener Información</a>
+      </footer>
+    </div>
+
+    <div class="card comando">
+      <header class="card-header">
+        <p class="card-header-title">Fecha y Hora</p>
+        <button class="card-header-icon" aria-label="more options">
+      <span class="icon">
+        <i class="fas fa-clock"></i>
+      </span>
+        </button>
+      </header>
+      <div class="card-content">
+        <div class="content">
+          Comando para obtener y modificar la fecha y hora del dipositivo
+        </div>
+      </div>
+      <footer class="card-footer">
+        <a href="#" class="card-footer-item">Obtener Fecha</a>
+        <a href="#" class="card-footer-item">Cambiar Fecha</a>
+      </footer>
+    </div>
+
+    <div class="card comando">
+      <header class="card-header">
+        <p class="card-header-title">Registros de Asistencia</p>
+        <button class="card-header-icon" aria-label="more options">
+      <span class="icon">
+        <i class="fas fa-hand-pointer"></i>
+      </span>
+        </button>
+      </header>
+      <div class="card-content">
+        <div class="content">
+          Comando para limpiar todos los registros de marcaciones del dispositivo
+        </div>
+      </div>
+      <footer class="card-footer">
+        <a href="#" class="card-footer-item">Borrar Registros de Asistencia</a>
+      </footer>
+    </div>
+
+    <div class="card comando">
+      <header class="card-header">
+        <p class="card-header-title">Mantenimiento</p>
+        <button class="card-header-icon" aria-label="more options">
+      <span class="icon">
+        <i class="fas fa-tools"></i>
+      </span>
+        </button>
+      </header>
+      <div class="card-content">
+        <div class="content">
+          Comandos para operaciones de mantenimiento del dispositivo
+        </div>
+      </div>
+      <footer class="card-footer">
+        <a href="#" class="card-footer-item">Apagar</a>
+        <a href="#" class="card-footer-item">Reiniciar</a>
+        <a href="#" class="card-footer-item">Borrar Todo</a>
+      </footer>
+    </div>
+  </div>
+  <div class="modal " id="eliminar_modal">
+    <div class="modal-background" id="fondo_eliminar" style="opacity: 0.75;"></div>
+    <div class="modal-card" style="width: 400px">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Eliminar interrupción</p>
+        <button class="delete" aria-label="close" ></button>
+      </header>
+      <section class="modal-card-body">
+        <label class="label">Se eliminará la interrupción seleccionada.</label>
+        <p class="label">¿Esta seguro?</p>
+      </section>
+      <footer class="modal-card-foot">
+        <div class="buttons">
+          <button class="button es-primario" >Aceptar</button>
+          <button class="button" type="button" >Cancelar</button>
+        </div>
+      </footer>
+    </div>
+  </div>
+</div>

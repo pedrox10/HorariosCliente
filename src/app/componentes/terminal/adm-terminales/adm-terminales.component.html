@@ -62,15 +62,19 @@
               <span class="icon has-tooltip-arrow expand" data-tooltip="Editar" (click) = "agregarEditarModal(t)">
                 <i class="far fa-edit icon-btn"></i>
               </span>
-              <span class="icon has-tooltip-arrow expand" data-tooltip="Sincronizaciones" (click) = "mostrarSincronizaciones(t)">
-                <i class="fas fa-history icon-btn"></i>
-              </span>
               <span class="icon has-tooltip-arrow expand" data-tooltip="Interrupciones" routerLink="/interrupciones/{{t.id}}">
                 <i class="fas fa-exclamation-triangle icon-btn"></i>
+              </span>
+              <span class="icon has-tooltip-arrow expand" data-tooltip="Comandos" routerLink="/comandos/{{t.id}}">
+                <i class="fas fa-terminal"></i>
+              </span>
+              <span class="icon has-tooltip-arrow expand" data-tooltip="Historial Sinc." (click) = "mostrarSincronizaciones(t)">
+                <i class="fas fa-history icon-btn"></i>
               </span>
               <span class="icon has-tooltip-arrow expand" data-tooltip="Eliminar Terminal" (click) = "mostrarEliminar(t)">
                 <i class="far fa-times-circle icon-btn"></i>
               </span>
+
             </div>
           </td>
         </tr>

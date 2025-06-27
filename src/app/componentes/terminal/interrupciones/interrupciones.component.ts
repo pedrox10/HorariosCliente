@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {Location} from "@angular/common";
 import {Interrupcion} from "../../../modelos/Interrupcion";
 import {ModalService} from "ngx-modal-ease";
@@ -20,7 +20,7 @@ import {mensaje} from "../../inicio/Global";
   styleUrl: './interrupciones.component.css'
 })
 
-export class InterrupcionesComponent {
+export class InterrupcionesComponent implements OnInit {
 
   private activatedRoute = inject(ActivatedRoute);
   public idTerminal = this.activatedRoute.snapshot.params['id'];

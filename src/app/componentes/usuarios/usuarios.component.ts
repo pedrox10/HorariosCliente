@@ -393,7 +393,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     // Resetear inputs/radios visuales
     const radiosEstados = document.getElementsByName("estados") as NodeListOf<HTMLInputElement>;
     radiosEstados.forEach(radio => radio.checked = false);
-    (document.getElementById("tf_busqueda") as HTMLInputElement).value = "";
+      (document.getElementById("tf_busqueda") as HTMLInputElement).value = "";
 
     this.aplicarFiltros(); // Vuelve a aplicar los filtros para mostrar todos los usuarios
     this.marcarTodos(false);
