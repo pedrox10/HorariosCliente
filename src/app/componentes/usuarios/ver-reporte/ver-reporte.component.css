@@ -50,3 +50,10 @@ li.list-item {
 #suggestions li:hover {
   background-color: #cc7676 !important;
 }
+
+.float-centered {
+  position: absolute;
+  bottom: -10px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 2
+}

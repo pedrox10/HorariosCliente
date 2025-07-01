@@ -30,6 +30,7 @@ export class AdmTerminalesComponent implements OnInit {
   public categorias = env.categorias;
   idActual: number = -1;
   nombreTerminal: string | any;
+  ipTerminal: string | any;
   tieneConexion: boolean | any;
   sincronizaciones: Sincronizacion[] = [];
   fc_confirmado = new FormControl(false);
@@ -181,6 +182,7 @@ export class AdmTerminalesComponent implements OnInit {
     document.getElementById("sincronizaciones_modal")?.classList.add("is-active");
     this.idActual = terminal.id;
     this.nombreTerminal = terminal.nombre
+    this.ipTerminal = terminal.ip
     this.tieneConexion = terminal.tieneConexion
     this.terminalService.getSincronizaciones(this.idActual).subscribe(
       (data: any) => {

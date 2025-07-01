@@ -91,10 +91,13 @@
         <button class="delete" aria-label="close" (click)="ocultarSincronizaciones()"></button>
       </header>
       <section class="modal-card-body">
-        <div class="hitem">
-          <p class="label" style="font-size: 1.25em">{{ nombreTerminal}}</p>
+        <div class="hbox">
+          <div class="vbox" style="gap: 0px!important;">
+            <span class="label" style="font-size: 1.25em; margin-bottom: 0px;">{{ nombreTerminal}}</span>
+            <em style="color: gray">192.168.100.2</em>
+          </div>
           <div class="etiqueta mt-2">
-            @if(tieneConexion) {
+            @if(true) {
             <div class="circle" style="background-color: {{getColor('Verde')}}; border: 1px #999 solid;"></div>
             } @else {
             <div class="circle" style="background-color: {{getColor('Guindo')}}; border: 1px #999 solid;"></div>

@@ -6,7 +6,7 @@
     </div>
   </div>
  <div class="animate__animated animate__fadeIn" style="width: fit-content;">
-   <div class="hbox stick" style="background-color: white; z-index: 2">
+   <div class="hbox stick" style="background-color: white; z-index: 1">
      <div class="vinput" style="position: relative">
        <div class="hitem">
          <label class="label" style="margin-bottom: 0px;">Buscar Funcionario </label>
@@ -39,17 +39,6 @@
            {{getTotalDias()}}
          </p>
        </div>
-       <div class="vinput" style="display: none">
-         <div class="icon-text">
-        <span class="icon has-text-danger-70">
-        <i class="fas fa-exclamation-triangle" style="font-size: 1.2em"></i>
-        </span>
-           <span class="label">Interrupciones</span>
-         </div>
-         <p class="block has-text-centered">
-           0
-         </p>
-       </div>
        <div class="vinput">
          <div class="icon-text">
         <span class="icon has-text-success" style="font-size: 1.2em">
@@ -73,63 +62,203 @@
    <table class="table is-bordered is-hoverable" id="tabla_reporte">
      <tr class="stick" style="top: 61px">
        <th>#</th>
-       <th (click)="onSort('nombre')" class="ordenable" style="min-width: 225px;">
+       <th style="min-width: 225px;">
          Nombre
-           <i class=" sort fas" [ngClass]="getSortClass('nombre')"></i>
+           <i (click)="onSort('nombre')" class="ordenable sort fas" [ngClass]="getSortClass('nombre')"></i>
        </th>
        <th style="width: 95px;">CI</th>
-       <th (click)="onSort('fechaAlta')"  class="ordenable" style="min-width: 105px;">
+       <th style="min-width: 105px;">
          <div class="vitem pr-3">
            <span class="help"> Fecha de Alta</span>
            <span class="help"> en Biométrico</span>
          </div>
-         <i class="sort fas" [ngClass]="getSortClass('fechaAlta')"></i>
+         <i (click)="onSort('fechaAlta')" class="ordenable sort fas" [ngClass]="getSortClass('fechaAlta')"></i>
        </th>
-       <th (click)="onSort('diasComputados')"  class="ordenable">
+       <th>
          <div class="vitem has-text-centered pr-3">
           <span class="help">Días</span>
           <span class="help">Computados</span>
          </div>
-         <i class="sort fas" [ngClass]="getSortClass('diasComputados')"></i>
+         <i (click)="onSort('diasComputados')"  class="ordenable sort fas" [ngClass]="getSortClass('diasComputados')"></i>
        </th>
-       <th (click)="onSort('retraso')"  class="ordenable">
+       <th style="position: relative">
          <div class="vitem has-text-centered pr-3">
            <span class="help">Retraso</span>
            <span class="help">[min]</span>
          </div>
-         <i class="sort fas" [ngClass]="getSortClass('retraso')"></i>
+         <i (click)="onSort('retraso')" class="ordenable sort fas" [ngClass]="getSortClass('retraso')"></i>
+         <div class="dropdown is-down is-hoverable float-centered">
+           <div class="dropdown-trigger">
+             <span>
+               <i class='far fa-question-circle' style='color: #5cc5fd'></i>
+             </span>
+           </div>
+           <div class="dropdown-menu" role="menu">
+             <div class="dropdown-content popup">
+               <div class='cabecera'>Multas por Retraso</div>
+               <div class="contenido" style='color: #786450;'>
+                 <div class="hbox" style="justify-content: space-between">
+                   <div class="hitem" style="font-weight: normal">
+                     <i class="fas fa-arrow-right" style="align-self: center"></i>
+                     <span>31 a 45 min</span>
+                   </div>
+                   <span class="semibold">0.5 día</span>
+                 </div>
+                 <div class="hbox" style="justify-content: space-between">
+                   <div class="hitem" style="font-weight: normal">
+                     <i class="fas fa-arrow-right" style="align-self: center"></i>
+                     <span>46 a 60 min</span>
+                   </div>
+                   <span class="semibold">1 día</span>
+                 </div>
+                 <div class="hbox" style="justify-content: space-between">
+                   <div class="hitem" style="font-weight: normal">
+                     <i class="fas fa-arrow-right" style="align-self: center"></i>
+                     <span>61 a 90 min</span>
+                   </div>
+                   <span class="semibold">2 días</span>
+                 </div>
+                 <div class="hbox" style="justify-content: space-between">
+                   <div class="hitem" style="font-weight: normal">
+                     <i class="fas fa-arrow-right" style="align-self: center"></i>
+                     <span>91 a 120 min</span>
+                   </div>
+                   <span class="semibold">3 días</span>
+                 </div>
+                 <div class="hbox" style="justify-content: space-between">
+                   <div class="hitem" style="font-weight: normal">
+                     <i class="fas fa-arrow-right" style="align-self: center"></i>
+                     <span>121 min o más</span>
+                   </div>
+                   <span class="semibold">4 días</span>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
        </th>
-       <th (click)="onSort('sinMarcar')"  class="ordenable">
+       <th style="position: relative">
          <div class="vitem has-text-centered pr-3">
            <span class="help">Sin</span>
            <span class="help">Marcar</span>
          </div>
-         <i class="sort fas" [ngClass]="getSortClass('sinMarcar')"></i>
+         <i (click)="onSort('sinMarcar')" class="ordenable sort fas" [ngClass]="getSortClass('sinMarcar')"></i>
+         <div class="dropdown is-down is-hoverable float-centered">
+           <div class="dropdown-trigger">
+             <span>
+               <i class='far fa-question-circle' style='color: #5cc5fd'></i>
+             </span>
+           </div>
+           <div class="dropdown-menu" role="menu">
+             <div class="dropdown-content popup">
+               <div class='cabecera'>Multas por Omisión</div>
+               <div class="contenido" style='color: #786450;'>
+                 <div class="hbox" style="justify-content: space-between">
+                   <div class="hitem" style="font-weight: normal">
+                     <i class="fas fa-arrow-right" style="align-self: center"></i>
+                     <span>Primera vez</span>
+                   </div>
+                   <span class="semibold">0.5 día</span>
+                 </div>
+                 <div class="hbox" style="justify-content: space-between">
+                   <div class="hitem" style="font-weight: normal">
+                     <i class="fas fa-arrow-right" style="align-self: center"></i>
+                     <span>Segunda vez</span>
+                   </div>
+                   <span class="semibold">1 día</span>
+                 </div>
+                 <div class="hbox" style="justify-content: space-between">
+                   <div class="hitem" style="font-weight: normal">
+                     <i class="fas fa-arrow-right" style="align-self: center"></i>
+                     <span>Tercera vez</span>
+                   </div>
+                   <span class="semibold">2 días</span>
+                 </div>
+                 <div class="hbox" style="justify-content: space-between">
+                   <div class="hitem" style="font-weight: normal">
+                     <i class="fas fa-arrow-right" style="align-self: center"></i>
+                     <span>Cuarta vez</span>
+                   </div>
+                   <span class="semibold">2.5 días</span>
+                 </div>
+                 <div class="hbox" style="justify-content: space-between">
+                   <div class="hitem" style="font-weight: normal">
+                     <i class="fas fa-arrow-right" style="align-self: center"></i>
+                     <span>Quinta vez</span>
+                   </div>
+                   <span class="semibold">3 días</span>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
        </th>
-       <th (click)="onSort('salAntes')"  class="ordenable">
+       <th style="position: relative">
          <div class="vitem has-text-centered pr-3">
            <span class="help">Salió</span>
            <span class="help">Antes</span>
          </div>
-         <i class="sort fas" [ngClass]="getSortClass('salAntes')"></i>
+         <i (click)="onSort('salAntes')" class="ordenable sort fas" [ngClass]="getSortClass('salAntes')"></i>
+         <div class="dropdown is-down is-hoverable float-centered">
+           <div class="dropdown-trigger">
+             <span>
+               <i class='far fa-question-circle' style='color: #5cc5fd'></i>
+             </span>
+           </div>
+           <div class="dropdown-menu" role="menu">
+             <div class="dropdown-content popup">
+               <div class='cabecera' style="align-self: center; text-align: center">Multas por Salida Anticipada</div>
+               <div class="contenido" style='color: #786450;'>
+                 <div class="hbox" style="justify-content: space-between">
+                   <div class="hitem" style="font-weight: normal">
+                     <i class="fas fa-arrow-right" style="align-self: center"></i>
+                     <span>1 Salida Anticipada</span>
+                   </div>
+                   <span class="semibold">0.5 día</span>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
        </th>
-       <th (click)="onSort('faltas')"  class="ordenable">
+       <th style="position: relative">
          <span class="help pr-3">Faltas</span>
-         <i class="sort fas" [ngClass]="getSortClass('faltas')"></i>
+         <i (click)="onSort('faltas')" class="ordenable sort fas" [ngClass]="getSortClass('faltas')"></i>
+         <div class="dropdown is-down is-hoverable float-centered">
+           <div class="dropdown-trigger">
+             <span>
+               <i class='far fa-question-circle' style='color: #5cc5fd'></i>
+             </span>
+           </div>
+           <div class="dropdown-menu" role="menu">
+             <div class="dropdown-content popup">
+               <div class='cabecera' style="align-self: center; text-align: center">Multas por Ausencia</div>
+               <div class="contenido" style='color: #786450;'>
+                 <div class="hbox" style="justify-content: space-between">
+                   <div class="hitem" style="font-weight: normal">
+                     <i class="fas fa-arrow-right" style="align-self: center"></i>
+                     <span>1 Ausencia</span>
+                   </div>
+                   <span class="semibold">2 días</span>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
        </th>
-       <th (click)="onSort('totalSanciones')"  class="ordenable">
+       <th style="position: relative">
          <div class="vitem has-text-centered pr-3">
            <span class="help">Sanciones</span>
            <span class="help">Total[días]</span>
          </div>
-         <i class="sort fas" [ngClass]="getSortClass('totalSanciones')"></i>
+         <i (click)="onSort('totalSanciones')" class="ordenable sort fas" [ngClass]="getSortClass('totalSanciones')"></i>
        </th>
-       <th (click)="onSort('permisosSG')"  class="ordenable">
+       <th style="position: relative">
          <div class="vitem has-text-centered pr-3">
            <span class="help">Permisos</span>
            <span class="help">SG[días]</span>
          </div>
-         <i class="sort fas" [ngClass]="getSortClass('permisosSG')"></i>
+         <i (click)="onSort('permisosSG')" class="ordenable sort fas" [ngClass]="getSortClass('permisosSG')"></i>
        </th>
        <th class="hidden-print"></th>
      </tr>

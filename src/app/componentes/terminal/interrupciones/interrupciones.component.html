@@ -7,10 +7,21 @@
   </div>
   <div class="animate__animated animate__fadeIn" style="box-sizing: border-box; width: fit-content;">
     <div class="hbox">
+      <div class="hbox">
+        <div class="vbox" style="gap: 0px!important;">
+          <span class="label" style="font-size: 1.25em; margin-bottom: 0px;">{{nombreTerminal}}</span>
+          <em style="color: gray">{{ipTerminal}}</em>
+        </div>
+        <div class="etiqueta mt-2">
+          @if(true) {
+          <div class="circle" style="background-color: {{getColor('Verde')}}; border: 1px #999 solid;"></div>
+          } @else {
+          <div class="circle" style="background-color: {{getColor('Guindo')}}; border: 1px #999 solid;"></div>
+          }
+        </div>
+      </div>
       <div class="hitem"></div>
-      <div class="hitem"></div>
-      <div class="hitem"></div>
-      <div class="hitem has-tooltip-arrow expand" data-tooltip="Agregar Interrupcion" style="margin-left: auto;">
+      <div class="hitem has-tooltip-arrow expand" data-tooltip="Agregar Interrupcion" style="margin-left: auto; align-self: end">
         <button class="button" (click) = "agregarInterrupcionModal()">
           <span class="icon"><i class="fas fa-plus "></i></span>
         </button>

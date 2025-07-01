@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {AfterViewInit, Component, inject, OnInit} from '@angular/core';
 import {Location} from "@angular/common";
 import {Interrupcion} from "../../../modelos/Interrupcion";
 import {ModalService} from "ngx-modal-ease";
@@ -9,7 +9,7 @@ import {ActivatedRoute, RouterLink} from '@angular/router';
 import {TerminalService} from "../../../servicios/terminal.service";
 import moment from "moment";
 import {Terminal} from "../../../modelos/Terminal";
-import {mensaje} from "../../inicio/Global";
+import {color, mensaje} from "../../inicio/Global";
 
 @Component({
   selector: 'app-interrupciones',
@@ -20,10 +20,12 @@ import {mensaje} from "../../inicio/Global";
   styleUrl: './interrupciones.component.css'
 })
 
-export class InterrupcionesComponent implements OnInit {
+export class InterrupcionesComponent implements OnInit, AfterViewInit {
 
   private activatedRoute = inject(ActivatedRoute);
   public idTerminal = this.activatedRoute.snapshot.params['id'];
+  nombreTerminal: string | any;
+  ipTerminal: string | any;
   public interrupciones: Interrupcion[] = [];
   idActual: number = -1;
 
@@ -41,6 +43,19 @@ export class InterrupcionesComponent implements OnInit {
     document.getElementById("fondo_eliminar")?.addEventListener("click", (e) => {
       this.ocultarEliminar()
     })
+  }
+
+  ngAfterViewInit() {
+    this.terminalService.getTerminal(this.idTerminal).subscribe(
+      (data: any) => {
+        console.log(data)
+        this.nombreTerminal = data.nombre
+        this.ipTerminal = data.ip
+      },
+      (error: any) => {
+        //this.accionError(error)
+      }
+    );
   }
 
   getInterrupciones() {
@@ -103,6 +118,10 @@ export class InterrupcionesComponent implements OnInit {
 
   formatearHora(hora: Date) {
     return moment(hora).format("HH:mm")
+  }
+
+  getColor(nombre: string) {
+    return color(nombre)
   }
 
   irAtras() {
