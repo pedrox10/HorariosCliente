@@ -10,6 +10,7 @@ import {ModalService} from "ngx-modal-ease";
 import {Terminal} from "../../../modelos/Terminal";
 import {HorarioService} from "../../../servicios/horario.service";
 import {env} from "../../../../environments/environments";
+import {Jornada} from "../../../modelos/Jornada";
 
 @Component({
   selector: 'app-ver-horario',
@@ -28,6 +29,10 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
   gestionActual: number = 0;
   mesActual: number = 0;
   meses = env.meses
+  selectedJornadas: any[] = [];
+  startJornada: any = null;
+  isRangeSelecting: boolean = false;
+  hoverJornada: any = null;
 
   constructor(private modalService: ModalService, public terminalService: TerminalService, public horarioService: HorarioService) {
     this.gestionActual = moment().year()
@@ -36,12 +41,10 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
     if (data) {
       this.id = data.id;
     }
-
     this.terminalService.getUsuario(this.id).subscribe(
       (data: any) => {
         this.usuario = data;
       })
-
     this.horarioService.getJornadas(this.id, this.gestionActual, this.mesActual).subscribe(
       (data: any) => {
         this.calendar = data
@@ -50,11 +53,9 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-
   }
 
   ngAfterViewInit() {
-
   }
 
   mesSiguiente() {
@@ -83,6 +84,43 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
         this.calendar = data
         console.log(this.calendar)
       })
+  }
+
+  onJornadaClick(jornada: any) {
+    if (!this.isRangeSelecting) {
+      // Primer clic: iniciar selección
+      this.startJornada = jornada;
+      this.selectedJornadas = [jornada];
+      this.isRangeSelecting = true;
+    } else {
+      // Segundo clic: terminar selección
+      const allJornadas = this.calendar.flatMap((semana: any) => semana.dias.filter((d: any) => d != null));
+      const startIndex = allJornadas.findIndex((j: Jornada) => j.fecha === this.startJornada.fecha);
+      const endIndex = allJornadas.findIndex((j: Jornada) => j.fecha === jornada.fecha);
+      const [from, to] = [startIndex, endIndex].sort((a, b) => a - b);
+      this.selectedJornadas = allJornadas.slice(from, to + 1);
+      this.isRangeSelecting = false;
+      this.startJornada = null;
+      this.hoverJornada = null;
+      // Aquí podrías abrir un modal o aplicar una plantilla
+      console.log("Seleccionadas:", this.selectedJornadas);
+    }
+  }
+
+  isSelected(jornada: any): boolean {
+    return this.selectedJornadas.some(j => j.fecha === jornada?.fecha);
+  }
+
+  isInPreviewRange(jornada: any): boolean {
+    if (!this.isRangeSelecting || !this.startJornada || !this.hoverJornada) return false;
+
+    const allJornadas = this.calendar.flatMap((semana: any) => semana.dias.filter((d: any) => d != null));
+    const startIndex = allJornadas.findIndex((j: Jornada) => j.fecha === this.startJornada.fecha);
+    const hoverIndex = allJornadas.findIndex((j: Jornada) => j.fecha === this.hoverJornada.fecha);
+    const [from, to] = [startIndex, hoverIndex].sort((a, b) => a - b);
+
+    const currentIndex = allJornadas.findIndex((j: Jornada) => j.fecha === jornada.fecha);
+    return currentIndex >= from && currentIndex <= to;
   }
 
   contextMenu() {

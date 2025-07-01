@@ -43,12 +43,16 @@
       @for (semana of calendar; track semana;) {
         <tr id={{semana.semana}}>
           @for (jornada of semana.dias; track jornada;) {
-            <td style="position: relative; padding-top: 0px;">
+            <td
+              style="position: relative; padding-top: 0px; user-select: none; cursor: pointer;"
+              [class.selected]="isSelected(jornada)"
+              [class.preview]="isInPreviewRange(jornada)"
+              (click)="onJornadaClick(jornada)"
+              (mouseenter)="hoverJornada = jornada"
+            >
               @if(jornada != null) {
               <span style="text-transform: capitalize; font-weight: bold; margin-top: 0 !important;" class="help" >{{getFecha(jornada)}}</span>
               <app-jornada [jornada]="jornada" class="mt-2"></app-jornada>
-              } @else {
-              null
               }
             </td>
           }

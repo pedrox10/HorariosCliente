@@ -1,0 +1,8 @@
+td.selected {
+  background-color: #edfcf9;
+}
+
+td.preview:not(.selected) {
+  background-color: #edfcf9;
+  border: 1px dashed #999;
+}
