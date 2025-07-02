@@ -39,7 +39,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   public fin = this.activatedRoute.snapshot.params['fin'];
   inputRango: HTMLInputElement | any;
   momentExt = extendMoment(Moment);
-  resumenMarcacion: ResumenMarcacion | any = undefined;
+  rm: ResumenMarcacion | any = undefined;
   infoMarcaciones: InfoMarcacion[] = []
   infoMarcacionActual: InfoMarcacion | any = undefined;
   ultimaSincronizacion: Date|any = undefined
@@ -104,12 +104,12 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   getResumenMarcaciones(id: number, ini: string, fin: string) {
     this.terminalService.getResumenMarcaciones(id, ini, fin).subscribe(
       (data: any) => {
-        this.resumenMarcacion = data;
+        this.rm = data;
         console.log(data)
-        if(this.resumenMarcacion.mensajeError) {
-          console.log(this.resumenMarcacion.mensajeError)
+        if(this.rm.mensajeError) {
+          console.log(this.rm.mensajeError)
         }
-        this.infoMarcaciones = this.resumenMarcacion.infoMarcaciones;
+        this.infoMarcaciones = this.rm.infoMarcaciones;
         this.cambiarTotales()
       },
       (error: any) => {
@@ -153,12 +153,12 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
     let salAntes = <HTMLSpanElement> document.getElementById("totalSalAntes")
     let faltas = <HTMLSpanElement> document.getElementById("totalFaltas")
     let permisosSG = <HTMLSpanElement> document.getElementById("totalPermisosSG")
-    retrasos.innerText = this.resumenMarcacion.totalCantRetrasos === undefined ? "--" : this.resumenMarcacion.totalCantRetrasos
-    minutos.innerText = this.resumenMarcacion.totalMinRetrasos === undefined ? "--" : this.resumenMarcacion.totalMinRetrasos + "min"
-    sinMarcar.innerText = this.resumenMarcacion.totalSinMarcar === undefined ? "--" : this.resumenMarcacion.totalSinMarcar
-    salAntes.innerText = this.resumenMarcacion.totalSalAntes === undefined ? "--" : this.resumenMarcacion.totalSalAntes
-    faltas.innerText = this.resumenMarcacion.totalAusencias === undefined ? "--" : this.resumenMarcacion.totalAusencias
-    permisosSG.innerText = this.resumenMarcacion.totalPermisosSG === undefined ? "--" : this.resumenMarcacion.totalPermisosSG + "d"
+    retrasos.innerText = this.rm.totalCantRetrasos === undefined ? "--" : this.rm.totalCantRetrasos
+    minutos.innerText = this.rm.totalMinRetrasos === undefined ? "--" : this.rm.totalMinRetrasos + "min"
+    sinMarcar.innerText = this.rm.totalSinMarcar === undefined ? "--" : this.rm.totalSinMarcar
+    salAntes.innerText = this.rm.totalSalAntes === undefined ? "--" : this.rm.totalSalAntes
+    faltas.innerText = this.rm.totalAusencias === undefined ? "--" : this.rm.totalAusencias
+    //permisosSG.innerText = this.resumenMarcacion.totalPermisosSG === undefined ? "--" : this.resumenMarcacion.totalPermisosSG + "d"
 
   }
 

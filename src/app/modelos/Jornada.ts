@@ -5,12 +5,13 @@ export enum EstadoJornada {
   vacacion,
   baja_medica,
   permiso,
+  permiso_sg,
   licencia,
-  otro,
   sin_asignar,
   sin_registros,
   ausencia,
-  teletrabajo
+  teletrabajo,
+  capacitacion
 }
 
 export class Jornada {

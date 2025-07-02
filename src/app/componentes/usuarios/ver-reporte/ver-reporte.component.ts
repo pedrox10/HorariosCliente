@@ -108,20 +108,16 @@ export class VerReporteComponent implements OnInit{
       this.cerrarOcultar()
     })
   }
-
   sugerencias: { ci: string, nombre: string }[] = [];
+
   ngAfterViewInit(): void {
     const input = document.getElementById('tf_busqueda') as HTMLInputElement;
     const lista = document.getElementById('suggestions') as HTMLUListElement;
-
     if (!input || !lista) return;
-
     input.addEventListener('input', () => {
       const query = input.value.toLowerCase().trim();
       lista.innerHTML = '';
-
       if (query.length < 3) return;
-
       this.sugerencias = Array.from(document.querySelectorAll<HTMLTableRowElement>('table tbody tr'))
         .map(fila => ({
           ci: fila.getAttribute('data-ci') || '',
@@ -153,7 +149,6 @@ export class VerReporteComponent implements OnInit{
       });
     });
   }
-
 
   ngOnDestroy() {
     this.destroy$.next();

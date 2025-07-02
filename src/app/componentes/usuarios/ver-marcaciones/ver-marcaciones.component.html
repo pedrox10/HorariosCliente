@@ -19,6 +19,19 @@
           <span>{{usuario?.ci}}</span>
         </div>
       </div>
+      @if(rm?.mensajeError) {
+      <div class="message info is-danger" style="border: 1px solid #DA9B9D; min-height: auto; border-radius: 7.5px;">
+        <div class="vbox-centered">
+          <div class="hitem">
+            <span class="icon has-text-danger">
+            <i class="fas fa-exclamation-triangle"></i>
+            </span>
+            <label class="label has-text-danger">¡Alerta!</label>
+          </div>
+            <span style="font-size: 0.85em; text-align: center; font-weight: normal !important">{{rm?.mensajeError}}</span>
+        </div>
+      </div>
+      }
       <div class="info">
         <div class="vbox-centered">
           <span class="label">Dias con incidencias</span>
@@ -74,14 +87,14 @@
                   <div class="dropdown-content popup" style="background: linear-gradient(360deg, #fcfaf7 0%, #fdf7e7 100%); border: 1px #f4d27b solid;">
                     <div class="contenido" style='color: #786450;'>
                         <span style="font-weight: normal">
-                          Incluye: excepciones de tickeo, interrupciones y tolerancias
+                          Incluye: excepciones de tickeo ({{rm?.totalExcTickeos}}) y tolerancias ({{rm?.totalTolerancias}})
                         </span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <span id="" style="font-weight: bold;">3</span>
+            <span id="" style="font-weight: bold;">{{rm?.totalExcepciones}}</span>
           </div>
 
           <div class="hbox">
@@ -89,21 +102,21 @@
               <i title="Permisos sin Goce de Haberes" class="far fa-circle" style="align-self: center; color: #a7c454"></i>
               <span>PermisoSG</span>
             </div>
-            <span id="totalPermisosSG" style="font-weight: bold;">1.5d</span>
+            <span id="totalPermisosSG" style="font-weight: bold;">{{rm?.totalPermisosSG + "d"}}</span>
           </div>
           <div class="hbox">
             <div class="hitem">
               <i title="" class="far fa-circle" style="align-self: center; color: #7fd5fa"></i>
               <span>Vacación</span>
             </div>
-            <span id="" style="font-weight: bold;">2d</span>
+            <span id="" style="font-weight: bold;">{{rm?.totalVacaciones + "d"}}</span>
           </div>
           <div class="hbox">
             <div class="hitem">
               <i title="" class="far fa-circle" style="align-self: center; color: #fc7b7d"></i>
               <span>Baja Médica</span>
             </div>
-            <span id="" style="font-weight: bold;">5d</span>
+            <span id="" style="font-weight: bold;">{{rm?.totalBajas + "d"}}</span>
           </div>
           <div class="hbox">
             <div class="hitem">
@@ -115,32 +128,19 @@
                 </div>
                 <div class="dropdown-menu" role="menu">
                   <div class="dropdown-content popup" style="background: linear-gradient(360deg, #fcfaf7 0%, #fdf7e7 100%); border: 1px #f4d27b solid;">
-                    <div class="contenido" style='color: #786450;'>
+                    <div class="contenido" style='color: #786450; width: 200px'>
                         <span style="font-weight: normal">
-                          Incluye: permisos oficiales, licencias y capacitaciones
+                          Incluye: permisos oficiales ({{rm?.totalPermisos}}), licencias ({{rm?.totalLicencias}}) y capacitaciones ({{rm?.totalCapacitaciones}})
                         </span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <span id="" style="font-weight: bold;">3.5d</span>
+            <span id="" style="font-weight: bold;">{{rm?.totalOtros + "d"}}</span>
           </div>
         </div>
       </div>
-      @if(resumenMarcacion?.mensajeError) {
-      <div class="message info is-danger" style="border: 1px solid #DA9B9D; min-height: auto">
-        <div class="vbox-centered">
-          <div class="hitem">
-            <span class="icon has-text-danger">
-            <i class="fas fa-exclamation-triangle"></i>
-            </span>
-            <label class="label has-text-danger">¡Alerta!</label>
-          </div>
-          <span>{{resumenMarcacion.mensajeError}}</span>
-        </div>
-      </div>
-      }
     </div>
     <div class="column is-narrow" style="box-sizing: border-box; width: fit-content;">
       <div class="hbox" style="align-content: space-between !important;">
