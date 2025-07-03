@@ -6,7 +6,7 @@
     </div>
   </div>
  <div class="animate__animated animate__fadeIn" style="width: fit-content;">
-   <div class="hbox stick" style="background-color: white; z-index: 1">
+   <div class="hbox stick" style="background-color: white; z-index: 2">
      <div class="vinput" style="position: relative">
        <div class="hitem">
          <label class="label" style="margin-bottom: 0px;">Buscar Funcionario </label>
@@ -62,22 +62,22 @@
    <table class="table is-bordered is-hoverable" id="tabla_reporte">
      <tr class="stick" style="top: 61px">
        <th>#</th>
-       <th style="min-width: 225px;">
+       <th style="min-width: 225px; position:relative;">
          Nombre
            <i (click)="onSort('nombre')" class="ordenable sort fas" [ngClass]="getSortClass('nombre')"></i>
        </th>
-       <th style="width: 95px;">CI</th>
-       <th style="min-width: 105px;">
+       <th style="width: 95px; position:relative;">CI</th>
+       <th style="min-width: 105px; position:relative;">
          <div class="vitem pr-3">
            <span class="help"> Fecha de Alta</span>
            <span class="help"> en Biométrico</span>
          </div>
          <i (click)="onSort('fechaAlta')" class="ordenable sort fas" [ngClass]="getSortClass('fechaAlta')"></i>
        </th>
-       <th>
+       <th style="position: relative">
          <div class="vitem has-text-centered pr-3">
           <span class="help">Días</span>
-          <span class="help">Computados</span>
+          <span class="help">Comp.</span>
          </div>
          <i (click)="onSort('diasComputados')"  class="ordenable sort fas" [ngClass]="getSortClass('diasComputados')"></i>
        </th>
@@ -248,8 +248,8 @@
        </th>
        <th style="position: relative">
          <div class="vitem has-text-centered pr-3">
-           <span class="help">Sanciones</span>
-           <span class="help">Total[días]</span>
+           <span class="help">Total</span>
+           <span class="help">Sanción</span>
          </div>
          <i (click)="onSort('totalSanciones')" class="ordenable sort fas" [ngClass]="getSortClass('totalSanciones')"></i>
        </th>
@@ -416,22 +416,19 @@
               <div class="dropdown-menu" id="" role="menu">
                 <div class="dropdown-content">
                     <a class="dropdown-item" (click)="modalVerHorario(rm.usuario.id)" >
-                      <span class="icon" >
-                        <i class="far fa-calendar-alt menu-btn"></i>
+                      <span class="icon has-tooltip-arrow expand" data-tooltip="Ver Horario">
+                        <i class="far fa-calendar-alt icon-btn"></i>
                       </span>
-                      Ver Horario
                     </a>
                     <a class="dropdown-item" (click)="actualizarResumenMarcaciones(rm.usuario)" >
-                      <span class="icon" >
-                        <i class="fas fa-redo-alt menu-btn"></i>
+                      <span class="icon has-tooltip-arrow expand" data-tooltip="Recargar Reporte">
+                        <i class="fas fa-redo-alt icon-btn"></i>
                       </span>
-                      Recargar
                     </a>
                     <a class="dropdown-item" (click)="mostrarOcultar(rm)" >
-                      <span class="icon" >
-                        <i class="fas fa-eye-slash menu-btn"></i>
+                      <span class="icon has-tooltip-arrow expand" data-tooltip="Ocultar Registro">
+                        <i class="fas fa-eye-slash icon-btn"></i>
                       </span>
-                      Ocultar Registro
                     </a>
                 </div>
               </div>

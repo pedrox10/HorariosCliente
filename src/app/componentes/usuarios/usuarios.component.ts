@@ -62,6 +62,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   private destroy$ = new Subject<void>();
   showScrollButton = false;
   isAdmin: boolean;
+  isCargando = true;
 
   constructor(public terminalService: TerminalService,private router: Router,
               public modalService: ModalService, private location: Location,
@@ -73,10 +74,10 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     this.terminalService.getUsuarios(this.idTerminal).pipe(takeUntil(this.destroy$)).subscribe(
       (data: any) => {
         this.usuarios = data;
+        this.isCargando = false;
         console.log("Usuarios cargados:", this.usuarios);
         // Pre-procesa los usuarios para agregar horarioHtml y estadoHtml
         this.usuarios.forEach(usuario => {
-          usuario.horarioHtml = this.getHorario(usuario); // Asignación válida ahora
           usuario.estadoHtml = this.getEstado(usuario);   // Asignación válida ahora
         });
 
@@ -263,7 +264,6 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log(respuesta)
         this.usuarios = respuesta.usuarios.map((usuario: Usuario) => ({
           ...usuario,
-          horarioHtml: this.getHorario(usuario),
           estadoHtml: this.getEstado(usuario)
         })); // Actualiza la lista completa y aplica HTML
         this.usuariosSeleccionados = []; // Limpiar selecciones
@@ -307,10 +307,27 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
       "</div>";
     if(ultAsignacion === "Sin Asignar") {
       horario = horario +
-      "<span style='position: absolute; bottom: -5px; left: 40%'>" +
-      "<i title='" + usuario.ultMarcacion + "' class='far fa-question-circle' style='color: #5cc5fd'></i></span>"
+      "<div class='dropdown is-hoverable' style='position: absolute; bottom: -8.5px; left: 40%'>" +
+        "<div class='dropdown-trigger'>" +
+          "<span>" +
+            "onmouseover='hover()'" + "class='far fa-question-circle' style='color: #888; background-color:" + this.getColor('Azul') + "';></i>" +
+          "</span>" +
+        "</div>" +
+        "<div class='dropdown-menu' role='menu'>" +
+          "<div class='dropdown-content popup' style='background: linear-gradient(360deg, #fcfaf7 0%, #fdf7e7 100%); border: 1px #f4d27b solid;'>" +
+            "<div class='contenido' style='color: #786450;'>" +
+              "Contenido" +
+            "</div>" +
+          "</div>" +
+        "</div>" +
+      "</div>";
     }
     return this.sanitizer.bypassSecurityTrustHtml(horario);
+  }
+
+  hover(usuario: Usuario) {
+    console.log("Hover sobre usuario sin asignar:", usuario.nombre);
+    // Aquí podrías mostrar algo, registrar métricas, etc.
   }
 
   getEstado(usuario: Usuario) {

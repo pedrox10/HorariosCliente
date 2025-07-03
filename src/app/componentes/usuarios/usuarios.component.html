@@ -56,7 +56,8 @@
           </div>
           }
         </div>
-        <table class="table is-bordered is-hoverable" style="position: relative">
+        <table class="table is-bordered is-hoverable" style="position: relative"
+               [class.table-loading]="isCargando" [class.table-overlay]="isCargando">
           <tr class="stick">
             @if(isAdmin) {
             <th style="min-width: 46.5px;">
@@ -74,7 +75,9 @@
               <span class="badge is-bottom is-light">en Biométrico</span>
               <div class="dropdown is-hoverable">
                 <div class="dropdown-trigger">
-                  <span><i class="far fa-question-circle" style="color: #888; background-color: {{getColor('Azul')}}"></i></span>
+                  <span>
+                    <i class="far fa-question-circle" style="color: #888; background-color: {{getColor('Azul')}}"></i>
+                  </span>
                 </div>
                 <div class="dropdown-menu" role="menu">
                   <div class="dropdown-content popup" style="background: linear-gradient(360deg, #fcfaf7 0%, #fdf7e7 100%); border: 1px #f4d27b solid;">
@@ -99,7 +102,7 @@
           @for (usuario of usuariosFiltrados; track trackByUsuario; let index = $index) {
           <tr (click)="selectRow(usuario.id)" [class.is-selected]="isSelected(usuario.id)">
             @if(isAdmin) {
-            <td>
+            <td >
               <label class="b-checkbox checkbox">
                 <input type="checkbox" [checked]="usuario.seleccionado" (click)="seleccionar(usuario)" [id]="'checkbox-' + usuario.id">
                 <span class="check es-secundario"></span>
@@ -117,7 +120,33 @@
               <span class="badge is-bottom mb-1" style="line-height: 10px; background-color: {{getColor('Rojo')}}; color: black">Baja {{getFechaBaja(usuario)}}</span>
               }
             </td>
-            <td style="position:relative;"><div [innerHtml]="usuario.horarioHtml"></div></td>
+            <td style="position: relative;">
+              <div class="help has-text-centered mt-1">
+                <div class="etiqueta" [ngStyle]="{ 'background-color': getColor(usuario.ultAsignacion === 'Sin Asignar' ? 'Gris' : 'Purpura') }">
+                      {{ usuario.ultAsignacion }}
+                </div>
+              </div>
+              <div *ngIf="usuario.ultAsignacion === 'Sin Asignar'" class="dropdown is-hoverable"
+                  style="position: absolute; bottom: -8.5px; left: 40%">
+                <div class="dropdown-trigger">
+                  <span>
+                    <i class="far fa-question-circle"
+                      style="color: #888;"
+                      [ngStyle]="{ 'background-color': getColor('Azul') }"
+                      (mouseenter)="hover(usuario)">
+                    </i>
+                  </span>
+                </div>
+                <div class="dropdown-menu" role="menu">
+                  <div class="dropdown-content popup"
+                       style="background: linear-gradient(360deg, #fcfaf7 0%, #fdf7e7 100%); border: 1px #f4d27b solid;">
+                    <div class="contenido" style="color: #786450;">
+                      Contenido adicional aquí
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
             <td><div [innerHtml]="usuario.estadoHtml"></div></td>
             <td>
               <div class="hitem">
@@ -138,6 +167,13 @@
           }
           </tbody>
         </table>
+        @if(isCargando) {
+        <div class="spinner-center">
+          <button class="button is-size-1 is-loading is-white is-medium"
+                  style="border: none; background-color: transparent; ">Cargando
+          </button>
+        </div>
+        }
       </div>
       <div class="column is-narrow">
         <div class="vbox card mt-1 p-4" style="padding: 5px 0px; background-color: transparent">

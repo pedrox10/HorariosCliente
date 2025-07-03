@@ -5,7 +5,7 @@ import {ActivatedRoute, RouterLink} from "@angular/router";
 import {TerminalService} from "../../../servicios/terminal.service";
 import {Location} from "@angular/common";
 import {ModalService} from "ngx-modal-ease";
-import {color} from "../../inicio/Global";
+import {color, mensaje} from "../../inicio/Global";
 import {ComandosService} from "../../../servicios/comandos.service";
 
 @Component({
@@ -48,13 +48,17 @@ export class ComandosComponent implements OnInit, AfterViewInit {
     document.getElementById("ic_conectar")?.classList.add("button", "is-loading");
     this.bloqueado = true;
     this.comandosService.conectar(this.idTerminal).subscribe({
-      next: data => {
-        console.log(data)
+      next: (data: any) => {
+        let respuesta = JSON.parse(data)
+        if(respuesta.conectado === true)
+          mensaje("¡Terminal con conexión!", "is-success")
+        else
+          mensaje("¡Terminal sin conexión!", "is-danger")
         document.getElementById("ic_conectar")?.classList.remove("button", "is-loading");
         this.bloqueado = false;
       },
       error: err => {
-        console.log("error al enviar comando")
+        mensaje("¡Error en el servidor!", "is-danger")
         document.getElementById("ic_conectar")?.classList.remove("button", "is-loading");
         this.bloqueado = false;
       }
