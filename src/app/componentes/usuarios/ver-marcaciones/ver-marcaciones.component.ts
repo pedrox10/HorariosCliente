@@ -159,7 +159,6 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
     salAntes.innerText = this.rm.totalSalAntes === undefined ? "--" : this.rm.totalSalAntes
     faltas.innerText = this.rm.totalAusencias === undefined ? "--" : this.rm.totalAusencias
     //permisosSG.innerText = this.resumenMarcacion.totalPermisosSG === undefined ? "--" : this.resumenMarcacion.totalPermisosSG + "d"
-
   }
 
   agregarExcepcionCompleta() {

@@ -326,8 +326,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   hover(usuario: Usuario) {
-    console.log("Hover sobre usuario sin asignar:", usuario.nombre);
-    // Aquí podrías mostrar algo, registrar métricas, etc.
+    this.getUltMarcacion(usuario.id)
   }
 
   getEstado(usuario: Usuario) {
@@ -352,6 +351,17 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     this.terminalService.getJornada(usuario.id, fecha).subscribe(
       (data: any) => {
         console.log(data)
+      },
+      (error: any) => {
+        console.log("error")
+      })
+  }
+
+  getUltMarcacion(idUsuario: number) {
+    this.terminalService.getUltMarcacion(idUsuario).subscribe(
+      (data: any) => {
+        console.log(data);
+        (document.getElementById("ultMarcacion_" + idUsuario) as HTMLDivElement).innerText = data;
       },
       (error: any) => {
         console.log("error")

@@ -1,8 +1,56 @@
 td.selected {
-  background-color: #edfcf9;
+  background-color: #d2d0d0;
 }
 
 td.preview:not(.selected) {
-  background-color: #edfcf9;
+  background-color: #d2d0d0;
   border: 1px dashed #999;
 }
+
+td.range-start {
+  background-color: #8c8b8b !important;
+}
+
+td.range-end {
+  background-color: #8c8b8b  !important;
+}
+
+td.range-start .help, td.range-end .help  {
+  color: white !important;
+}
+
+td.range-start::after {
+  content: ''; /* Contenido vacío para el pseudo-elemento */
+  position: absolute; /* Posicionamiento absoluto dentro del td */
+  left: 0; /* Lo posiciona en el borde derecho del td */
+  top: 50%; /* Lo mueve al 50% del alto del padre */
+  height: 30%; /* El 40% del alto del td */
+  width: 3px; /* El ancho del "borde" */
+  background-color: #4cf1cb; /* El color del "borde" */
+  transform: translateY(-50%); /* Ajusta la posición para centrarlo verticalmente */
+}
+
+td.range-end::before {
+  content: ''; /* Contenido vacío para el pseudo-elemento */
+  position: absolute; /* Posicionamiento absoluto dentro del td */
+  right: 0; /* Lo posiciona en el borde derecho del td */
+  top: 50%; /* Lo mueve al 50% del alto del padre */
+  height: 30%; /* El 40% del alto del td */
+  width: 3px; /* El ancho del "borde" */
+  background-color: #4cf1cb; /* El color del "borde" */
+  transform: translateY(-50%); /* Ajusta la posición para centrarlo verticalmente */
+}
+
+.flecha {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid gray;
+  z-index: 1
+}
+

@@ -94,7 +94,7 @@
                 </div>
               </div>
             </div>
-            <span id="" style="font-weight: bold;">{{rm?.totalExcepciones}}</span>
+            <span id="" style="font-weight: bold;">{{rm?.totalExcepciones ?? "--"}}</span>
           </div>
 
           <div class="hbox">
@@ -102,21 +102,21 @@
               <i title="Permisos sin Goce de Haberes" class="far fa-circle" style="align-self: center; color: #a7c454"></i>
               <span>PermisoSG</span>
             </div>
-            <span id="totalPermisosSG" style="font-weight: bold;">{{rm?.totalPermisosSG + "d"}}</span>
+            <span id="totalPermisosSG" style="font-weight: bold;">{{rm?.totalPermisosSG ?? "--" + "d"}}</span>
           </div>
           <div class="hbox">
             <div class="hitem">
               <i title="" class="far fa-circle" style="align-self: center; color: #7fd5fa"></i>
               <span>Vacación</span>
             </div>
-            <span id="" style="font-weight: bold;">{{rm?.totalVacaciones + "d"}}</span>
+            <span id="" style="font-weight: bold;">{{rm?.totalVacaciones ?? "--" + "d"}}</span>
           </div>
           <div class="hbox">
             <div class="hitem">
               <i title="" class="far fa-circle" style="align-self: center; color: #fc7b7d"></i>
               <span>Baja Médica</span>
             </div>
-            <span id="" style="font-weight: bold;">{{rm?.totalBajas + "d"}}</span>
+            <span id="" style="font-weight: bold;">{{rm?.totalBajas ?? "--" + "d"}}</span>
           </div>
           <div class="hbox">
             <div class="hitem">
@@ -137,7 +137,7 @@
                 </div>
               </div>
             </div>
-            <span id="" style="font-weight: bold;">{{rm?.totalOtros + "d"}}</span>
+            <span id="" style="font-weight: bold;">{{rm?.totalOtros ?? "--" + "d"}}</span>
           </div>
         </div>
       </div>

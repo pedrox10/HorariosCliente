@@ -12,7 +12,7 @@
           <span>{{usuario?.ci}}</span>
         </div>
       </div>
-      <div class="hitem" style="flex: 1; justify-content: center;">
+      <div class="hbox" style="flex: 1; justify-content: center;">
         <div class="vinput" style="gap: 0px !important;">
           <label class="label" style="text-align: center">{{gestionActual}}</label>
           <div class="buttons no-spacing" style="align-self: flex-end">
@@ -20,6 +20,13 @@
             <button class="button" style="min-width: 110px">{{meses[mesActual]}}</button>
             <button class="button" (click)="mesSiguiente()"><i class="fas fa-arrow-right"></i></button>
           </div>
+        </div>
+        <div class="field button-flat" style="align-self: end">
+          <label class="switch is-rounded">
+            <input type="checkbox" [(ngModel)]="modoSeleccionRango" (change)="onToggleSeleccion()">
+            <span class="check is-primary"></span>
+            <span class="control-label" style="min-width: 130px">Personalizar horario</span>
+          </label>
         </div>
       </div>
       <div class="hitem" style="justify-content: flex-end; align-self: flex-end">
@@ -48,6 +55,8 @@
               [class.selected]="isSelected(jornada)"
               [class.preview]="isInPreviewRange(jornada)"
               (click)="onJornadaClick(jornada)"
+              [class.range-start]="isRangeStart(jornada)"
+              [class.range-end]="isRangeEnd(jornada)"
               (mouseenter)="hoverJornada = jornada"
             >
               @if(jornada != null) {

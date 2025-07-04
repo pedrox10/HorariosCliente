@@ -463,6 +463,16 @@ p.modal-card-title {
   border-color: #cba57a  !important;
 }
 
+.button-flat {
+  border: 1px #c5c3c3 solid;
+  padding: 7px 7px 2.5px 7px;
+  border-radius: 5px;
+}
+
+.button-flat:hover {
+  border-color: #00d1b2;
+}
+
 .table-loading {
   position: relative;
   opacity: 0.5;

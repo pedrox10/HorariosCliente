@@ -11,11 +11,12 @@ import {Terminal} from "../../../modelos/Terminal";
 import {HorarioService} from "../../../servicios/horario.service";
 import {env} from "../../../../environments/environments";
 import {Jornada} from "../../../modelos/Jornada";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-ver-horario',
   standalone: true,
-  imports: [RouterLink, HttpClientModule, JornadaComponent],
+  imports: [RouterLink, HttpClientModule, JornadaComponent, FormsModule],
   providers: [TerminalService, HorarioService],
   templateUrl: './ver-horario.component.html',
   styleUrl: './ver-horario.component.css'
@@ -33,6 +34,7 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
   startJornada: any = null;
   isRangeSelecting: boolean = false;
   hoverJornada: any = null;
+  modoSeleccionRango: boolean = false;
 
   constructor(private modalService: ModalService, public terminalService: TerminalService, public horarioService: HorarioService) {
     this.gestionActual = moment().year()
@@ -40,6 +42,9 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
     let data: any = this.modalService.options?.data
     if (data) {
       this.id = data.id;
+    } else {
+      this.id= 78
+      console.log(this.id)
     }
     this.terminalService.getUsuario(this.id).subscribe(
       (data: any) => {
@@ -87,24 +92,40 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
   }
 
   onJornadaClick(jornada: any) {
+    if (!this.modoSeleccionRango) return;
     if (!this.isRangeSelecting) {
-      // Primer clic: iniciar selección
+      // 👉 Primer clic: limpiar todo y empezar nueva selección
+      this.clearSelection();
       this.startJornada = jornada;
       this.selectedJornadas = [jornada];
       this.isRangeSelecting = true;
     } else {
-      // Segundo clic: terminar selección
-      const allJornadas = this.calendar.flatMap((semana: any) => semana.dias.filter((d: any) => d != null));
+      // 👉 Segundo clic: finalizar selección de rango
+      const allJornadas = this.calendar
+        .flatMap((semana: any) => semana.dias.filter((d: any) => d != null));
       const startIndex = allJornadas.findIndex((j: Jornada) => j.fecha === this.startJornada.fecha);
       const endIndex = allJornadas.findIndex((j: Jornada) => j.fecha === jornada.fecha);
       const [from, to] = [startIndex, endIndex].sort((a, b) => a - b);
       this.selectedJornadas = allJornadas.slice(from, to + 1);
+      // Reset de control de selección
       this.isRangeSelecting = false;
       this.startJornada = null;
       this.hoverJornada = null;
-      // Aquí podrías abrir un modal o aplicar una plantilla
       console.log("Seleccionadas:", this.selectedJornadas);
     }
+  }
+
+  onToggleSeleccion() {
+    if (!this.modoSeleccionRango) {
+      this.clearSelection();
+    }
+  }
+
+  clearSelection() {
+    this.selectedJornadas = [];
+    this.startJornada = null;
+    this.hoverJornada = null;
+    this.isRangeSelecting = false;
   }
 
   isSelected(jornada: any): boolean {
@@ -121,6 +142,16 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
 
     const currentIndex = allJornadas.findIndex((j: Jornada) => j.fecha === jornada.fecha);
     return currentIndex >= from && currentIndex <= to;
+  }
+
+  isRangeStart(jornada: any): boolean {
+    if (!this.selectedJornadas.length) return false;
+    return jornada.fecha === this.selectedJornadas[0].fecha;
+  }
+
+  isRangeEnd(jornada: any): boolean {
+    if (!this.selectedJornadas.length) return false;
+    return jornada.fecha === this.selectedJornadas[this.selectedJornadas.length - 1].fecha;
   }
 
   contextMenu() {
