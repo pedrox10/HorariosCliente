@@ -51,17 +51,18 @@
         <tr id={{semana.semana}}>
           @for (jornada of semana.dias; track jornada;) {
             <td
-              style="position: relative; padding-top: 0px; user-select: none; cursor: pointer;"
+              style="position: relative; padding-top: 0px; user-select: none;"
               [class.selected]="isSelected(jornada)"
               [class.preview]="isInPreviewRange(jornada)"
-              (click)="onJornadaClick(jornada)"
+              [class.hand]="modoSeleccionRango"
+              (click)="onJornadaClick($event, jornada)"
               [class.range-start]="isRangeStart(jornada)"
               [class.range-end]="isRangeEnd(jornada)"
               (mouseenter)="hoverJornada = jornada"
             >
               @if(jornada != null) {
               <span style="text-transform: capitalize; font-weight: bold; margin-top: 0 !important;" class="help" >{{getFecha(jornada)}}</span>
-              <app-jornada [jornada]="jornada" class="mt-2"></app-jornada>
+              <app-jornada  [jornada]="jornada" class="mt-2"></app-jornada>
               }
             </td>
           }
@@ -69,6 +70,16 @@
       }
       </tbody>
     </table>
+    <div
+      *ngIf="menuVisible"
+      class="dropdown-content"
+      [ngStyle]="{ top: contextMenuPosition.y + 'px', left: contextMenuPosition.x + 'px', position: 'absolute', zIndex: 2 }"
+      (click)="menuVisible = false">
+      <ul class="menu-list">
+        <li><a><span class="icon pr-2"><i class="fas fa-user-clock"></i></span>Asignar Horario</a></li>
+        <li><a><span class="icon pr-2"><i class="fas fa-user-clock"></i></span>Limpiar Horario</a></li>
+      </ul>
+    </div>
   </div>
 </div>
 

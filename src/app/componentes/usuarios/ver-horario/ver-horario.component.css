@@ -1,18 +1,18 @@
 td.selected {
-  background-color: #d2d0d0;
+  background-color: #b4b3b3;
 }
 
 td.preview:not(.selected) {
-  background-color: #d2d0d0;
+  background-color: #b4b3b3;
   border: 1px dashed #999;
 }
 
 td.range-start {
-  background-color: #8c8b8b !important;
+  background-color: #7e7d7d !important;
 }
 
 td.range-end {
-  background-color: #8c8b8b  !important;
+  background-color: #7e7d7d  !important;
 }
 
 td.range-start .help, td.range-end .help  {
@@ -52,5 +52,9 @@ td.range-end::before {
   border-bottom: 10px solid transparent;
   border-left: 10px solid gray;
   z-index: 1
+}
+
+.hand {
+  cursor: pointer;
 }
 

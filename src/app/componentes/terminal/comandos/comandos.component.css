@@ -18,3 +18,13 @@ a.is-disabled {
   text-decoration: none;        /* Sin subrayado */
   opacity: 0.6;                 /* Más apagado visualmente */
 }
+
+.consola {
+  background-color: #dedede; padding: 3px
+}
+
+.consola.is-loading {
+  background-color: transparent;
+  height: 21px;
+  border: none;
+}

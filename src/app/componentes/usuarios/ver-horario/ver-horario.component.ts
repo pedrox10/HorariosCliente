@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, HostListener, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {HttpClientModule} from "@angular/common/http";
 import {TerminalService} from "../../../servicios/terminal.service";
@@ -12,11 +12,12 @@ import {HorarioService} from "../../../servicios/horario.service";
 import {env} from "../../../../environments/environments";
 import {Jornada} from "../../../modelos/Jornada";
 import {FormsModule} from "@angular/forms";
+import {CommonModule} from "@angular/common";
 
 @Component({
   selector: 'app-ver-horario',
   standalone: true,
-  imports: [RouterLink, HttpClientModule, JornadaComponent, FormsModule],
+  imports: [RouterLink, HttpClientModule, JornadaComponent, FormsModule, CommonModule],
   providers: [TerminalService, HorarioService],
   templateUrl: './ver-horario.component.html',
   styleUrl: './ver-horario.component.css'
@@ -35,6 +36,8 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
   isRangeSelecting: boolean = false;
   hoverJornada: any = null;
   modoSeleccionRango: boolean = false;
+  menuVisible: boolean = false;
+  contextMenuPosition = { x: 0, y: 0 };
 
   constructor(private modalService: ModalService, public terminalService: TerminalService, public horarioService: HorarioService) {
     this.gestionActual = moment().year()
@@ -91,11 +94,12 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
       })
   }
 
-  onJornadaClick(jornada: any) {
+  onJornadaClick(event: MouseEvent, jornada: any) {
     if (!this.modoSeleccionRango) return;
     if (!this.isRangeSelecting) {
       // 👉 Primer clic: limpiar todo y empezar nueva selección
       this.clearSelection();
+      this.menuVisible = false
       this.startJornada = jornada;
       this.selectedJornadas = [jornada];
       this.isRangeSelecting = true;
@@ -107,6 +111,13 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
       const endIndex = allJornadas.findIndex((j: Jornada) => j.fecha === jornada.fecha);
       const [from, to] = [startIndex, endIndex].sort((a, b) => a - b);
       this.selectedJornadas = allJornadas.slice(from, to + 1);
+      let contenedorRef = (document.getElementById("modal-horario") as HTMLDivElement)
+      const rect = contenedorRef.getBoundingClientRect();
+      this.contextMenuPosition = {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top
+      };
+      this.menuVisible = true;
       // Reset de control de selección
       this.isRangeSelecting = false;
       this.startJornada = null;
@@ -152,10 +163,6 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
   isRangeEnd(jornada: any): boolean {
     if (!this.selectedJornadas.length) return false;
     return jornada.fecha === this.selectedJornadas[this.selectedJornadas.length - 1].fecha;
-  }
-
-  contextMenu() {
-    alert("Muestro")
   }
 
   getFecha(jornada: any) {
