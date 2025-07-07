@@ -32,8 +32,15 @@
       @for (horario of horarios; track horario; let i = $index) {
       <tr id={{horario.id}}>
           <td>{{i + 1}}</td>
-          <td>{{horario.nombre}}</td>
-          <td>{{horario.tolerancia}}</td>
+          <td style="position:relative">
+            {{horario.nombre}}
+            @if(horario.incluyeFeriados) {
+            <span title="Incluye días feriados"
+                  class="badge is-right is-light is-success"
+                  style="cursor: pointer">+F</span>
+            }
+          </td>
+          <td style="text-align: center">{{horario.tolerancia}}</td>
           <td>
             <div class= "hitem">
               {{horario.color}}

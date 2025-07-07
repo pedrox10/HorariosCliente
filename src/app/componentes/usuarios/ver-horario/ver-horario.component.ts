@@ -47,7 +47,6 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
       this.id = data.id;
     } else {
       this.id= 78
-      console.log(this.id)
     }
     this.terminalService.getUsuario(this.id).subscribe(
       (data: any) => {

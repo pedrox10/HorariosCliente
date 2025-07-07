@@ -121,7 +121,7 @@ export class HorariosComponent implements OnInit {
 
   getClase(index: number) {
     let res=""
-    if(this.horario.jornadasDosDias || this.horario.diasIntercalados) {
+    if(this.horario.diasIntercalados || this.horario.jornadasDosDias && !this.horario.esContinuoDosDias ) {
       if(index % 2 == 0)
         res="par"
       else res="impar"

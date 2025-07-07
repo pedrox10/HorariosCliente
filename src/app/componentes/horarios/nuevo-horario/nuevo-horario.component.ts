@@ -30,6 +30,7 @@ export class NuevoHorarioComponent implements OnInit {
     let fc_color = new FormControl("", [Validators.required])
     let fc_area = new FormControl("Central", [Validators.required])
     let fc_descripcion = new FormControl("", [])
+    let fc_incluye_feriados= new FormControl(false, [])
     let fc_dias_intercalados= new FormControl(false, [])
     let fc_jornadas_dos_dias = new FormControl(false, [])
 
@@ -38,6 +39,7 @@ export class NuevoHorarioComponent implements OnInit {
     this.formHorario.addControl("color", fc_color)
     this.formHorario.addControl("area", fc_area)
     this.formHorario.addControl("descripcion", fc_descripcion)
+    this.formHorario.addControl("incluyeFeriados", fc_incluye_feriados)
     this.formHorario.addControl("diasIntercalados", fc_dias_intercalados)
     this.formHorario.addControl("jornadasDosDias", fc_jornadas_dos_dias)
   }
@@ -194,6 +196,12 @@ export class NuevoHorarioComponent implements OnInit {
 
   esVacio(value: string) {
     return (value == null || (typeof value === "string" && value.trim().length === 0));
+  }
+
+  onIncluyeFeriadosChange(event: Event) {
+    const checked = (event.target as HTMLInputElement).checked;
+    if (checked)
+      this.formHorario.get('incluyeFeriados')?.setValue(false);
   }
 
   onDiasIntercaladosChange(event: Event) {
