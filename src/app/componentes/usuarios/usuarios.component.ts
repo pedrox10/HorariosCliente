@@ -360,8 +360,10 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   getUltMarcacion(idUsuario: number) {
     this.terminalService.getUltMarcacion(idUsuario).subscribe(
       (data: any) => {
-        console.log(data);
-        (document.getElementById("ultMarcacion_" + idUsuario) as HTMLDivElement).innerText = data;
+        const fechaCompleta = moment(`${data.fecha} ${data.hora}`, 'YYYY-MM-DD HH:mm:ss');
+        const salidaFormateada = fechaCompleta.format("DD/MM/YYYY HH:mm");
+        let div = (document.getElementById("ultMarcacion_" + idUsuario) as HTMLDivElement);
+        div.innerHTML = "<span class='semibold'>Ultima marcación:</span>" + "El " + salidaFormateada
       },
       (error: any) => {
         console.log("error")
@@ -454,6 +456,12 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   verHorario(id_usuario: number | any) {
+    env.posY = window.scrollY
+    env.indexUsuario = id_usuario
+    this.router.navigate(['/ver-horario', id_usuario]);
+  }
+
+  /*verHorario(id_usuario: number | any) {
     let id = id_usuario;
     let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
     this.modalService.open(VerHorarioComponent, {
@@ -465,7 +473,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
         if (data !== undefined)
           console.log(data)
       });
-  }
+  }*/
 
   editarUsuario(id_usuario: number | any) {
     let id = id_usuario;

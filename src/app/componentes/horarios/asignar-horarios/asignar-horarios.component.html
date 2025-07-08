@@ -42,7 +42,13 @@
               <select id="select_horarios" (change)="seleccionar($event)"  formControlName="horario">
                 <option disabled selected style="display: none"></option>
                 @for (horario of horarios; track horario; let i = $index ) {
-                <option value={{horario.id}}>{{horario.nombre}}</option>
+                <option value={{horario.id}}>
+                  @if(!horario.incluyeFeriados) {
+                  {{horario.nombre}}
+                } @else {
+                  {{horario.nombre}} +F
+                }
+                </option>
                 }
               </select>
             </div>
@@ -65,6 +71,8 @@
               <div class="hitem">
                 <span class="has-text-weight-bold">Área: </span>
                 <span id="area">--</span>
+              </div>
+              <div id="feriados" class="hitem pl-2" style="position:relative;">
               </div>
             </div>
             <div class="hitem">
@@ -113,7 +121,7 @@
           </thead>
           <tbody>
           @for (jornadaDia of jornadaDias; track jornadaDia; let index = $index ) {
-          <tr id="{{jornadaDia.dia}}">
+          <tr id="{{jornadaDia.dia}}" [class.desactivado]="!estaIncluido(jornadaDia.dia)">
             <td class="{{getClase(index)}}">{{jornadaDia.dia}}</td>
             @if(jornadaDia.habilitado) {
           <td colspan="2">

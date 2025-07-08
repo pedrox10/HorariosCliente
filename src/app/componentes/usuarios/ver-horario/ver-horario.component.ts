@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, HostListener, OnInit} from '@angular/core';
+import {AfterViewInit, Component, HostListener, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {HttpClientModule} from "@angular/common/http";
 import {TerminalService} from "../../../servicios/terminal.service";
@@ -12,7 +12,8 @@ import {HorarioService} from "../../../servicios/horario.service";
 import {env} from "../../../../environments/environments";
 import {Jornada} from "../../../modelos/Jornada";
 import {FormsModule} from "@angular/forms";
-import {CommonModule} from "@angular/common";
+import {CommonModule, Location} from "@angular/common";
+import {AsignarHorariosComponent} from "../../horarios/asignar-horarios/asignar-horarios.component";
 
 @Component({
   selector: 'app-ver-horario',
@@ -26,28 +27,25 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
 
   public usuario: any | Usuario;
   public id: number | any;
+  private activatedRoute = inject(ActivatedRoute);
   calendar: any = []
   public terminal: any | Terminal;
   gestionActual: number = 0;
   mesActual: number = 0;
   meses = env.meses
-  selectedJornadas: any[] = [];
-  startJornada: any = null;
+  jornadasSeleccionadas: any[] = [];
+  jornadaIni: any = null;
   isRangeSelecting: boolean = false;
   hoverJornada: any = null;
   modoSeleccionRango: boolean = false;
   menuVisible: boolean = false;
   contextMenuPosition = { x: 0, y: 0 };
 
-  constructor(private modalService: ModalService, public terminalService: TerminalService, public horarioService: HorarioService) {
+  constructor(public terminalService: TerminalService, public horarioService: HorarioService,
+              public modalService: ModalService, private location: Location) {
     this.gestionActual = moment().year()
     this.mesActual = moment().month()
-    let data: any = this.modalService.options?.data
-    if (data) {
-      this.id = data.id;
-    } else {
-      this.id= 78
-    }
+    this.id = this.activatedRoute.snapshot.params['id'];
     this.terminalService.getUsuario(this.id).subscribe(
       (data: any) => {
         this.usuario = data;
@@ -99,17 +97,17 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
       // 👉 Primer clic: limpiar todo y empezar nueva selección
       this.clearSelection();
       this.menuVisible = false
-      this.startJornada = jornada;
-      this.selectedJornadas = [jornada];
+      this.jornadaIni = jornada;
+      this.jornadasSeleccionadas = [jornada];
       this.isRangeSelecting = true;
     } else {
       // 👉 Segundo clic: finalizar selección de rango
       const allJornadas = this.calendar
         .flatMap((semana: any) => semana.dias.filter((d: any) => d != null));
-      const startIndex = allJornadas.findIndex((j: Jornada) => j.fecha === this.startJornada.fecha);
+      const startIndex = allJornadas.findIndex((j: Jornada) => j.fecha === this.jornadaIni.fecha);
       const endIndex = allJornadas.findIndex((j: Jornada) => j.fecha === jornada.fecha);
       const [from, to] = [startIndex, endIndex].sort((a, b) => a - b);
-      this.selectedJornadas = allJornadas.slice(from, to + 1);
+      this.jornadasSeleccionadas = allJornadas.slice(from, to + 1);
       let contenedorRef = (document.getElementById("modal-horario") as HTMLDivElement)
       const rect = contenedorRef.getBoundingClientRect();
       this.contextMenuPosition = {
@@ -119,9 +117,9 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
       this.menuVisible = true;
       // Reset de control de selección
       this.isRangeSelecting = false;
-      this.startJornada = null;
+      this.jornadaIni = null;
       this.hoverJornada = null;
-      console.log("Seleccionadas:", this.selectedJornadas);
+      console.log("Seleccionadas:", this.jornadasSeleccionadas);
     }
   }
 
@@ -132,21 +130,21 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
   }
 
   clearSelection() {
-    this.selectedJornadas = [];
-    this.startJornada = null;
+    this.jornadasSeleccionadas = [];
+    this.jornadaIni = null;
     this.hoverJornada = null;
     this.isRangeSelecting = false;
   }
 
   isSelected(jornada: any): boolean {
-    return this.selectedJornadas.some(j => j.fecha === jornada?.fecha);
+    return this.jornadasSeleccionadas.some(j => j.fecha === jornada?.fecha);
   }
 
   isInPreviewRange(jornada: any): boolean {
-    if (!this.isRangeSelecting || !this.startJornada || !this.hoverJornada) return false;
+    if (!this.isRangeSelecting || !this.jornadaIni || !this.hoverJornada) return false;
 
     const allJornadas = this.calendar.flatMap((semana: any) => semana.dias.filter((d: any) => d != null));
-    const startIndex = allJornadas.findIndex((j: Jornada) => j.fecha === this.startJornada.fecha);
+    const startIndex = allJornadas.findIndex((j: Jornada) => j.fecha === this.jornadaIni.fecha);
     const hoverIndex = allJornadas.findIndex((j: Jornada) => j.fecha === this.hoverJornada.fecha);
     const [from, to] = [startIndex, hoverIndex].sort((a, b) => a - b);
 
@@ -155,24 +153,43 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
   }
 
   isRangeStart(jornada: any): boolean {
-    if (!this.selectedJornadas.length) return false;
-    return jornada.fecha === this.selectedJornadas[0].fecha;
+    if (!this.jornadasSeleccionadas.length) return false;
+    return jornada.fecha === this.jornadasSeleccionadas[0].fecha;
   }
 
   isRangeEnd(jornada: any): boolean {
-    if (!this.selectedJornadas.length) return false;
-    return jornada.fecha === this.selectedJornadas[this.selectedJornadas.length - 1].fecha;
+    if (!this.jornadasSeleccionadas.length) return false;
+    return jornada.fecha === this.jornadasSeleccionadas[this.jornadasSeleccionadas.length - 1].fecha;
   }
 
   getFecha(jornada: any) {
     return moment(jornada.fecha).format("MMM DD")
   }
 
-  cerrarModal() {
-    this.modalService.close();
+  modalAsignarHorario(usuario: Usuario) {
+    let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
+    let usuarios: Usuario[] = [];
+    usuarios.push(usuario);
+    let fechaMin = usuario.fechaAlta;
+    let fechaIni = this.jornadasSeleccionadas[0].fecha
+    let fechaFin = this.jornadasSeleccionadas[this.jornadasSeleccionadas.length - 1].fecha;
+    console.log(fechaIni + " " +fechaFin)
+    this.modalService.open(AsignarHorariosComponent, {
+      modal: {enter: `${config.animation} ${config.duration}`,},
+      size: {padding: '0.5rem'},
+      data: {usuarios, fechaMin, fechaIni, fechaFin}
+    })
+      .subscribe((data) => {
+        if (data !== undefined)
+          console.log("accion cerrar modal")
+      });
   }
 
   imprimir() {
     window.print()
+  }
+
+  irAtras() {
+    this.location.back();
   }
 }

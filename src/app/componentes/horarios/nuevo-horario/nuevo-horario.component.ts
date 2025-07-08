@@ -198,12 +198,6 @@ export class NuevoHorarioComponent implements OnInit {
     return (value == null || (typeof value === "string" && value.trim().length === 0));
   }
 
-  onIncluyeFeriadosChange(event: Event) {
-    const checked = (event.target as HTMLInputElement).checked;
-    if (checked)
-      this.formHorario.get('incluyeFeriados')?.setValue(false);
-  }
-
   onDiasIntercaladosChange(event: Event) {
     const checked = (event.target as HTMLInputElement).checked;
     if (checked)

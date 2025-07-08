@@ -1,87 +1,95 @@
 <div class="box fondo" style="height: 100%;">
-  <div class="title">
-    <h1>Horarios y turnos</h1>
+  <div class="hitem mb-4">
+    <span (click)="irAtras()" class="icon button mt-1"><i class="fas fa-arrow-left"></i></span>
+    <div class="title">
+      <h1>Horarios y Turnos</h1>
+    </div>
   </div>
   <div class="hbox">
-    <div id="modal-horario" class="modal-card"
-         style="background-color: transparent;width: 950px; min-height: 650px; height: auto;">
-
-      <div class="column" style="padding:0px 12.5px; width: fit-content;">
-        <div class="hbox">
-          <div class="hitem" style="align-items: flex-end;">
-            <i class="fa fa-user-circle" style="font-size: 3em"></i>
-            <div class="vinput">
-              <span class="label" style="margin: 0">{{usuario?.nombre}}</span>
-              <span>{{usuario?.ci}}</span>
-            </div>
-          </div>
-          <div class="hbox" style="flex: 1; justify-content: center;">
-            <div class="vinput" style="gap: 0px !important;">
-              <label class="label" style="text-align: center">{{gestionActual}}</label>
-              <div class="buttons no-spacing" style="align-self: flex-end">
-                <button class="button" (click)="mesAnterior()"><i class="fas fa-arrow-left"></i></button>
-                <button class="button" style="min-width: 110px">{{meses[mesActual]}}</button>
-                <button class="button" (click)="mesSiguiente()"><i class="fas fa-arrow-right"></i></button>
+    <div class="columns animate__animated animate__fadeIn">
+      <div id="modal-horario" class="modal-card"
+           style="background-color: transparent;width: 950px; min-height: 650px; height: auto;">
+        <div class="column" style="padding:0px 12.5px; width: fit-content;">
+          <div class="hbox">
+            <div class="hitem" style="align-items: flex-end;">
+              <i class="fa fa-user-circle" style="font-size: 3em"></i>
+              <div class="vinput">
+                <span class="label" style="margin: 0">{{usuario?.nombre}}</span>
+                <span>{{usuario?.ci}}</span>
               </div>
             </div>
-            <div class="field button-flat" style="align-self: end">
-              <label class="switch is-rounded">
-                <input type="checkbox" [(ngModel)]="modoSeleccionRango" (change)="onToggleSeleccion()">
-                <span class="check is-primary"></span>
-                <span class="control-label" style="min-width: 130px">Personalizar horario</span>
-              </label>
+            <div class="hbox" style="flex: 1; justify-content: center;">
+              <div class="vinput" style="gap: 0px !important;">
+                <label class="label" style="text-align: center">{{gestionActual}}</label>
+                <div class="buttons no-spacing" style="align-self: flex-end">
+                  <button class="button" (click)="mesAnterior()"><i class="fas fa-arrow-left"></i></button>
+                  <button class="button" style="min-width: 110px">{{meses[mesActual]}}</button>
+                  <button class="button" (click)="mesSiguiente()"><i class="fas fa-arrow-right"></i></button>
+                </div>
+              </div>
+              <div class="field button-flat" style="align-self: end">
+                <label class="switch is-rounded">
+                  <input type="checkbox" [(ngModel)]="modoSeleccionRango" (change)="onToggleSeleccion()">
+                  <span class="check is-primary"></span>
+                  <span class="control-label" style="min-width: 130px">Personalizar horario</span>
+                </label>
+              </div>
+            </div>
+            <div class="hitem" style="justify-content: flex-end; align-self: flex-end">
+              <button class="button" (click)="imprimir()">
+                <span class="icon"><i class="fas fa-print"></i></span>
+              </button>
             </div>
           </div>
-          <div class="hitem" style="justify-content: flex-end; align-self: flex-end">
-            <button class="button" (click)="imprimir()">
-              <span class="icon"><i class="fas fa-print"></i></span>
-            </button>
-          </div>
-        </div>
 
-        <table class="table is-bordered">
-          <tr>
-            <th>Lun</th>
-            <th>Mar</th>
-            <th>Mie</th>
-            <th>Jue</th>
-            <th>Vie</th>
-            <th>Sab</th>
-            <th>Dom</th>
-          </tr>
-          <tbody>
-          @for (semana of calendar; track semana;) {
-          <tr id={{semana.semana}}>
-          @for (jornada of semana.dias; track jornada;) {
-          <td
-            style="position: relative; padding-top: 0px; user-select: none;"
-            [class.selected]="isSelected(jornada)"
-            [class.preview]="isInPreviewRange(jornada)"
-            [class.hand]="modoSeleccionRango"
-            (click)="onJornadaClick($event, jornada)"
-            [class.range-start]="isRangeStart(jornada)"
-            [class.range-end]="isRangeEnd(jornada)"
-            (mouseenter)="hoverJornada = jornada"
-          >
-            @if(jornada != null) {
-            <span style="text-transform: capitalize; font-weight: bold; margin-top: 0 !important;" class="help" >{{getFecha(jornada)}}</span>
-              <app-jornada  [jornada]="jornada" class="mt-2"></app-jornada>
+          <table class="table is-bordered">
+            <tr>
+              <th>Lun</th>
+              <th>Mar</th>
+              <th>Mie</th>
+              <th>Jue</th>
+              <th>Vie</th>
+              <th>Sab</th>
+              <th>Dom</th>
+            </tr>
+            <tbody>
+            @for (semana of calendar; track semana;) {
+            <tr id={{semana.semana}}>
+            @for (jornada of semana.dias; track jornada;) {
+            <td
+              style="position: relative; padding-top: 0px; user-select: none;"
+              [class.selected]="isSelected(jornada)"
+              [class.preview]="isInPreviewRange(jornada)"
+              [class.hand]="modoSeleccionRango"
+              (click)="onJornadaClick($event, jornada)"
+              [class.range-start]="isRangeStart(jornada)"
+              [class.range-end]="isRangeEnd(jornada)"
+              (mouseenter)="hoverJornada = jornada"
+            >
+              @if(jornada != null) {
+              <span style="text-transform: capitalize; font-weight: bold; margin-top: 0 !important;" class="help" >{{getFecha(jornada)}}</span>
+                <app-jornada  [jornada]="jornada" class="mt-2"></app-jornada>
+              }
+            </td>
             }
-          </td>
-          }
-          </tr>
-          }
-          </tbody>
-        </table>
-        <div
-          *ngIf="menuVisible"
-          class="dropdown-content"
-          [ngStyle]="{ top: contextMenuPosition.y + 'px', left: contextMenuPosition.x + 'px', position: 'absolute', zIndex: 2 }"
-          (click)="menuVisible = false">
-          <ul class="menu-list">
-            <li><a><span class="icon pr-2"><i class="fas fa-user-clock"></i></span>Asignar Horario</a></li>
-            <li><a><span class="icon pr-2"><i class="fas fa-user-clock"></i></span>Limpiar Horario</a></li>
-          </ul>
+            </tr>
+            }
+            </tbody>
+          </table>
+          <div
+            *ngIf="menuVisible"
+            class="dropdown-content"
+            [ngStyle]="{ top: contextMenuPosition.y + 'px', left: contextMenuPosition.x + 'px', position: 'absolute', zIndex: 2 }"
+            (click)="menuVisible = false">
+            <ul class="menu-list">
+              <li>
+                <a (click)="modalAsignarHorario(this.usuario)">
+                  <span class="icon pr-2"><i class="fas fa-user-clock" style="color: #299acc;"></i></span>Asignar Horario
+                </a>
+              </li>
+              <li><a><span class="icon pr-2"><i class="fas fa-eraser" style="color: #de4543"></i></span>Limpiar Horario</a></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

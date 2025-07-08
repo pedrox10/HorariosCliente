@@ -31,6 +31,8 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
   usuarios: Usuario[] = [];
   picker: HTMLInputElement | any;
   fechaMin: string | any;
+  fechaIni: string | any;
+  fechaFin: string | any;
 
   constructor(private modalService: ModalService, public horarioService: HorarioService, public terminalService: TerminalService) {
     this.horarioService.getHorarios().subscribe(
@@ -52,9 +54,12 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     let data: any = this.modalService.options?.data
+    console.log(data)
     if(data){
       this.usuarios = data.usuarios;
       this.fechaMin = data.fechaMin;
+      this.fechaIni = data.fechaIni;
+      this.fechaFin = data.fechaFin;
     }
   }
 
@@ -86,6 +91,10 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
        },
     });
     this.picker.gotoDate(moment().subtract(1, "month").toDate());
+    if(this.fechaIni && this.fechaFin) {
+      this.picker.setStartDate(moment(this.fechaIni, "YYYY-MM-DD").toDate());
+      this.picker.setEndDate(moment(this.fechaFin, "YYYY-MM-DD").toDate())
+    }
     this.picker.on("select", (e: any) => {
       const startDate = moment(this.picker.getStartDate()).format("DD/MM/YYYY");
       const endDate = moment(this.picker.getEndDate()).format("DD/MM/YYYY");
@@ -108,6 +117,12 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
     document.getElementById("valor_color")!.style.color = color(horario.color)
     document.getElementById("descripcion")!.innerText = horario.descripcion;
     document.getElementById("area")!.innerText = horario.area;
+    if(horario.incluyeFeriados) {
+      document.getElementById("feriados")!.innerHTML = "<span title='Incluye días feriados' class='badge is-right is-light is-success'" +
+        "style='cursor: pointer; border-color: #9bd0d0; line-height: 10px;'>" + "+F </span>"
+    } else {
+      document.getElementById("feriados")!.innerHTML = "";
+    }
   }
 
   asignarHorario() {
@@ -184,11 +199,34 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
 
   getClase(index: number) {
     let res=""
-    if(this.horario.jornadasDosDias || this.horario.diasIntercalados) {
+    if(this.horario.diasIntercalados || this.horario.jornadasDosDias && !this.horario.incluyeFeriados) {
       if(index % 2 == 0)
         res="par"
       else res="impar"
     }
     return res;
+  }
+
+  getColor(nombre: string) {
+    return color(nombre)
+  }
+
+  estaIncluido(dia: any): boolean {
+    const inicio = this.picker.getStartDate();
+    const fin = this.picker.getEndDate();
+    // Verifica si algún día del rango cae en el día dado
+    for (let m = moment(inicio); m.isSameOrBefore(fin, 'day'); m.add(1, 'days')) {
+      if (this.getNombreDia(m.toDate()) === dia) return true;
+    }
+    return false;
+  }
+
+  getNombreDia(fecha: Date): string {
+    return moment(fecha)
+      .locale("es")
+      .format('dddd')
+      .normalize("NFD")                     // separa letras y tildes
+      .replace(/[\u0300-\u036f]/g, "")     // elimina los caracteres diacríticos
+      .replace(/^\w/, c => c.toUpperCase()); // capitaliza la primera letra
   }
 }
