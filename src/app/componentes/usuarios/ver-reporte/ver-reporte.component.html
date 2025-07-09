@@ -387,7 +387,16 @@
                 <div class="dropdown-content popup">
                   <div class='cabecera'>Fechas con Falta</div>
                   <div class="contenido scroll-y" style='color: #786450;' [innerHtml]="getAusencias(rm.infoMarcaciones)"></div>
-                  <a class='dropdown-item is-disabled'>Última marcación: 28/05/2025</a>
+                  @if(rm.usuario.ultMarcacion) {
+                  <hr class="divisor">
+                  <div class="message is-warning" style="border: 1px solid #eeaa5e;
+                  min-height: auto; border-radius: 7.5px; padding: 0px;">
+                    <div class="vbox-centered">
+                        <span [innerHtml]="rm.usuario.ultMarcacion"
+                        style="font-size: 0.85em; text-align: center; font-weight: normal !important"></span>
+                    </div>
+                  </div>
+                  }
                 </div>
               </div>
             </div>

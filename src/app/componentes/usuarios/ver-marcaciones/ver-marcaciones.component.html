@@ -32,6 +32,15 @@
         </div>
       </div>
       }
+      @if(rm?.usuario.ultMarcacion) {
+      <div class="message is-warning" style="border: 1px solid #eeaa5e;
+      min-height: auto; border-radius: 7.5px; padding: 0px;">
+        <div class="vbox-centered">
+            <span [innerHtml]="rm?.usuario.ultMarcacion"
+            style="font-size: 0.85em; text-align: center; font-weight: normal !important"></span>
+        </div>
+      </div>
+      }
       <div class="info">
         <div class="vbox-centered">
           <span class="label">Dias con incidencias</span>

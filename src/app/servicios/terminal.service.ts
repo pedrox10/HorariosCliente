@@ -108,4 +108,8 @@ export class TerminalService {
   public asignarGrupo(id: number, ids: string) {
     return this.http.get(`${this.apiUrl}/asignar-grupo/${id}/usuarios/${ids}`);
   }
+
+  public limpiarGrupo(ids: string) {
+    return this.http.get(`${this.apiUrl}/limpiar-grupo/usuarios/${ids}`);
+  }
 }

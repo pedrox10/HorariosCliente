@@ -96,8 +96,9 @@ export class NuevoHorarioComponent implements OnInit {
         }
       }
       if (verificado) {
-        this.horarioService.crearHorario(JSON.stringify(this.formHorario.value), JSON.stringify(this.formJornadas.value)).subscribe((data: any) => {
-          mensaje("Horario creado exitosamente", "is-success")
+        this.horarioService.crearHorario(JSON.stringify(this.formHorario.value), JSON.stringify(this.formJornadas.value)).subscribe(
+          (data: any) => {
+            mensaje("Horario creado exitosamente", "is-success")
           this.irAtras()
         }, (error: any) => {
           console.log(error)

@@ -1,13 +1,13 @@
-<div class="box hidden-print fondo" style="height: 100%;" id="principal">
+<div class="box hidden-print fondo" style="height: 100%;">
     <div class="hitem mb-5">
       <span (click)="irAtras()" class="icon button mt-1"><i class="fas fa-arrow-left"></i></span>
       <div class="title">
         <h1>Funcionarios en {{terminal?.nombre}}</h1>
       </div>
     </div>
-  <div class="animate__animated animate__fadeIn" >
-    <div class="columns" >
-      <div class="column is-narrow" >
+  <div class="animate__animated animate__fadeIn">
+    <div class="columns">
+      <div class="column is-narrow" style="position:relative;">
         <div class="hbox" style="align-items: flex-end;">
           <div class="vinput">
             <div class="hitem">
@@ -56,7 +56,7 @@
           </div>
           }
         </div>
-        <table class="table is-bordered is-hoverable" style="position: relative"
+        <table class="table is-bordered is-hoverable"
                [class.table-loading]="isCargando" [class.table-overlay]="isCargando">
           <tr class="stick">
             @if(isAdmin) {
@@ -343,12 +343,23 @@
       </header>
       <section class="modal-card-body">
         <label class="label">Selecciona un grupo de la lista</label>
-        <div class="select mb-4">
-          <select id="select_grupos" style="min-width: 200px">
+        <div class="select">
+          <select id="select_grupos" style="min-width: 200px" [disabled]="fc_confirmado.value">
             @for (grupo of terminal?.grupos; track grupo) {
             <option value={{grupo.id}}>{{grupo.nombre}}</option>
             }
           </select>
+        </div>
+        <div class="field mt-5">
+          <label class="b-checkbox checkbox">
+            <input type="checkbox" [formControl]="fc_confirmado">
+            <span class="check is-success"></span>
+            <div class="hitem control-label" style="justify-content: center">
+              <span>Limpiar grupo</span>
+              <i class="fas fa-eraser" style="color: #f17f7d"></i>
+            </div>
+          </label>
+          <p class='help is-info'>* Limpia el grupo de los usuarios seleccionados</p>
         </div>
       </section>
       <footer class="modal-card-foot">

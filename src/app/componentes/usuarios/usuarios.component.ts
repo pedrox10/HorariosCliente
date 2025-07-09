@@ -16,7 +16,7 @@ import {Location} from "@angular/common";
 import moment from "moment";
 import {ModalService} from "ngx-modal-ease";
 import {AsignarHorariosComponent} from "../horarios/asignar-horarios/asignar-horarios.component";
-import {FormsModule} from "@angular/forms";
+import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Core, easepick} from "@easepick/core";
 import {RangePlugin} from "@easepick/range-plugin";
 import {LockPlugin} from "@easepick/lock-plugin";
@@ -33,7 +33,7 @@ import {Grupo} from "../../modelos/Grupo";
 @Component({
   selector: 'app-usuarios',
   standalone: true,
-  imports: [RouterLink, HttpClientModule, FormsModule, RouterModule, CommonModule],
+  imports: [RouterLink, HttpClientModule, RouterModule, CommonModule, ReactiveFormsModule],
   providers: [TerminalService, DataService],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css',
@@ -63,6 +63,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   showScrollButton = false;
   isAdmin: boolean;
   isCargando = true;
+  fc_confirmado = new FormControl(false);
 
   constructor(public terminalService: TerminalService,private router: Router,
               public modalService: ModalService, private location: Location,
@@ -362,7 +363,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
       (data: any) => {
         let div = (document.getElementById("ultMarcacion_" + idUsuario) as HTMLDivElement);
         if(data === null) {
-          div.innerHTML = "<span>Sin Marcaciones</span>"
+          div.innerHTML = "<span class='semibold'>Ultima marcación:</span>" + "Sin marcaciones"
         } else {
           const fechaCompleta = moment(`${data.fecha} ${data.hora}`, 'YYYY-MM-DD HH:mm:ss');
           const salidaFormateada = fechaCompleta.format("DD/MM/YYYY HH:mm");
@@ -733,18 +734,34 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   asignarGrupo() {
-    let selectGrupos = document.getElementById("select_grupos") as HTMLSelectElement
-    let id_grupo = selectGrupos.value
     let ids = this.usuariosSeleccionados.map(({ id }) => id);
-    this.terminalService.asignarGrupo(parseInt(id_grupo), ids.toString()).subscribe(
-      (data:any)=>{
-        for(let usuario of this.usuariosSeleccionados) {
+    if(this.fc_confirmado.value === true) {
+      this.terminalService.limpiarGrupo(ids.toString()).subscribe(
+        (data:any)=>{
+          console.log(data)
+          if(data.success) {
+            for(let usuario of this.usuariosSeleccionados) {
+              usuario.grupo = null;
+            }
+          }
+          mensaje("Grupo limpiado a " + this.usuariosSeleccionados.length + " funcionarios", "is-success")
+        }, (error: any) => {
+          mensaje("Error, no se pudo asignar el grupo", "is-danger")
+        })
+    } else {
+      let selectGrupos = document.getElementById("select_grupos") as HTMLSelectElement
+      let id_grupo = selectGrupos.value
+      this.terminalService.asignarGrupo(parseInt(id_grupo), ids.toString()).subscribe(
+        (data:any)=>{
+          for(let usuario of this.usuariosSeleccionados) {
             usuario.grupo = data;
-        }
-        mensaje("Grupo asignado a " + this.usuariosSeleccionados.length + " funcionarios", "is-success")
-      }, (error: any) => {
-      mensaje("Error, no se pudo asignar el grupo", "is-danger")
-    })
+          }
+          mensaje("Grupo asignado a " + this.usuariosSeleccionados.length + " funcionarios", "is-success")
+        }, (error: any) => {
+          mensaje("Error, no se pudo asignar el grupo", "is-danger")
+        })
+    }
+    this.fc_confirmado.setValue(false)
+    this.ocultarAsignarGrupo()
   }
-
 }

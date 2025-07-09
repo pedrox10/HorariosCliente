@@ -13,11 +13,12 @@ import moment from "moment";
 import {LockPlugin} from "@easepick/lock-plugin";
 import {TerminalService} from "../../../servicios/terminal.service";
 import {color, mensaje} from "../../inicio/Global";
+import {CommonModule} from "@angular/common";
 
 @Component({
   selector: 'app-asignar-horarios',
   standalone: true,
-  imports: [RouterLink, HttpClientModule, FormsModule, ReactiveFormsModule],
+  imports: [RouterLink, HttpClientModule, FormsModule, ReactiveFormsModule, CommonModule],
   providers: [HorarioService, TerminalService],
   templateUrl: './asignar-horarios.component.html',
   styleUrl: './asignar-horarios.component.css'
@@ -33,6 +34,8 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
   fechaMin: string | any;
   fechaIni: string | any;
   fechaFin: string | any;
+  diasConFechas: { [dia: string]: string } = {};
+  longitudRango: number = 0;
 
   constructor(private modalService: ModalService, public horarioService: HorarioService, public terminalService: TerminalService) {
     this.horarioService.getHorarios().subscribe(
@@ -61,6 +64,7 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
       this.fechaIni = data.fechaIni;
       this.fechaFin = data.fechaFin;
     }
+
   }
 
   ngAfterViewInit() {
@@ -94,12 +98,31 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
     if(this.fechaIni && this.fechaFin) {
       this.picker.setStartDate(moment(this.fechaIni, "YYYY-MM-DD").toDate());
       this.picker.setEndDate(moment(this.fechaFin, "YYYY-MM-DD").toDate())
+      setTimeout(() => {
+        this.actualizarFechasSeleccionadas();
+      });
     }
     this.picker.on("select", (e: any) => {
-      const startDate = moment(this.picker.getStartDate()).format("DD/MM/YYYY");
-      const endDate = moment(this.picker.getEndDate()).format("DD/MM/YYYY");
-      this.formAsignar.get("fecha")?.setValue(`${startDate} - ${endDate}`);
-    })
+      this.actualizarFechasSeleccionadas();
+    });
+  }
+
+  private actualizarFechasSeleccionadas() {
+    const startDate = moment(this.picker.getStartDate());
+    const endDate = moment(this.picker.getEndDate());
+
+    this.formAsignar.get("fecha")?.setValue(`${startDate.format("DD/MM/YYYY")} - ${endDate.format("DD/MM/YYYY")}`);
+    const diffDias = endDate.diff(startDate, 'days') + 1;
+    this.longitudRango = diffDias;
+
+    const map: { [dia: string]: string } = {};
+    for (let m = moment(startDate); m.isSameOrBefore(endDate); m.add(1, 'days')) {
+      const diaNombre = this.getNombreDia(m.toDate());
+      if (!map[diaNombre]) {
+        map[diaNombre] = m.format("DD MMM").replace('.', '');
+      }
+    }
+    this.diasConFechas = map;
   }
 
   seleccionar(ev: any) {

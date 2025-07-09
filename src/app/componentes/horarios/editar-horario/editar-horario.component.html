@@ -78,6 +78,13 @@
         <textarea class="textarea" rows="2" formControlName="descripcion" style="resize: none;"></textarea>
       </div>
     </div>
+    <div class="field">
+      <label class="b-checkbox checkbox ml-3">
+        <input type="checkbox"  formControlName="incluyeFeriados" >
+        <span class="check is-success"></span>
+        <span class="control-label ml-2" style="min-width: 130px">Incluye días feriados</span>
+      </label>
+    </div>
     <footer class="modal-card-foot" style="position: absolute; bottom: 0; width: 400px; left: 0px" >
       <div class="buttons">
         <button class="button es-primario" type="button" [disabled]="formHorario.invalid" (click)="editarHorario()">

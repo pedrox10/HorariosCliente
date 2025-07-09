@@ -122,8 +122,15 @@
           <tbody>
           @for (jornadaDia of jornadaDias; track jornadaDia; let index = $index ) {
           <tr id="{{jornadaDia.dia}}" [class.desactivado]="!estaIncluido(jornadaDia.dia)">
-            <td class="{{getClase(index)}}">{{jornadaDia.dia}}</td>
-            @if(jornadaDia.habilitado) {
+            <td class="{{getClase(index)}}" style="position: relative">
+              {{jornadaDia.dia}}
+              <div *ngIf="longitudRango <= 7 && diasConFechas[jornadaDia.dia]">
+                <span class="badge is-light is-bottom mb-4">
+                  {{ diasConFechas[jornadaDia.dia] }}
+                </span>
+              </div>
+            </td>
+          @if(jornadaDia.habilitado) {
           <td colspan="2">
             <div class="hitem">
               <input type="time" value="{{jornadaDia.priEntrada}}" class="input" (keyup)="cambiaHora($event, jornadaDia.priEntrada, 'priEntrada', index)">

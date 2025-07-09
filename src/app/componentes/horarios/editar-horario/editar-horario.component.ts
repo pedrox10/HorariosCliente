@@ -31,12 +31,14 @@ export class EditarHorarioComponent {
     let fc_color = new FormControl("", [Validators.required])
     let fc_area = new FormControl("Central", [Validators.required])
     let fc_descripcion = new FormControl("", [])
+    let fc_incluye_feriados= new FormControl(false, [])
 
     this.formHorario.addControl("nombre", fc_nombre)
     this.formHorario.addControl("tolerancia", fc_tolerancia)
     this.formHorario.addControl("color", fc_color)
     this.formHorario.addControl("area", fc_area)
     this.formHorario.addControl("descripcion", fc_descripcion)
+    this.formHorario.addControl("incluyeFeriados", fc_incluye_feriados)
 
     let data: any = this.modalService.options?.data
     if (data) {
@@ -56,6 +58,7 @@ export class EditarHorarioComponent {
         console.log(fc_color.value)
         fc_area.setValue(this.horario.area)
         fc_descripcion.setValue(this.horario.descripcion)
+        fc_incluye_feriados.setValue(this.horario.incluyeFeriados)
       })
 
   }

@@ -20,7 +20,7 @@ export class Usuario {
   fechaCumpleano: Date
   ultAsignacion?: string
   ultMarcacion?: string
-  grupo: Grupo;
+  grupo: Grupo | null;
   horarioHtml?: SafeHtml; // Añade esta propiedad
   estadoHtml?: SafeHtml;  // Añade esta propiedad
 

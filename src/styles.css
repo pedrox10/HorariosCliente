@@ -489,9 +489,14 @@ p.modal-card-title {
 
 .spinner-center {
   position: absolute;
-  top: 50%;
+  top: 40vh;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
 }
 
+.divisor {
+  border: none; /* Elimina el borde predeterminado */
+  border-top: 1px dashed #ccc; /* Un borde punteado o sólido, del color que desees */
+  margin: 5px 0; /* Espacio arriba y abajo del divisor */
+}
