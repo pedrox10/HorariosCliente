@@ -35,7 +35,7 @@
               </button>
               <button class="button crema" (click)="modalAsignarGrupo()"
                 style="background-color: {{getColor('Crema')}}; border-radius: 5px;">
-                <span class="icon"><i class="fas fa-users"></i></span>
+                <span class="icon has-tooltip-arrow expand" data-tooltip="Asignar Grupo"><i class="fas fa-users"></i></span>
               </button>
             </div>
           </div>
@@ -110,8 +110,12 @@
             </td>
             }
             <td>{{index +1}}</td>
-            <td>
+            <td style="position: relative">
               {{usuario.nombre}}
+              @if(usuario.grupo) {
+              <span class="badge is-bottom mb-1" style="line-height: 10px;
+              background-color: {{getColor('Crema')}}; color: black">{{usuario.grupo.nombre}}</span>
+              }
             </td>
             <td>{{usuario.ci}}</td>
             <td  style="position: relative; text-align: center;">
@@ -140,9 +144,7 @@
                 <div class="dropdown-menu" role="menu">
                   <div class="dropdown-content popup"
                        style="background: linear-gradient(360deg, #fcfaf7 0%, #fdf7e7 100%); border: 1px #f4d27b solid;">
-                    <div id="ultMarcacion_{{ usuario.id }}" class="contenido" style="color: #786450;">
-                      Contenido adicional aquí
-                    </div>
+                    <div id="ultMarcacion_{{ usuario.id }}" class="contenido" style="color: #786450;"></div>
                   </div>
                 </div>
               </div>
@@ -236,6 +238,14 @@
               </div>
               } @empty {
               <p class="has-text-grey">No hay grupos</p>
+              }
+              @if(terminal?.grupos.length > 0) {
+              <div class="hitem" id="grupo_0">
+                <button
+                      class="button toggle" (click)="filtrarPorGrupo(0)"
+                      [class.seleccionado]="isSelectedGroup(0)">Sin Grupo
+                </button>
+              </div>
               }
             </div>
           </div>

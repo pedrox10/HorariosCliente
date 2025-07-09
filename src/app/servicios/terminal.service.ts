@@ -104,4 +104,8 @@ export class TerminalService {
   public eliminarGrupo(idTerminal: number, idGrupo: number) {
     return this.http.delete(`${this.apiUrl}/terminal/${idTerminal}/grupos/eliminar/${idGrupo}`);
   }
+
+  public asignarGrupo(id: number, ids: string) {
+    return this.http.get(`${this.apiUrl}/asignar-grupo/${id}/usuarios/${ids}`);
+  }
 }

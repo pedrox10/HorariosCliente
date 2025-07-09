@@ -360,10 +360,14 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   getUltMarcacion(idUsuario: number) {
     this.terminalService.getUltMarcacion(idUsuario).subscribe(
       (data: any) => {
-        const fechaCompleta = moment(`${data.fecha} ${data.hora}`, 'YYYY-MM-DD HH:mm:ss');
-        const salidaFormateada = fechaCompleta.format("DD/MM/YYYY HH:mm");
         let div = (document.getElementById("ultMarcacion_" + idUsuario) as HTMLDivElement);
-        div.innerHTML = "<span class='semibold'>Ultima marcación:</span>" + "El " + salidaFormateada
+        if(data === null) {
+          div.innerHTML = "<span>Sin Marcaciones</span>"
+        } else {
+          const fechaCompleta = moment(`${data.fecha} ${data.hora}`, 'YYYY-MM-DD HH:mm:ss');
+          const salidaFormateada = fechaCompleta.format("DD/MM/YYYY HH:mm");
+          div.innerHTML = "<span class='semibold'>Ultima marcación:</span>" + "El " + salidaFormateada
+        }
       },
       (error: any) => {
         console.log("error")
@@ -399,7 +403,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
                     usuario.ultAsignacion = data.ultDiaAsignado;
                   }
                 }
-                mensaje("Horario asignado a   " + this.usuariosSeleccionados.length + " funcionarios", "is-success")
+                mensaje("Horario asignado a " + this.usuariosSeleccionados.length + " funcionarios", "is-success")
               }
             });
         },
@@ -612,9 +616,14 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
       tempUsuarios = tempUsuarios.filter(usuario => usuario.estado == this.estado);
     }
     // 3. Filtrar por grupo
-    if (this.idGrupo !== null && this.idGrupo !== -1) { // -1 también significa sin filtro
+    if (this.idGrupo !== null && this.idGrupo !== -1 && this.idGrupo !== 0) { // -1 también significa sin filtro
       tempUsuarios = tempUsuarios.filter(usuario => usuario.grupo?.id == this.idGrupo);
     }
+    if(this.idGrupo === 0) {
+      console.log("sin grupo")
+      tempUsuarios = tempUsuarios.filter(usuario => usuario.grupo?.id === undefined);
+    }
+
     this.usuariosFiltrados = tempUsuarios;
     this.actualizarCheckboxTodos(); // Actualiza el estado del checkbox "todos"
   }
@@ -712,7 +721,11 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   modalAsignarGrupo() {
-    document.getElementById("asignar_grupo")?.classList.add("is-active");
+    if (this.usuariosSeleccionados.length > 0) {
+      document.getElementById("asignar_grupo")?.classList.add("is-active");
+    } else {
+      mensaje("Debes seleccionar al menos un funcionario", "is-warning")
+    }
   }
 
   ocultarAsignarGrupo() {
@@ -720,7 +733,18 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   asignarGrupo() {
-
+    let selectGrupos = document.getElementById("select_grupos") as HTMLSelectElement
+    let id_grupo = selectGrupos.value
+    let ids = this.usuariosSeleccionados.map(({ id }) => id);
+    this.terminalService.asignarGrupo(parseInt(id_grupo), ids.toString()).subscribe(
+      (data:any)=>{
+        for(let usuario of this.usuariosSeleccionados) {
+            usuario.grupo = data;
+        }
+        mensaje("Grupo asignado a " + this.usuariosSeleccionados.length + " funcionarios", "is-success")
+      }, (error: any) => {
+      mensaje("Error, no se pudo asignar el grupo", "is-danger")
+    })
   }
 
 }
