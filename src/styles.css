@@ -500,3 +500,8 @@ p.modal-card-title {
   border-top: 1px dashed #ccc; /* Un borde punteado o sólido, del color que desees */
   margin: 5px 0; /* Espacio arriba y abajo del divisor */
 }
+
+.icon-cmd {
+  font-size: 1.5em;
+  color: #666;
+}

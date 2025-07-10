@@ -160,6 +160,11 @@ export class VerReporteComponent implements OnInit{
     this.router.navigate(['/ver-marcaciones', usuario.id, this.fechaIni, this.fechaFin]);
   }
 
+  verHorario(id_usuario: number | any) {
+    env.indexResumenMarcacion = id_usuario;
+    this.router.navigate(['/ver-horario', id_usuario]);
+  }
+
   modalCambiarHorario(usuario: Usuario) {
     console.log(usuario)
     let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};

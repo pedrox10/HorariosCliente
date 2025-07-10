@@ -20,7 +20,8 @@ a.is-disabled {
 }
 
 .consola {
-  background-color: #dedede; padding: 3px
+  background-color: #dedede;
+  padding: 3px
 }
 
 .consola.is-loading {
