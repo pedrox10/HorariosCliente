@@ -78,7 +78,8 @@
           </table>
           <div
             *ngIf="menuVisible"
-            class="dropdown-content"
+            class="dropdown-content popup"
+            style="box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3); padding: 5px; font-size: 1em"
             [ngStyle]="{ top: contextMenuPosition.y + 'px', left: contextMenuPosition.x + 'px', position: 'absolute', zIndex: 2 }"
             (click)="menuVisible = false">
             <ul class="menu-list">

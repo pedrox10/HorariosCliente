@@ -124,12 +124,29 @@
           <tr id="{{jornadaDia.dia}}" [class.desactivado]="!estaIncluido(jornadaDia.dia)">
             <td class="{{getClase(index)}}" style="position: relative">
               {{jornadaDia.dia}}
-              <div *ngIf="longitudRango <= 7 && diasConFechas[jornadaDia.dia]">
-                <span class="badge is-light is-bottom mb-4">
-                  {{ diasConFechas[jornadaDia.dia] }}
-                </span>
-              </div>
-            </td>
+              @if(longitudRango <= 7 && diasConFechas[jornadaDia.dia]) {
+              <span class="badge is-light is-bottom mb-4" style="color: #492f03; background-color: {{getColor('Naranja')}};">
+                {{ diasConFechas[jornadaDia.dia] }}
+              </span>
+              }@else {
+              @if(esDiaInicio(jornadaDia.dia) && esDiaFin(jornadaDia.dia)) {
+              <span class="badge is-light is-bottom mb-4" style="color: #492f03; background-color: {{getColor('Naranja')}};" title="Inicio y Fin del rango">
+                {{ fechaInicioRango | date:'dd MMM'}}<i class="fas fa-flag-checkered ml-1 mr-1"></i>{{fechaFinRango | date:'dd MMM' }}
+              </span>
+              }@else{
+              @if(esDiaInicio(jornadaDia.dia)) {
+              <span class="badge is-success is-light is-bottom mb-4" title="Inicio del rango">
+                      <i class="fas fa-flag-checkered ml-1" style="color: green"></i>{{ fechaInicioRango | date:'dd MMM' }}
+                  </span>
+              }
+              @if(esDiaFin(jornadaDia.dia)) {
+              <span class="badge is-danger is-light is-bottom mb-4" title="Fin del rango">
+                      <i class="fas fa-flag ml-1" style="color: crimson"></i>{{ fechaFinRango | date:'dd MMM' }}
+                  </span>
+              }
+              }
+              }
+          </td>
           @if(jornadaDia.habilitado) {
           <td colspan="2">
             <div class="hitem">

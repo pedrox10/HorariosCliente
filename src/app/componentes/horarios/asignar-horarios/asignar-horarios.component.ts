@@ -36,6 +36,8 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
   fechaFin: string | any;
   diasConFechas: { [dia: string]: string } = {};
   longitudRango: number = 0;
+  fechaInicioRango: Date | null = null;
+  fechaFinRango: Date | null = null;
 
   constructor(private modalService: ModalService, public horarioService: HorarioService, public terminalService: TerminalService) {
     this.horarioService.getHorarios().subscribe(
@@ -110,11 +112,12 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
   private actualizarFechasSeleccionadas() {
     const startDate = moment(this.picker.getStartDate());
     const endDate = moment(this.picker.getEndDate());
-
+    this.fechaInicioRango = startDate.toDate();
+    this.fechaFinRango = endDate.toDate();
     this.formAsignar.get("fecha")?.setValue(`${startDate.format("DD/MM/YYYY")} - ${endDate.format("DD/MM/YYYY")}`);
+
     const diffDias = endDate.diff(startDate, 'days') + 1;
     this.longitudRango = diffDias;
-
     const map: { [dia: string]: string } = {};
     for (let m = moment(startDate); m.isSameOrBefore(endDate); m.add(1, 'days')) {
       const diaNombre = this.getNombreDia(m.toDate());
@@ -123,6 +126,7 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
       }
     }
     this.diasConFechas = map;
+    console.log(this.diasConFechas)
   }
 
   seleccionar(ev: any) {
@@ -251,5 +255,13 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
       .normalize("NFD")                     // separa letras y tildes
       .replace(/[\u0300-\u036f]/g, "")     // elimina los caracteres diacríticos
       .replace(/^\w/, c => c.toUpperCase()); // capitaliza la primera letra
+  }
+
+  esDiaInicio(dia: string): boolean {
+    return this.getNombreDia(this.fechaInicioRango!) === dia;
+  }
+
+  esDiaFin(dia: string): boolean {
+    return this.getNombreDia(this.fechaFinRango!) === dia;
   }
 }

@@ -213,14 +213,19 @@
           <th style="position: relative">
             {{getInfoActual().dia}}
           </th>
-          <td>
+          <td style="position: relative">
             <div class="hitem">
               <div class="circle" style="background-color: {{getColor(getInfoActual().horario.color)}}; border: 1px lightgray solid; align-self: center"></div>
               {{getInfoActual().horario.nombre}}
+              @if(infoMarcacion.horario.incluyeFeriados) {
+              <span title="Incluye días feriados"
+                    class="badge is-bottom is-light is-success mb-1"
+                    style="cursor: pointer; border-color: #9bd0d0; line-height: 10px;">+F</span>
+              }
               @if(infoMarcacion.esInvierno || infoMarcacion.esLactancia || infoMarcacion.esJornadaDosDias ) {
               <div class="dropdown is-hoverable">
                 <div class="dropdown-trigger">
-                  <span><i class="fas fa-ellipsis-v" style="color: #999; font-size:0.85em;"></i></span>
+                  <span><i class="far fa-question-circle" style="color: #999; font-size:0.85em;"></i></span>
                 </div>
                 <div class="dropdown-menu" role="menu">
                   <div class="dropdown-content custom-dropdown">
