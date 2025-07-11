@@ -59,14 +59,14 @@
           <td>{{categorias[t.categoria]}}</td>
           <td>
             <div class="hitem">
-              <span class="icon has-tooltip-arrow expand" data-tooltip="Editar" (click) = "agregarEditarModal(t)">
+              <span class="has-tooltip-arrow expand" data-tooltip="Editar" (click) = "agregarEditarModal(t)">
                 <i class="far fa-edit icon-btn"></i>
               </span>
-              <span class="icon has-tooltip-arrow expand" data-tooltip="Interrupciones" routerLink="/interrupciones/{{t.id}}">
+              <span class="has-tooltip-arrow expand" data-tooltip="Interrupciones" routerLink="/interrupciones/{{t.id}}">
                 <i class="fas fa-exclamation-triangle icon-btn"></i>
               </span>
-              <span class="icon has-tooltip-arrow expand" data-tooltip="Comandos" routerLink="/comandos/{{t.id}}">
-                <i class="fas fa-terminal"></i>
+              <span class="has-tooltip-arrow expand" data-tooltip="Comandos" routerLink="/comandos/{{t.id}}">
+                <i class="fas fa-terminal icon-btn"></i>
               </span>
               <div class="dropdown is-hoverable is-custom-right">
                 <div class="dropdown-trigger">
@@ -75,12 +75,12 @@
                 <div class="dropdown-menu" id="" role="menu">
                   <div class="dropdown-content">
                     <a class="dropdown-item" (click)="mostrarSincronizaciones(t)" >
-                      <span class="icon has-tooltip-arrow expand" data-tooltip="Ver Sincronizaciones">
+                      <span class="has-tooltip-arrow expand" data-tooltip="Ver Sincronizaciones">
                         <i class="fas fa-history icon-btn"></i>
                       </span>
                     </a>
                     <a class="dropdown-item" (click)="mostrarEliminar(t)">
-                      <span class="icon has-tooltip-arrow expand" data-tooltip="Eliminar Terminal">
+                      <span class="has-tooltip-arrow expand" data-tooltip="Eliminar Terminal">
                         <i class="far fa-times-circle icon-btn"></i>
                       </span>
                     </a>

@@ -96,6 +96,8 @@ export class VerReporteComponent implements OnInit{
       fila.sinMarcar = resumenMarcacion.totalSinMarcar;
       fila.salAntes = resumenMarcacion.totalSalAntes
       fila.faltas = resumenMarcacion.totalAusencias;
+      fila.totalSancion = resumenMarcacion.totalSanciones
+      fila.permisosSG = resumenMarcacion.totalPermisosSG
       fila.observaciones = resumenMarcacion.mensajeError
       this.filasExcel.push(fila)
     }
@@ -276,7 +278,8 @@ export class VerReporteComponent implements OnInit{
         // 👉 2. Encabezados en A7
         const headers = [
           "#", "NOMBRE", "CI", "FECHA DE ALTA EN BIOMETRICO", "DÍAS COMPUTADOS",
-          "RETRASO [min]", "SIN MARCAR", "SALIÓ ANTES", "FALTAS", "OBSERVACIONES"
+          "RETRASO [min]", "SIN MARCAR", "SALIÓ ANTES", "FALTAS", "TOTAL SANCION",
+          "PERMISOS SG", "OBSERVACIONES"
         ];
         headers.forEach((header, index) => {
           worksheet!.getCell(7, index + 1).value = header;
@@ -309,7 +312,9 @@ export class VerReporteComponent implements OnInit{
           row.getCell(7).value = fila.sinMarcar === undefined ? "" : fila.sinMarcar;
           row.getCell(8).value = fila.salAntes === undefined ? "" : fila.salAntes;
           row.getCell(9).value = fila.faltas === undefined ? "" : fila.faltas;
-          row.getCell(10).value = fila.observaciones || '';
+          row.getCell(10).value = fila.totalSancion === undefined ? "" : fila.totalSancion;
+          row.getCell(11).value = fila.permisosSG === undefined ? "" : fila.permisosSG;
+          row.getCell(12).value = fila.observaciones || '';
           row.eachCell((cell, colNumber) => {
             const refCell = estiloReferencia.getCell(colNumber);
             cell.style = { ...refCell.style };

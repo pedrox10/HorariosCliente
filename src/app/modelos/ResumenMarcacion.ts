@@ -75,6 +75,8 @@ export interface IReporte {
   sinMarcar: number,
   salAntes: number,
   faltas: number,
+  totalSancion: number,
+  permisosSG: number,
   observaciones: string
   detalleRetrasos: string
 }
