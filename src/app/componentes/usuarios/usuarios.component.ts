@@ -331,7 +331,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getEstado(usuario: Usuario) {
-    let color = usuario.estado == EstadoUsuario.Activo ? "#C6FBF9" : "#E7B9C0";
+    let color = usuario.estado === EstadoUsuario.Activo ? "#C6FBF9" : usuario.estado === EstadoUsuario.Inactivo ? "#F2F2F2" : "#E7B9C0";
     let estado =
       "<div class='help has-text-centered mt-1'>" +
       "<div class='etiqueta' style='background-color: " + color + ";'>" + EstadoUsuario[usuario.estado] + "</div>" +

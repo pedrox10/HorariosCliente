@@ -30,4 +30,15 @@
   box-shadow: none !important;
 }
 
+.b-radio.radio input[type=radio]:checked + .check.is-grey {
+  border-color: #999;
+  box-shadow: 0 0 0 0.2em rgba(153, 153, 153, 0.25) !important;
+}
 
+.b-radio.radio input[type=radio]:checked + .check.is-grey::before {
+  background-color: #999; /* o el gris que desees */
+}
+
+label.b-radio.radio:hover .check.is-grey {
+  border-color: #999 !important;
+}

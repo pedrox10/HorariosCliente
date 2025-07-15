@@ -7,9 +7,9 @@
     </div>
   <div class="animate__animated animate__fadeIn">
     <div class="columns">
-      <div class="column is-narrow" style="position:relative;">
+      <div class="column is-narrow">
         <div class="hbox" style="align-items: flex-end;">
-          <div class="vinput">
+          <div class="vinput" style="min-width: 219.5px;">
             <div class="hitem">
               <label class="label" style="margin-bottom: 0px;">Buscar Funcionario </label>
               <span class="help" style="margin-left: auto; font-weight: bold">{{usuariosFiltrados.length}}</span>
@@ -130,7 +130,7 @@
                       {{ usuario.ultAsignacion }}
                 </div>
               </div>
-              <div *ngIf="usuario.ultAsignacion === 'Sin Asignar'" class="dropdown is-hoverable"
+              <div *ngIf="usuario.ultAsignacion === 'Sin Asignar'" class="dropdown is-up is-hoverable"
                   style="position: absolute; bottom: -8.5px; left: 40%">
                 <div class="dropdown-trigger">
                   <span>
@@ -196,10 +196,17 @@
               </label>
             </div>
             <div class="field">
-              <label class="b-radio radio">
+              <label class="b-radio radio" >
                 <input id="rb_inactivo" type="radio" name="estados" value="0" (click)="filtrarPorEstado($event)">
-                <span class="check is-danger"></span>
+                <span class="check is-grey" ></span>
                 <span class="control-label">Inactivo</span>
+              </label>
+            </div>
+            <div class="field">
+              <label class="b-radio radio">
+                <input id="rb_eliminado" type="radio" name="estados" value="2" (click)="filtrarPorEstado($event)">
+                <span class="check is-danger"></span>
+                <span class="control-label">Eliminado</span>
               </label>
             </div>
           </div>
