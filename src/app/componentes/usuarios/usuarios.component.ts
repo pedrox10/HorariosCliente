@@ -100,16 +100,19 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         // Actualizar el estado de los radio buttons de estado
         if (env.filtrarEstado) {
-          const rbActivo = (document.getElementById("rb_activo") as HTMLInputElement);
-          const rbInactivo = (document.getElementById("rb_inactivo") as HTMLInputElement);
-
-          if (env.estado == 1 && rbActivo) { // Verificación añadida
-            rbActivo.checked = true;
-          } else if (env.estado == 0 && rbInactivo) { // Verificación añadida
-            rbInactivo.checked = true;
+          const estadoMap: Record<number, string> = {
+            1: "rb_activo",
+            0: "rb_inactivo",
+            2: "rb_eliminado",
+          };
+          const radioId = estadoMap[env.estado];
+          if (radioId) {
+            const radio = document.getElementById(radioId) as HTMLInputElement | null;
+            if (radio) {
+              radio.checked = true;
+            }
           }
         }
-
       },
       (error: any) => {
         console.error('An error occurred loading users:', error);
@@ -624,7 +627,6 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log("sin grupo")
       tempUsuarios = tempUsuarios.filter(usuario => usuario.grupo?.id === undefined);
     }
-
     this.usuariosFiltrados = tempUsuarios;
     this.actualizarCheckboxTodos(); // Actualiza el estado del checkbox "todos"
   }

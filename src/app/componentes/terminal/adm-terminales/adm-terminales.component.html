@@ -2,7 +2,7 @@
   <div class="title">
     <h1>Administración de Terminales</h1>
   </div>
-  <div class="animate__animated animate__fadeIn" style="box-sizing: border-box; width: fit-content;">
+  <div class="animate__animated animate__fadeIn" >
     <div class="hbox">
       <div class="hitem">
         <label class="label mt-2">Categoría: </label>
@@ -25,7 +25,7 @@
           </button>
       </div>
     </div>
-    <table class="table is-bordered is-hoverable animate__animated animate__fadeIn">
+    <table class="table is-bordered is-hoverable">
       <tr>
         <th>#</th>
         <th>Nombre</th>
@@ -59,13 +59,13 @@
           <td>{{categorias[t.categoria]}}</td>
           <td>
             <div class="hitem">
-              <span class="has-tooltip-arrow expand" data-tooltip="Editar" (click) = "agregarEditarModal(t)">
+              <span class="icon has-tooltip-arrow expand" data-tooltip="Editar" (click) = "agregarEditarModal(t)">
                 <i class="far fa-edit icon-btn"></i>
               </span>
-              <span class="has-tooltip-arrow expand" data-tooltip="Interrupciones" routerLink="/interrupciones/{{t.id}}">
+              <span class="icon has-tooltip-arrow expand" data-tooltip="Interrupciones" routerLink="/interrupciones/{{t.id}}">
                 <i class="fas fa-exclamation-triangle icon-btn"></i>
               </span>
-              <span class="has-tooltip-arrow expand" data-tooltip="Comandos" routerLink="/comandos/{{t.id}}">
+              <span class="icon has-tooltip-arrow expand" data-tooltip="Comandos" routerLink="/comandos/{{t.id}}">
                 <i class="fas fa-terminal icon-btn"></i>
               </span>
               <div class="dropdown is-hoverable is-custom-right">
@@ -98,7 +98,6 @@
     <div class="modal-background" id="fondo_sinc" style="opacity: 0.75;"></div>
     <div class="modal-card" style="width: auto; height: 600px">
       <header class="modal-card-head">
-        <i class="fas fa-history mt-1" style="padding-right: 10px; color: white; font-size: 1.25em"></i>
         <p class="modal-card-title">Historial de Sincronizaciones</p>
         <button class="delete" aria-label="close" (click)="ocultarSincronizaciones()"></button>
       </header>
