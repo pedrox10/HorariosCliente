@@ -173,10 +173,12 @@ export class VerReporteComponent implements OnInit{
     let usuarios: Usuario[] = [];
     usuarios.push(usuario);
     let fechaMin = usuario.fechaAlta;
+    let fechaIni = moment(this.fechaIni, "YYYYMMDD").toDate()
+    let fechaFin = moment(this.fechaFin, "YYYYMMDD").toDate()
     this.modalService.open(AsignarHorariosComponent, {
       modal: {enter: `${config.animation} ${config.duration}`,},
       size: {padding: '0.5rem'},
-      data: {usuarios, fechaMin}
+      data: {usuarios, fechaMin, fechaIni, fechaFin}
     })
       .subscribe((data) => {
         if (data !== undefined)
