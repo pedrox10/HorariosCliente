@@ -19,6 +19,7 @@ import {AsignarHorariosComponent} from "../../horarios/asignar-horarios/asignar-
 import {Terminal} from "../../../modelos/Terminal";
 import {env} from "../../../../environments/environments";
 import { HttpClient } from '@angular/common/http';
+import {AuthService} from "../../../servicios/auth.service";
 
 @Component({
   selector: 'app-ver-reporte',
@@ -36,6 +37,7 @@ export class VerReporteComponent implements OnInit{
   terminal: string | any;
   fechaIni: string | any;
   fechaFin: string | any;
+  usuario: string | any;
   fechaCreacion: string | any;
   resumenMarcaciones: ResumenMarcacion[] = [];
   rmActual: ResumenMarcacion | any;
@@ -48,7 +50,7 @@ export class VerReporteComponent implements OnInit{
 
   constructor(private modalService: ModalService, private terminalService: TerminalService,
               private location: Location, private router: Router, private http: HttpClient,
-              private eRef: ElementRef) {
+              private eRef: ElementRef, public authService: AuthService) {
 
   }
 
@@ -76,6 +78,7 @@ export class VerReporteComponent implements OnInit{
     this.terminal = sessionStorage.getItem("terminal")
     this.fechaIni = sessionStorage.getItem("fechaIni")
     this.fechaFin = sessionStorage.getItem("fechaFin")
+    this.usuario = sessionStorage.getItem("usuario")
     this.fechaCreacion = sessionStorage.getItem("fechaCreacion")
     for(let resumenMarcacion of this.resumenMarcaciones) {
       let fila = {} as IReporte;
@@ -272,14 +275,14 @@ export class VerReporteComponent implements OnInit{
       .then(() => {
         const worksheet = workbook.getWorksheet(1); // o por nombre: workbook.getWorksheet('Reporte');
         // 👉 Cabecera
-        worksheet!.getCell('A1').value = "REPORTE GENERAL " + this.terminal
+        worksheet!.getCell('C1').value = "PLANILLA DE  ASISTENCIA, RETRASOS Y DESCUENTOS " + this.terminal
         worksheet!.getCell('E2').value = `${moment(this.fechaIni, 'YYYYMMDD').format('DD/MM/YYYY')} - ${moment(this.fechaFin, 'YYYYMMDD').format('DD/MM/YYYY')}`;
         worksheet!.getCell('E3').value = this.getTotalDias();
         worksheet!.getCell('E4').value = this.fechaCreacion;
-        worksheet!.getCell('E5').value = 'Usuario de Prueba';
+        worksheet!.getCell('E5').value = this.usuario;
         // 👉 2. Encabezados en A7
         const headers = [
-          "#", "NOMBRE", "CI", "FECHA DE ALTA EN BIOMETRICO", "DÍAS COMPUTADOS",
+          "#", "NOMBRE", "CI", "FECHA DE ALTA EN BIOMETRICO", "DÍAS COMP.",
           "RETRASO [min]", "SIN MARCAR", "SALIÓ ANTES", "FALTAS", "TOTAL SANCION",
           "PERMISOS SG", "OBSERVACIONES"
         ];
@@ -298,7 +301,7 @@ export class VerReporteComponent implements OnInit{
           row.getCell(4).value = fila.fechaAlta;
           row.getCell(5).value = fila.diasComputados === undefined ? "" : fila.diasComputados;
           row.getCell(6).value = fila.retraso === undefined ? "" : fila.retraso;
-          if(fila.retraso > 0 && fila.retraso !== undefined && fila.retraso !== null) {
+          /*if(fila.retraso > 0 && fila.retraso !== undefined && fila.retraso !== null) {
             row.getCell(6).note = {
               texts: [
                 {
@@ -310,7 +313,7 @@ export class VerReporteComponent implements OnInit{
                 },
               ],
             };
-          }
+          }*/
           row.getCell(7).value = fila.sinMarcar === undefined ? "" : fila.sinMarcar;
           row.getCell(8).value = fila.salAntes === undefined ? "" : fila.salAntes;
           row.getCell(9).value = fila.faltas === undefined ? "" : fila.faltas;

@@ -29,6 +29,10 @@ export class AuthService {
     return sessionStorage.getItem('nombre');
   }
 
+  obtenerIdLogin() {
+    return sessionStorage.getItem('usuarioId');
+  }
+
   obtenerRol() {
     return sessionStorage.getItem('rol');
   }

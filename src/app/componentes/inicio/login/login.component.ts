@@ -4,6 +4,7 @@ import {CommonModule} from "@angular/common";
 import {Router, RouterLink, RouterModule, RouterOutlet} from "@angular/router";
 import {AuthService} from "../../../servicios/auth.service";
 import {HttpClientModule} from "@angular/common/http";
+import {mensaje} from "../Global";
 
 @Component({
   selector: 'app-login',
@@ -47,6 +48,8 @@ export class LoginComponent implements OnInit{
         }
       },
       error: err => {
+        console.log(err)
+        mensaje(err.error.mensaje, "is-danger")
         this.errorMsg = 'Usuario o clave incorrectos';
       }
     });

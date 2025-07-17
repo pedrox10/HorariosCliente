@@ -70,7 +70,6 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
               private sanitizer: DomSanitizer, private authService: AuthService) {
 
     this.isAdmin  = this.authService.obtenerRol() === 'Administrador';
-
     // Carga inicial de usuarios
     this.terminalService.getUsuarios(this.idTerminal).pipe(takeUntil(this.destroy$)).subscribe(
       (data: any) => {
@@ -517,7 +516,8 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
         sessionStorage.setItem('terminal', this.terminal.nombre);
         sessionStorage.setItem("fechaIni", this.fechaIni)
         sessionStorage.setItem("fechaFin", this.fechaFin)
-        sessionStorage.setItem("fechaCreacion", moment().format("DD/MM/YYYY"))
+        sessionStorage.setItem("usuario", this.authService.obtenerNombre() ?? '')
+        sessionStorage.setItem("fechaCreacion", moment().format("DD/MM/YYYY HH:mm"))
       },
       complete: () => {
         this.router.navigateByUrl('/ver-reporte');

@@ -18,8 +18,8 @@
        </p>
        <ul id="suggestions"></ul>
      </div>
-     <div class="hitem" style="background-color: {{getColor('Amarillo')}}; padding: 10px; border-radius: 10px; gap: 30px;">
-       <div class="vinput">
+     <div class="hitem" style="background-color: {{getColor('Amarillo')}}; padding: 10px; border-radius: 10px; gap: 25px;">
+       <div class="vitem">
          <div class="icon-text">
         <span class="icon has-text-primary" style="font-size: 1.2em">
           <i class="far fa-calendar-alt"></i>
@@ -28,7 +28,7 @@
          </div>
          <p class="block has-text-centered">{{getFechaIni()}} - {{getFechaFin()}}</p>
        </div>
-       <div class="vinput">
+       <div class="vitem">
          <div class="icon-text">
         <span class="icon has-text-info">
         <i class="fas fa-sort-numeric-up" style="font-size: 1.2em"></i>
@@ -39,7 +39,7 @@
            {{getTotalDias()}}
          </p>
        </div>
-       <div class="vinput">
+       <div class="vitem">
          <div class="icon-text">
         <span class="icon has-text-success" style="font-size: 1.2em">
           <i class="far fa-file-alt"></i>
@@ -47,6 +47,15 @@
            <span class="label">Fecha de Creación</span>
          </div>
          <p class="block has-text-centered">{{fechaCreacion}}</p>
+       </div>
+       <div class="vitem">
+         <div class="icon-text">
+        <span class="icon has-text-gray" style="font-size: 1.2em">
+          <i class="far fa-user"></i>
+        </span>
+           <span class="label">Usuario</span>
+         </div>
+         <p class="block has-text-centered">{{authService.obtenerNombre()}}</p>
        </div>
      </div>
      <div class="hitem" style="align-self: flex-end; margin-left: auto">
