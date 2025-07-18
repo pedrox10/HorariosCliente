@@ -21,11 +21,31 @@ a.is-disabled {
 
 .consola {
   background-color: #dedede;
-  padding: 3px
+  padding: 3px;
+  font-size: 0.85em;
 }
 
 .consola.is-loading {
   background-color: transparent;
   height: 21px;
   border: none;
+}
+
+/* Contenedor principal del Grid */
+.info-grid-container {
+  display: grid;
+  grid-template-columns: auto 1fr 1fr;
+  row-gap: 1rem;   /* Espacio vertical entre cada fila (par etiqueta-valor) */
+  column-gap: 1rem;  /* Espacio horizontal entre la etiqueta y el valor */
+}
+
+.field-label {
+  font-weight: bold;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.field-value {
+  white-space: nowrap;
+  text-align: center;
 }

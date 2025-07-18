@@ -5,7 +5,7 @@ import {ActivatedRoute, RouterLink} from "@angular/router";
 import {TerminalService} from "../../../servicios/terminal.service";
 import {Location} from "@angular/common";
 import {ModalService} from "ngx-modal-ease";
-import {color, mensaje} from "../../inicio/Global";
+import {color, mensaje, notificacion} from "../../inicio/Global";
 import {ComandosService} from "../../../servicios/comandos.service";
 
 @Component({
@@ -63,6 +63,13 @@ export class ComandosComponent implements OnInit, AfterViewInit {
         this.bloqueado = false;
       }
     });
+  }
+
+  infoCapacidad() {
+    let resumen = "<ạ>Nuevas marcaciones: </a>" + "dato" + "<br>" +
+      "Usuarios agregados: " + "dato" + "<br>" +
+      "Usuarios eliminados: " + "dato" + "<br>"
+    notificacion(resumen)
   }
 
   irAtras() {
