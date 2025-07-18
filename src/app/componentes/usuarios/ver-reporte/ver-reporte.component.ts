@@ -294,7 +294,7 @@ export class VerReporteComponent implements OnInit{
         const startRow = 8;
         this.filasExcel.forEach((fila, i) => {
           const row = worksheet!.getRow(startRow + i);
-          row.height = 16.5;
+          row.height = 20;
           row.getCell(1).value = i + 1;
           row.getCell(2).value = fila.nombre;
           row.getCell(3).value = fila.ci;
