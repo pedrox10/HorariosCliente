@@ -7,16 +7,17 @@
 
 .comando {
   min-width: 355px;
+  width: 370px;
   max-width: 390px;
 }
 
 a.is-disabled {
-  pointer-events: none;         /* Evita clics */
-  color: #bbb !important;       /* Color apagado */
-  background-color: #f5f5f5;    /* Fondo claro opcional */
-  cursor: not-allowed;          /* Cursor de prohibido */
-  text-decoration: none;        /* Sin subrayado */
-  opacity: 0.6;                 /* Más apagado visualmente */
+  pointer-events: none;
+  color: #bbb !important;
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  text-decoration: none;
+  opacity: 0.6;
 }
 
 .consola {
