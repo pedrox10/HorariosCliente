@@ -81,7 +81,7 @@
         <i class="fas fa-terminal has-text-primary consola"></i>
       </div>
       <footer class="card-footer">
-        <a href="#" class="card-footer-item">Obtener Información</a>
+        <a (click)="infoExtra()" class="card-footer-item">Obtener Información</a>
       </footer>
     </div>
 
@@ -96,7 +96,7 @@
       </header>
       <div class="card-content">
         <div class="content">
-          Comandos para obtener y modificar la fecha y hora del dipositivo
+          Comandos para obtener, modificar la fecha y hora del dipositivo
         </div>
       </div>
       <div style="text-align: center" class="mb-1">
@@ -104,7 +104,27 @@
       </div>
       <footer class="card-footer">
         <a href="#" class="card-footer-item">Obtener Fecha</a>
-        <a href="#" class="card-footer-item has-text-warning">Cambiar Fecha</a>
+        <div class="hitem">
+          <a href="#" class="card-footer-item has-text-warning">
+            Cambiar Fecha
+            <div class="dropdown is-hoverable">
+              <div class="dropdown-trigger">
+                <i class="fas fa-exclamation-triangle pl-1"></i>
+              </div>
+              <div class="dropdown-menu" role="menu">
+                <div class="dropdown-content popup" style="background: linear-gradient(360deg, #fcfaf7 0%, #fdf7e7 100%); border: 1px #f4d27b solid;">
+                  <div class="contenido" style='color: #786450;'>
+                        <span style="font-weight: normal">
+                          Se utiliza la fecha y hora del biométrico al momento de la sincronización
+                          para evitar duplicidad o pérdida de marcaciones
+                        </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+
+        </div>
       </footer>
     </div>
 
@@ -126,7 +146,7 @@
         <i class="fas fa-terminal has-text-primary consola"></i>
       </div>
       <footer class="card-footer">
-        <a href="#" class="card-footer-item has-text-danger">Borrar Registros de Asistencia</a>
+        <a href="#" class="card-footer-item has-text-danger">Borrar Registros de Asistencia<i class="fas fa-exclamation-triangle pl-1"></i></a>
       </footer>
     </div>
 
@@ -148,9 +168,9 @@
         <i class="fas fa-terminal has-text-primary consola"></i>
       </div>
       <footer class="card-footer">
-        <a href="#" class="card-footer-item">Apagar</a>
-        <a href="#" class="card-footer-item">Reiniciar</a>
-        <a href="#" class="card-footer-item has-text-danger">Borrar Todo</a>
+        <a class="card-footer-item">Apagar</a>
+        <a class="card-footer-item">Reiniciar</a>
+        <a class="card-footer-item has-text-danger">Borrar Todo <i class="fas fa-exclamation-triangle pl-1"></i></a>
       </footer>
     </div>
   </div>
@@ -160,7 +180,7 @@
     <div class="modal-card" style="width: 350px;">
       <header class="modal-card-head">
         <p class="modal-card-title">Capacidad y Espacio</p>
-        <button class="delete" aria-label="close"></button>
+        <button class="delete" (click)="ocultarInfoCapacidad()"></button>
       </header>
       <section class="modal-card-body">
         <div class="content">
@@ -193,7 +213,7 @@
     <div class="modal-card" style="width: 600px;">
       <header class="modal-card-head">
         <p class="modal-card-title">Información Extra</p>
-        <button class="delete" aria-label="close"></button>
+        <button class="delete" (click)="ocultarInfoExtra()"></button>
       </header>
       <section class="modal-card-body">
         <div class="content">

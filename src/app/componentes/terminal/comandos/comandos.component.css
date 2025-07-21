@@ -1,13 +1,13 @@
 .comandos {
   display: flex;
   flex-direction: row;
-  gap: 15px;
+  gap: 20px;
   flex-wrap: wrap;
 }
 
 .comando {
-  min-width: 225px;
-  max-width: 350px;
+  min-width: 355px;
+  max-width: 390px;
 }
 
 a.is-disabled {

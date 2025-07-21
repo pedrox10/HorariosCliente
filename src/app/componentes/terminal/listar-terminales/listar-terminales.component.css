@@ -17,9 +17,11 @@
 
 .button.seleccionado {
   border: 1px solid #96e6ea !important;
+  background-color: #e2fafd !important;
   box-shadow: none !important;
 }
 
 .button:hover {
   border: 1px solid #96e6ea  !important;
+  background-color: #e2fafd !important;
 }

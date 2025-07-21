@@ -66,10 +66,23 @@ export class ComandosComponent implements OnInit, AfterViewInit {
   }
 
   infoCapacidad() {
-    let resumen = "<ạ>Nuevas marcaciones: </a>" + "dato" + "<br>" +
-      "Usuarios agregados: " + "dato" + "<br>" +
-      "Usuarios eliminados: " + "dato" + "<br>"
-    notificacion(resumen)
+    let div = document.getElementById("info_capacidad_modal") as HTMLDivElement
+    div.classList.add("is-active")
+  }
+
+  ocultarInfoCapacidad() {
+    let div = document.getElementById("info_capacidad_modal") as HTMLDivElement
+    div.classList.remove("is-active")
+  }
+
+  infoExtra() {
+    let div = document.getElementById("info_extra_modal") as HTMLDivElement
+    div.classList.add("is-active")
+  }
+
+  ocultarInfoExtra() {
+    let div = document.getElementById("info_extra_modal") as HTMLDivElement
+    div.classList.remove("is-active")
   }
 
   irAtras() {
