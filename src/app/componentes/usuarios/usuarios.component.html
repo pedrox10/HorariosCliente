@@ -24,16 +24,19 @@
             <p class="help">Seleccionados: {{usuariosSeleccionados.length}}</p>
             <div class="hitem">
               <button class="button amarillo" (click)="asignarHorario()"
+                [ngClass]="{ 'desactivado': estadoEsEliminado }"
                 style="background-color: {{getColor('Amarillo')}}; border-radius: 5px">
                 <span class="icon"><i class="fas fa-user-clock"></i></span>
                 <span>Asignar Horario</span>
               </button>
               <button class="button naranja" (click)="seleccionarRango()"
+                [ngClass]="{ 'desactivado': estadoEsEliminado }"
                 style="background-color: {{getColor('Naranja')}}; border-radius: 5px;">
                 <span class="icon"><i class="fas fa-file-alt"></i></span>
                 <span>Reporte general</span>
               </button>
               <button class="button crema" (click)="modalAsignarGrupo()"
+                [ngClass]="{ 'desactivado': estadoEsEliminado }"
                 style="background-color: {{getColor('Crema')}}; border-radius: 5px;">
                 <span class="icon has-tooltip-arrow expand" data-tooltip="Asignar Grupo"><i class="fas fa-users"></i></span>
               </button>
@@ -159,7 +162,8 @@
                   <i class="far fa-calendar-alt icon-btn"></i>
                 </span>
                 @if(isAdmin) {
-                <span class="icon has-tooltip-arrow expand" data-tooltip="Editar Funcionario" (click)="editarUsuario(usuario.id)">
+                <span class="icon has-tooltip-arrow expand" data-tooltip="Editar Funcionario" (click)="editarUsuario(usuario.id)"
+                      [ngClass]="{ 'desactivado': estadoEsEliminado }">
                   <i class="far fa-edit icon-btn"></i>
                 </span>
                 }

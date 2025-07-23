@@ -63,6 +63,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   showScrollButton = false;
   isAdmin: boolean;
   isCargando = true;
+  estadoEsEliminado = false;
   fc_confirmado = new FormControl(false);
 
   constructor(public terminalService: TerminalService,private router: Router,
@@ -105,6 +106,8 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
             2: "rb_eliminado",
           };
           const radioId = estadoMap[env.estado];
+          if(env.estado == 2)
+            this.estadoEsEliminado = true
           if (radioId) {
             const radio = document.getElementById(radioId) as HTMLInputElement | null;
             if (radio) {
@@ -422,6 +425,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     // Resetear filtros
     this.estado = undefined;
     env.filtrarEstado = false;
+    this.estadoEsEliminado = false
     env.estado = -1;
     env.textoBusqueda = "";
     this.idGrupo = -1; // Quita el filtro de grupo
@@ -640,6 +644,10 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   filtrarPorEstado(ev: any) {
     let valor = (<HTMLInputElement>ev.target).value;
     this.estado = parseInt(valor);
+    if(this.estado == 2)
+      this.estadoEsEliminado = true
+    else
+      this.estadoEsEliminado = false
     env.filtrarEstado = true;
     env.estado = this.estado;
     this.aplicarFiltros();
@@ -684,6 +692,10 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
             let index = this.terminal.grupos.map((i: Grupo) => i.id).indexOf(data.id);
             this.terminal.grupos[index] = data;
             this.ocultarAccionGrupo()
+            let usuarioAfectados = this.usuarios.filter(u => u.grupo?.id === data.id)
+            for(let usuario of usuarioAfectados) {
+              usuario.grupo = data
+            }
             mensaje("¡Grupo Editado!", "is-success")
           },
           (error: any) => {
@@ -713,6 +725,9 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
       (data: any) => {
         let index = this.terminal.grupos.map((i: Grupo) => i.id).indexOf(this.grupoActual.id);
         this.terminal.grupos.splice(index, 1);
+        console.log(data)
+        this.usuarios.filter(u => u.grupo?.id === data)
+          .map(u => u.grupo = null);
         this.ocultarEliminarGrupo()
         mensaje("¡Grupo Editado!", "is-success")
       },
