@@ -33,7 +33,7 @@ import {AuthService} from "../../../servicios/auth.service";
 export class VerReporteComponent implements OnInit{
 
   usuarios: Usuario[] = [];
-  fileName= 'ReporteGral.xlsx';
+  fileName= '';
   terminal: string | any;
   fechaIni: string | any;
   fechaFin: string | any;
@@ -274,6 +274,8 @@ export class VerReporteComponent implements OnInit{
       .then(buffer => workbook.xlsx.load(buffer))
       .then(() => {
         const worksheet = workbook.getWorksheet(1); // o por nombre: workbook.getWorksheet('Reporte');
+        let rango = `${moment(this.fechaIni, 'YYYYMMDD').format('DD.MM.YYYY')}-${moment(this.fechaFin, 'YYYYMMDD').format('DD.MM.YYYY')}`;
+        this.fileName = this.terminal + " " + rango + ".xlsx";
         // 👉 Cabecera
         worksheet!.getCell('C1').value = "PLANILLA DE  ASISTENCIA, RETRASOS Y DESCUENTOS " + this.terminal
         worksheet!.getCell('E2').value = `${moment(this.fechaIni, 'YYYYMMDD').format('DD/MM/YYYY')} - ${moment(this.fechaFin, 'YYYYMMDD').format('DD/MM/YYYY')}`;

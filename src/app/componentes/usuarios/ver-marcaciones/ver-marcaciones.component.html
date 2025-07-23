@@ -151,7 +151,7 @@
         </div>
       </div>
     </div>
-    <div class="column is-narrow" style="box-sizing: border-box; width: fit-content;">
+    <div class="column is-narrow" style="box-sizing: border-box; width: fit-content; position: relative">
       <div class="hbox" style="align-content: space-between !important;">
         <div class="vinput">
           <label class="label" style="text-align: center">Elije un rango de fechas</label>
@@ -166,7 +166,8 @@
           </button>
         </div>
       </div>
-      <table class="table marcaciones is-bordered">
+      <table class="table marcaciones is-bordered"
+             [class.table-loading]="isCargando" [class.table-overlay]="isCargando">
         <tr>
           <th></th>
           <th></th>
@@ -533,6 +534,13 @@
         }
         </tbody>
       </table>
+      @if(isCargando) {
+      <div class="spinner-center">
+        <button class="button is-size-1 is-loading is-white is-medium"
+                style="border: none; background-color: transparent; ">Cargando
+        </button>
+      </div>
+      }
     </div>
   </div>
 </div>

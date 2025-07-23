@@ -45,6 +45,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   ultimaSincronizacion: Date|any = undefined
   textUltSincronizacion=""
   public estado;
+  isCargando = true
 
   constructor(public terminalService: TerminalService, public location: Location, public modalService: ModalService) {
 
@@ -92,6 +93,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
         picker.on('select', (e) => {
           const start = moment(picker.getStartDate()).format("YYYYMMDD");
           const end = moment(picker.getEndDate()).format('YYYYMMDD');
+          this.isCargando = true;
           this.getResumenMarcaciones(this.id, start, end)
         })
       },
@@ -106,6 +108,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       (data: any) => {
         this.rm = data;
         console.log(data)
+        this.isCargando = false;
         if(this.rm.mensajeError) {
           console.log(this.rm.mensajeError)
         }
