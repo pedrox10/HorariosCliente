@@ -283,8 +283,8 @@ export class VerReporteComponent implements OnInit{
         // 👉 2. Encabezados en A7
         const headers = [
           "#", "NOMBRE", "CI", "FECHA DE ALTA EN BIOMETRICO", "DÍAS COMP.",
-          "RETRASO [min]", "SIN MARCAR", "SALIÓ ANTES", "FALTAS", "TOTAL SANCION",
-          "PERMISOS SG", "OBSERVACIONES"
+          "RETRASO [min]", "SIN MARCAR", "SALIÓ ANTES", "FALTAS", "TOTAL SANCION [días]",
+          "PERMISOS SG [días]", "OBSERVACIONES"
         ];
         headers.forEach((header, index) => {
           worksheet!.getCell(7, index + 1).value = header;
