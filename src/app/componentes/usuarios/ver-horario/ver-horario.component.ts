@@ -180,8 +180,22 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
       data: {usuarios, fechaMin, fechaIni, fechaFin}
     })
       .subscribe((data) => {
-        if (data !== undefined)
-          console.log("accion cerrar modal")
+        if (data !== undefined) {
+          console.log("Seleccionadas", this.jornadasSeleccionadas)
+          console.log("Asignadas desde el servidor:", data.jornadasAsignadas);
+          for (let semana of this.calendar) {
+            for (let i = 0; i < semana.dias.length; i++) {
+              const j = semana.dias[i];
+              if (j) {
+                const nueva = data.jornadasAsignadas.find((nj: any) =>
+                  moment(nj.fecha).format('YYYY-MM-DD') === moment(j.fecha).format('YYYY-MM-DD'));
+                if (nueva) {
+                  semana.dias[i] = nueva;
+                }
+              }
+            }
+          }
+        }
       });
   }
 

@@ -404,6 +404,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
           })
             .subscribe((data) => {
               if (data !== undefined) {
+                console.log(data)
                 for(let usuario of this.usuariosSeleccionados) {
                   if(data.res === true) {
                     usuario.ultAsignacion = data.ultDiaAsignado;
