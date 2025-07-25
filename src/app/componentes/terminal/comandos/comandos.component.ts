@@ -21,7 +21,11 @@ export class ComandosComponent implements OnInit, AfterViewInit {
   public idTerminal = this.activatedRoute.snapshot.params['id'];
   nombreTerminal: string | any;
   ipTerminal: string | any;
-  bloqueado = false;
+  esConectar = false;
+  esInfoCapacidad = false;
+  esInfoExtra = false;
+  jsonInfoCapacidad: any;
+  jsonInfoExtra: any;
 
   constructor(private location: Location, private comandosService: ComandosService, private terminalService: TerminalService) {
 
@@ -46,7 +50,7 @@ export class ComandosComponent implements OnInit, AfterViewInit {
 
   conectar() {
     document.getElementById("ic_conectar")?.classList.add("button", "is-loading");
-    this.bloqueado = true;
+    this.esConectar = true;
     this.comandosService.conectar(this.idTerminal).subscribe({
       next: (data: any) => {
         let respuesta = JSON.parse(data)
@@ -55,19 +59,42 @@ export class ComandosComponent implements OnInit, AfterViewInit {
         else
           mensaje("¡Terminal sin conexión!", "is-danger")
         document.getElementById("ic_conectar")?.classList.remove("button", "is-loading");
-        this.bloqueado = false;
+        this.esConectar = false;
       },
       error: err => {
         mensaje("¡Error en el servidor!", "is-danger")
         document.getElementById("ic_conectar")?.classList.remove("button", "is-loading");
-        this.bloqueado = false;
+        this.esConectar = false;
       }
     });
   }
 
   infoCapacidad() {
+    document.getElementById("ic_info_cap")?.classList.add("button", "is-loading");
+    this.esInfoCapacidad = true;
+    this.comandosService.infoCapacidad(this.idTerminal).subscribe({
+      next: (data: any) => {
+        let respuesta = JSON.parse(data)
+        if(respuesta.success === true) {
+          this.jsonInfoCapacidad = respuesta.info_capacidad
+          mensaje("¡Comando enviado!", "is-success")
+        }
+
+        else
+          mensaje("¡Terminal sin conexión!", "is-danger")
+        document.getElementById("ic_info_cap")?.classList.remove("button", "is-loading");
+        this.esInfoCapacidad = false;
+      },
+      error: err => {
+        mensaje("¡Error en el servidor!", "is-danger")
+        document.getElementById("ic_info_cap")?.classList.remove("button", "is-loading");
+        this.esInfoCapacidad = false;
+      }
+    });
     let div = document.getElementById("info_capacidad_modal") as HTMLDivElement
-    div.classList.add("is-active")
+    setTimeout(() => {
+      div.classList.add("is-active")
+    }, 1000);
   }
 
   ocultarInfoCapacidad() {
@@ -76,8 +103,30 @@ export class ComandosComponent implements OnInit, AfterViewInit {
   }
 
   infoExtra() {
+    document.getElementById("ic_info_extra")?.classList.add("button", "is-loading");
+    this.esInfoExtra = true;
+    this.comandosService.infoExtra(this.idTerminal).subscribe({
+      next: (data: any) => {
+        let respuesta = JSON.parse(data)
+        if(respuesta.success === true) {
+          this.jsonInfoExtra = respuesta.info_extra
+          mensaje("¡Comando enviado!", "is-success")
+        }
+        else
+          mensaje("¡Terminal sin conexión!", "is-danger")
+        document.getElementById("ic_info_cap")?.classList.remove("button", "is-loading");
+        this.esInfoCapacidad = false;
+      },
+      error: err => {
+        mensaje("¡Error en el servidor!", "is-danger")
+        document.getElementById("ic_info_cap")?.classList.remove("button", "is-loading");
+        this.esInfoCapacidad = false;
+      }
+    });
     let div = document.getElementById("info_extra_modal") as HTMLDivElement
-    div.classList.add("is-active")
+    setTimeout(() => {
+      div.classList.add("is-active")
+    }, 1000);
   }
 
   ocultarInfoExtra() {

@@ -18,7 +18,7 @@
       }
     </div>
   </div>
-  <div class="comandos  animate__animated animate__fadeIn" id="comandos">
+  <div class="comandos animate__animated animate__fadeIn" id="comandos">
     <div class="card comando">
       <header class="card-header">
         <p class="card-header-title">Conexión</p>
@@ -37,8 +37,8 @@
         <i id="ic_conectar" class="fas fa-terminal has-text-primary consola"></i>
       </div>
       <footer class="card-footer">
-        <a (click)="conectar()" class="card-footer-item" [class.is-disabled]="bloqueado"
-           [style.pointerEvents]="bloqueado ? 'none' : 'auto'">Probar Conexión</a>
+        <a (click)="conectar()" class="card-footer-item" [class.is-disabled]="esConectar"
+           [style.pointerEvents]="esConectar ? 'none' : 'auto'">Probar Conexión</a>
       </footer>
     </div>
 
@@ -57,10 +57,11 @@
         </div>
       </div>
       <div style="text-align: center" class="mb-1">
-        <i class="fas fa-terminal has-text-primary consola"></i>
+        <i id="ic_info_cap" class="fas fa-terminal has-text-primary consola"></i>
       </div>
       <footer class="card-footer">
-        <a class="card-footer-item" (click)="infoCapacidad()">Obtener Información</a>
+        <a class="card-footer-item" (click)="infoCapacidad()" [class.is-disabled]="esInfoCapacidad"
+           [style.pointerEvents]="esInfoCapacidad ? 'none' : 'auto'">Obtener Información</a>
       </footer>
     </div>
     <div class="card comando">
@@ -78,7 +79,7 @@
         </div>
       </div>
       <div style="text-align: center" class="mb-1">
-        <i class="fas fa-terminal has-text-primary consola"></i>
+        <i id="ic_info_extra" class="fas fa-terminal has-text-primary consola"></i>
       </div>
       <footer class="card-footer">
         <a (click)="infoExtra()" class="card-footer-item">Obtener Información</a>
@@ -176,7 +177,7 @@
   </div>
 
   <div class="modal" id="info_capacidad_modal">
-    <div class="modal-background" id="fondo_grupo" style="opacity: 0.75;"></div>
+    <div class="modal-background" id="fondo_cap" style="opacity: 0.75;"></div>
     <div class="modal-card" style="width: 350px;">
       <header class="modal-card-head">
         <p class="modal-card-title">Capacidad y Espacio</p>
@@ -189,28 +190,34 @@
             <div class="field-value semibold">Cantidad</div>
             <div class="field-value semibold">Cap. Máxima</div>
             <div class="field-value" style="text-align: left">Usuarios</div>
-            <div class="field-value">0</div>
-            <div class="field-value">0</div>
+            <div class="field-value">{{jsonInfoCapacidad?.users}}</div>
+            <div class="field-value">{{jsonInfoCapacidad?.users_cap}}</div>
             <div class="field-value" style="text-align: left">Huellas</div>
-            <div class="field-value">0</div>
-            <div class="field-value">0</div>
+            <div class="field-value">{{jsonInfoCapacidad?.fingers}}</div>
+            <div class="field-value">{{jsonInfoCapacidad?.fingers_cap}}</div>
             <div class="field-value" style="text-align: left">Marcaciones</div>
-            <div class="field-value">0</div>
-            <div class="field-value">0</div>
+            <div class="field-value">{{jsonInfoCapacidad?.records}}</div>
+            <div class="field-value">
+              <div class="hitem" style="justify-content: center">100000 <span class="help is-warning">*</span></div>
+            </div>
             <div class="field-value" style="text-align: left">Rostros</div>
-            <div class="field-value">0</div>
-            <div class="field-value">0</div>
+            <div class="field-value">{{jsonInfoCapacidad?.faces}}</div>
+            <div class="field-value">{{jsonInfoCapacidad?.faces_cap}}</div>
           </div>
         </div>
       </section>
       <footer class="modal-card-foot">
+        <div class="hitem" style="justify-content: center">
+          <span class="help is-warning">*</span>
+          <span class="help">No se puede acceder a este atributo en los terminales. Se muestra un valor que la mayoría de modelos manejan</span>
+        </div>
       </footer>
     </div>
   </div>
 
   <div class="modal" id="info_extra_modal">
-    <div class="modal-background" id="fondo_grupo" style="opacity: 0.75;"></div>
-    <div class="modal-card" style="width: 600px;">
+    <div class="modal-background" id="fondo_extra" style="opacity: 0.75;"></div>
+    <div class="modal-card" style="width: 650px;">
       <header class="modal-card-head">
         <p class="modal-card-title">Información Extra</p>
         <button class="delete" (click)="ocultarInfoExtra()"></button>
@@ -221,57 +228,61 @@
             <div class="column is-flex is-flex-direction-column" style="gap: 1rem;">
               <div>
                 <span class="has-text-weight-semibold">Versión de Firmware:</span>
-                <span class="ml-2" id="firmware">Cargando...</span>
+                <span class="ml-2" id="firmware">{{jsonInfoExtra?.firmware_version}}</span>
               </div>
               <div>
                 <span class="has-text-weight-semibold">Número de Serie:</span>
-                <span class="ml-2" id="serial">Cargando...</span>
+                <span class="ml-2" id="serial">{{jsonInfoExtra?.serial_number}}</span>
               </div>
               <div>
                 <span class="has-text-weight-semibold">Plataforma:</span>
-                <span class="ml-2" id="platform">Cargando...</span>
+                <span class="ml-2" id="platform">{{jsonInfoExtra?.platform}}</span>
               </div>
               <div>
                 <span class="has-text-weight-semibold">Nombre del Dispositivo:</span>
-                <span class="ml-2" id="device_name">Cargando...</span>
+                <span class="ml-2" id="device_name">{{jsonInfoExtra?.device_name}}</span>
               </div>
               <div>
                 <span class="has-text-weight-semibold">Versión de Face:</span>
-                <span class="ml-2" id="face_version">Cargando...</span>
+                <span class="ml-2" id="face_version">{{jsonInfoExtra?.face_version}}</span>
               </div>
               <div>
                 <span class="has-text-weight-semibold">Versión de Huella:</span>
-                <span class="ml-2" id="fp_version">Cargando...</span>
+                <span class="ml-2" id="fp_version">{{jsonInfoExtra?.fp_version}}</span>
               </div>
               <div>
                 <span class="has-text-weight-semibold">Formato Extendido:</span>
-                <span class="ml-2" id="extend_fmt">Cargando...</span>
+                <span class="ml-2" id="extend_fmt">{{jsonInfoExtra?.extend_format}}</span>
+              </div>
+              <div>
+                <span class="has-text-weight-semibold">Formato Usuario Extendido:</span>
+                <span class="ml-2" id="user_extend_fmt">{{jsonInfoExtra?.user_extend_format}}</span>
               </div>
             </div>
             <div class="column is-flex is-flex-direction-column" style="gap: 1rem;">
               <div>
-                <span class="has-text-weight-semibold">Formato Usuario Extendido:</span>
-                <span class="ml-2" id="user_extend_fmt">Cargando...</span>
-              </div>
-              <div>
                 <span class="has-text-weight-semibold">Función Facial Activada:</span>
-                <span class="ml-2" id="face_fun_on">Cargando...</span>
+                <span class="ml-2" id="face_fun_on">{{jsonInfoExtra?.face_function_on}}</span>
               </div>
               <div>
-                <span class="has-text-weight-semibold">Compatibilidad Firmware Viejo:</span>
-                <span class="ml-2" id="compat_old_fw">Cargando...</span>
+                <span class="has-text-weight-semibold">Compatibilidad Firmware Antiguo:</span>
+                <span class="ml-2" id="compat_old_fw">{{jsonInfoExtra?.compat_old_firmware}}</span>
               </div>
               <div>
                 <span class="has-text-weight-semibold">Parámetros de Red:</span>
-                <span class="ml-2" id="network_params">Cargando...</span>
+                <div class="vbox">
+                  <div class="hitem"><span class="has-text-info">Dirección IP:</span>{{jsonInfoExtra?.network_parameters.ip}}</div>
+                  <div class="hitem"><span class="has-text-info">Máscara de red:</span>{{jsonInfoExtra?.network_parameters.mask}}</div>
+                  <div class="hitem"><span class="has-text-info">Puerta de enlace:</span>{{jsonInfoExtra?.network_parameters.gateway}}</div>
+                </div>
               </div>
               <div>
                 <span class="has-text-weight-semibold">Dirección MAC:</span>
-                <span class="ml-2" id="mac">Cargando...</span>
+                <span class="ml-2" id="mac">{{jsonInfoExtra?.mac_address}}</span>
               </div>
               <div>
                 <span class="has-text-weight-semibold">Ancho del PIN:</span>
-                <span class="ml-2" id="pin_width">Cargando...</span>
+                <span class="ml-2" id="pin_width">{{jsonInfoExtra?.pin_width}}</span>
               </div>
             </div>
           </div>

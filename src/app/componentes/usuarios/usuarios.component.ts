@@ -725,12 +725,14 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     this.terminalService.eliminarGrupo(this.terminal.id, this.grupoActual.id).subscribe(
       (data: any) => {
         let index = this.terminal.grupos.map((i: Grupo) => i.id).indexOf(this.grupoActual.id);
+        if(this.idGrupo === data)
+          this.filtrarPorGrupo(this.grupoActual.id)
         this.terminal.grupos.splice(index, 1);
         console.log(data)
         this.usuarios.filter(u => u.grupo?.id === data)
           .map(u => u.grupo = null);
         this.ocultarEliminarGrupo()
-        mensaje("¡Grupo Editado!", "is-success")
+        mensaje("¡Grupo Eliminado!", "is-success")
       },
       (error: any) => {
         console.error('An error occurred:', error);

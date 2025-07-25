@@ -16,4 +16,12 @@ export class ComandosService {
   public conectar(id: number) {
     return this.http.get(`${this.apiUrl}/terminal/${id}/conectar`);
   }
+
+  public infoCapacidad(id: number) {
+    return this.http.get(`${this.apiUrl}/terminal/${id}/info-capacidad`);
+  }
+
+  public infoExtra(id: number) {
+    return this.http.get(`${this.apiUrl}/terminal/${id}/info-extra`);
+  }
 }
