@@ -24,4 +24,8 @@ export class ComandosService {
   public infoExtra(id: number) {
     return this.http.get(`${this.apiUrl}/terminal/${id}/info-extra`);
   }
+
+  public horaActual(id: number) {
+    return this.http.get(`${this.apiUrl}/terminal/${id}/hora-actual`);
+  }
 }

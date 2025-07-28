@@ -7,6 +7,7 @@ import {Location} from "@angular/common";
 import {ModalService} from "ngx-modal-ease";
 import {color, mensaje, notificacion} from "../../inicio/Global";
 import {ComandosService} from "../../../servicios/comandos.service";
+import moment from "moment";
 
 @Component({
   selector: 'app-comandos',
@@ -24,8 +25,11 @@ export class ComandosComponent implements OnInit, AfterViewInit {
   esConectar = false;
   esInfoCapacidad = false;
   esInfoExtra = false;
+  esHoraActual = false;
+
   jsonInfoCapacidad: any;
   jsonInfoExtra: any;
+  jsonHoraActual: any;
 
   constructor(private location: Location, private comandosService: ComandosService, private terminalService: TerminalService) {
 
@@ -78,9 +82,11 @@ export class ComandosComponent implements OnInit, AfterViewInit {
         if(respuesta.success === true) {
           this.jsonInfoCapacidad = respuesta.info_capacidad
           mensaje("¡Comando enviado!", "is-success")
-        }
-
-        else
+          let div = document.getElementById("info_capacidad_modal") as HTMLDivElement
+          setTimeout(() => {
+            div.classList.add("is-active")
+          }, 1000);
+        } else
           mensaje("¡Terminal sin conexión!", "is-danger")
         document.getElementById("ic_info_cap")?.classList.remove("button", "is-loading");
         this.esInfoCapacidad = false;
@@ -91,10 +97,6 @@ export class ComandosComponent implements OnInit, AfterViewInit {
         this.esInfoCapacidad = false;
       }
     });
-    let div = document.getElementById("info_capacidad_modal") as HTMLDivElement
-    setTimeout(() => {
-      div.classList.add("is-active")
-    }, 1000);
   }
 
   ocultarInfoCapacidad() {
@@ -111,26 +113,56 @@ export class ComandosComponent implements OnInit, AfterViewInit {
         if(respuesta.success === true) {
           this.jsonInfoExtra = respuesta.info_extra
           mensaje("¡Comando enviado!", "is-success")
-        }
-        else
+          let div = document.getElementById("info_extra_modal") as HTMLDivElement
+          setTimeout(() => {
+            div.classList.add("is-active")
+          }, 1000);
+        } else
           mensaje("¡Terminal sin conexión!", "is-danger")
-        document.getElementById("ic_info_cap")?.classList.remove("button", "is-loading");
-        this.esInfoCapacidad = false;
+        document.getElementById("ic_info_extra")?.classList.remove("button", "is-loading");
+        this.esInfoExtra = false;
       },
       error: err => {
         mensaje("¡Error en el servidor!", "is-danger")
-        document.getElementById("ic_info_cap")?.classList.remove("button", "is-loading");
-        this.esInfoCapacidad = false;
+        document.getElementById("ic_info_extra")?.classList.remove("button", "is-loading");
+        this.esInfoExtra = false;
       }
     });
-    let div = document.getElementById("info_extra_modal") as HTMLDivElement
-    setTimeout(() => {
-      div.classList.add("is-active")
-    }, 1000);
   }
 
   ocultarInfoExtra() {
     let div = document.getElementById("info_extra_modal") as HTMLDivElement
+    div.classList.remove("is-active")
+  }
+
+  horaActual() {
+    document.getElementById("ic_hora_actual")?.classList.add("button", "is-loading");
+    this.esHoraActual = true;
+    this.comandosService.horaActual(this.idTerminal).subscribe({
+      next: (data: any) => {
+        let respuesta = JSON.parse(data)
+        if(respuesta.success === true) {
+          this.jsonHoraActual = moment(respuesta.hora_actual).format("DD/MM/YYYY HH:mm:ss")
+          mensaje("¡Comando enviado!", "is-success")
+          let div = document.getElementById("hora_actual_modal") as HTMLDivElement
+          setTimeout(() => {
+            div.classList.add("is-active")
+          }, 1000);
+        } else
+          mensaje("¡Terminal sin conexión!", "is-danger")
+        document.getElementById("ic_hora_actual")?.classList.remove("button", "is-loading");
+        this.esHoraActual = false;
+      },
+      error: err => {
+        mensaje("¡Error en el servidor!", "is-danger")
+        document.getElementById("ic_hora_actual")?.classList.remove("button", "is-loading");
+        this.esHoraActual = false;
+      }
+    });
+  }
+
+  ocultarHoraActual() {
+    let div = document.getElementById("hora_actual_modal") as HTMLDivElement
     div.classList.remove("is-active")
   }
 

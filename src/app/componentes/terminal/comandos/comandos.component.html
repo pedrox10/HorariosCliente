@@ -82,7 +82,8 @@
         <i id="ic_info_extra" class="fas fa-terminal has-text-primary consola"></i>
       </div>
       <footer class="card-footer">
-        <a (click)="infoExtra()" class="card-footer-item">Obtener Información</a>
+        <a class="card-footer-item" (click)="infoExtra()" [class.is-disabled]="esInfoExtra"
+           [style.pointerEvents]="esInfoExtra ? 'none' : 'auto'">Obtener Información</a>
       </footer>
     </div>
 
@@ -101,10 +102,11 @@
         </div>
       </div>
       <div style="text-align: center" class="mb-1">
-        <i class="fas fa-terminal has-text-primary consola"></i>
+        <i id="ic_hora_actual" class="fas fa-terminal has-text-primary consola"></i>
       </div>
       <footer class="card-footer">
-        <a href="#" class="card-footer-item">Obtener Fecha</a>
+        <a (click)="horaActual()" class="card-footer-item" [class.is-disabled]="esHoraActual"
+           [style.pointerEvents]="esHoraActual ? 'none' : 'auto'">Obtener Fecha</a>
         <div class="hitem">
           <a href="#" class="card-footer-item has-text-warning">
             Cambiar Fecha
@@ -115,16 +117,14 @@
               <div class="dropdown-menu" role="menu">
                 <div class="dropdown-content popup" style="background: linear-gradient(360deg, #fcfaf7 0%, #fdf7e7 100%); border: 1px #f4d27b solid;">
                   <div class="contenido" style='color: #786450;'>
-                        <span style="font-weight: normal">
-                          Se utiliza la fecha y hora del biométrico al momento de la sincronización
-                          para evitar duplicidad o pérdida de marcaciones
-                        </span>
+                    <span style="font-weight: normal">
+                      <span class="semibold">Operacion sensible:</span> modifica la fecha y hora actual del dispositivo.
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
           </a>
-
         </div>
       </footer>
     </div>
@@ -147,7 +147,23 @@
         <i class="fas fa-terminal has-text-primary consola"></i>
       </div>
       <footer class="card-footer">
-        <a href="#" class="card-footer-item has-text-danger">Borrar Registros de Asistencia<i class="fas fa-exclamation-triangle pl-1"></i></a>
+        <a href="#" class="card-footer-item has-text-danger">
+          Borrar Registros de Asistencia
+          <div class="dropdown is-hoverable">
+            <div class="dropdown-trigger">
+              <i class="fas fa-exclamation-triangle pl-1"></i>
+            </div>
+            <div class="dropdown-menu" role="menu">
+              <div class="dropdown-content popup" style="background: linear-gradient(360deg, #fcfaf7 0%, #fdf7e7 100%); border: 1px #f4d27b solid;">
+                <div class="contenido" style='color: #786450;'>
+                  <span style="font-weight: normal">
+                    <span class="semibold">Operacion crítica:</span> borra todas las marcaciones del dispositivo.
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
       </footer>
     </div>
 
@@ -170,15 +186,32 @@
       </div>
       <footer class="card-footer">
         <a class="card-footer-item">Apagar</a>
+        <a class="card-footer-item has-text-danger">
+          Borrar Todo
+          <div class="dropdown is-hoverable">
+            <div class="dropdown-trigger">
+              <i class="fas fa-exclamation-triangle pl-1"></i>
+            </div>
+            <div class="dropdown-menu" role="menu">
+              <div class="dropdown-content popup" style="background: linear-gradient(360deg, #fcfaf7 0%, #fdf7e7 100%); border: 1px #f4d27b solid;">
+                <div class="contenido" style='color: #786450;'>
+                        <span style="font-weight: normal">
+                          <span class="semibold">Operacion crítica:</span>
+                          borra usuarios, marcaciones, huellas, rostros, etc registrados en el dispositivo.
+                        </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
         <a class="card-footer-item">Reiniciar</a>
-        <a class="card-footer-item has-text-danger">Borrar Todo <i class="fas fa-exclamation-triangle pl-1"></i></a>
       </footer>
     </div>
   </div>
 
   <div class="modal" id="info_capacidad_modal">
     <div class="modal-background" id="fondo_cap" style="opacity: 0.75;"></div>
-    <div class="modal-card" style="width: 350px;">
+    <div class="modal-card" style="width: 375px;">
       <header class="modal-card-head">
         <p class="modal-card-title">Capacidad y Espacio</p>
         <button class="delete" (click)="ocultarInfoCapacidad()"></button>
@@ -198,7 +231,7 @@
             <div class="field-value" style="text-align: left">Marcaciones</div>
             <div class="field-value">{{jsonInfoCapacidad?.records}}</div>
             <div class="field-value">
-              <div class="hitem" style="justify-content: center">100000 <span class="help is-warning">*</span></div>
+              <div class="hitem" style="justify-content: center">-- <span class="help is-warning">*</span></div>
             </div>
             <div class="field-value" style="text-align: left">Rostros</div>
             <div class="field-value">{{jsonInfoCapacidad?.faces}}</div>
@@ -209,7 +242,8 @@
       <footer class="modal-card-foot">
         <div class="hitem" style="justify-content: center">
           <span class="help is-warning">*</span>
-          <span class="help">No se puede acceder a este atributo en los terminales. Se muestra un valor que la mayoría de modelos manejan</span>
+          <span class="help">No se puede acceder a este atributo en los terminales.
+            El valor que la mayoria de modelos manejan es hasta <span class="semibold">100000</span> marcaciones</span>
         </div>
       </footer>
     </div>
@@ -271,9 +305,15 @@
               <div>
                 <span class="has-text-weight-semibold">Parámetros de Red:</span>
                 <div class="vbox">
-                  <div class="hitem"><span class="has-text-info">Dirección IP:</span>{{jsonInfoExtra?.network_parameters.ip}}</div>
-                  <div class="hitem"><span class="has-text-info">Máscara de red:</span>{{jsonInfoExtra?.network_parameters.mask}}</div>
-                  <div class="hitem"><span class="has-text-info">Puerta de enlace:</span>{{jsonInfoExtra?.network_parameters.gateway}}</div>
+                  <div class="hitem" >
+                    <span class="semibold" style='color: #786450;'>Dirección IP:</span>{{jsonInfoExtra?.network_parameters.ip}}
+                  </div>
+                  <div class="hitem">
+                    <span class="semibold" style='color: #786450;'>Máscara de red:</span>{{jsonInfoExtra?.network_parameters.mask}}
+                  </div>
+                  <div class="hitem">
+                    <span class="semibold" style='color: #786450;'>Puerta de enlace:</span>{{jsonInfoExtra?.network_parameters.gateway}}
+                  </div>
                 </div>
               </div>
               <div>
@@ -293,25 +333,20 @@
     </div>
   </div>
 
-  <div class="modal " id="eliminar_modal">
-    <div class="modal-background" id="fondo_eliminar" style="opacity: 0.75;"></div>
+  <div class="modal " id="hora_actual_modal">
+    <div class="modal-background" id="fondo_hora" style="opacity: 0.75;"></div>
     <div class="modal-card" style="width: 400px">
       <header class="modal-card-head">
-        <p class="modal-card-title">Eliminar interrupción</p>
-        <button class="delete" aria-label="close" ></button>
+        <p class="modal-card-title">Fecha y hora del dispositivo</p>
+        <button (click)="ocultarHoraActual()" class="delete" aria-label="close" ></button>
       </header>
       <section class="modal-card-body">
-        <label class="label">Se eliminará la interrupción seleccionada.</label>
-        <p class="label">¿Esta seguro?</p>
-      </section>
-      <div style="text-align: center">
-        <i class="fas fa-terminal has-text-primary"></i>
-      </div>
-      <footer class="modal-card-foot">
-        <div class="buttons">
-          <button class="button es-primario" >Aceptar</button>
-          <button class="button" type="button" >Cancelar</button>
+        <div class="hitem" style="justify-content: center">
+          <i class="far fa-clock ml-2 mt-2" style="font-size: 1.4em; "></i>
+          <label class="label is-large">{{jsonHoraActual}}</label>
         </div>
+      </section>
+      <footer class="modal-card-foot">
       </footer>
     </div>
   </div>

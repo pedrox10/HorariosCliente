@@ -136,12 +136,12 @@
               }@else{
               @if(esDiaInicio(jornadaDia.dia)) {
               <span class="badge is-success is-light is-bottom mb-4" title="Inicio del rango">
-                      <i class="fas fa-flag-checkered ml-1" style="color: green"></i>{{ fechaInicioRango | date:'dd MMM' }}
+                      <i class="fas fa-flag-checkered mr-1" style="color: green"></i>{{ fechaInicioRango | date:'dd MMM' }}
                   </span>
               }
               @if(esDiaFin(jornadaDia.dia)) {
               <span class="badge is-danger is-light is-bottom mb-4" title="Fin del rango">
-                      <i class="fas fa-flag ml-1" style="color: crimson"></i>{{ fechaFinRango | date:'dd MMM' }}
+                      <i class="fas fa-flag mr-1" style="color: crimson"></i>{{ fechaFinRango | date:'dd MMM' }}
                   </span>
               }
               }
