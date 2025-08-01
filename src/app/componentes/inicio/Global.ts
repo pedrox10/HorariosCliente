@@ -34,7 +34,7 @@ export function mensaje(mensaje: string, tipo: ToastType) {
     type: tipo,
     position: "bottom-center",
     pauseOnHover: true,
-    duration: 3000,
+    duration: 3500,
     animate: {in: 'backInUp', out: 'backOutDown'},
     extraClasses: "bordes-redondeados"
   })
