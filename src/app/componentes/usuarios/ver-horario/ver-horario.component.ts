@@ -58,6 +58,11 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    document.addEventListener('keydown', (e) => {
+      if ((e as KeyboardEvent).key === 'Escape') {
+        alert("ESCAPE")
+      }
+    });
   }
 
   ngAfterViewInit() {
@@ -94,14 +99,14 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
   onJornadaClick(event: MouseEvent, jornada: any) {
     if (!this.modoSeleccionRango) return;
     if (!this.isRangeSelecting) {
-      // 👉 Primer clic: limpiar todo y empezar nueva selección
+      //Primer clic: limpiar todo y empezar nueva selección
       this.clearSelection();
       this.menuVisible = false
       this.jornadaIni = jornada;
       this.jornadasSeleccionadas = [jornada];
       this.isRangeSelecting = true;
     } else {
-      // 👉 Segundo clic: finalizar selección de rango
+      //Segundo clic: finalizar selección de rango
       const allJornadas = this.calendar
         .flatMap((semana: any) => semana.dias.filter((d: any) => d != null));
       const startIndex = allJornadas.findIndex((j: Jornada) => j.fecha === this.jornadaIni.fecha);
