@@ -74,6 +74,9 @@ export class VerReporteComponent implements OnInit{
     const data=JSON.parse(sessionStorage.getItem('reporte') || '[]')
     this.originalResumenMarcaciones = data;
     this.resumenMarcaciones = data;
+    this.sortColumn = "faltas";
+    this.sortDirection = null;
+    this.onSort(this.sortColumn)
     console.log(this.resumenMarcaciones)
     this.terminal = sessionStorage.getItem("terminal")
     this.fechaIni = sessionStorage.getItem("fechaIni")
