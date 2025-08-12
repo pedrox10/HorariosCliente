@@ -17,8 +17,11 @@ export const env = {
   dias_pares: ["martes", "jueves", "sabado"],
   posY: 0,
   indexUsuario: -1,
+  posYReporte: 0,
   indexResumenMarcacion: -1,
   categorias: ["Central", "Distritos", "Unidades", "Salud"],
   posCategoria: 0,
-  posAdmCategoria: -1
+  posAdmCategoria: -1,
+  sortColumn: "",
+  sortDirection: ""
 }

@@ -44,8 +44,8 @@ export class VerReporteComponent implements OnInit{
   filasExcel = [] as Array<IReporte>
   private destroy$ = new Subject<void>();
   showScrollButton = false;
-  sortColumn: string | null = null;
-  sortDirection: 'asc' | 'desc' | null = null;
+  sortColumn: string = "";
+  sortDirection: string = "";
   originalResumenMarcaciones: ResumenMarcacion[] = [];
 
   constructor(private modalService: ModalService, private terminalService: TerminalService,
@@ -74,10 +74,10 @@ export class VerReporteComponent implements OnInit{
     const data=JSON.parse(sessionStorage.getItem('reporte') || '[]')
     this.originalResumenMarcaciones = data;
     this.resumenMarcaciones = data;
-    this.sortColumn = "faltas";
-    this.sortDirection = null;
-    this.onSort(this.sortColumn)
-    console.log(this.resumenMarcaciones)
+    this.sortColumn = env.sortColumn;
+    this.sortDirection = env.sortDirection;
+    if(this.sortColumn !== "")
+      this.onSort(this.sortColumn);
     this.terminal = sessionStorage.getItem("terminal")
     this.fechaIni = sessionStorage.getItem("fechaIni")
     this.fechaFin = sessionStorage.getItem("fechaFin")
@@ -156,6 +156,12 @@ export class VerReporteComponent implements OnInit{
         lista.appendChild(li);
       });
     });
+    setTimeout(() => {
+      window.scrollTo({
+        top: env.posYReporte,
+        left: 0
+      });
+    }, 1000);
   }
 
   ngOnDestroy() {
@@ -165,11 +171,13 @@ export class VerReporteComponent implements OnInit{
 
   verMarcaciones(usuario: Usuario) {
     env.indexResumenMarcacion = usuario.id
+    env.posYReporte = window.scrollY
     this.router.navigate(['/ver-marcaciones', usuario.id, this.fechaIni, this.fechaFin]);
   }
 
   verHorario(id_usuario: number | any) {
     env.indexResumenMarcacion = id_usuario;
+    env.posYReporte = window.scrollY
     this.router.navigate(['/ver-horario', id_usuario]);
   }
 
@@ -263,6 +271,7 @@ export class VerReporteComponent implements OnInit{
   }
 
   irAtras() {
+    env.posYReporte = 0;
     this.location.back();
   }
 
@@ -444,20 +453,27 @@ export class VerReporteComponent implements OnInit{
   /** Lógica de clic en encabezado para alternar asc → desc → none */
   onSort(column: string): void {
     if (this.sortColumn === column) {
-      if (this.sortDirection === 'asc')
+      if (this.sortDirection === 'asc') {
         this.sortDirection = 'desc';
-      else
-        if (this.sortDirection === 'desc')
-          this.sortDirection = null;
-        else
+        env.sortDirection = 'desc';
+      }
+      else {
+        if (this.sortDirection === 'desc') {
+          this.sortDirection = "";
+          env.sortDirection = "";
+        } else {
           this.sortDirection = 'asc';
+          env.sortDirection = 'asc';
+        }
+      }
     } else {
-      this.sortColumn    = column;
+      this.sortColumn = column;
+      env.sortColumn = column
       this.sortDirection = 'asc';
+      env.sortDirection = 'asc';
     }
 
     if (!this.sortDirection) {
-      // restaurar orden original
       this.resumenMarcaciones = [...this.originalResumenMarcaciones];
     } else {
       this.applySort();
@@ -511,7 +527,6 @@ export class VerReporteComponent implements OnInit{
         default:
           return 0;
       }
-
       // comparación numérica o string
       if (typeof aVal === 'number' && typeof bVal === 'number') {
         return (aVal - bVal) * dir;
