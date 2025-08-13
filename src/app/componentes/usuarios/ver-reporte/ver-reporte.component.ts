@@ -172,6 +172,7 @@ export class VerReporteComponent implements OnInit{
   verMarcaciones(usuario: Usuario) {
     env.indexResumenMarcacion = usuario.id
     env.posYReporte = window.scrollY
+    env.sortColumn = this.sortColumn;
     this.router.navigate(['/ver-marcaciones', usuario.id, this.fechaIni, this.fechaFin]);
   }
 
@@ -272,6 +273,8 @@ export class VerReporteComponent implements OnInit{
 
   irAtras() {
     env.posYReporte = 0;
+    env.sortColumn = "";
+    env.sortDirection = "";
     this.location.back();
   }
 
@@ -454,23 +457,21 @@ export class VerReporteComponent implements OnInit{
   onSort(column: string): void {
     if (this.sortColumn === column) {
       if (this.sortDirection === 'asc') {
+        env.sortDirection = "asc"
         this.sortDirection = 'desc';
-        env.sortDirection = 'desc';
       }
       else {
         if (this.sortDirection === 'desc') {
+          env.sortDirection = "desc"
           this.sortDirection = "";
-          env.sortDirection = "";
         } else {
+          env.sortDirection = ""
           this.sortDirection = 'asc';
-          env.sortDirection = 'asc';
         }
       }
     } else {
       this.sortColumn = column;
-      env.sortColumn = column
       this.sortDirection = 'asc';
-      env.sortDirection = 'asc';
     }
 
     if (!this.sortDirection) {
@@ -479,10 +480,9 @@ export class VerReporteComponent implements OnInit{
       this.applySort();
     }
   }
-
   /** Aplica el sort según estado */
   applySort(): void {
-    const dir = this.sortDirection === 'asc' ? 1 : -1;
+    const dir = this.sortDirection === 'desc' ? 1 : -1;
     const col = this.sortColumn!;
 
     this.resumenMarcaciones = [...this.resumenMarcaciones].sort((a, b) => {
@@ -539,11 +539,11 @@ export class VerReporteComponent implements OnInit{
     if (this.sortColumn !== column) {
       return 'fa-sort';            // estado “sin ordenar”
     }
-    if (this.sortDirection === 'asc') {
-      return 'fa-sort-up';         // orden ascendente
-    }
     if (this.sortDirection === 'desc') {
-      return 'fa-sort-down';       // orden descendente
+      return 'fa-sort-up';         // orden descendente
+    }
+    if (this.sortDirection === 'asc') {
+      return 'fa-sort-down';       // orden ascendente
     }
     return 'fa-sort';             // fallback
   }
