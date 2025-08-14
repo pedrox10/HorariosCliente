@@ -15,7 +15,7 @@ body {
   bottom: 0;
   height: 4px;
   width: 105px;
-  background-color: #295A8C;
+  background-color: #3c6fa2;
 }
 .title h1:after, .subtitle h2:after {
   content: "";
@@ -502,3 +502,18 @@ p.modal-card-title {
   font-size: 1.5em;
   color: #666;
 }
+.modal-card {
+  border-radius: 8px;
+}
+
+.img-btn {
+}
+
+.img-btn:hover {
+  cursor: pointer;
+  background-color: rgba(25, 118, 210, 0.13);
+  border-radius: 50%;
+  transform: scale(1.2);
+  transition: all 0.2s ease-in-out;
+}
+

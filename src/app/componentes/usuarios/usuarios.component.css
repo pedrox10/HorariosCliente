@@ -42,3 +42,16 @@
 label.b-radio.radio:hover .check.is-grey {
   border-color: #999 !important;
 }
+
+.dropdown-menu {
+  min-width: auto !important;
+}
+
+.dropdown-item {
+  font-size: 1em;
+  padding: .375rem 0.5rem;
+}
+
+.dropdown-content {
+  border: 1px #c2c0c0 solid;
+}

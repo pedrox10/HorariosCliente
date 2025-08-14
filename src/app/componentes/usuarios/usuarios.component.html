@@ -155,8 +155,8 @@
             <td><div [innerHtml]="usuario.estadoHtml"></div></td>
             <td>
               <div class="hitem">
-                <span class="icon has-tooltip-arrow expand" data-tooltip="Ver Marcaciones" (click)="verMarcaciones(usuario)">
-                  <i class="far fa-calendar-check icon-btn"></i>
+                <span class="icon has-tooltip-arrow expand" data-tooltip="Reporte de Asistencia" (click)="verMarcaciones(usuario)">
+                  <i class="fas fa-file-contract icon-btn" style="color: #3C6FA2;"></i>
                 </span>
                 <span class="icon has-tooltip-arrow expand" data-tooltip="Ver Horario" (click)="verHorario(usuario.id)">
                   <i class="far fa-calendar-alt icon-btn"></i>
@@ -167,9 +167,31 @@
                   <i class="far fa-edit icon-btn"></i>
                 </span>
                 }
+          <div class="dropdown is-hoverable is-custom-right">
+            <div class="dropdown-trigger">
+              <span class="icon"><i class="fas fa-ellipsis-v icon-btn"></i></span>
+            </div>
+            <div class="dropdown-menu" id="" role="menu">
+              <div class="dropdown-content">
+                <a class="dropdown-item">
+                  <span class="has-tooltip-arrow expand" data-tooltip="Ver Marcaciones">
+                    <i class="far fa-hand-pointer icon-btn"></i>
+                  </span>
+                </a>
+                <a class="dropdown-item">
+                  <span class="icon has-tooltip-arrow expand ml-1" data-tooltip="Info Organigrama"
+                    style="padding: 1px"
+                    (click)="modalInfoOrganigram(usuario.ci)">
+                    <img src="assets/organigram.png" class="img-btn">
+                  </span>
+                </a>
               </div>
-            </td>
-          </tr>
+            </div>
+          </div>
+
+        </div>
+      </td>
+    </tr>
           }
           </tbody>
         </table>
@@ -379,6 +401,40 @@
           <button class="button" type="button" (click)="ocultarAsignarGrupo()">Cancelar</button>
         </div>
       </footer>
+    </div>
+  </div>
+  <div class="modal" id="organigram_modal">
+    <div class="modal-background" (click)="ocultarInfoOrganigram()" style="opacity: 0.75;"></div>
+    <div class="modal-card" style="width: 350px;">
+      <header class="modal-card-head has-background-primary-light">
+        <p class="modal-card-title">Organigrama</p>
+        <button class="delete" aria-label="close" (click)="ocultarInfoOrganigram()"></button>
+      </header>
+      <section class="modal-card-body" style="background: linear-gradient(360deg, #f7fbfa 65%, #49a09d 100%);">
+        <div class="has-text-centered mb-2 mt-2">
+        <span class="icon" style="font-size: 3.5em">
+          <i class="fas fa-user-circle"></i>
+        </span>
+          <div class="vitem">
+            <h2 class="label title is-5 mt-4 ">INGRID SANDRA PANIAGUA GONZALES</h2>
+            <h4 style='color: #786450;' class="semibold">AUXILIAR II ARCHIVOS DE RECURSOS HUMANOS</h4>
+            <p class="mt-2">
+              Secretaría Municipal De Finanzas Y Administración
+            </p>
+          </div>
+        </div>
+        <div class="content" style="font-size: 0.9em">
+          <ul>
+            <li><span class="semibold" style='color: #786450;'>Tipo de contrato:</span> ‘Item’</li>
+            <li><span class="semibold" style='color: #786450;'>Salario:</span> 14 - Percibe el haber básico de 3435 Bs.</li>
+            <li><span class="semibold" style='color: #786450;'>Ingreso al cargo:</span> 9 de enero de 2025</li>
+            <li><span class="semibold" style='color: #786450;'>Fin de contrato:</span> 1 de abril de 1993</li>
+          </ul>
+          <p class="has-text-grey mt-3">
+            GAMS-SMFA/DRH/MD/091/2025
+          </p>
+        </div>
+      </section>
     </div>
   </div>
 </div>

@@ -60,7 +60,7 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     document.addEventListener('keydown', (e) => {
       if ((e as KeyboardEvent).key === 'Escape') {
-        alert("ESCAPE")
+        console.log("tecla ESC")
       }
     });
   }

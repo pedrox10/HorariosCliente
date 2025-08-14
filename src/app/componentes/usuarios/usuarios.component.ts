@@ -140,6 +140,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
         this.ocultarAccionGrupo()
         this.ocultarEliminarGrupo()
         this.ocultarAsignarGrupo()
+        this.ocultarInfoOrganigram()
       }
     };
     document.addEventListener('keydown', this.escuchaEscape);
@@ -753,6 +754,8 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     document.getElementById("asignar_grupo")?.classList.remove("is-active");
   }
 
+  close() {}
+
   asignarGrupo() {
     let ids = this.usuariosSeleccionados.map(({ id }) => id);
     if(this.fc_confirmado.value === true) {
@@ -783,5 +786,13 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.fc_confirmado.setValue(false)
     this.ocultarAsignarGrupo()
+  }
+
+  modalInfoOrganigram(ci: number) {
+    document.getElementById("organigram_modal")?.classList.add("is-active");
+  }
+
+  ocultarInfoOrganigram() {
+    document.getElementById("organigram_modal")?.classList.remove("is-active");
   }
 }
