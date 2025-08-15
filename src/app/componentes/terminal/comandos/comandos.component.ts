@@ -4,7 +4,6 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {TerminalService} from "../../../servicios/terminal.service";
 import {Location} from "@angular/common";
-import {ModalService} from "ngx-modal-ease";
 import {color, mensaje, notificacion} from "../../inicio/Global";
 import {ComandosService} from "../../../servicios/comandos.service";
 import moment from "moment";
@@ -26,7 +25,6 @@ export class ComandosComponent implements OnInit, AfterViewInit {
   esInfoCapacidad = false;
   esInfoExtra = false;
   esHoraActual = false;
-
   jsonInfoCapacidad: any;
   jsonInfoExtra: any;
   jsonHoraActual: any;
@@ -36,7 +34,13 @@ export class ComandosComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-
+    document.addEventListener('keydown', (e) => {
+      if ((e as KeyboardEvent).key === 'Escape') {
+        this.ocultarInfoCapacidad()
+        this.ocultarInfoExtra()
+        this.ocultarHoraActual()
+      }
+    });
   }
 
   ngAfterViewInit() {

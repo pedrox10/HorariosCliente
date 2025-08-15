@@ -109,7 +109,7 @@
            [style.pointerEvents]="esHoraActual ? 'none' : 'auto'">Obtener Fecha</a>
         <div class="hitem">
           <a href="#" class="card-footer-item has-text-warning">
-            Cambiar Fecha
+            Sincronizar Fecha
             <div class="dropdown is-hoverable">
               <div class="dropdown-trigger">
                 <i class="fas fa-exclamation-triangle pl-1"></i>
@@ -118,7 +118,7 @@
                 <div class="dropdown-content popup" style="background: linear-gradient(360deg, #fcfaf7 0%, #fdf7e7 100%); border: 1px #f4d27b solid;">
                   <div class="contenido" style='color: #786450;'>
                     <span style="font-weight: normal">
-                      <span class="semibold">Operacion sensible:</span> modifica la fecha y hora actual del dispositivo.
+                      <span class="semibold">Operacion sensible:</span> sincroniza la fecha/hora del dispositivo con la fecha/hora actual del servidor:
                     </span>
                   </div>
                 </div>
@@ -230,9 +230,7 @@
             <div class="field-value">{{jsonInfoCapacidad?.fingers_cap}}</div>
             <div class="field-value" style="text-align: left">Marcaciones</div>
             <div class="field-value">{{jsonInfoCapacidad?.records}}</div>
-            <div class="field-value">
-              <div class="hitem" style="justify-content: center">-- <span class="help is-warning">*</span></div>
-            </div>
+            <div class="field-value">{{jsonInfoCapacidad?.records_cap}}</div>
             <div class="field-value" style="text-align: left">Rostros</div>
             <div class="field-value">{{jsonInfoCapacidad?.faces}}</div>
             <div class="field-value">{{jsonInfoCapacidad?.faces_cap}}</div>
