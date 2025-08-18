@@ -436,4 +436,38 @@
       </section>
     </div>
   </div>
+  <div class="modal " id="marcaciones_modal">
+    <div class="modal-background" style="opacity: 0.75;"></div>
+    <div class="modal-card" style="width: auto; height: 600px">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Marcaciones</p>
+        <button class="delete" aria-label="close" (click)="ocultarMarcaciones()"></button>
+      </header>
+      <section class="modal-card-body">
+        <div class="hbox">
+          <div class="vbox" style="gap: 0px!important;">
+            Usuario
+          </div>
+        </div>
+        <table class="table">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+          </tr>
+          </thead>
+          <tbody>
+          @for (m of marcaciones; track m; let i = $index) {
+          <tr>
+            <td>{{i + 1}}</td>
+            <td>{{m.fecha}}</td>
+            <td>{{m.hora}}</td>
+          </tr>
+          }
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </div>
 </div>

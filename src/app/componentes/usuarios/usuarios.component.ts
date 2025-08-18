@@ -788,6 +788,14 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     this.ocultarAsignarGrupo()
   }
 
+  modalMarcaciones(ci: number) {
+    document.getElementById("marcaciones_modal")?.classList.add("is-active");
+  }
+
+  ocultarMarcaciones() {
+    document.getElementById("marcaciones_modal")?.classList.remove("is-active");
+  }
+
   modalInfoOrganigram(ci: number) {
     document.getElementById("organigram_modal")?.classList.add("is-active");
   }
