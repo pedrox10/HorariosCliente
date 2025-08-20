@@ -174,7 +174,7 @@
                   <div class="dropdown-menu" id="" role="menu">
                     <div class="dropdown-content">
                       <a class="dropdown-item">
-                        <span class="has-tooltip-arrow expand" data-tooltip="Ver Marcaciones">
+                        <span class="has-tooltip-arrow expand" data-tooltip="Ver Marcaciones" (click)="modalMarcaciones(usuario)">
                           <i class="far fa-hand-pointer icon-btn"></i>
                         </span>
                       </a>
@@ -415,7 +415,7 @@
           <i class="fas fa-user-circle"></i>
         </span>
           <div class="vitem">
-            <h2 class="label title is-5 mt-4 ">INGRID SANDRA PANIAGUA GONZALES</h2>
+            <h2 class="label title is-5 mt-4 ">{{nombreOrg}}</h2>
             <h4 style='color: #786450;' class="semibold">AUXILIAR II ARCHIVOS DE RECURSOS HUMANOS</h4>
             <p class="mt-2">
               Secretaría Municipal De Finanzas Y Administración
@@ -437,19 +437,21 @@
     </div>
   </div>
   <div class="modal " id="marcaciones_modal">
-    <div class="modal-background" style="opacity: 0.75;"></div>
-    <div class="modal-card" style="width: auto; height: 600px">
+    <div class="modal-background" (click)="ocultarMarcaciones()" style="opacity: 0.75;"></div>
+    <div class="modal-card" style="width: 375px; height: 525px">
       <header class="modal-card-head">
         <p class="modal-card-title">Marcaciones</p>
         <button class="delete" aria-label="close" (click)="ocultarMarcaciones()"></button>
       </header>
       <section class="modal-card-body">
-        <div class="hbox">
-          <div class="vbox" style="gap: 0px!important;">
-            Usuario
+        <div class="hitem" style="align-items: flex-end;">
+          <i class="fa fa-user-circle" style="font-size: 3em"></i>
+          <div class="vinput">
+            <span class="label" style="margin: 0">{{nombre}}</span>
+            <span>{{ci}}</span>
           </div>
         </div>
-        <table class="table">
+        <table class="table" style="width: 100%">
           <thead>
           <tr>
             <th>#</th>
@@ -458,7 +460,13 @@
           </tr>
           </thead>
           <tbody>
-
+          @for (m of marcaciones; track m; let i = $index) {
+          <tr>
+            <td>{{i + 1}}</td>
+            <td>{{formatear(m.fecha)}}</td>
+            <td>{{m.hora}}</td>
+          </tr>
+          }
           </tbody>
         </table>
       </section>

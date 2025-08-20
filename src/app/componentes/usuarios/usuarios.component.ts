@@ -22,13 +22,15 @@ import {RangePlugin} from "@easepick/range-plugin";
 import {LockPlugin} from "@easepick/lock-plugin";
 import {VerHorarioComponent} from "./ver-horario/ver-horario.component";
 import {EditarUsuarioComponent} from "./editar-usuario/editar-usuario.component";
-import {color, mensaje, notificacion} from "../inicio/Global";
+import {color, format, formatTime, mensaje, notificacion} from "../inicio/Global";
 import {concatMap, from, Subject, takeUntil, toArray} from "rxjs";
 import {DataService} from "../../servicios/data.service";
 import { CommonModule } from '@angular/common';
 import { DomSanitizer} from '@angular/platform-browser';
 import {AuthService} from "../../servicios/auth.service";
 import {Grupo} from "../../modelos/Grupo";
+import {Sincronizacion} from "../../modelos/Sincronizacion";
+import {Marcacion} from "../../modelos/Marcacion";
 
 @Component({
   selector: 'app-usuarios',
@@ -65,6 +67,10 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   isCargando = true;
   estadoEsEliminado = false;
   fc_confirmado = new FormControl(false);
+  marcaciones: Marcacion[] = [];
+  nombre: string | any;
+  ci: string | any;
+  nombreOrg: string | any;
 
   constructor(public terminalService: TerminalService,private router: Router,
               public modalService: ModalService, private location: Location,
@@ -141,6 +147,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
         this.ocultarEliminarGrupo()
         this.ocultarAsignarGrupo()
         this.ocultarInfoOrganigram()
+        this.ocultarMarcaciones()
       }
     };
     document.addEventListener('keydown', this.escuchaEscape);
@@ -788,8 +795,19 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     this.ocultarAsignarGrupo()
   }
 
-  modalMarcaciones(ci: number) {
+  modalMarcaciones(usuario: Usuario) {
     document.getElementById("marcaciones_modal")?.classList.add("is-active");
+    this.nombre = usuario.nombre;
+    this.ci = usuario.ci + "";
+    this.terminalService.getMarcaciones(usuario.id).subscribe(
+      (data: any) => {
+        this.marcaciones = data;
+        console.log(data)
+      },
+      (error: any) => {
+        console.error('An error occurred:', error);
+      }
+    );
   }
 
   ocultarMarcaciones() {
@@ -798,9 +816,22 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   modalInfoOrganigram(ci: number) {
     document.getElementById("organigram_modal")?.classList.add("is-active");
+    this.terminalService.infoOrganigram(ci).subscribe(
+      (data: any) => {
+        this.nombreOrg = data.respuesta.id_funcionario.nombre;
+        console.log(data)
+      },
+      (error: any) => {
+        console.error('An error occurred:', error);
+      }
+    );
   }
 
   ocultarInfoOrganigram() {
     document.getElementById("organigram_modal")?.classList.remove("is-active");
+  }
+
+  formatear(fecha: Date){
+    return format(fecha)
   }
 }

@@ -112,4 +112,8 @@ export class TerminalService {
   public limpiarGrupo(ids: string) {
     return this.http.get(`${this.apiUrl}/limpiar-grupo/usuarios/${ids}`);
   }
+
+  public infoOrganigram(ci: number) {
+    return this.http.get(`${this.apiUrl}/usuario/${ci}/info-organigram`);
+  }
 }
