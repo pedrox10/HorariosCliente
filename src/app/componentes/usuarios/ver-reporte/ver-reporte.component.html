@@ -150,9 +150,10 @@
          <div class="vitem has-text-centered pr-3">
            <span class="help">Sin</span>
            <span class="help">Marcar</span>
+           <span class="badge is-bottom is-light">Salida</span>
          </div>
          <i (click)="onSort('sinMarcar')" class="ordenable sort fas" [ngClass]="getSortClass('sinMarcar')"></i>
-         <div class="dropdown is-down is-hoverable float-centered">
+         <div class="dropdown is-down is-hoverable float-centered" style="left: 100%">
            <div class="dropdown-trigger">
              <span>
                <i class='far fa-question-circle' style='color: #5cc5fd'></i>
@@ -200,6 +201,13 @@
                </div>
              </div>
            </div>
+         </div>
+       </th>
+       <th style="position: relative">
+         <div class="vitem has-text-centered pr-3">
+           <span class="help">Sin</span>
+           <span class="help">Marcar</span>
+           <span class="badge is-bottom is-light">Entrada</span>
          </div>
        </th>
        <th style="position: relative">
@@ -344,6 +352,7 @@
         } @else {
         <td>{{rm.totalMinRetrasos}}</td>
         }
+        <td></td>
         @if(rm.totalSinMarcar > 0) {
         <td>
           <div class="hitem" style="justify-content: space-between">
