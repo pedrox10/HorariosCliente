@@ -7,6 +7,8 @@ export class ResumenMarcacion{
   totalMinRetrasos: number;
   multaRetrasos: number;
   totalSinMarcar: number;
+  totalSinMarcarEntradas: number
+  totalSinMarcarSalidas: number
   multaSinMarcar: number;
   totalSalAntes: number;
   multaSalAntes: number;
@@ -35,12 +37,15 @@ export class ResumenMarcacion{
               totalExcTickeos: number, totalInterrupciones: number, totalTolerancias: number, totalExcepciones: number,
               totalVacaciones: number, totalBajas: number, totalPermisos: number, totalLicencias: number,
               totalCapacitaciones: number, totalOtros: number, totalSinMarcar: number, totalAusencias: number,
-              totalPermisosSG: number, diasComputados: number, infoMarcaciones: InfoMarcacion[], totalSanciones: number) {
+              totalPermisosSG: number, diasComputados: number, infoMarcaciones: InfoMarcacion[], totalSanciones: number,
+              totalSinMarcarEntradas: number, totalSinMarcarSalidas: number) {
     this.usuario = usuario
     this.totalCantRetrasos = totalCantRetrasos
     this.totalMinRetrasos = totalMinRetrasos
     this.totalSalAntes = totalSalAntes
     this.totalSinMarcar = totalSinMarcar
+    this.totalSinMarcarEntradas = totalSinMarcarEntradas
+    this.totalSinMarcarSalidas = totalSinMarcarSalidas
     this.totalAusencias = totalAusencias
     this.diasComputados = diasComputados
     this.infoMarcaciones = infoMarcaciones

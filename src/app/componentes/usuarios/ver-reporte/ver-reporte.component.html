@@ -70,28 +70,28 @@
 
    <table class="table is-bordered is-hoverable" id="tabla_reporte">
      <tr class="stick" style="top: 61px">
-       <th>#</th>
-       <th style="min-width: 225px; position:relative;">
+       <th rowspan="2">#</th>
+       <th rowspan="2" style="min-width: 225px; position:relative;">
          Nombre
            <i (click)="onSort('nombre')" class="ordenable sort fas" [ngClass]="getSortClass('nombre')"></i>
        </th>
-       <th style="width: 95px; position:relative;">CI</th>
-       <th style="min-width: 105px; position:relative;">
-         <div class="vitem pr-3">
+       <th rowspan="2" style="width: 95px; position:relative;">CI</th>
+       <th rowspan="2" style="min-width: 105px; position:relative;">
+         <div class="vitem pr-2">
            <span class="help"> Fecha de Alta</span>
            <span class="help"> en Biométrico</span>
          </div>
          <i (click)="onSort('fechaAlta')" class="ordenable sort fas" [ngClass]="getSortClass('fechaAlta')"></i>
        </th>
-       <th style="position: relative">
-         <div class="vitem has-text-centered pr-3">
+       <th rowspan="2" style="position: relative">
+         <div class="vitem has-text-centered pr-2">
           <span class="help">Días</span>
           <span class="help">Comp.</span>
          </div>
          <i (click)="onSort('diasComputados')"  class="ordenable sort fas" [ngClass]="getSortClass('diasComputados')"></i>
        </th>
-       <th style="position: relative">
-         <div class="vitem has-text-centered pr-3">
+       <th rowspan="2" style="position: relative">
+         <div class="vitem has-text-centered pr-2">
            <span class="help">Retraso</span>
            <span class="help">[min]</span>
          </div>
@@ -146,14 +146,87 @@
            </div>
          </div>
        </th>
-       <th style="position: relative">
-         <div class="vitem has-text-centered pr-3">
-           <span class="help">Sin</span>
-           <span class="help">Marcar</span>
-           <span class="badge is-bottom is-light">Salida</span>
+       <th colspan="3" style="position: relative; padding: 0px" >
+           <span class="help has-text-centered">Sin Marcar</span>
+       </th>
+       <th rowspan="2" style="position: relative">
+         <div class="vitem has-text-centered pr-2">
+           <span class="help">Salió</span>
+           <span class="help">Antes</span>
          </div>
-         <i (click)="onSort('sinMarcar')" class="ordenable sort fas" [ngClass]="getSortClass('sinMarcar')"></i>
-         <div class="dropdown is-down is-hoverable float-centered" style="left: 100%">
+         <i (click)="onSort('salAntes')" class="ordenable sort fas" [ngClass]="getSortClass('salAntes')"></i>
+         <div class="dropdown is-down is-hoverable float-centered">
+           <div class="dropdown-trigger">
+             <span>
+               <i class='far fa-question-circle' style='color: #5cc5fd'></i>
+             </span>
+           </div>
+           <div class="dropdown-menu" role="menu">
+             <div class="dropdown-content popup">
+               <div class='cabecera' style="align-self: center; text-align: center">Multas por Salida Anticipada</div>
+               <div class="contenido" style='color: #786450;'>
+                 <div class="hbox" style="justify-content: space-between">
+                   <div class="hitem" style="font-weight: normal">
+                     <i class="fas fa-arrow-right" style="align-self: center"></i>
+                     <span>1 Salida Anticipada</span>
+                   </div>
+                   <span class="semibold">0.5 día</span>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       </th>
+       <th rowspan="2" style="position: relative">
+         <span class="help pr-2">Faltas</span>
+         <i (click)="onSort('faltas')" class="ordenable sort fas" [ngClass]="getSortClass('faltas')"></i>
+         <div class="dropdown is-down is-hoverable float-centered">
+           <div class="dropdown-trigger">
+             <span>
+               <i class='far fa-question-circle' style='color: #5cc5fd'></i>
+             </span>
+           </div>
+           <div class="dropdown-menu" role="menu">
+             <div class="dropdown-content popup">
+               <div class='cabecera' style="align-self: center; text-align: center">Multas por Ausencia</div>
+               <div class="contenido" style='color: #786450;'>
+                 <div class="hbox" style="justify-content: space-between">
+                   <div class="hitem" style="font-weight: normal">
+                     <i class="fas fa-arrow-right" style="align-self: center"></i>
+                     <span>1 Ausencia</span>
+                   </div>
+                   <span class="semibold">2 días</span>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       </th>
+       <th rowspan="2" style="position: relative">
+         <div class="vitem has-text-centered pr-2">
+           <span class="help">Total</span>
+           <span class="help">Sanción</span>
+         </div>
+         <i (click)="onSort('totalSanciones')" class="ordenable sort fas" [ngClass]="getSortClass('totalSanciones')"></i>
+       </th>
+       <th rowspan="2" style="position: relative">
+         <div class="vitem has-text-centered pr-2">
+           <span class="help">Permisos</span>
+           <span class="help">SG[días]</span>
+         </div>
+         <i (click)="onSort('permisosSG')" class="ordenable sort fas" [ngClass]="getSortClass('permisosSG')"></i>
+       </th>
+       <th rowspan="2" class="hidden-print"></th>
+     </tr>
+     <tr class="stick" style="top: 81.5px">
+       <th><span class="help">Ent</span></th>
+       <th><span class="help">Sal</span></th>
+       <th style="position: relative">
+         <div class="hitem">
+           <span class="help">Total</span>
+           <i (click)="onSort('sinMarcar')" class="ordenable sort fas" [ngClass]="getSortClass('sinMarcar')" style="top: 10px"></i>
+         </div>
+         <div class="dropdown is-down is-hoverable float-centered">
            <div class="dropdown-trigger">
              <span>
                <i class='far fa-question-circle' style='color: #5cc5fd'></i>
@@ -203,81 +276,6 @@
            </div>
          </div>
        </th>
-       <th style="position: relative">
-         <div class="vitem has-text-centered pr-3">
-           <span class="help">Sin</span>
-           <span class="help">Marcar</span>
-           <span class="badge is-bottom is-light">Entrada</span>
-         </div>
-       </th>
-       <th style="position: relative">
-         <div class="vitem has-text-centered pr-3">
-           <span class="help">Salió</span>
-           <span class="help">Antes</span>
-         </div>
-         <i (click)="onSort('salAntes')" class="ordenable sort fas" [ngClass]="getSortClass('salAntes')"></i>
-         <div class="dropdown is-down is-hoverable float-centered">
-           <div class="dropdown-trigger">
-             <span>
-               <i class='far fa-question-circle' style='color: #5cc5fd'></i>
-             </span>
-           </div>
-           <div class="dropdown-menu" role="menu">
-             <div class="dropdown-content popup">
-               <div class='cabecera' style="align-self: center; text-align: center">Multas por Salida Anticipada</div>
-               <div class="contenido" style='color: #786450;'>
-                 <div class="hbox" style="justify-content: space-between">
-                   <div class="hitem" style="font-weight: normal">
-                     <i class="fas fa-arrow-right" style="align-self: center"></i>
-                     <span>1 Salida Anticipada</span>
-                   </div>
-                   <span class="semibold">0.5 día</span>
-                 </div>
-               </div>
-             </div>
-           </div>
-         </div>
-       </th>
-       <th style="position: relative">
-         <span class="help pr-3">Faltas</span>
-         <i (click)="onSort('faltas')" class="ordenable sort fas" [ngClass]="getSortClass('faltas')"></i>
-         <div class="dropdown is-down is-hoverable float-centered">
-           <div class="dropdown-trigger">
-             <span>
-               <i class='far fa-question-circle' style='color: #5cc5fd'></i>
-             </span>
-           </div>
-           <div class="dropdown-menu" role="menu">
-             <div class="dropdown-content popup">
-               <div class='cabecera' style="align-self: center; text-align: center">Multas por Ausencia</div>
-               <div class="contenido" style='color: #786450;'>
-                 <div class="hbox" style="justify-content: space-between">
-                   <div class="hitem" style="font-weight: normal">
-                     <i class="fas fa-arrow-right" style="align-self: center"></i>
-                     <span>1 Ausencia</span>
-                   </div>
-                   <span class="semibold">2 días</span>
-                 </div>
-               </div>
-             </div>
-           </div>
-         </div>
-       </th>
-       <th style="position: relative">
-         <div class="vitem has-text-centered pr-3">
-           <span class="help">Total</span>
-           <span class="help">Sanción</span>
-         </div>
-         <i (click)="onSort('totalSanciones')" class="ordenable sort fas" [ngClass]="getSortClass('totalSanciones')"></i>
-       </th>
-       <th style="position: relative">
-         <div class="vitem has-text-centered pr-3">
-           <span class="help">Permisos</span>
-           <span class="help">SG[días]</span>
-         </div>
-         <i (click)="onSort('permisosSG')" class="ordenable sort fas" [ngClass]="getSortClass('permisosSG')"></i>
-       </th>
-       <th class="hidden-print"></th>
      </tr>
      <tbody>
      @for (rm of resumenMarcaciones; track rm; let index = $index) {
@@ -352,7 +350,8 @@
         } @else {
         <td>{{rm.totalMinRetrasos}}</td>
         }
-        <td></td>
+        <td>{{rm.totalSinMarcarEntradas}}</td>
+        <td>{{rm.totalSinMarcarSalidas}}</td>
         @if(rm.totalSinMarcar > 0) {
         <td>
           <div class="hitem" style="justify-content: space-between">

@@ -11,6 +11,8 @@ export class InfoMarcacion{
   cantSalAntes: number
   minRetrasos: number
   noMarcados: number
+  sinMarcarEntradas: number
+  sinMarcarSalidas: number
   mensajeError?: string | any
   hayPriEntExcepcion?: any
   hayPriSalExcepcion?: any
@@ -32,7 +34,8 @@ export class InfoMarcacion{
   constructor(fecha: Date, dia:string, horario: any, priEntradas: string[], priSalidas: string[], segEntradas: string[], segSalidas: string[],
               cantRetrasos: number, cantSalAntes: number, minRetrasos: number, noMarcados: number, hayPriRetraso: boolean,
               haySegRetraso: boolean, hayPriAntes: boolean, haySegAntes: boolean, mensaje: string, activo: boolean,
-              numTurnos: number, estado: EstadoJornada, esInvierno: boolean, esLactancia: boolean, esJornadaDosDias: boolean) {
+              numTurnos: number, estado: EstadoJornada, esInvierno: boolean, esLactancia: boolean, esJornadaDosDias: boolean,
+              sinMarcarEntradas: number, sinMarcarSalidas: number) {
 
     this.fecha = fecha;
     this.dia = dia;
@@ -45,6 +48,8 @@ export class InfoMarcacion{
     this.cantSalAntes = cantSalAntes;
     this.minRetrasos = minRetrasos;
     this.noMarcados = noMarcados
+    this.sinMarcarEntradas = sinMarcarEntradas
+    this.sinMarcarSalidas = sinMarcarSalidas
     this.hayPriRetraso = hayPriRetraso
     this.haySegRetraso = haySegRetraso
     this.hayPriAntes = hayPriAntes
