@@ -100,6 +100,8 @@ export class VerReporteComponent implements OnInit{
         }
         fila.detalleRetrasos= retrasos
       }
+      fila.sinMarcarEnt = resumenMarcacion.totalSinMarcarEntradas;
+      fila.sinMarcarSal = resumenMarcacion.totalSinMarcarSalidas;
       fila.sinMarcar = resumenMarcacion.totalSinMarcar;
       fila.salAntes = resumenMarcacion.totalSalAntes
       fila.faltas = resumenMarcacion.totalAusencias;
@@ -301,7 +303,7 @@ export class VerReporteComponent implements OnInit{
         // 👉 2. Encabezados en A7
         const headers = [
           "#", "NOMBRE", "CI", "FECHA DE ALTA EN BIOMETRICO", "DÍAS COMP.",
-          "RETRASO [min]", "SIN MARCAR", "SALIÓ ANTES", "FALTAS", "TOTAL SANCION [días]",
+          "RETRASO [min]", "SIN MARCAR ENT", "SIN MARCAR SAL", "SIN MARCAR TOTAL", "SALIÓ ANTES", "FALTAS", "TOTAL SANCION [días]",
           "PERMISOS SG [días]", "OBSERVACIONES"
         ];
         headers.forEach((header, index) => {
@@ -332,12 +334,14 @@ export class VerReporteComponent implements OnInit{
               ],
             };
           }*/
-          row.getCell(7).value = fila.sinMarcar === undefined ? "" : fila.sinMarcar;
-          row.getCell(8).value = fila.salAntes === undefined ? "" : fila.salAntes;
-          row.getCell(9).value = fila.faltas === undefined ? "" : fila.faltas;
-          row.getCell(10).value = fila.totalSancion === undefined ? "" : fila.totalSancion;
-          row.getCell(11).value = fila.permisosSG === undefined ? "" : fila.permisosSG;
-          row.getCell(12).value = fila.observaciones || '';
+          row.getCell(7).value = fila.sinMarcarEnt === undefined ? "" : fila.sinMarcarEnt;
+          row.getCell(8).value = fila.sinMarcarSal === undefined ? "" : fila.sinMarcarSal;
+          row.getCell(9).value = fila.sinMarcar === undefined ? "" : fila.sinMarcar;
+          row.getCell(10).value = fila.salAntes === undefined ? "" : fila.salAntes;
+          row.getCell(11).value = fila.faltas === undefined ? "" : fila.faltas;
+          row.getCell(12).value = fila.totalSancion === undefined ? "" : fila.totalSancion;
+          row.getCell(13).value = fila.permisosSG === undefined ? "" : fila.permisosSG;
+          row.getCell(14).value = fila.observaciones || '';
           row.eachCell((cell, colNumber) => {
             const refCell = estiloReferencia.getCell(colNumber);
             cell.style = { ...refCell.style };

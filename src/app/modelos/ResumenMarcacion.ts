@@ -77,6 +77,8 @@ export interface IReporte {
   fechaAlta: string,
   diasComputados: number,
   retraso: number,
+  sinMarcarEnt: number,
+  sinMarcarSal: number,
   sinMarcar: number,
   salAntes: number,
   faltas: number,
