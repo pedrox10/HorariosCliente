@@ -71,6 +71,16 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   nombre: string | any;
   ci: string | any;
   nombreOrg: string | any;
+  paternoOrg: string | any;
+  maternoOrg: string | any;
+  ciOrg: string | any;
+  cargoOrg: string | any;
+  contratoOrg: string | any;
+  ingresoOrg: string | any;
+  conclusionOrg: string | any;
+  citeOrg: string | any;
+  cargoRotacion: string | any;
+  hayRotacion = false;
 
   constructor(public terminalService: TerminalService,private router: Router,
               public modalService: ModalService, private location: Location,
@@ -819,7 +829,19 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     this.terminalService.infoOrganigram(ci).subscribe(
       (data: any) => {
         this.nombreOrg = data.respuesta.id_funcionario.nombre;
-        console.log(data)
+        this.paternoOrg = data.respuesta.id_funcionario.paterno;
+        this.maternoOrg = data.respuesta.id_funcionario.materno;
+        this.ciOrg = data.respuesta.id_funcionario.ci;
+        this.cargoOrg = data.respuesta.id_cargo.nombre;
+        this.contratoOrg = data.respuesta.id_cargo.contrato;
+        this.ingresoOrg = data.respuesta.fecha_ingreso;
+        this.conclusionOrg = data.respuesta.fecha_conclusion;
+        this.citeOrg = data.respuesta.cite;
+        if(data.respuesta.id_rotacion) {
+          console.log("Hay Rotacion")
+          this.hayRotacion = true;
+          this.cargoRotacion=data.respuesta.id_rotacion.descripcion
+        }
       },
       (error: any) => {
         console.error('An error occurred:', error);
