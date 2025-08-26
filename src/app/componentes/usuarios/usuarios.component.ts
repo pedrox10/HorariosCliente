@@ -825,22 +825,30 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   modalInfoOrganigram(ci: number) {
-    document.getElementById("organigram_modal")?.classList.add("is-active");
     this.terminalService.infoOrganigram(ci).subscribe(
       (data: any) => {
-        this.nombreOrg = data.respuesta.id_funcionario.nombre;
-        this.paternoOrg = data.respuesta.id_funcionario.paterno;
-        this.maternoOrg = data.respuesta.id_funcionario.materno;
-        this.ciOrg = data.respuesta.id_funcionario.ci;
-        this.cargoOrg = data.respuesta.id_cargo.nombre;
-        this.contratoOrg = data.respuesta.id_cargo.contrato;
-        this.ingresoOrg = data.respuesta.fecha_ingreso;
-        this.conclusionOrg = data.respuesta.fecha_conclusion;
-        this.citeOrg = data.respuesta.cite;
-        if(data.respuesta.id_rotacion) {
-          console.log("Hay Rotacion")
-          this.hayRotacion = true;
-          this.cargoRotacion=data.respuesta.id_rotacion.descripcion
+        if (data.exito) {
+          document.getElementById("organigram_modal")?.classList.add("is-active");
+          this.nombreOrg = data.respuesta.id_funcionario.nombre;
+          this.paternoOrg = data.respuesta.id_funcionario.paterno;
+          this.maternoOrg = data.respuesta.id_funcionario.materno;
+          this.ciOrg = data.respuesta.id_funcionario.ci;
+          this.cargoOrg = data.respuesta.id_cargo.nombre;
+          this.contratoOrg = data.respuesta.id_cargo.contrato;
+          this.ingresoOrg = data.respuesta.fecha_ingreso;
+          this.conclusionOrg = data.respuesta.fecha_conclusion;
+          this.citeOrg = data.respuesta.cite;
+          if (data.respuesta.id_rotacion) {
+            this.hayRotacion = true;
+            this.cargoRotacion = data.respuesta.id_rotacion.descripcion
+          } else {
+            this.hayRotacion = false;
+            this.cargoRotacion = "";
+          }
+        } else {
+          if(data.exito === false) {
+            mensaje(data.respuesta, "is-danger")
+          }
         }
       },
       (error: any) => {
