@@ -424,11 +424,11 @@
         </div>
         <div class="content" style="font-size: 0.9em">
           <ul>
-            <li><span class="semibold" style='color: #786450;'>Tipo de contrato:</span>{{contratoOrg}}</li>
-            <li><span class="semibold" style='color: #786450;'>Ingreso al cargo:</span>{{ingresoOrg}}</li>
-            <li><span class="semibold" style='color: #786450;'>Fin de contrato:</span>{{conclusionOrg}}</li>
+            <li><span class="semibold" style='color: #786450;'>Tipo de contrato:</span> {{contratoOrg}}</li>
+            <li><span class="semibold" style='color: #786450;'>Ingreso al cargo:</span> {{formatear(ingresoOrg)}}</li>
+            <li><span class="semibold" style='color: #786450;'>Fin de contrato:</span> {{formatear(conclusionOrg)}}</li>
             @if(hayRotacion) {
-            <li><span class="semibold" style='color: #786450;'>Rotando:</span>{{cargoRotacion}}</li>
+            <li><span class="semibold" style='color: #786450;'>Rotando:</span> {{cargoRotacion}}</li>
             }
           </ul>
           <p class="has-text-grey mt-3">
