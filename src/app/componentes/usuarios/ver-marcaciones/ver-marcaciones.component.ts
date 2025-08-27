@@ -92,7 +92,9 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
 
         picker.on('select', (e) => {
           const start = moment(picker.getStartDate()).format("YYYYMMDD");
+          sessionStorage.setItem('ini', start);
           const end = moment(picker.getEndDate()).format('YYYYMMDD');
+          sessionStorage.setItem('fin', end);
           this.isCargando = true;
           this.getResumenMarcaciones(this.id, start, end)
         })

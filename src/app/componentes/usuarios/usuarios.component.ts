@@ -460,17 +460,25 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getIni() {
-    const ultSincronizacion = moment(this.ultimaSincronizacion, 'YYYY-MM-DD');
-    const dia = ultSincronizacion.date();
-    if (dia < 21) {
-      return ultSincronizacion.subtract(1, 'month').date(21).format('YYYYMMDD');
+    if(sessionStorage.getItem("ini")) {
+      return sessionStorage.getItem("ini")
     } else {
-      return ultSincronizacion.date(21).format('YYYYMMDD');
+      const ultSincronizacion = moment(this.ultimaSincronizacion, 'YYYY-MM-DD');
+      const dia = ultSincronizacion.date();
+      if (dia < 21) {
+        return ultSincronizacion.subtract(1, 'month').date(21).format('YYYYMMDD');
+      } else {
+        return ultSincronizacion.date(21).format('YYYYMMDD');
+      }
     }
   }
 
   getFin() {
-    return moment(this.ultimaSincronizacion).format("YYYYMMDD");
+    if(sessionStorage.getItem("fin")) {
+      return sessionStorage.getItem("fin")
+    } else {
+      return moment(this.ultimaSincronizacion).format("YYYYMMDD");
+    }
   }
 
   seleccionarRango() {
