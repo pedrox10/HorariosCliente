@@ -70,4 +70,8 @@ export class HorarioService {
   public  getNumJornadas(id: number) {
     return this.http.get(`${this.apiUrl}/horario/${id}/jornadas`)
   }
+
+  public  asignarDiaLibre(ids: string) {
+    return this.http.get(`${this.apiUrl}/jornadas/${ids}/asignar-dia-libre`)
+  }
 }

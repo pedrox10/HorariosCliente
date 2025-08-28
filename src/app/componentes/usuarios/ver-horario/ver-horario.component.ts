@@ -60,7 +60,8 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     document.addEventListener('keydown', (e) => {
       if ((e as KeyboardEvent).key === 'Escape') {
-        console.log("tecla ESC")
+        if(this.modoSeleccionRango)
+          this.clearSelection()
       }
     });
   }
@@ -139,6 +140,7 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
     this.jornadaIni = null;
     this.hoverJornada = null;
     this.isRangeSelecting = false;
+    this.menuVisible= false
   }
 
   isSelected(jornada: any): boolean {
@@ -202,6 +204,18 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
           }
         }
       });
+    this.clearSelection()
+  }
+
+  asignarDiaLibre() {
+    let ids = this.jornadasSeleccionadas
+      .filter(j => j.horario  && j.estado !== 0) // solo los que tienen atributo horario y no sean dia libre
+      .map(j => j.id);
+    this.horarioService.asignarDiaLibre(ids.toString()).subscribe(
+      (data: any) => {
+        console.log(data)
+      })
+    this.clearSelection()
   }
 
   imprimir() {

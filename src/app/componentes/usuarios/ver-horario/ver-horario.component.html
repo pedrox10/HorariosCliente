@@ -88,7 +88,9 @@
                   <span class="icon pr-2"><i class="fas fa-user-clock" style="color: #299acc;"></i></span>Asignar Horario
                 </a>
               </li>
-              <li><a><span class="icon pr-2"><i class="fas fa-eraser" style="color: #de4543"></i></span>Limpiar Horario</a></li>
+              <li (click)="asignarDiaLibre()">
+                <a><span class="icon pr-2"><i class="fas fa-calendar-day has-text-primary"></i></span>Día de descanso</a>
+              </li>
             </ul>
           </div>
         </div>
