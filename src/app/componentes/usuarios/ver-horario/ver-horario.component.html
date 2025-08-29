@@ -19,12 +19,16 @@
               </div>
             </div>
             <div class="hbox" style="flex: 1; justify-content: center;">
-              <div class="vinput" style="gap: 0px !important;">
+              <div class="vinput" style="gap: 0px !important;" [ngClass]="{ 'desactivado': modoSeleccionRango }">
                 <label class="label" style="text-align: center">{{gestionActual}}</label>
                 <div class="buttons no-spacing" style="align-self: flex-end">
-                  <button class="button" (click)="mesAnterior()"><i class="fas fa-arrow-left"></i></button>
+                  <button class="button" (click)="mesAnterior()">
+                    <i class="fas fa-arrow-left"></i>
+                  </button>
                   <button class="button" style="min-width: 110px">{{meses[mesActual]}}</button>
-                  <button class="button" (click)="mesSiguiente()"><i class="fas fa-arrow-right"></i></button>
+                  <button class="button" (click)="mesSiguiente()">
+                    <i class="fas fa-arrow-right"></i>
+                  </button>
                 </div>
               </div>
               <div class="field button-flat" style="align-self: end">

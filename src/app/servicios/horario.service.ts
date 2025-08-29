@@ -11,7 +11,6 @@ export class HorarioService {
   private apiUrl = env.apiUrl;
 
   constructor(private http: HttpClient) {
-
   }
 
   public getHorario(id: number) {
