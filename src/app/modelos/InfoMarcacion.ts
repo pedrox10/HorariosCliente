@@ -1,4 +1,5 @@
 import {EstadoJornada} from "./Jornada";
+import {Horario} from "./Horario";
 export class InfoMarcacion{
   fecha: Date;
   dia:string;
@@ -66,7 +67,7 @@ export class InfoMarcacion{
 
 export interface IMarcacionInfo {
   fecha: string;
-  horario: string;
+  horario: Horario;
   priEntrada: string,
   priSalida: string,
   segEntrada: string,

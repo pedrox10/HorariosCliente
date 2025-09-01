@@ -3,6 +3,10 @@ export class Horario {
   nombre: string
   tolerancia:number
   color: string
+  priEntrada: string
+  priSalida: string
+  segEntrada: string
+  segSalida: string
   area: string
   descripcion: string
   jornadaDias:  any
@@ -11,12 +15,17 @@ export class Horario {
   diasIntercalados: boolean
   esContinuoDosDias: boolean
 
-  constructor(id: number, nombre: string, tolerancia:number, color: string, area: string, descripcion: string,
-              incluyeFeriados: boolean, jornadasDosDias: boolean, diasIntercalados: boolean, esContinuoDosDias: boolean, jornadaDias:any) {
+  constructor(id: number, nombre: string, tolerancia:number, color: string, priEntrada: string, priSalida: string,
+              segEntrada: string, segSalida: string, area: string, descripcion: string, incluyeFeriados: boolean,
+              jornadasDosDias: boolean, diasIntercalados: boolean, esContinuoDosDias: boolean, jornadaDias:any) {
     this.id = id;
     this.nombre = nombre;
     this.tolerancia = tolerancia
     this.color = color
+    this.priEntrada = priEntrada
+    this.priSalida = priSalida
+    this.segEntrada = segEntrada
+    this.segSalida = segSalida
     this.area = area
     this.descripcion = descripcion
     this.incluyeFeriados = incluyeFeriados

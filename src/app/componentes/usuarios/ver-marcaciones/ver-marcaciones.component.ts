@@ -108,7 +108,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
     this.terminalService.getResumenMarcaciones(id, ini, fin).subscribe(
       (data: any) => {
         this.rm = data;
-        //console.log(data)
+        console.log(data)
         this.isCargando = false;
         if(this.rm.mensajeError) {
           console.log(this.rm.mensajeError)
@@ -117,10 +117,13 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
         this.cambiarTotales()
         for (let info of this.infoMarcaciones) {
           let fila = {} as IMarcacionInfo;
-          fila.fecha = info.fecha.toString();
-          fila.horario = info.horario.nombre
+          fila.fecha = this.formatear(info.fecha);
+          fila.horario = info.horario
           if(info.priEntradas)
             fila.priEntrada = info.priEntradas[0] === undefined ? "" : info.priEntradas[0];
+          else{
+            fila.priEntrada = ""
+          }
           if(info.priSalidas)
             fila.priSalida = info.priSalidas[0] === undefined ? "" : info.priSalidas[0];
           if(info.segEntradas)
@@ -201,26 +204,33 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
           color: { argb: 'FF000000' } // Negro para la hora de marcación
         } as ExcelJS.Font;
         // --- Crear el valor de la celda como RichText ---
-        const richTextValue = [
-          { font: planificadoFont, text: `` },
-          { font: {}, text: '\n' }, // Salto de línea sin estilo
-          { font: marcadoFont, text: `` },
-        ];
+
         const estiloReferencia = worksheet!.getRow(8);
-        this.fileName = "test.xlsx";
-        // 👉 Datos desde fila 7
+        this.fileName = "reporte_marcaciones.xlsx";
+        // Datos desde fila 8
         const startRow = 8;
         this.filasExcel.forEach((fila, i) => {
+          const richTextValue = [
+            { font: planificadoFont, text: fila.horario.priEntrada + "" },
+            { font: {}, text: '\n' }, // Salto de línea sin estilo
+            { font: marcadoFont, text: fila.priEntrada + "" },
+          ];
           const row = worksheet!.getRow(startRow + i);
           row.height = 25;
           row.getCell(1).value = fila.fecha
-          row.getCell(2).value = fila.horario;
-          row.getCell(3).value = fila.priEntrada;
+          row.getCell(2).value = fila.horario.nombre === undefined ? "" : fila.horario.nombre;
+          row.getCell(3).value = {
+            richText: richTextValue
+          };
+          row.getCell(3).alignment = { wrapText: true, horizontal: 'center', }
           row.getCell(4).value = fila.priSalida;
           row.getCell(5).value = fila.segEntrada;
           row.getCell(6).value = fila.segSalida;
           row.getCell(7).value = fila.retraso === undefined ? "" : fila.retraso;
-          row.getCell(8).value = fila.sinMarcar === undefined ? "" : fila.sinMarcar;
+          if(fila.sinMarcar)
+            row.getCell(8).value = fila.sinMarcar === undefined ? "" : fila.sinMarcar;
+          else
+            row.getCell(8).value = ""
           row.getCell(9).value = fila.salAntes === undefined ? "" : fila.salAntes;
           row.eachCell((cell, colNumber) => {
             const refCell = estiloReferencia.getCell(colNumber);
@@ -228,7 +238,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
           });
           row.commit();
         });
-        // 👉 Descargar
+        // Descargar
         workbook.xlsx.writeBuffer().then(buffer => {
           const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
           const url = window.URL.createObjectURL(blob);
@@ -251,5 +261,9 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
 
   getColor(nombre: string) {
     return color(nombre)
+  }
+
+  formatear(fecha: Date){
+    return moment(fecha).format("dddd, D [de] MMMM [de] YYYY")
   }
 }
