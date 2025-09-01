@@ -9,17 +9,15 @@ import moment from 'moment';
 import * as Moment from 'moment';
 import {extendMoment} from 'moment-range';
 import {Usuario} from "../../../modelos/Usuario";
-import {InfoMarcacion} from "../../../modelos/InfoMarcacion";
-import {ResumenMarcacion} from "../../../modelos/ResumenMarcacion";
+import {IMarcacionInfo, InfoMarcacion} from "../../../modelos/InfoMarcacion";
+import {IReporte, ResumenMarcacion} from "../../../modelos/ResumenMarcacion";
 import {MarcacionComponent} from "./marcacion/marcacion.component";
 import {LockPlugin} from "@easepick/lock-plugin";
-import {color} from "../../inicio/Global";
+import {color, format} from "../../inicio/Global";
 import {env} from "../../../../environments/environments";
 import {ModalService} from "ngx-modal-ease";
-import {NuevaExcepcionCompletaComponent} from "./nueva-excepcion-completa/nueva-excepcion-completa.component";
-import {NuevaExcepcionParcialComponent} from "./nueva-excepcion-parcial/nueva-excepcion-parcial.component";
-import {VerExcepcionesComponent} from "./ver-excepciones/ver-excepciones.component";
 import {EstadoJornada} from "../../../modelos/Jornada";
+import * as ExcelJS from 'exceljs';
 
 @Component({
   selector: 'app-ver-marcaciones',
@@ -46,6 +44,8 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   textUltSincronizacion=""
   public estado;
   isCargando = true
+  fileName= '';
+  filasExcel = [] as Array<IMarcacionInfo>
 
   constructor(public terminalService: TerminalService, public location: Location, public modalService: ModalService) {
 
@@ -54,7 +54,6 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       (data: any) => {
         this.usuario = data;
         console.log(this.usuario)
-        //console.log(this.us)
         this.ultimaSincronizacion = moment(this.usuario.terminal.ultSincronizacion, "YYYY-MM-DD").toDate()
         this.textUltSincronizacion = moment(this.usuario.terminal.ultSincronizacion).format("DD/MM/YYYY HH:mm")
 
@@ -109,13 +108,30 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
     this.terminalService.getResumenMarcaciones(id, ini, fin).subscribe(
       (data: any) => {
         this.rm = data;
-        console.log(data)
+        //console.log(data)
         this.isCargando = false;
         if(this.rm.mensajeError) {
           console.log(this.rm.mensajeError)
         }
         this.infoMarcaciones = this.rm.infoMarcaciones;
         this.cambiarTotales()
+        for (let info of this.infoMarcaciones) {
+          let fila = {} as IMarcacionInfo;
+          fila.fecha = info.fecha.toString();
+          fila.horario = info.horario.nombre
+          if(info.priEntradas)
+            fila.priEntrada = info.priEntradas[0] === undefined ? "" : info.priEntradas[0];
+          if(info.priSalidas)
+            fila.priSalida = info.priSalidas[0] === undefined ? "" : info.priSalidas[0];
+          if(info.segEntradas)
+            fila.segEntrada = info.segEntradas[0] === undefined ? "" : info.segEntradas[0];
+          if(info.segSalidas)
+            fila.segSalida = info.segSalidas[0] === undefined ? "" : info.segSalidas[0];
+          fila.retraso = info.minRetrasos
+          fila.sinMarcar = info.sinMarcarEntradas + info.sinMarcarSalidas
+          fila.salAntes = info.cantSalAntes
+          this.filasExcel.push(fila)
+        }
       },
       (error: any) => {
         console.error('An error occurred:', error);
@@ -166,42 +182,62 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
     //permisosSG.innerText = this.resumenMarcacion.totalPermisosSG === undefined ? "--" : this.resumenMarcacion.totalPermisosSG + "d"
   }
 
-  agregarExcepcionCompleta() {
-    let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
-    this.modalService.open(NuevaExcepcionCompletaComponent, {
-      modal: {enter: `${config.animation} ${config.duration}`,},
-      size: {padding: '0.5rem'},
-      data: {}
-    })
-      .subscribe((data) => {
-        if (data !== undefined)
-          console.log(data)
-      });
-  }
-
-  agregarExcepcionParcial() {
-    let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
-    this.modalService.open(NuevaExcepcionParcialComponent, {
-      modal: {enter: `${config.animation} ${config.duration}`,},
-      size: {padding: '0.5rem'},
-      data: {}
-    })
-      .subscribe((data) => {
-        if (data !== undefined)
-          console.log(data)
-      });
-  }
-
-  verExcepciones() {
-    let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
-    this.modalService.open(VerExcepcionesComponent, {
-      modal: {enter: `${config.animation} ${config.duration}`,},
-      size: {padding: '0.5rem'},
-      data: {}
-    })
-      .subscribe((data) => {
-        if (data !== undefined)
-          console.log(data)
+  async generarExcelConEstilo() {
+    const workbook = new ExcelJS.Workbook();
+    fetch('assets/rep_marcaciones.xlsx')
+      .then(res => res.arrayBuffer())
+      .then(buffer => workbook.xlsx.load(buffer))
+      .then(() => {
+        const worksheet = workbook.getWorksheet(1); // o por nombre: workbook.getWorksheet('Reporte');
+        // --- Estilos de fuente para cada parte del texto ---
+        const planificadoFont = {
+          name: 'Calibri',
+          size: 7, // Tamaño de fuente para la hora planificada
+          color: { argb: 'FF808080' } // Un gris oscuro para la hora planificada
+        } as ExcelJS.Font;
+        const marcadoFont = {
+          name: 'Calibri',
+          size: 9, // Mismo tamaño de fuente para la hora de marcación
+          color: { argb: 'FF000000' } // Negro para la hora de marcación
+        } as ExcelJS.Font;
+        // --- Crear el valor de la celda como RichText ---
+        const richTextValue = [
+          { font: planificadoFont, text: `` },
+          { font: {}, text: '\n' }, // Salto de línea sin estilo
+          { font: marcadoFont, text: `` },
+        ];
+        const estiloReferencia = worksheet!.getRow(8);
+        this.fileName = "test.xlsx";
+        // 👉 Datos desde fila 7
+        const startRow = 8;
+        this.filasExcel.forEach((fila, i) => {
+          const row = worksheet!.getRow(startRow + i);
+          row.height = 25;
+          row.getCell(1).value = fila.fecha
+          row.getCell(2).value = fila.horario;
+          row.getCell(3).value = fila.priEntrada;
+          row.getCell(4).value = fila.priSalida;
+          row.getCell(5).value = fila.segEntrada;
+          row.getCell(6).value = fila.segSalida;
+          row.getCell(7).value = fila.retraso === undefined ? "" : fila.retraso;
+          row.getCell(8).value = fila.sinMarcar === undefined ? "" : fila.sinMarcar;
+          row.getCell(9).value = fila.salAntes === undefined ? "" : fila.salAntes;
+          row.eachCell((cell, colNumber) => {
+            const refCell = estiloReferencia.getCell(colNumber);
+            cell.style = { ...refCell.style };
+          });
+          row.commit();
+        });
+        // 👉 Descargar
+        workbook.xlsx.writeBuffer().then(buffer => {
+          const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = this.fileName || 'reporte.xlsx';
+          a.click();
+          window.URL.revokeObjectURL(url);
+        });
       });
   }
 
