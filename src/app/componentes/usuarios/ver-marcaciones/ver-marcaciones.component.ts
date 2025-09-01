@@ -1,19 +1,18 @@
-import {AfterViewInit, Component, inject, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {TerminalService} from '../../../servicios/terminal.service';
 import {HttpClientModule} from '@angular/common/http';
 import {easepick} from '@easepick/core';
 import {RangePlugin} from '@easepick/range-plugin';
 import {Location} from '@angular/common';
-import moment from 'moment';
-import * as Moment from 'moment';
+import moment, * as Moment from 'moment';
 import {extendMoment} from 'moment-range';
 import {Usuario} from "../../../modelos/Usuario";
 import {IMarcacionInfo, InfoMarcacion} from "../../../modelos/InfoMarcacion";
-import {IReporte, ResumenMarcacion} from "../../../modelos/ResumenMarcacion";
+import {ResumenMarcacion} from "../../../modelos/ResumenMarcacion";
 import {MarcacionComponent} from "./marcacion/marcacion.component";
 import {LockPlugin} from "@easepick/lock-plugin";
-import {color, format} from "../../inicio/Global";
+import {color} from "../../inicio/Global";
 import {env} from "../../../../environments/environments";
 import {ModalService} from "ngx-modal-ease";
 import {EstadoJornada} from "../../../modelos/Jornada";
@@ -116,24 +115,26 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
         this.infoMarcaciones = this.rm.infoMarcaciones;
         this.cambiarTotales()
         for (let info of this.infoMarcaciones) {
-          let fila = {} as IMarcacionInfo;
-          fila.fecha = this.formatear(info.fecha);
-          fila.horario = info.horario
-          if(info.priEntradas)
-            fila.priEntrada = info.priEntradas[0] === undefined ? "" : info.priEntradas[0];
-          else{
-            fila.priEntrada = ""
+          if(info.estado != EstadoJornada.dia_libre && info.estado != EstadoJornada.feriado) {
+            let fila = {} as IMarcacionInfo;
+            fila.fecha = this.formatear(info.fecha);
+            fila.horario = info.horario
+            if(info.priEntradas)
+              fila.priEntrada = info.priEntradas[0] === undefined ? "" : info.priEntradas[0];
+            else{
+              fila.priEntrada = ""
+            }
+            if(info.priSalidas)
+              fila.priSalida = info.priSalidas[0] === undefined ? "" : info.priSalidas[0];
+            if(info.segEntradas)
+              fila.segEntrada = info.segEntradas[0] === undefined ? "" : info.segEntradas[0];
+            if(info.segSalidas)
+              fila.segSalida = info.segSalidas[0] === undefined ? "" : info.segSalidas[0];
+            fila.retraso = info.minRetrasos
+            fila.sinMarcar = info.sinMarcarEntradas + info.sinMarcarSalidas
+            fila.salAntes = info.cantSalAntes
+            this.filasExcel.push(fila)
           }
-          if(info.priSalidas)
-            fila.priSalida = info.priSalidas[0] === undefined ? "" : info.priSalidas[0];
-          if(info.segEntradas)
-            fila.segEntrada = info.segEntradas[0] === undefined ? "" : info.segEntradas[0];
-          if(info.segSalidas)
-            fila.segSalida = info.segSalidas[0] === undefined ? "" : info.segSalidas[0];
-          fila.retraso = info.minRetrasos
-          fila.sinMarcar = info.sinMarcarEntradas + info.sinMarcarSalidas
-          fila.salAntes = info.cantSalAntes
-          this.filasExcel.push(fila)
         }
       },
       (error: any) => {
@@ -192,37 +193,34 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       .then(buffer => workbook.xlsx.load(buffer))
       .then(() => {
         const worksheet = workbook.getWorksheet(1); // o por nombre: workbook.getWorksheet('Reporte');
-        // --- Estilos de fuente para cada parte del texto ---
         const planificadoFont = {
           name: 'Calibri',
-          size: 7, // Tamaño de fuente para la hora planificada
+          size: 6, // Tamaño de fuente para la hora planificada
           color: { argb: 'FF808080' } // Un gris oscuro para la hora planificada
         } as ExcelJS.Font;
         const marcadoFont = {
           name: 'Calibri',
-          size: 9, // Mismo tamaño de fuente para la hora de marcación
+          size: 8, // Mismo tamaño de fuente para la hora de marcación
           color: { argb: 'FF000000' } // Negro para la hora de marcación
         } as ExcelJS.Font;
         // --- Crear el valor de la celda como RichText ---
 
-        const estiloReferencia = worksheet!.getRow(8);
+        const estiloReferencia = worksheet!.getRow(7);
         this.fileName = "reporte_marcaciones.xlsx";
-        // Datos desde fila 8
-        const startRow = 8;
+        // Datos desde fila 7
+        const startRow = 7;
         this.filasExcel.forEach((fila, i) => {
           const richTextValue = [
-            { font: planificadoFont, text: fila.horario.priEntrada + "" },
+            { font: planificadoFont, text: fila.horario.priEntrada.slice(0, 5) },
             { font: {}, text: '\n' }, // Salto de línea sin estilo
             { font: marcadoFont, text: fila.priEntrada + "" },
           ];
           const row = worksheet!.getRow(startRow + i);
-          row.height = 25;
+          row.height = 20;
           row.getCell(1).value = fila.fecha
           row.getCell(2).value = fila.horario.nombre === undefined ? "" : fila.horario.nombre;
-          row.getCell(3).value = {
-            richText: richTextValue
-          };
-          row.getCell(3).alignment = { wrapText: true, horizontal: 'center', }
+          row.getCell(3).value = { richText: richTextValue };
+          row.getCell(3).alignment = { wrapText: true, horizontal: 'center', vertical: 'top' }
           row.getCell(4).value = fila.priSalida;
           row.getCell(5).value = fila.segEntrada;
           row.getCell(6).value = fila.segSalida;

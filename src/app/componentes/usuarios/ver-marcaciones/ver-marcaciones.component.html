@@ -252,7 +252,9 @@
           </td>
           <td>
             @if(infoMarcacion.hayPriEntExcepcion.existe) {
-            <span class="help has-text-gray" style="margin-top: -4px; margin-bottom: -5px; font-size: 0.51em">{{getInfoActual().horario.priEntrada.slice(0, 5)}}</span>
+            <span class="help has-text-gray" style="margin-top: -4px; margin-bottom: -5px; font-size: 0.51em">
+              {{getInfoActual().horario.priEntrada.slice(0, 5)}}
+            </span>
             <div class="dropdown is-up is-hoverable">
               <div class="dropdown-trigger">
                 @if(!infoMarcacion.hayPriEntExcepcion.esInterrupcion) {
@@ -292,7 +294,9 @@
             }
             } @else {
             <div class="vitem" style="margin-top: -4px;">
-              <span class="help has-text-gray" style="margin-top: 0; margin-bottom: -5px; font-size: 0.51em">{{getInfoActual().horario.priEntrada.slice(0, 5)}}</span>
+              <span class="help has-text-gray" style="margin-top: 0; margin-bottom: -5px; font-size: 0.51em">
+                {{getInfoActual().horario.priEntrada.slice(0, 5)}}
+              </span>
               <marcacion style= "font-size: 1em" tipo="entrada" [registros]="getInfoActual().priEntradas"></marcacion>
             </div>
             @if(infoMarcacion.hayPriRetraso) {
