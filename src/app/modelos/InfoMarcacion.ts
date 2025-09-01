@@ -64,3 +64,15 @@ export class InfoMarcacion{
   }
 }
 
+export interface IMarcacionInfo {
+  fecha: string;
+  horario: string;
+  priEntrada: string,
+  priSalida: string,
+  segEntrada: string,
+  segSalida: string,
+  retraso: number,
+  sinMarcar: number,
+  salAntes: number
+}
+

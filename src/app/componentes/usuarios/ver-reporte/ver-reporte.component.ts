@@ -348,7 +348,6 @@ export class VerReporteComponent implements OnInit{
           });
           row.commit();
         });
-
         // 👉 Descargar
         workbook.xlsx.writeBuffer().then(buffer => {
           const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });

@@ -66,8 +66,6 @@ export class ResumenMarcacion{
     this.totalLicencias = totalLicencias;
     this.totalCapacitaciones = totalCapacitaciones;
     this.totalOtros = totalOtros;
-
-
   }
 }
 
