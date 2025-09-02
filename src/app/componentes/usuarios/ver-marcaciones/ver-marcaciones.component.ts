@@ -113,28 +113,34 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
           console.log(this.rm.mensajeError)
         }
         this.infoMarcaciones = this.rm.infoMarcaciones;
+        this.filasExcel = [];
         this.cambiarTotales()
         for (let info of this.infoMarcaciones) {
-          if(info.estado != EstadoJornada.dia_libre && info.estado != EstadoJornada.feriado) {
             let fila = {} as IMarcacionInfo;
             fila.fecha = this.formatear(info.fecha);
             fila.horario = info.horario
-            if(info.priEntradas)
-              fila.priEntrada = info.priEntradas[0] === undefined ? "" : info.priEntradas[0];
-            else{
-              fila.priEntrada = ""
+            fila.activo = info.activo
+            if(info.activo) {
+              fila.numTurnos = info.numTurnos
+              if(info.priEntradas)
+                fila.priEntrada = info.priEntradas[0] === undefined ? "" : info.priEntradas[0];
+              else
+                fila.priEntrada = ""
+              if(info.priSalidas)
+                fila.priSalida = info.priSalidas[0] === undefined ? "" : info.priSalidas[0];
+
+              if(info.segEntradas)
+                fila.segEntrada = info.segEntradas[0] === undefined ? "" : info.segEntradas[0];
+              if(info.segSalidas)
+                fila.segSalida = info.segSalidas[0] === undefined ? "" : info.segSalidas[0];
+              fila.retraso = info.minRetrasos
+              fila.sinMarcar = info.sinMarcarEntradas + info.sinMarcarSalidas
+              fila.salAntes = info.cantSalAntes
+              this.filasExcel.push(fila)
+            } else {
+              fila.mensaje = info.mensaje
+              this.filasExcel.push(fila)
             }
-            if(info.priSalidas)
-              fila.priSalida = info.priSalidas[0] === undefined ? "" : info.priSalidas[0];
-            if(info.segEntradas)
-              fila.segEntrada = info.segEntradas[0] === undefined ? "" : info.segEntradas[0];
-            if(info.segSalidas)
-              fila.segSalida = info.segSalidas[0] === undefined ? "" : info.segSalidas[0];
-            fila.retraso = info.minRetrasos
-            fila.sinMarcar = info.sinMarcarEntradas + info.sinMarcarSalidas
-            fila.salAntes = info.cantSalAntes
-            this.filasExcel.push(fila)
-          }
         }
       },
       (error: any) => {
@@ -177,13 +183,11 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
     let sinMarcar = <HTMLSpanElement> document.getElementById("totalSinMarcar")
     let salAntes = <HTMLSpanElement> document.getElementById("totalSalAntes")
     let faltas = <HTMLSpanElement> document.getElementById("totalFaltas")
-    let permisosSG = <HTMLSpanElement> document.getElementById("totalPermisosSG")
     retrasos.innerText = this.rm.totalCantRetrasos === undefined ? "--" : this.rm.totalCantRetrasos
     minutos.innerText = this.rm.totalMinRetrasos === undefined ? "--" : this.rm.totalMinRetrasos + "min"
     sinMarcar.innerText = this.rm.totalSinMarcar === undefined ? "--" : this.rm.totalSinMarcar
     salAntes.innerText = this.rm.totalSalAntes === undefined ? "--" : this.rm.totalSalAntes
     faltas.innerText = this.rm.totalAusencias === undefined ? "--" : this.rm.totalAusencias
-    //permisosSG.innerText = this.resumenMarcacion.totalPermisosSG === undefined ? "--" : this.resumenMarcacion.totalPermisosSG + "d"
   }
 
   async generarExcelConEstilo() {
@@ -193,46 +197,74 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       .then(buffer => workbook.xlsx.load(buffer))
       .then(() => {
         const worksheet = workbook.getWorksheet(1); // o por nombre: workbook.getWorksheet('Reporte');
-        const planificadoFont = {
+        const horaFont = {
           name: 'Calibri',
           size: 6, // Tamaño de fuente para la hora planificada
           color: { argb: 'FF808080' } // Un gris oscuro para la hora planificada
         } as ExcelJS.Font;
         const marcadoFont = {
           name: 'Calibri',
-          size: 8, // Mismo tamaño de fuente para la hora de marcación
+          size: 8,
           color: { argb: 'FF000000' } // Negro para la hora de marcación
         } as ExcelJS.Font;
-        // --- Crear el valor de la celda como RichText ---
-
+        const dottedBorder: Partial<ExcelJS.Borders> = {
+          bottom: { style: 'dotted' },
+        };
         const estiloReferencia = worksheet!.getRow(7);
         this.fileName = "reporte_marcaciones.xlsx";
-        // Datos desde fila 7
         const startRow = 7;
+        console.log(this.filasExcel)
         this.filasExcel.forEach((fila, i) => {
-          const richTextValue = [
-            { font: planificadoFont, text: fila.horario.priEntrada.slice(0, 5) },
-            { font: {}, text: '\n' }, // Salto de línea sin estilo
-            { font: marcadoFont, text: fila.priEntrada + "" },
-          ];
           const row = worksheet!.getRow(startRow + i);
-          row.height = 20;
           row.getCell(1).value = fila.fecha
           row.getCell(2).value = fila.horario.nombre === undefined ? "" : fila.horario.nombre;
-          row.getCell(3).value = { richText: richTextValue };
-          row.getCell(3).alignment = { wrapText: true, horizontal: 'center', vertical: 'top' }
-          row.getCell(4).value = fila.priSalida;
-          row.getCell(5).value = fila.segEntrada;
-          row.getCell(6).value = fila.segSalida;
-          row.getCell(7).value = fila.retraso === undefined ? "" : fila.retraso;
-          if(fila.sinMarcar)
-            row.getCell(8).value = fila.sinMarcar === undefined ? "" : fila.sinMarcar;
-          else
-            row.getCell(8).value = ""
-          row.getCell(9).value = fila.salAntes === undefined ? "" : fila.salAntes;
+          if(fila.activo) {
+            row.height = 20;
+            let rtPriEntrada = [
+              {font: horaFont, text: fila.horario.priEntrada.slice(0, 5)},
+              {font: {}, text: '\n'}, // Salto de línea sin estilo
+              {font: marcadoFont, text: fila.priEntrada + ""},
+            ];
+            row.getCell(3).value = {richText: rtPriEntrada};
+
+            let rtPriSalida = [
+              {font: horaFont, text: fila.horario.priSalida.slice(0, 5)},
+              {font: {}, text: '\n'}, // Salto de línea sin estilo
+              {font: marcadoFont, text: fila.priSalida + ""},
+            ];
+            row.getCell(4).value = {richText: rtPriSalida};
+            if(fila.numTurnos == 2) {
+              let rtSegEntrada = [
+                {font: horaFont, text: fila.horario.segEntrada.slice(0, 5)},
+                {font: {}, text: '\n'}, // Salto de línea sin estilo
+                {font: marcadoFont, text: fila.segEntrada + ""},
+              ];
+              row.getCell(5).value = {richText: rtSegEntrada};
+
+              let rtSegSalida = [
+                {font: horaFont, text: fila.horario.segSalida.slice(0, 5)},
+                {font: {}, text: '\n'}, // Salto de línea sin estilo
+                {font: marcadoFont, text: fila.segSalida + ""},
+              ];
+              row.getCell(6).value = {richText: rtSegSalida};
+            }
+            row.getCell(7).value = fila.retraso === undefined ? "" : fila.retraso;
+            if (fila.sinMarcar)
+              row.getCell(8).value = fila.sinMarcar === undefined ? "" : fila.sinMarcar;
+            else
+              row.getCell(8).value = ""
+            row.getCell(9).value = fila.salAntes === undefined ? "" : fila.salAntes;
+          } else {
+            row.height = 13.5;
+            worksheet!.mergeCells(row.number, 3, row.number, 6);
+            row.getCell(3).value = fila.mensaje;
+          }
           row.eachCell((cell, colNumber) => {
             const refCell = estiloReferencia.getCell(colNumber);
-            cell.style = { ...refCell.style };
+            if(colNumber == 1)
+              cell.style = {...refCell.style, border: dottedBorder, alignment: { wrapText: true, horizontal: 'left', vertical: 'bottom' }};
+            else
+              cell.style = {...refCell.style, border: dottedBorder, alignment: { wrapText: true, horizontal: 'center', vertical: 'bottom' }};
           });
           row.commit();
         });

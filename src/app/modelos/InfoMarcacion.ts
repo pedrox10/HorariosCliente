@@ -67,11 +67,14 @@ export class InfoMarcacion{
 
 export interface IMarcacionInfo {
   fecha: string;
+  activo: boolean,
   horario: Horario;
   priEntrada: string,
   priSalida: string,
   segEntrada: string,
   segSalida: string,
+  mensaje?: string, // Creado en caso de que la jornada no sea activa
+  numTurnos?: number,// Solo cuando es la jornada activa
   retraso: number,
   sinMarcar: number,
   salAntes: number
