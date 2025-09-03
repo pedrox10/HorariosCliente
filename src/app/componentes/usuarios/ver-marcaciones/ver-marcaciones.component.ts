@@ -86,6 +86,8 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
         picker.gotoDate(moment().subtract(1, "month").toDate());
         picker.setStartDate(moment(this.ini, "YYYYMMDD").toDate());
         picker.setEndDate(moment(this.fin, "YYYYMMDD").toDate())
+        sessionStorage.setItem('ini', this.ini);
+        sessionStorage.setItem('fin', this.fin);
         this.getResumenMarcaciones(this.id, this.ini, this.fin)
 
         picker.on('select', (e) => {
@@ -128,17 +130,38 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
                 if(info.priEntradas)
                   fila.priEntrada = info.priEntradas[0] === undefined ? "" : info.priEntradas[0];
                 else
-                  fila.priEntrada = "Sin Marcar"
+                  fila.priEntrada = "SinMarcar"
               }
-              if(info.priSalidas)
-                fila.priSalida = info.priSalidas[0] === undefined ? "" : info.priSalidas[0];
-
-              if(info.segEntradas)
-                fila.segEntrada = info.segEntradas[0] === undefined ? "" : info.segEntradas[0];
-              if(info.segSalidas)
-                fila.segSalida = info.segSalidas[0] === undefined ? "" : info.segSalidas[0];
+              if(info.hayPriSalExcepcion.existe) {
+                fila.priSalida = "Excepción"
+              } else {
+                if(info.priSalidas)
+                  fila.priSalida = info.priSalidas[info.priSalidas.length-1] === undefined
+                                    ? "" : info.priSalidas[info.priSalidas.length-1];
+                else
+                  fila.priSalida = "SinMarcar"
+              }
+              if(info.numTurnos == 2) {
+                if(info.haySegEntExcepcion.existe) {
+                  fila.segEntrada = "Excepción"
+                } else {
+                  if(info.segEntradas)
+                    fila.segEntrada = info.segEntradas[0] === undefined ? "" : info.segEntradas[0];
+                  else
+                    fila.segEntrada = "SinMarcar"
+                }
+                if(info.haySegSalExcepcion.existe) {
+                  fila.segSalida = "Excepción"
+                } else {
+                  if(info.segSalidas)
+                    fila.segSalida = info.segSalidas[info.segSalidas.length-1] === undefined
+                                      ? "" : info.segSalidas[info.segSalidas.length-1];
+                  else
+                    fila.segSalida = "SinMarcar"
+                }
+              }
               fila.retraso = info.minRetrasos
-              fila.sinMarcar = info.sinMarcarEntradas + info.sinMarcarSalidas
+              fila.sinMarcar = info.noMarcados
               fila.salAntes = info.cantSalAntes
               this.filasExcel.push(fila)
             } else {
@@ -200,67 +223,111 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       .then(res => res.arrayBuffer())
       .then(buffer => workbook.xlsx.load(buffer))
       .then(() => {
-        const worksheet = workbook.getWorksheet(1); // o por nombre: workbook.getWorksheet('Reporte');
-        const horaFont = {
+        let worksheet = workbook.getWorksheet(1); // o por nombre: workbook.getWorksheet('Reporte');
+        let horaFont = {
           name: 'Calibri',
           size: 6, // Tamaño de fuente para la hora planificada
           color: { argb: 'FF808080' } // Un gris oscuro para la hora planificada
         } as ExcelJS.Font;
-        const marcadoFont = {
+        let marcadoFont = {
           name: 'Calibri',
           size: 8,
           color: { argb: 'FF000000' } // Negro para la hora de marcación
         } as ExcelJS.Font;
-        const dottedBorder: Partial<ExcelJS.Borders> = {
+        let excepcionFont = {
+          name: 'Calibri',
+          size: 7,
+          color: { argb: 'FF4bb990' }
+        } as ExcelJS.Font;
+        let sinMarcarFont = {
+          name: 'Calibri',
+          size: 7,
+          color: { argb: 'FFda4c4b' }
+        } as ExcelJS.Font;
+
+        let dottedBorder: Partial<ExcelJS.Borders> = {
           bottom: { style: 'dotted' },
         };
         const estiloReferencia = worksheet!.getRow(7);
         this.fileName = "reporte_marcaciones.xlsx";
+        let segundaFila = worksheet!.getRow(2);
+        segundaFila.getCell(3).value = this.usuario.nombre;
+        let fechaIni = moment(sessionStorage.getItem("ini")).format("[Desde] dddd D [de] MMMM [de] YYYY")
+        segundaFila.getCell(7).value = fechaIni
+        let terceraFila = worksheet!.getRow(3);
+        terceraFila.getCell(3).value = this.usuario.ci;
+        let fechaFin = moment(sessionStorage.getItem("fin")).format("[Hasta] dddd D [de] MMMM [de] YYYY")
+        terceraFila.getCell(7).value = fechaFin
         const startRow = 7;
+        console.log(this.filasExcel)
         this.filasExcel.forEach((fila, i) => {
-          const row = worksheet!.getRow(startRow + i);
+          let row = worksheet!.getRow(startRow + i);
           row.getCell(1).value = fila.fecha
           row.getCell(2).value = fila.horario.nombre === undefined ? "" : fila.horario.nombre;
           if(fila.activo) {
             row.height = 20;
+
+            let priEntFuente = marcadoFont; // valor por defecto
+            if (fila.priEntrada === "Excepción") {
+              priEntFuente = excepcionFont;  // tu fuente definida para excepciones
+            } else if (fila.priEntrada === "SinMarcar") {
+              priEntFuente = sinMarcarFont;  // tu fuente definida para sin marcar
+            }
             let rtPriEntrada = [
               {font: horaFont, text: fila.horario.priEntrada.slice(0, 5)},
               {font: {}, text: '\n'}, // Salto de línea sin estilo
-              {font: marcadoFont, text: fila.priEntrada + ""},
+              {font: priEntFuente, text: fila.priEntrada + ""},
             ];
             row.getCell(3).value = {richText: rtPriEntrada};
 
+            let priSalFuente = marcadoFont; // valor por defecto
+            if (fila.priSalida === "Excepción") {
+              priSalFuente = excepcionFont;  // tu fuente definida para excepciones
+            } else if (fila.priSalida === "SinMarcar") {
+              priSalFuente = sinMarcarFont;  // tu fuente definida para sin marcar
+            }
             let rtPriSalida = [
               {font: horaFont, text: fila.horario.priSalida.slice(0, 5)},
               {font: {}, text: '\n'}, // Salto de línea sin estilo
-              {font: marcadoFont, text: fila.priSalida + ""},
+              {font: priSalFuente, text: fila.priSalida + ""},
             ];
             row.getCell(4).value = {richText: rtPriSalida};
             if(fila.numTurnos == 2) {
+              let segEntFuente = marcadoFont; // valor por defecto
+              if (fila.segEntrada === "Excepción") {
+                segEntFuente = excepcionFont;  // tu fuente definida para excepciones
+              } else if (fila.segEntrada === "SinMarcar") {
+                segEntFuente = sinMarcarFont;  // tu fuente definida para sin marcar
+              }
               let rtSegEntrada = [
                 {font: horaFont, text: fila.horario.segEntrada.slice(0, 5)},
                 {font: {}, text: '\n'}, // Salto de línea sin estilo
-                {font: marcadoFont, text: fila.segEntrada + ""},
+                {font: segEntFuente, text: fila.segEntrada + ""},
               ];
               row.getCell(5).value = {richText: rtSegEntrada};
 
+              let segSalFuente = marcadoFont; // valor por defecto
+              if (fila.segSalida === "Excepción") {
+                segSalFuente = excepcionFont;  // tu fuente definida para excepciones
+              } else if (fila.segSalida === "SinMarcar") {
+                segSalFuente = sinMarcarFont;  // tu fuente definida para sin marcar
+              }
               let rtSegSalida = [
                 {font: horaFont, text: fila.horario.segSalida.slice(0, 5)},
                 {font: {}, text: '\n'}, // Salto de línea sin estilo
-                {font: marcadoFont, text: fila.segSalida + ""},
+                {font: segSalFuente, text: fila.segSalida + ""},
               ];
               row.getCell(6).value = {richText: rtSegSalida};
             }
             row.getCell(7).value = fila.retraso === undefined ? "" : fila.retraso;
-            if (fila.sinMarcar)
-              row.getCell(8).value = fila.sinMarcar === undefined ? "" : fila.sinMarcar;
-            else
-              row.getCell(8).value = ""
+            row.getCell(8).value = fila.sinMarcar === undefined ? "" : fila.sinMarcar;
             row.getCell(9).value = fila.salAntes === undefined ? "" : fila.salAntes;
           } else {
             row.height = 13.5;
             worksheet!.mergeCells(row.number, 3, row.number, 7);
             row.getCell(3).value = fila.mensaje;
+            row.getCell(8).value = ""
+            row.getCell(9).value = ""
           }
           row.eachCell((cell, colNumber) => {
             const refCell = estiloReferencia.getCell(colNumber);
@@ -270,6 +337,22 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
               cell.style = {...refCell.style, border: dottedBorder, alignment: { wrapText: true, horizontal: 'center', vertical: 'bottom' }};
           });
           row.commit();
+        });
+        const ultimaFilaIndex = startRow + this.filasExcel.length;
+        let ultimaFila = worksheet!.getRow(ultimaFilaIndex);
+        ultimaFila.getCell(1).value = "TOTALES --------------------->";
+        ultimaFila.getCell(2).value = "Ausencias:";
+        ultimaFila.getCell(3).value = this.rm.totalAusencias;
+        ultimaFila.getCell(4).value = "";
+        ultimaFila.getCell(5).value = "";
+        ultimaFila.getCell(6).value = "";
+        ultimaFila.getCell(7).value = this.rm.totalMinRetrasos;
+        ultimaFila.getCell(8).value = this.rm.totalSinMarcar;
+        ultimaFila.getCell(9).value = this.rm.totalSalAntes;
+        ultimaFila.eachCell((cell) => {
+          cell.font = { name: 'Calibri', size: 9, bold: true};
+          cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'DDDDDD' }};
+          cell.alignment = { horizontal: 'center', vertical: 'middle' };
         });
         // Descargar
         workbook.xlsx.writeBuffer().then(buffer => {

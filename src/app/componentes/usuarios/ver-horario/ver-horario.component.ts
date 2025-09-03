@@ -14,6 +14,7 @@ import {Jornada} from "../../../modelos/Jornada";
 import {FormsModule} from "@angular/forms";
 import {CommonModule, Location} from "@angular/common";
 import {AsignarHorariosComponent} from "../../horarios/asignar-horarios/asignar-horarios.component";
+import {AuthService} from "../../../servicios/auth.service";
 
 @Component({
   selector: 'app-ver-horario',
@@ -40,9 +41,11 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
   modoSeleccionRango: boolean = false;
   menuVisible: boolean = false;
   contextMenuPosition = { x: 0, y: 0 };
+  isAdmin: boolean;
 
   constructor(public terminalService: TerminalService, public horarioService: HorarioService,
-              public modalService: ModalService, private location: Location) {
+              public modalService: ModalService, private location: Location, private authService: AuthService) {
+    this.isAdmin  = this.authService.obtenerRol() === 'Administrador';
     this.gestionActual = moment().year()
     this.mesActual = moment().month()
     this.id = this.activatedRoute.snapshot.params['id'];

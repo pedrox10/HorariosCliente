@@ -31,6 +31,7 @@
                   </button>
                 </div>
               </div>
+              @if(isAdmin) {
               <div class="field button-flat" style="align-self: end">
                 <label class="switch is-rounded">
                   <input type="checkbox" [(ngModel)]="modoSeleccionRango" (change)="onToggleSeleccion()">
@@ -38,6 +39,7 @@
                   <span class="control-label" style="min-width: 130px">Personalizar horario</span>
                 </label>
               </div>
+              }
             </div>
             <div class="hitem" style="justify-content: flex-end; align-self: flex-end">
               <button class="button" (click)="imprimir()">

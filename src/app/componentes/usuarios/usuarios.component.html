@@ -238,10 +238,12 @@
           <div class="grupos mt-3">
             <div class="hitem">
               <label class="label">Grupos</label>
+              @if(isAdmin) {
               <i class="fas fa-plus-circle icon-btn"
                  style="color: gray; margin-top: -5px"
                  (click)="modalAccionGrupo(null)">
               </i>
+              }
             </div>
             <div class="buttons is-flex is-flex-direction-column" style="gap: 3px; align-items: flex-start">
               @for (grupo of terminal?.grupos; track grupo) {
@@ -250,6 +252,7 @@
                     class="button toggle" (click)="filtrarPorGrupo(grupo.id)"
                     [class.seleccionado]="isSelectedGroup(grupo.id)">{{grupo.nombre}}
                 </button>
+                @if(isAdmin) {
                 <div class="dropdown is-hoverable is-custom-right" style="margin-top: 6.5px;">
                   <div class="dropdown-trigger">
                     <i class="fas fa-ellipsis-v icon-btn" style="color: gray; max-width: 26px; font-size: 1.1em"></i>
@@ -267,6 +270,7 @@
                     </div>
                   </div>
                 </div>
+                }
               </div>
               } @empty {
               <p class="has-text-grey">No hay grupos</p>

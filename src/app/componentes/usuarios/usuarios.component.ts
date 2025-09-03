@@ -659,7 +659,8 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
       tempUsuarios = tempUsuarios.filter(usuario => usuario.grupo?.id === undefined);
     }
     this.usuariosFiltrados = tempUsuarios;
-    this.actualizarCheckboxTodos(); // Actualiza el estado del checkbox "todos"
+    if(this.isAdmin)
+      this.actualizarCheckboxTodos(); // Actualiza el estado del checkbox "todos"
   }
 
   filtrarPorTexto($event: any) {
@@ -678,7 +679,8 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     env.filtrarEstado = true;
     env.estado = this.estado;
     this.aplicarFiltros();
-    this.marcarTodos(false); // Desmarca los usuarios seleccionados al cambiar el filtro de estado
+    if(this.isAdmin)
+      this.marcarTodos(false); // Desmarca los usuarios seleccionados al cambiar el filtro de estado
   }
 
   modalAccionGrupo(grupo: Grupo | null) {
