@@ -122,10 +122,14 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
             fila.activo = info.activo
             if(info.activo) {
               fila.numTurnos = info.numTurnos
-              if(info.priEntradas)
-                fila.priEntrada = info.priEntradas[0] === undefined ? "" : info.priEntradas[0];
-              else
-                fila.priEntrada = ""
+              if(info.hayPriEntExcepcion.existe) {
+                  fila.priEntrada = "Excepción";
+              } else {
+                if(info.priEntradas)
+                  fila.priEntrada = info.priEntradas[0] === undefined ? "" : info.priEntradas[0];
+                else
+                  fila.priEntrada = "Sin Marcar"
+              }
               if(info.priSalidas)
                 fila.priSalida = info.priSalidas[0] === undefined ? "" : info.priSalidas[0];
 
@@ -213,7 +217,6 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
         const estiloReferencia = worksheet!.getRow(7);
         this.fileName = "reporte_marcaciones.xlsx";
         const startRow = 7;
-        console.log(this.filasExcel)
         this.filasExcel.forEach((fila, i) => {
           const row = worksheet!.getRow(startRow + i);
           row.getCell(1).value = fila.fecha
@@ -256,7 +259,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
             row.getCell(9).value = fila.salAntes === undefined ? "" : fila.salAntes;
           } else {
             row.height = 13.5;
-            worksheet!.mergeCells(row.number, 3, row.number, 6);
+            worksheet!.mergeCells(row.number, 3, row.number, 7);
             row.getCell(3).value = fila.mensaje;
           }
           row.eachCell((cell, colNumber) => {
