@@ -15,6 +15,7 @@ import {FormsModule} from "@angular/forms";
 import {CommonModule, Location} from "@angular/common";
 import {AsignarHorariosComponent} from "../../horarios/asignar-horarios/asignar-horarios.component";
 import {AuthService} from "../../../servicios/auth.service";
+import {mensaje} from "../../inicio/Global";
 
 @Component({
   selector: 'app-ver-horario',
@@ -214,10 +215,27 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
     let ids = this.jornadasSeleccionadas
       .filter(j => j.horario  && j.estado !== 0) // solo los que tienen atributo horario y no sean dia libre
       .map(j => j.id);
-    this.horarioService.asignarDiaLibre(ids.toString()).subscribe(
-      (data: any) => {
-        console.log(data)
-      })
+    if(ids.length > 0) {
+      this.horarioService.asignarDiaLibre(ids.toString()).subscribe(
+        (data: any) => {
+          for (let semana of this.calendar) {
+            for (let i = 0; i < semana.dias.length; i++) {
+              const j = semana.dias[i];
+              if (j) {
+                const nueva = data.jornadasAsignadas.find((nj: any) =>
+                  moment(nj.fecha).format('YYYY-MM-DD') === moment(j.fecha).format('YYYY-MM-DD'));
+                if (nueva) {
+                  semana.dias[i] = nueva;
+                }
+              }
+            }
+          }
+          mensaje("¡Día(s) libres asignados!", "is-success")
+        })
+    } else
+      mensaje("Sin jornadas por asignar dia libre", "is-warning")
+
+
     this.clearSelection()
   }
 
