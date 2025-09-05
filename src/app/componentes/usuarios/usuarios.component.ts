@@ -282,6 +282,10 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   sincronizar() {
     document.getElementById("btn_sincronizar")?.classList.add("is-loading");
+    let loader = document.getElementById("loader") as HTMLDivElement
+    let textoEspera = document.getElementById("texto_espera") as HTMLParagraphElement
+    textoEspera.innerText= "Sincronizando terminal ..."
+    loader.classList.remove("is-hidden")
     this.terminalService.sincronizarTerminal(this.idTerminal).pipe(takeUntil(this.destroy$)).subscribe(
       (data: any) => {
         let respuesta = data;
@@ -296,6 +300,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
         this.actualizarCheckboxTodos(); // Asegura que el checkbox "todos" se resetee
         setTimeout(() => {
           document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
+          loader.classList.add("is-hidden")
           mensaje(respuesta.mensaje, "is-success")
         }, 1000);
         setTimeout(() => {
@@ -310,6 +315,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
         let respuesta = error
         console.error('An error occurred:', error);
         document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
+        loader.classList.add("is-hidden")
         if(respuesta.error.mensaje === undefined) {
           mensaje("No se puede acceder al servidor", "is-danger")
         } else {
@@ -448,6 +454,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     env.estado = -1;
     env.textoBusqueda = "";
     this.idGrupo = -1; // Quita el filtro de grupo
+    env.grupo = -1
 
     // Resetear inputs/radios visuales
     const radiosEstados = document.getElementsByName("estados") as NodeListOf<HTMLInputElement>;
@@ -530,6 +537,8 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   verReporte() {
     env.posY = 0;
     let loader = document.getElementById("loader") as HTMLDivElement
+    let textoEspera = document.getElementById("texto_espera") as HTMLParagraphElement
+    textoEspera.innerText= "Generando reporte ..."
     this.ocultarSeleccionarRango()
     loader.classList.remove("is-hidden")
     const result$ =
