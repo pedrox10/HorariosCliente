@@ -780,7 +780,10 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   modalAsignarGrupo() {
     if (this.usuariosSeleccionados.length > 0) {
-      document.getElementById("asignar_grupo")?.classList.add("is-active");
+      if(this.terminal.grupos.length > 0)
+        document.getElementById("asignar_grupo")?.classList.add("is-active");
+      else
+        mensaje("No existen grupos en este Terminal", "is-warning")
     } else {
       mensaje("Debes seleccionar al menos un funcionario", "is-warning")
     }
