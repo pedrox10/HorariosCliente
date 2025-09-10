@@ -28,6 +28,7 @@ export class ComandosComponent implements OnInit, AfterViewInit {
   jsonInfoCapacidad: any;
   jsonInfoExtra: any;
   jsonHoraActual: any;
+  jsonHoraServidor: any;
 
   constructor(private location: Location, private comandosService: ComandosService, private terminalService: TerminalService) {
 
@@ -147,6 +148,7 @@ export class ComandosComponent implements OnInit, AfterViewInit {
         let respuesta = JSON.parse(data)
         if(respuesta.success === true) {
           this.jsonHoraActual = moment(respuesta.hora_actual).format("DD/MM/YYYY HH:mm:ss")
+          this.jsonHoraServidor = moment(respuesta.hora_servidor).format("DD/MM/YYYY HH:mm:ss")
           mensaje("¡Comando enviado!", "is-success")
           let div = document.getElementById("hora_actual_modal") as HTMLDivElement
           setTimeout(() => {
