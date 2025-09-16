@@ -108,7 +108,7 @@
         <a (click)="horaActual()" class="card-footer-item" [class.is-disabled]="esHoraActual"
            [style.pointerEvents]="esHoraActual ? 'none' : 'auto'">Obtener Fecha</a>
         <div class="hitem">
-          <a href="#" class="card-footer-item has-text-warning">
+          <a (click)="sincronizarfecha()" class="card-footer-item has-text-warning">
             Sincronizar Fecha
             <div class="dropdown is-hoverable">
               <div class="dropdown-trigger">

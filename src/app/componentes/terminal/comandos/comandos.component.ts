@@ -25,6 +25,7 @@ export class ComandosComponent implements OnInit, AfterViewInit {
   esInfoCapacidad = false;
   esInfoExtra = false;
   esHoraActual = false;
+  esSincronizarFecha = false;
   jsonInfoCapacidad: any;
   jsonInfoExtra: any;
   jsonHoraActual: any;
@@ -170,6 +171,27 @@ export class ComandosComponent implements OnInit, AfterViewInit {
   ocultarHoraActual() {
     let div = document.getElementById("hora_actual_modal") as HTMLDivElement
     div.classList.remove("is-active")
+  }
+
+  sincronizarfecha() {
+    document.getElementById("ic_hora_actual")?.classList.add("button", "is-loading");
+    this.esSincronizarFecha = true;
+    this.comandosService.sincronizarFecha(this.idTerminal).subscribe({
+      next: (data: any) => {
+        let respuesta = JSON.parse(data)
+        if(respuesta.success === true) {
+          mensaje(respuesta.message, "is-success")
+        } else
+          mensaje("¡Terminal sin conexión!", "is-danger")
+        document.getElementById("ic_hora_actual")?.classList.remove("button", "is-loading");
+        this.esSincronizarFecha = false;
+      },
+      error: err => {
+        mensaje("¡Error en el servidor!", "is-danger")
+        document.getElementById("ic_hora_actual")?.classList.remove("button", "is-loading");
+        this.esSincronizarFecha = false;
+      }
+    });
   }
 
   irAtras() {

@@ -28,4 +28,8 @@ export class ComandosService {
   public horaActual(id: number) {
     return this.http.get(`${this.apiUrl}/terminal/${id}/hora-actual`);
   }
+
+  public sincronizarFecha(id: number) {
+    return this.http.get(`${this.apiUrl}/terminal/${id}/sincronizar-fecha`);
+  }
 }
