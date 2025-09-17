@@ -34,7 +34,11 @@ export class AuthService {
   }
 
   obtenerRol() {
-    return sessionStorage.getItem('rol');
+    return sessionStorage.getItem('rol') ?? '';
+  }
+
+  tieneRol(...roles: string[]): boolean {
+    return roles.includes(this.obtenerRol());
   }
 
   estaAutenticado() {

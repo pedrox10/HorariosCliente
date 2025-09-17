@@ -28,7 +28,7 @@ export class AsuetosComponent implements OnInit, AfterViewInit {
 
   constructor(public terminalService: TerminalService, public horarioService: HorarioService,
               public authService: AuthService) {
-    this.isAdmin  = this.authService.obtenerRol() === 'Administrador'
+    this.isAdmin  = this.authService.tieneRol('Administrador', 'Superadmin');
   }
 
   ngOnInit() {

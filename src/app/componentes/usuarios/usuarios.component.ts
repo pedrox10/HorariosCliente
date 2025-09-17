@@ -86,7 +86,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
               public modalService: ModalService, private location: Location,
               private sanitizer: DomSanitizer, private authService: AuthService) {
 
-    this.isAdmin  = this.authService.obtenerRol() === 'Administrador';
+    this.isAdmin  = this.authService.tieneRol('Administrador', 'Superadmin');
     // Carga inicial de usuarios
     this.terminalService.getUsuarios(this.idTerminal).pipe(takeUntil(this.destroy$)).subscribe(
       (data: any) => {

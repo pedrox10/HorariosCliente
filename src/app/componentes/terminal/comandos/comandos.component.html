@@ -107,8 +107,8 @@
       <footer class="card-footer">
         <a (click)="horaActual()" class="card-footer-item" [class.is-disabled]="esHoraActual"
            [style.pointerEvents]="esHoraActual ? 'none' : 'auto'">Obtener Fecha</a>
-        <div class="hitem">
-          <a (click)="sincronizarfecha()" class="card-footer-item has-text-warning">
+        <div class="hitem" >
+          <a (click)="sincronizarfecha()" class="card-footer-item has-text-warning" [class.desactivado]="!isSuperadmin">
             Sincronizar Fecha
             <div class="dropdown is-hoverable">
               <div class="dropdown-trigger">
@@ -144,10 +144,10 @@
         </div>
       </div>
       <div style="text-align: center" class="mb-1">
-        <i class="fas fa-terminal has-text-primary consola"></i>
+        <i id="ic_borrar_marcaciones" class="fas fa-terminal has-text-primary consola"></i>
       </div>
       <footer class="card-footer">
-        <a href="#" class="card-footer-item has-text-danger">
+        <a (click)="borrarMarcaciones()"  class="card-footer-item has-text-danger" [class.desactivado]="!isSuperadmin">
           Borrar Registros de Asistencia
           <div class="dropdown is-hoverable">
             <div class="dropdown-trigger">
@@ -166,7 +166,6 @@
         </a>
       </footer>
     </div>
-
     <div class="card comando">
       <header class="card-header">
         <p class="card-header-title">Mantenimiento</p>
@@ -182,11 +181,11 @@
         </div>
       </div>
       <div style="text-align: center" class="mb-1">
-        <i class="fas fa-terminal has-text-primary consola"></i>
+        <i id="ic_mantenimiento" class="fas fa-terminal has-text-primary consola"></i>
       </div>
       <footer class="card-footer">
-        <a class="card-footer-item">Apagar</a>
-        <a class="card-footer-item has-text-danger">
+        <a (click)="apagar()"  class="card-footer-item" [class.desactivado]="!isSuperadmin">Apagar</a>
+        <a (click)="borrarTodo()" class="card-footer-item has-text-danger" [class.desactivado]="!isSuperadmin">
           Borrar Todo
           <div class="dropdown is-hoverable">
             <div class="dropdown-trigger">
@@ -204,7 +203,7 @@
             </div>
           </div>
         </a>
-        <a class="card-footer-item">Reiniciar</a>
+        <a (click)="reiniciar()"  class="card-footer-item" [class.desactivado]="!isSuperadmin">Reiniciar</a>
       </footer>
     </div>
   </div>

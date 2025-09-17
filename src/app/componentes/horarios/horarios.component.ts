@@ -30,7 +30,7 @@ export class HorariosComponent implements OnInit {
   isAdmin: boolean;
 
   constructor(public authService: AuthService, public horarioService: HorarioService, private modalService: ModalService) {
-    this.isAdmin  = this.authService.obtenerRol() === 'Administrador'
+    this.isAdmin  = this.authService.tieneRol('Administrador', 'Superadmin');
   }
 
   ngOnInit(): void {

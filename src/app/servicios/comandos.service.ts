@@ -32,4 +32,20 @@ export class ComandosService {
   public sincronizarFecha(id: number) {
     return this.http.get(`${this.apiUrl}/terminal/${id}/sincronizar-fecha`);
   }
+
+  public borrarMarcaciones(id: number) {
+    return this.http.get(`${this.apiUrl}/terminal/${id}/borrar-marcaciones`);
+  }
+
+  public borrarTodo(id: number) {
+    return this.http.get(`${this.apiUrl}/terminal/${id}/borrar-todo`);
+  }
+
+  public apagar(id: number) {
+    return this.http.get(`${this.apiUrl}/terminal/${id}/apagar`);
+  }
+
+  public reiniciar(id: number) {
+    return this.http.get(`${this.apiUrl}/terminal/${id}/reiniciar`);
+  }
 }

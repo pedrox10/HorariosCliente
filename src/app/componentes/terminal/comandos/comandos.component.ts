@@ -7,6 +7,7 @@ import {Location} from "@angular/common";
 import {color, mensaje, notificacion} from "../../inicio/Global";
 import {ComandosService} from "../../../servicios/comandos.service";
 import moment from "moment";
+import {AuthService} from "../../../servicios/auth.service";
 
 @Component({
   selector: 'app-comandos',
@@ -26,13 +27,17 @@ export class ComandosComponent implements OnInit, AfterViewInit {
   esInfoExtra = false;
   esHoraActual = false;
   esSincronizarFecha = false;
+  esBorrarMarcaciones = false;
+  esMantenimiento = false;
   jsonInfoCapacidad: any;
   jsonInfoExtra: any;
   jsonHoraActual: any;
   jsonHoraServidor: any;
+  isSuperadmin: boolean;
 
-  constructor(private location: Location, private comandosService: ComandosService, private terminalService: TerminalService) {
-
+  constructor(private location: Location, private comandosService: ComandosService,
+              private terminalService: TerminalService, private authService: AuthService) {
+    this.isSuperadmin  = this.authService.tieneRol('Superadmin');
   }
 
   ngOnInit(): void {
@@ -190,6 +195,90 @@ export class ComandosComponent implements OnInit, AfterViewInit {
         mensaje("¡Error en el servidor!", "is-danger")
         document.getElementById("ic_hora_actual")?.classList.remove("button", "is-loading");
         this.esSincronizarFecha = false;
+      }
+    });
+  }
+
+  borrarMarcaciones() {
+    document.getElementById("ic_borrar_marcaciones")?.classList.add("button", "is-loading");
+    this.esBorrarMarcaciones = true;
+    this.comandosService.borrarMarcaciones(this.idTerminal).subscribe({
+      next: (data: any) => {
+        let respuesta = JSON.parse(data)
+        if(respuesta.success === true) {
+          mensaje(respuesta.message, "is-success")
+        } else
+          mensaje("¡Terminal sin conexión!", "is-danger")
+        document.getElementById("ic_borrar_marcaciones")?.classList.remove("button", "is-loading");
+        this.esBorrarMarcaciones = false;
+      },
+      error: err => {
+        mensaje("¡Error en el servidor!", "is-danger")
+        document.getElementById("ic_borrar_marcaciones")?.classList.remove("button", "is-loading");
+        this.esBorrarMarcaciones = false;
+      }
+    });
+  }
+
+  borrarTodo() {
+    document.getElementById("ic_mantenimiento")?.classList.add("button", "is-loading");
+    this.esMantenimiento = true;
+    this.comandosService.borrarTodo(this.idTerminal).subscribe({
+      next: (data: any) => {
+        let respuesta = JSON.parse(data)
+        if(respuesta.success === true) {
+          mensaje(respuesta.message, "is-success")
+        } else
+          mensaje("¡Terminal sin conexión!", "is-danger")
+        document.getElementById("ic_mantenimiento")?.classList.remove("button", "is-loading");
+        this.esMantenimiento = false;
+      },
+      error: err => {
+        mensaje("¡Error en el servidor!", "is-danger")
+        document.getElementById("ic_mantenimiento")?.classList.remove("button", "is-loading");
+        this.esMantenimiento = false;
+      }
+    });
+  }
+
+  apagar() {
+    document.getElementById("ic_mantenimiento")?.classList.add("button", "is-loading");
+    this.esMantenimiento = true;
+    this.comandosService.apagar(this.idTerminal).subscribe({
+      next: (data: any) => {
+        let respuesta = JSON.parse(data)
+        if(respuesta.success === true) {
+          mensaje(respuesta.mensaje, "is-success")
+        } else
+          mensaje("¡Terminal sin conexión!", "is-danger")
+        document.getElementById("ic_mantenimiento")?.classList.remove("button", "is-loading");
+        this.esMantenimiento = false;
+      },
+      error: err => {
+        mensaje("¡Error en el servidor!", "is-danger")
+        document.getElementById("ic_mantenimiento")?.classList.remove("button", "is-loading");
+        this.esMantenimiento = false;
+      }
+    });
+  }
+
+  reiniciar() {
+    document.getElementById("ic_mantenimiento")?.classList.add("button", "is-loading");
+    this.esMantenimiento = true;
+    this.comandosService.reiniciar(this.idTerminal).subscribe({
+      next: (data: any) => {
+        let respuesta = JSON.parse(data)
+        if(respuesta.success === true) {
+          mensaje(respuesta.mensaje, "is-success")
+        } else
+          mensaje("¡Terminal sin conexión!", "is-danger")
+        document.getElementById("ic_mantenimiento")?.classList.remove("button", "is-loading");
+        this.esMantenimiento = false;
+      },
+      error: err => {
+        mensaje("¡Error en el servidor!", "is-danger")
+        document.getElementById("ic_mantenimiento")?.classList.remove("button", "is-loading");
+        this.esMantenimiento = false;
       }
     });
   }

@@ -46,7 +46,7 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
 
   constructor(public terminalService: TerminalService, public horarioService: HorarioService,
               public modalService: ModalService, private location: Location, private authService: AuthService) {
-    this.isAdmin  = this.authService.obtenerRol() === 'Administrador';
+    this.isAdmin  = this.authService.tieneRol('Administrador', 'Superadmin');
     this.gestionActual = moment().year()
     this.mesActual = moment().month()
     this.id = this.activatedRoute.snapshot.params['id'];

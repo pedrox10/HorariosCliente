@@ -18,7 +18,7 @@ export class InicioComponent implements OnInit, AfterViewInit{
 
   constructor(public authService: AuthService, private router: Router) {
     this.items = [];
-    this.isAdmin  = this.authService.obtenerRol() === 'Administrador'
+    this.isAdmin  = this.authService.tieneRol('Administrador', 'Superadmin');
   }
 
   ngOnInit(): void {
