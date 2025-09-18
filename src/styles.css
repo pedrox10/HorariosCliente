@@ -460,6 +460,14 @@ p.modal-card-title {
   border-color: #cba57a  !important;
 }
 
+.button.esmeralda:hover {
+  border-color: #26bba5 !important;
+}
+
+.button.esmeralda:focus {
+  border-color: #26bba5  !important;
+}
+
 .button-flat {
   border: 1px #c5c3c3 solid;
   padding: 7px 7px 3.5px 7px;

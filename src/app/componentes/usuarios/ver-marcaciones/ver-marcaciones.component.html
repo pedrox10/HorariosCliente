@@ -160,6 +160,21 @@
             <span class="icon is-right"><i class="fas fa-calendar-alt"></i></span>
           </p>
         </div>
+        <div class="vinput" style="justify-self: center">
+          <label class="label" style="text-align: center">Reporte</label>
+          <div class="hitem">
+            <button class="button esmeralda" (click)="verAnterior()"
+                    style="border-radius: 5px">
+              <span class="icon"><i class="fas fa-chevron-left"></i></span>
+              <span>Anterior</span>
+            </button>
+            <button class="button esmeralda" (click)="verSiguiente()"
+                    style="border-radius: 5px;">
+              <span>Siguiente</span>
+              <span class="icon"><i class="fas fa-chevron-right"></i></span>
+            </button>
+          </div>
+        </div>
         <div class="hitem" style="margin-left: auto; align-self: flex-end">
           <button title="imprimir" class="button" (click)="imprimir()"><span class="icon">
             <i class="fas fa-print"></i></span>

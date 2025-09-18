@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink, RouterModule} from '@angular/router';
 import {TerminalService} from '../../../servicios/terminal.service';
 import {HttpClientModule} from '@angular/common/http';
 import {easepick} from '@easepick/core';
@@ -21,7 +21,7 @@ import * as ExcelJS from 'exceljs';
 @Component({
   selector: 'app-ver-marcaciones',
   standalone: true,
-  imports: [RouterLink, HttpClientModule, MarcacionComponent],
+  imports: [RouterLink, HttpClientModule, RouterModule, MarcacionComponent],
   providers: [TerminalService],
   templateUrl: './ver-marcaciones.component.html',
   styleUrl: './ver-marcaciones.component.css'
@@ -46,7 +46,8 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   fileName= '';
   filasExcel = [] as Array<IMarcacionInfo>
 
-  constructor(public terminalService: TerminalService, public location: Location, public modalService: ModalService) {
+  constructor(public terminalService: TerminalService, public location: Location,
+              public modalService: ModalService, private router: Router) {
 
     this.estado = EstadoJornada
     this.terminalService.getUsuario(this.id).subscribe(
@@ -373,6 +374,14 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
 
   irAtras() {
     this.location.back();
+  }
+
+  verAnterior() {
+      this.router.navigate(['/ver-marcaciones', 2, this.ini, this.fin]);
+  }
+
+  verSiguiente() {
+      this.router.navigate(['/ver-marcaciones', 100, this.ini, this.fin]);
   }
 
   getColor(nombre: string) {
