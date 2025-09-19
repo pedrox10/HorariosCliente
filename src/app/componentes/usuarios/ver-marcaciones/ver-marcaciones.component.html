@@ -10,13 +10,13 @@
       <div class="info">
         <div class="vbox-centered">
           <div class="vinput mb-2" style="gap: 0px !important;">
-            <label class="label" style="align-self: center">{{usuario?.terminal.nombre}}</label>
+            <label class="label" style="align-self: center">Prueba</label>
             <span class="help">Ult. Sincronización</span>
             <p class='help is-info' style="margin-top: 0px; font-weight: bold;">{{this.textUltSincronizacion}}</p>
           </div>
           <i class="fas fa-user-circle" style="font-size: 3em"></i>
-          <span class="label has-text-centered" style="margin: 0">{{usuario?.nombre}}</span>
-          <span>{{usuario?.ci}}</span>
+          <span class="label has-text-centered" style="margin: 0">{{usuario.nombre}}</span>
+          <span>{{usuario.ci}}</span>
         </div>
       </div>
       @if(rm?.mensajeError) {
@@ -153,22 +153,24 @@
     </div>
     <div class="column is-narrow" style="box-sizing: border-box; width: fit-content; position: relative">
       <div class="hbox" style="align-content: space-between !important;">
-        <div class="vinput">
+        <div class="vinput mr-4">
           <label class="label" style="text-align: center">Elije un rango de fechas</label>
           <p class="control has-icons-right">
             <input id="datepicker" class="input" style="min-width: 210px;"/>
             <span class="icon is-right"><i class="fas fa-calendar-alt"></i></span>
           </p>
         </div>
-        <div class="vinput" style="justify-self: center">
-          <label class="label" style="text-align: center">Reporte</label>
+        <div class="vinput ml-4" style="justify-self: center">
+          <label class="label" style="text-align: center">Ir a reporte</label>
           <div class="hitem">
             <button class="button esmeralda" (click)="verAnterior()"
+                    [disabled]="indexActual === 0"
                     style="border-radius: 5px">
               <span class="icon"><i class="fas fa-chevron-left"></i></span>
               <span>Anterior</span>
             </button>
             <button class="button esmeralda" (click)="verSiguiente()"
+                    [disabled]="indexActual === usuarios.length - 1"
                     style="border-radius: 5px;">
               <span>Siguiente</span>
               <span class="icon"><i class="fas fa-chevron-right"></i></span>

@@ -472,11 +472,13 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       const ultSincronizacion = moment(this.ultimaSincronizacion, 'YYYY-MM-DD');
       const dia = ultSincronizacion.date();
-      if (dia < 21) {
-        return ultSincronizacion.subtract(1, 'month').date(21).format('YYYYMMDD');
-      } else {
-        return ultSincronizacion.date(21).format('YYYYMMDD');
-      }
+      let ini;
+      if (dia < 21)
+        ini = ultSincronizacion.subtract(1, 'month').date(21).format('YYYYMMDD');
+      else
+        ini = ultSincronizacion.date(21).format('YYYYMMDD');
+      sessionStorage.setItem('ini', ini);
+      return ini
     }
   }
 
@@ -484,7 +486,9 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     if(sessionStorage.getItem("fin")) {
       return sessionStorage.getItem("fin")
     } else {
-      return moment(this.ultimaSincronizacion).format("YYYYMMDD");
+      let fin = moment(this.ultimaSincronizacion).format("YYYYMMDD");
+      sessionStorage.setItem('fin', fin);
+      return fin
     }
   }
 
@@ -604,7 +608,11 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   verMarcaciones(usuario: Usuario) {
     env.posY = window.scrollY
     env.indexUsuario = usuario.id
-    this.router.navigate(['/ver-marcaciones', usuario.id, this.getIni(), this.getFin()]);
+    this.router.navigate(
+      ['/ver-marcaciones', usuario.id, this.getIni(), this.getFin()],
+      { state: { usuarios: this.usuariosFiltrados } }
+    );
+    console.log(this.usuariosFiltrados)
   }
 
   trackByUsuario(index: number, usuario: Usuario): number | undefined {

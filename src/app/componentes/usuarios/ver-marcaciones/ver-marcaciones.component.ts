@@ -28,82 +28,102 @@ import * as ExcelJS from 'exceljs';
 })
 
 export class VerMarcacionesComponent implements OnInit, AfterViewInit {
-  public colores: any = env.colores;
-  public usuario: any | Usuario;
-  private activatedRoute = inject(ActivatedRoute);
-  public id = this.activatedRoute.snapshot.params['id'];
-  public ini = this.activatedRoute.snapshot.params['ini'];
-  public fin = this.activatedRoute.snapshot.params['fin'];
+  public usuario!: Usuario;
+  indexActual = 0;
+  public usuarios: Usuario[] = [];
+
+  public id!: number;
+  public ini!: string;
+  public fin!: string;
+
   inputRango: HTMLInputElement | any;
-  momentExt = extendMoment(Moment);
   rm: ResumenMarcacion | any = undefined;
-  infoMarcaciones: InfoMarcacion[] = []
+  infoMarcaciones: InfoMarcacion[] = [];
   infoMarcacionActual: InfoMarcacion | any = undefined;
-  ultimaSincronizacion: Date|any = undefined
-  textUltSincronizacion=""
+
+  ultimaSincronizacion: Date | any = undefined;
+  textUltSincronizacion = "";
+
   public estado;
-  isCargando = true
-  fileName= '';
-  filasExcel = [] as Array<IMarcacionInfo>
+  isCargando = true;
+  fileName = '';
+  filasExcel: IMarcacionInfo[] = [];
+  private picker: any;
 
   constructor(public terminalService: TerminalService, public location: Location,
-              public modalService: ModalService, private router: Router) {
+              public modalService: ModalService, private router: Router, private activatedRoute: ActivatedRoute) {
+    this.estado = EstadoJornada;
+  }
 
-    this.estado = EstadoJornada
-    this.terminalService.getUsuario(this.id).subscribe(
-      (data: any) => {
-        this.usuario = data;
-        console.log(this.usuario)
-        this.ultimaSincronizacion = moment(this.usuario.terminal.ultSincronizacion, "YYYY-MM-DD").toDate()
-        this.textUltSincronizacion = moment(this.usuario.terminal.ultSincronizacion).format("DD/MM/YYYY HH:mm")
-
-        this.inputRango = document.getElementById('datepicker');
-        const picker = new easepick.create({
-          element: this.inputRango,
-          lang: 'es-ES',
-          format: "DD/MM/YYYY",
-          zIndex: 10,
-          grid: 2,
-          calendars: 2,
-          css: [
-            '../../../assets/easepick.css',
-            "../../../assets/easepick_custom.css"
-          ],
-          plugins: [RangePlugin, LockPlugin],
-          RangePlugin: {
-            tooltipNumber(num) {
-              return num;
-            },
-            locale: {
-              one: 'dia',
-              other: 'dias',
-            },
-          },
-          LockPlugin: {
-            minDate: moment().startOf("year").toDate(),
-            maxDate: moment().endOf("year").toDate()
-          },
-        });
-        picker.gotoDate(moment().subtract(1, "month").toDate());
-        picker.setStartDate(moment(this.ini, "YYYYMMDD").toDate());
-        picker.setEndDate(moment(this.fin, "YYYYMMDD").toDate())
-        sessionStorage.setItem('ini', this.ini);
-        sessionStorage.setItem('fin', this.fin);
-        this.getResumenMarcaciones(this.id, this.ini, this.fin)
-
-        picker.on('select', (e) => {
-          const start = moment(picker.getStartDate()).format("YYYYMMDD");
-          sessionStorage.setItem('ini', start);
-          const end = moment(picker.getEndDate()).format('YYYYMMDD');
-          sessionStorage.setItem('fin', end);
-          this.isCargando = true;
-          this.getResumenMarcaciones(this.id, start, end)
-        })
-      },
-      (error: any) => {
-        console.error('An error occurred:', error);
+  ngOnInit(): void {
+    this.activatedRoute.params.subscribe(params => {
+      this.id = +params['id'];
+      this.ini = params['ini'];
+      this.fin = params['fin'];
+      // Recibir lista de usuarios desde router.navigate
+      const state = history.state;
+      this.usuarios = state.usuarios ?? [];
+      this.indexActual = this.usuarios.findIndex(u => u.id === this.id);
+      console.log(this.usuarios)
+      // Buscar usuario actual
+      const indexActual = this.usuarios.findIndex(u => u.id === this.id);
+      if (indexActual !== -1) {
+        this.usuario = this.usuarios[indexActual];
       }
-    );
+      // Inicializar datos de sincronización desde el usuario
+        this.ultimaSincronizacion = moment("2025-01-01", "YYYY-MM-DD").toDate();
+        this.textUltSincronizacion = moment("2025-01-01 13:00").format("DD/MM/YYYY HH:mm");
+      // Inicializar el rango de fechas y cargar datos
+      this.initDatePicker();
+      this.isCargando = true;
+      this.getResumenMarcaciones(this.usuario.id, this.ini, this.fin);
+    });
+  }
+
+  private initDatePicker(): void {
+    if (this.picker) {
+      this.picker.destroy();
+    }
+    this.inputRango = document.getElementById('datepicker');
+    this.picker = new easepick.create({
+      element: this.inputRango,
+      lang: 'es-ES',
+      format: "DD/MM/YYYY",
+      zIndex: 10,
+      grid: 2,
+      calendars: 2,
+      css: [
+        '../../../assets/easepick.css',
+        "../../../assets/easepick_custom.css"
+      ],
+      plugins: [RangePlugin, LockPlugin],
+      RangePlugin: {
+        tooltipNumber(num) {
+          return num;
+        },
+        locale: {
+          one: 'dia',
+          other: 'dias',
+        },
+      },
+      LockPlugin: {
+        minDate: moment().startOf("year").toDate(),
+        maxDate: moment().endOf("year").toDate()
+      },
+    });
+
+    this.picker.gotoDate(moment().subtract(1, "month").toDate());
+    this.picker.setStartDate(moment(this.ini, "YYYYMMDD").toDate());
+    this.picker.setEndDate(moment(this.fin, "YYYYMMDD").toDate());
+
+    this.picker.on('select', (e: any) => {
+      const start = moment(this.picker.getStartDate()).format("YYYYMMDD");
+      sessionStorage.setItem('ini', start);
+      const end = moment(this.picker.getEndDate()).format('YYYYMMDD');
+      sessionStorage.setItem('fin', end);
+      this.isCargando = true;
+      this.getResumenMarcaciones(this.usuario.id, start, end);
+    });
   }
 
   getResumenMarcaciones(id: number, ini: string, fin: string) {
@@ -175,10 +195,6 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
         console.error('An error occurred:', error);
       }
     );
-  }
-
-  ngOnInit(): void {
-
   }
 
   ngAfterViewInit() {
@@ -377,11 +393,21 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   }
 
   verAnterior() {
-      this.router.navigate(['/ver-marcaciones', 2, this.ini, this.fin]);
+    if (this.indexActual > 0) {
+      const anterior = this.usuarios[this.indexActual - 1];
+      this.router.navigate(['/ver-marcaciones', anterior.id, sessionStorage.getItem("ini"), sessionStorage.getItem("fin")], {
+        state: { usuarios: this.usuarios}, replaceUrl: true
+      });
+    }
   }
 
   verSiguiente() {
-      this.router.navigate(['/ver-marcaciones', 100, this.ini, this.fin]);
+    if (this.indexActual < this.usuarios.length - 1) {
+      const siguiente = this.usuarios[this.indexActual + 1];
+      this.router.navigate(['/ver-marcaciones', siguiente.id, sessionStorage.getItem("ini"), sessionStorage.getItem("fin")], {
+        state: { usuarios: this.usuarios}, replaceUrl: true
+      });
+    }
   }
 
   getColor(nombre: string) {
