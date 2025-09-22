@@ -185,7 +185,7 @@ export class ComandosComponent implements OnInit, AfterViewInit {
       next: (data: any) => {
         let respuesta = JSON.parse(data)
         if(respuesta.success === true) {
-          mensaje(respuesta.message, "is-success")
+          mensaje(respuesta.mensaje, "is-success")
         } else
           mensaje("¡Terminal sin conexión!", "is-danger")
         document.getElementById("ic_hora_actual")?.classList.remove("button", "is-loading");
@@ -206,7 +206,7 @@ export class ComandosComponent implements OnInit, AfterViewInit {
       next: (data: any) => {
         let respuesta = JSON.parse(data)
         if(respuesta.success === true) {
-          mensaje(respuesta.message, "is-success")
+          mensaje(respuesta.mensaje, "is-success")
         } else
           mensaje("¡Terminal sin conexión!", "is-danger")
         document.getElementById("ic_borrar_marcaciones")?.classList.remove("button", "is-loading");
@@ -227,7 +227,7 @@ export class ComandosComponent implements OnInit, AfterViewInit {
       next: (data: any) => {
         let respuesta = JSON.parse(data)
         if(respuesta.success === true) {
-          mensaje(respuesta.message, "is-success")
+          mensaje(respuesta.mensaje, "is-success")
         } else
           mensaje("¡Terminal sin conexión!", "is-danger")
         document.getElementById("ic_mantenimiento")?.classList.remove("button", "is-loading");
@@ -271,7 +271,7 @@ export class ComandosComponent implements OnInit, AfterViewInit {
         if(respuesta.success === true) {
           mensaje(respuesta.mensaje, "is-success")
         } else
-          mensaje("¡Terminal sin conexión!", "is-danger")
+          mensaje("¡Terminal ya fué reiniciado! ó no tiene conexión", "is-danger")
         document.getElementById("ic_mantenimiento")?.classList.remove("button", "is-loading");
         this.esMantenimiento = false;
       },
