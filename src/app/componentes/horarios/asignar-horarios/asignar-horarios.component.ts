@@ -27,6 +27,7 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
   dias = env.dias.map((dia) => dia.toLowerCase());
   horarios: Horario[] = [];
   horario: Horario|any = undefined;
+  esIntercalado: boolean = false;
   jornadaDias: any[] = [];
   formAsignar: FormGroup | any = new FormGroup({});
   usuarios: Usuario[] = [];
@@ -134,6 +135,7 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
     const index = this.horarios.findIndex(x => x.id === id);
     let horario = this.horarios[index];
     this.horario = this.horarios[index];
+    this.esIntercalado = horario.diasIntercalados;
     this.formAsignar.get('invierno')?.enable();
     this.formAsignar.get('lactancia')?.enable();
     this.jornadaDias = JSON.parse(JSON.stringify(horario.jornadaDias));

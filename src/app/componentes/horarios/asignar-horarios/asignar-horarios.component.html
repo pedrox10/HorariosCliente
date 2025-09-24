@@ -38,19 +38,26 @@
             <label class="label mt-1">
               Elije un horario como plantilla:
             </label>
-            <div class="select" >
-              <select id="select_horarios" (change)="seleccionar($event)"  formControlName="horario">
-                <option disabled selected style="display: none"></option>
-                @for (horario of horarios; track horario; let i = $index ) {
-                <option value={{horario.id}}>
+            <div class="vitem">
+              <div class="select" >
+                <select id="select_horarios" (change)="seleccionar($event)"  formControlName="horario">
+                  <option disabled selected style="display: none"></option>
+                  @for (horario of horarios; track horario; let i = $index ) {
+                  <option value={{horario.id}}>
                   @if(!horario.incluyeFeriados) {
                   {{horario.nombre}}
-                } @else {
+                  } @else {
                   {{horario.nombre}} +F
-                }
-                </option>
-                }
-              </select>
+                  }
+                  </option>
+                  }
+                </select>
+              </div>
+              <label class="b-checkbox checkbox is-small" *ngIf="esIntercalado">
+                <input type="checkbox">
+                <span class="check es-secundario" style="margin-top: 3px"></span>
+                <span class="help ml-1">¿Empezar con día libre?</span>
+              </label>
             </div>
           </div>
         </div>
@@ -146,35 +153,35 @@
               }
               }
               }
-          </td>
-          @if(jornadaDia.habilitado) {
-          <td colspan="2">
-            <div class="hitem">
-              <input type="time" value="{{jornadaDia.priEntrada}}" class="input" (keyup)="cambiaHora($event, jornadaDia.priEntrada, 'priEntrada', index)">
-              <div style="position: relative">
-                <input type="time" value="{{jornadaDia.priSalida}}" class="input" (keyup)="cambiaHora($event, jornadaDia.priSalida, 'priSalida', index)">
-                @if(horario.jornadasDosDias) {
-                <span class="badge is-bottom is-info is-light">¡Siguiente día!</span>
-                }
+            </td>
+            @if(jornadaDia.habilitado) {
+            <td colspan="2">
+              <div class="hitem">
+                <input type="time" value="{{jornadaDia.priEntrada}}" class="input" (keyup)="cambiaHora($event, jornadaDia.priEntrada, 'priEntrada', index)">
+                <div style="position: relative">
+                  <input type="time" value="{{jornadaDia.priSalida}}" class="input" (keyup)="cambiaHora($event, jornadaDia.priSalida, 'priSalida', index)">
+                  @if(horario.jornadasDosDias) {
+                  <span class="badge is-bottom is-info is-light">¡Siguiente día!</span>
+                  }
+                </div>
               </div>
-            </div>
-          </td>
-          <td colspan="2">
-            @if(jornadaDia.segEntrada === null  && jornadaDia.segSalida === null) {
-            <div class="hitem oculto">
-            </div>
+            </td>
+            <td colspan="2">
+              @if(jornadaDia.segEntrada === null  && jornadaDia.segSalida === null) {
+              <div class="hitem oculto">
+              </div>
+              } @else {
+              <div class="hitem">
+              <input type="time" value="{{jornadaDia.segEntrada}}"  class="input" (keyup)="cambiaHora($event, jornadaDia.segEntrada, 'segEntrada', index)">
+                  <input type="time" value="{{jornadaDia.segSalida}}"  class="input" (keyup)="cambiaHora($event, jornadaDia.segSalida, 'segSalida', index)">
+                </div>
+              }
+            </td>
             } @else {
-            <div class="hitem">
-            <input type="time" value="{{jornadaDia.segEntrada}}"  class="input" (keyup)="cambiaHora($event, jornadaDia.segEntrada, 'segEntrada', index)">
-                <input type="time" value="{{jornadaDia.segSalida}}"  class="input" (keyup)="cambiaHora($event, jornadaDia.segSalida, 'segSalida', index)">
-              </div>
+            <td colspan="4">
+              <div class="hitem" style="min-height: 35px"></div>
+            </td>
             }
-          </td>
-          } @else {
-          <td colspan="4">
-            <div class="hitem" style="min-height: 35px"></div>
-          </td>
-          }
           </tr>
           }
           </tbody>
