@@ -17,6 +17,7 @@ import {env} from "../../../../environments/environments";
 import {ModalService} from "ngx-modal-ease";
 import {EstadoJornada} from "../../../modelos/Jornada";
 import * as ExcelJS from 'exceljs';
+import {Terminal} from "../../../modelos/Terminal";
 
 @Component({
   selector: 'app-ver-marcaciones',
@@ -33,8 +34,10 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   public usuarios: Usuario[] = [];
 
   public id!: number;
+  public idTerminal!: number;
   public ini!: string;
   public fin!: string;
+  public terminal!: Terminal;
 
   inputRango: HTMLInputElement | any;
   rm: ResumenMarcacion | any = undefined;
@@ -57,6 +60,17 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
+      this.idTerminal = +params['idTerminal'];
+      this.terminalService.getTerminal(this.idTerminal).subscribe({
+        next: (data: any) => {
+          this.terminal = data;
+          this.ultimaSincronizacion = moment(this.terminal.ultSincronizacion, "YYYY-MM-DD").toDate()
+          this.textUltSincronizacion = moment(this.terminal.ultSincronizacion).format("DD/MM/YYYY HH:mm")
+        },
+        error: (err) => {
+          console.error('Error al obtener terminal', err);
+        }
+      });
       this.id = +params['id'];
       this.ini = params['ini'];
       this.fin = params['fin'];
@@ -70,10 +84,6 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       if (indexActual !== -1) {
         this.usuario = this.usuarios[indexActual];
       }
-      // Inicializar datos de sincronización desde el usuario
-        this.ultimaSincronizacion = moment("2025-01-01", "YYYY-MM-DD").toDate();
-        this.textUltSincronizacion = moment("2025-01-01 13:00").format("DD/MM/YYYY HH:mm");
-      // Inicializar el rango de fechas y cargar datos
       this.initDatePicker();
       this.isCargando = true;
       this.getResumenMarcaciones(this.usuario.id, this.ini, this.fin);
@@ -395,7 +405,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   verAnterior() {
     if (this.indexActual > 0) {
       const anterior = this.usuarios[this.indexActual - 1];
-      this.router.navigate(['/ver-marcaciones', anterior.id, sessionStorage.getItem("ini"), sessionStorage.getItem("fin")], {
+      this.router.navigate(['/terminal', this.idTerminal, 'ver-marcaciones', anterior.id, sessionStorage.getItem("ini"), sessionStorage.getItem("fin")], {
         state: { usuarios: this.usuarios}, replaceUrl: true
       });
     }
@@ -404,7 +414,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   verSiguiente() {
     if (this.indexActual < this.usuarios.length - 1) {
       const siguiente = this.usuarios[this.indexActual + 1];
-      this.router.navigate(['/ver-marcaciones', siguiente.id, sessionStorage.getItem("ini"), sessionStorage.getItem("fin")], {
+      this.router.navigate(['/terminal', this.idTerminal, 'ver-marcaciones', siguiente.id, sessionStorage.getItem("ini"), sessionStorage.getItem("fin")], {
         state: { usuarios: this.usuarios}, replaceUrl: true
       });
     }

@@ -1,8 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {env} from "../../environments/environments";
-import {Observable} from "rxjs";
-import {Grupo} from "../modelos/Grupo";
 
 @Injectable({
   providedIn: 'root'

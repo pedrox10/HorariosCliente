@@ -608,10 +608,13 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   verMarcaciones(usuario: Usuario) {
     env.posY = window.scrollY
     env.indexUsuario = usuario.id
-    this.router.navigate(
-      ['/ver-marcaciones', usuario.id, this.getIni(), this.getFin()],
-      { state: { usuarios: this.usuariosFiltrados } }
-    );
+    let usuarios: Usuario[] = [];
+    if(this.usuariosSeleccionados.length > 0)
+      usuarios = this.usuariosSeleccionados
+    else
+      usuarios = this.usuariosFiltrados
+    this.router.navigate(['/terminal', this.idTerminal, 'ver-marcaciones', usuario.id, this.getIni(), this.getFin()],
+      { state: { usuarios: usuarios }});
     console.log(this.usuariosFiltrados)
   }
 
