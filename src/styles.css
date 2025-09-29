@@ -30,6 +30,7 @@ body {
 
 .principal {
   padding: 5px;
+  min-height: 110%;
 }
 
 .cell {
