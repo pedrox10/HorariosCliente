@@ -74,7 +74,7 @@ export class VerReporteComponent implements OnInit{
     const data=JSON.parse(sessionStorage.getItem('reporte') || '[]')
     this.originalResumenMarcaciones = data;
     this.resumenMarcaciones = data;
-    console.log(this.resumenMarcaciones)
+    //console.log(this.resumenMarcaciones)
     this.sortColumn = env.sortColumn;
     this.sortDirection = env.sortDirection;
     if(this.sortColumn !== "")
@@ -176,8 +176,14 @@ export class VerReporteComponent implements OnInit{
     env.indexResumenMarcacion = usuario.id
     env.posYReporte = window.scrollY
     env.sortColumn = this.sortColumn;
-    this.router.navigate(['/ver-marcaciones', usuario.id, this.fechaIni, this.fechaFin]);
+    let usuarios: Usuario[] = [];
+    usuarios = this.resumenMarcaciones.map(r => r.usuario);
+    console.log(usuarios)
+    this.router.navigate(['/terminal', 2, 'ver-marcaciones', usuario.id, this.fechaIni, this.fechaFin],
+      { state: { usuarios: usuarios }});
   }
+
+
 
   verHorario(id_usuario: number | any) {
     env.indexResumenMarcacion = id_usuario;

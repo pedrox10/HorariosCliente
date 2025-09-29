@@ -128,9 +128,9 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
 
     this.picker.on('select', (e: any) => {
       const start = moment(this.picker.getStartDate()).format("YYYYMMDD");
-      sessionStorage.setItem('ini', start);
+      this.ini = start
       const end = moment(this.picker.getEndDate()).format('YYYYMMDD');
-      sessionStorage.setItem('fin', end);
+      this.fin = end
       this.isCargando = true;
       this.getResumenMarcaciones(this.usuario.id, start, end);
     });
@@ -140,7 +140,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
     this.terminalService.getResumenMarcaciones(id, ini, fin).subscribe(
       (data: any) => {
         this.rm = data;
-        console.log(data)
+        //console.log(data)
         this.isCargando = false;
         if(this.rm.mensajeError) {
           console.log(this.rm.mensajeError)
@@ -286,7 +286,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
         let fechaFin = moment(sessionStorage.getItem("fin")).format("[Hasta] dddd D [de] MMMM [de] YYYY")
         terceraFila.getCell(7).value = fechaFin
         const startRow = 7;
-        console.log(this.filasExcel)
+        //console.log(this.filasExcel)
         this.filasExcel.forEach((fila, i) => {
           let row = worksheet!.getRow(startRow + i);
           row.getCell(1).value = fila.fecha
@@ -405,7 +405,10 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   verAnterior() {
     if (this.indexActual > 0) {
       const anterior = this.usuarios[this.indexActual - 1];
-      this.router.navigate(['/terminal', this.idTerminal, 'ver-marcaciones', anterior.id, sessionStorage.getItem("ini"), sessionStorage.getItem("fin")], {
+      console.log('idTerminal:', this.idTerminal);
+      console.log('ini:', sessionStorage.getItem("ini"));
+      console.log('fin:', sessionStorage.getItem("fin"));
+      this.router.navigate(['/terminal', this.idTerminal, 'ver-marcaciones', anterior.id, this.ini, this.fin], {
         state: { usuarios: this.usuarios}, replaceUrl: true
       });
     }
@@ -414,7 +417,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   verSiguiente() {
     if (this.indexActual < this.usuarios.length - 1) {
       const siguiente = this.usuarios[this.indexActual + 1];
-      this.router.navigate(['/terminal', this.idTerminal, 'ver-marcaciones', siguiente.id, sessionStorage.getItem("ini"), sessionStorage.getItem("fin")], {
+      this.router.navigate(['/terminal', this.idTerminal, 'ver-marcaciones', siguiente.id, this.ini, this.fin], {
         state: { usuarios: this.usuarios}, replaceUrl: true
       });
     }

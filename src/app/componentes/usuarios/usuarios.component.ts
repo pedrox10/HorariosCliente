@@ -609,13 +609,12 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     env.posY = window.scrollY
     env.indexUsuario = usuario.id
     let usuarios: Usuario[] = [];
-    if(this.usuariosSeleccionados.length > 0)
+    if(this.usuariosSeleccionados.length > 0 && this.usuariosSeleccionados.some(u => u.id === usuario.id))
       usuarios = this.usuariosSeleccionados
     else
       usuarios = this.usuariosFiltrados
     this.router.navigate(['/terminal', this.idTerminal, 'ver-marcaciones', usuario.id, this.getIni(), this.getFin()],
       { state: { usuarios: usuarios }});
-    console.log(this.usuariosFiltrados)
   }
 
   trackByUsuario(index: number, usuario: Usuario): number | undefined {
