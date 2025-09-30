@@ -10,7 +10,7 @@
       <div class="info">
         <div class="vbox-centered">
           <div class="vinput mb-2" style="gap: 0px !important;">
-            <label class="label" style="align-self: center">{{terminal?.nombre}}</label>
+            <label class="label" style="align-self: center">{{terminal.nombre}}</label>
             <span class="help">Ult. Sincronización</span>
             <p class='help is-info' style="margin-top: 0px; font-weight: bold;">{{this.textUltSincronizacion}}</p>
           </div>
@@ -19,7 +19,7 @@
           <span>{{usuario.ci}}</span>
         </div>
       </div>
-      @if(rm?.mensajeError) {
+      @if(rm?.organigrama) {
       <div class="message info is-danger" style="border: 1px solid #DA9B9D; min-height: auto; border-radius: 7.5px;">
         <div class="vbox-centered">
           <div class="hitem">

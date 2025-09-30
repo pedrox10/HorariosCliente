@@ -29,7 +29,7 @@ export class ResumenMarcacion{
   totalOtros: number;
   diasComputados: number;
   infoMarcaciones: InfoMarcacion[];
-  mensajeError?: string | any
+  organigrama?: any
   sinAsignar?: number;
 
   constructor(usuario: Usuario, totalCantRetrasos: number, totalMinRetrasos: number, totalSalAntes: number,

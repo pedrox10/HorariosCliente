@@ -132,6 +132,10 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       const end = moment(this.picker.getEndDate()).format('YYYYMMDD');
       this.fin = end
       this.isCargando = true;
+      if (sessionStorage.getItem('origen') === 'usuarios') {
+        sessionStorage.setItem('ini', start);
+        sessionStorage.setItem('fin', end);
+      }
       this.getResumenMarcaciones(this.usuario.id, start, end);
     });
   }
@@ -140,7 +144,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
     this.terminalService.getResumenMarcaciones(id, ini, fin).subscribe(
       (data: any) => {
         this.rm = data;
-        //console.log(data)
+        console.log(data)
         this.isCargando = false;
         if(this.rm.mensajeError) {
           console.log(this.rm.mensajeError)

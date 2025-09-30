@@ -107,7 +107,7 @@ export class VerReporteComponent implements OnInit{
       fila.faltas = resumenMarcacion.totalAusencias;
       fila.totalSancion = resumenMarcacion.totalSanciones
       fila.permisosSG = resumenMarcacion.totalPermisosSG
-      fila.observaciones = resumenMarcacion.mensajeError
+      fila.observaciones = resumenMarcacion.organigrama
       this.filasExcel.push(fila)
     }
     document.addEventListener('keydown', (e) => {
@@ -178,7 +178,7 @@ export class VerReporteComponent implements OnInit{
     env.sortColumn = this.sortColumn;
     let usuarios: Usuario[] = [];
     usuarios = this.resumenMarcaciones.map(r => r.usuario);
-    console.log(usuarios)
+    sessionStorage.setItem('origen', 'reporte');
     this.router.navigate(['/terminal', 2, 'ver-marcaciones', usuario.id, this.fechaIni, this.fechaFin],
       { state: { usuarios: usuarios }});
   }

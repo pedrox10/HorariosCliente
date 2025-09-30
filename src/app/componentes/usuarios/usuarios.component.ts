@@ -608,6 +608,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   verMarcaciones(usuario: Usuario) {
     env.posY = window.scrollY
     env.indexUsuario = usuario.id
+    sessionStorage.setItem('origen', 'usuarios');
     let usuarios: Usuario[] = [];
     if(this.usuariosSeleccionados.length > 0 && this.usuariosSeleccionados.some(u => u.id === usuario.id))
       usuarios = this.usuariosSeleccionados
