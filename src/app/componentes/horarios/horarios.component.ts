@@ -162,5 +162,4 @@ export class HorariosComponent implements OnInit {
       res = hora.substring(0, 5)
     return res;
   }
-
 }

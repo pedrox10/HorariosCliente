@@ -135,7 +135,7 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
     const index = this.horarios.findIndex(x => x.id === id);
     let horario = this.horarios[index];
     this.horario = this.horarios[index];
-    this.esIntercalado = horario.diasIntercalados;
+    this.esIntercalado = horario.diasIntercalados || horario.jornadasDosDias && !horario?.esContinuoDosDias;
     this.formAsignar.get('invierno')?.enable();
     this.formAsignar.get('lactancia')?.enable();
     this.jornadaDias = JSON.parse(JSON.stringify(horario.jornadaDias));
