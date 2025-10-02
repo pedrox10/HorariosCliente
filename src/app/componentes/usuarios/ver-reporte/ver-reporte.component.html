@@ -292,8 +292,16 @@
               </div>
               <div class="dropdown-menu" role="menu">
                 <div class="dropdown-content popup">
-                  <div class='cabecera'>¡Alerta!</div>
+                  <div class='cabecera'>Organigrama</div>
+                  @if(rm?.organigrama.error) {
                   <div class="contenido" style='color: #786450;'>{{rm.organigrama.error}}</div>
+                  } @else {
+                  <div class="contenido" style='color: #786450;'>
+                    @if (rm?.organigrama.alta) { <div>Fecha de alta: {{ rm?.organigrama.alta }}</div> }
+                    @if (rm?.organigrama.baja) { <div>Fecha de baja: {{ rm?.organigrama.baja }}</div> }
+                    @if (rm?.organigrama.rotacion) { <div>Rotando desde: {{ rm?.organigrama.rotacion }}</div> }
+                  </div>
+                  }
                 </div>
               </div>
             </div>

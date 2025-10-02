@@ -32,15 +32,9 @@
           <span style="font-size: 0.85em; text-align: center; font-weight: normal !important">{{rm?.organigrama.error}}</span>
           } @else {
           <div style="font-size: 0.85em; text-align: center; font-weight: normal !important">
-          @if (rm?.organigrama.alta) {
-            <div>Fecha de alta: {{ rm?.organigrama.alta }}</div>
-          }
-          @if (rm?.organigrama.baja) {
-            <div>Fecha de baja: {{ rm?.organigrama.baja }}</div>
-          }
-          @if (rm?.organigrama.rotando) {
-            <div>Funcionario en rotación</div>
-          }
+          @if (rm?.organigrama.alta) { <div>Fecha de alta: {{ rm?.organigrama.alta }}</div> }
+          @if (rm?.organigrama.baja) { <div>Fecha de baja: {{ rm?.organigrama.baja }}</div> }
+          @if (rm?.organigrama.rotacion) { <div>Rotando desde: {{ rm?.organigrama.rotacion }}</div> }
           </div>
           }
         </div>

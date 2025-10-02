@@ -52,10 +52,12 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
       let fc_horario = new FormControl("", [Validators.required])
       let fc_invierno = new FormControl({ value: false, disabled: true })
       let fc_lactancia = new FormControl({ value: false, disabled: true })
+      let fc_descanso = new FormControl({ value: false, disabled: false })
       this.formAsignar.addControl("fecha", fc_fecha)
       this.formAsignar.addControl("horario", fc_horario)
       this.formAsignar.addControl("invierno", fc_invierno)
       this.formAsignar.addControl("lactancia", fc_lactancia)
+      this.formAsignar.addControl("descanso", fc_descanso)
   }
 
   ngOnInit(): void {
@@ -67,7 +69,6 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
       this.fechaIni = data.fechaIni;
       this.fechaFin = data.fechaFin;
     }
-
   }
 
   ngAfterViewInit() {
@@ -164,8 +165,9 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
     let fin = this.picker.getEndDate().format('YYYYMMDD')
     let esInvierno = this.formAsignar.get('invierno').value;
     let esLactancia = this.formAsignar.get('lactancia').value
+    let empiezaConDescanso = this.formAsignar.get('descanso').value
     let jornadas = JSON.stringify(this.jornadaDias);
-    this.horarioService.asignarHorario(parseInt(id_horario), ids.toString(), ini, fin, jornadas, esInvierno, esLactancia).
+    this.horarioService.asignarHorario(parseInt(id_horario), ids.toString(), ini, fin, jornadas, esInvierno, esLactancia, empiezaConDescanso).
     subscribe((data:any)=>{
       setTimeout(() => {
         document.getElementById("btn_asignar")?.classList.remove("is-loading")

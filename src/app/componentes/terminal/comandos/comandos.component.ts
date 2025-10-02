@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, inject, OnInit} from '@angular/core';
 import {HttpClientModule} from "@angular/common/http";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {TerminalService} from "../../../servicios/terminal.service";
 import {Location} from "@angular/common";
@@ -8,6 +8,9 @@ import {color, mensaje, notificacion} from "../../inicio/Global";
 import {ComandosService} from "../../../servicios/comandos.service";
 import moment from "moment";
 import {AuthService} from "../../../servicios/auth.service";
+import {Terminal} from "../../../modelos/Terminal";
+import {takeUntil} from "rxjs";
+import {Usuario} from "../../../modelos/Usuario";
 
 @Component({
   selector: 'app-comandos',
@@ -34,6 +37,7 @@ export class ComandosComponent implements OnInit, AfterViewInit {
   jsonHoraActual: any;
   jsonHoraServidor: any;
   isSuperadmin: boolean;
+  fc_confirmado = new FormControl(false);
 
   constructor(private location: Location, private comandosService: ComandosService,
               private terminalService: TerminalService, private authService: AuthService) {
@@ -199,6 +203,43 @@ export class ComandosComponent implements OnInit, AfterViewInit {
     });
   }
 
+  mostrarBorradoModal() {
+    this.fc_confirmado.setValue(false)
+    document.getElementById("confirmar_borrado_modal")?.classList.add("is-active");
+  }
+
+  ocultarBorradoModal() {
+    document.getElementById("confirmar_borrado_modal")?.classList.remove("is-active");
+  }
+
+  sincronizarTerminal() {
+    this.ocultarBorradoModal()
+    let loader = document.getElementById("loader") as HTMLDivElement
+    let textoEspera = document.getElementById("texto_espera") as HTMLParagraphElement
+    textoEspera.innerText= "Sincronizando terminal ..."
+    loader.classList.remove("is-hidden")
+    this.terminalService.sincronizarTerminal(this.idTerminal).subscribe(
+      (data: any) => {
+        let respuesta = data;
+        setTimeout(() => {
+          document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
+          loader.classList.add("is-hidden")
+          mensaje(respuesta.mensaje, "is-success")
+          this.borrarMarcaciones()
+        }, 1000);
+
+      },
+      (error: any) => {
+        let respuesta = error
+        loader.classList.add("is-hidden")
+        if(respuesta.error.mensaje === undefined) {
+          mensaje("No se puede acceder al servidor", "is-danger")
+        } else {
+          mensaje(respuesta.error.mensaje, "is-danger")
+        }
+      })
+  }
+
   borrarMarcaciones() {
     document.getElementById("ic_borrar_marcaciones")?.classList.add("button", "is-loading");
     this.esBorrarMarcaciones = true;
@@ -216,27 +257,6 @@ export class ComandosComponent implements OnInit, AfterViewInit {
         mensaje("¡Error en el servidor!", "is-danger")
         document.getElementById("ic_borrar_marcaciones")?.classList.remove("button", "is-loading");
         this.esBorrarMarcaciones = false;
-      }
-    });
-  }
-
-  borrarTodo() {
-    document.getElementById("ic_mantenimiento")?.classList.add("button", "is-loading");
-    this.esMantenimiento = true;
-    this.comandosService.borrarTodo(this.idTerminal).subscribe({
-      next: (data: any) => {
-        let respuesta = JSON.parse(data)
-        if(respuesta.success === true) {
-          mensaje(respuesta.mensaje, "is-success")
-        } else
-          mensaje("¡Terminal sin conexión!", "is-danger")
-        document.getElementById("ic_mantenimiento")?.classList.remove("button", "is-loading");
-        this.esMantenimiento = false;
-      },
-      error: err => {
-        mensaje("¡Error en el servidor!", "is-danger")
-        document.getElementById("ic_mantenimiento")?.classList.remove("button", "is-loading");
-        this.esMantenimiento = false;
       }
     });
   }

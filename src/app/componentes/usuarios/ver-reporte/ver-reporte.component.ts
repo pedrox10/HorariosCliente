@@ -107,7 +107,7 @@ export class VerReporteComponent implements OnInit{
       fila.faltas = resumenMarcacion.totalAusencias;
       fila.totalSancion = resumenMarcacion.totalSanciones
       fila.permisosSG = resumenMarcacion.totalPermisosSG
-      fila.observaciones = resumenMarcacion.organigrama
+      fila.observaciones = this.getTextoOrganigrama(resumenMarcacion.organigrama)
       this.filasExcel.push(fila)
     }
     document.addEventListener('keydown', (e) => {
@@ -310,7 +310,7 @@ export class VerReporteComponent implements OnInit{
         const headers = [
           "#", "NOMBRE", "CI", "FECHA DE ALTA EN BIOMETRICO", "DÍAS COMP.",
           "RETRASO [min]", "SIN MARCAR ENT", "SIN MARCAR SAL", "SIN MARCAR TOTAL", "SALIÓ ANTES", "FALTAS", "TOTAL SANCION [días]",
-          "PERMISOS SG [días]", "OBSERVACIONES"
+          "PERMISOS SG [días]", "ORGANIGRAMA"
         ];
         headers.forEach((header, index) => {
           worksheet!.getCell(7, index + 1).value = header;
@@ -556,5 +556,22 @@ export class VerReporteComponent implements OnInit{
       return 'fa-sort-down';       // orden ascendente
     }
     return 'fa-sort';             // fallback
+  }
+
+  getTextoOrganigrama(organigrama: any): string {
+    if (organigrama?.error) {
+      return organigrama.error;
+    }
+    const partes: string[] = [];
+    if (organigrama?.alta) {
+      partes.push(`Fecha de alta: ${organigrama.alta}`);
+    }
+    if (organigrama?.baja) {
+      partes.push(`Fecha de baja: ${organigrama.baja}`);
+    }
+    if (organigrama?.rotacion) {
+      partes.push(`Rotando desde: ${organigrama.rotacion}`);
+    }
+    return partes.join(', ');
   }
 }
