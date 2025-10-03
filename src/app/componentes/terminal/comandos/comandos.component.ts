@@ -130,10 +130,10 @@ export class ComandosComponent implements OnInit, AfterViewInit {
           mensaje("¡Comando enviado!", "is-success")
           let div = document.getElementById("info_extra_modal") as HTMLDivElement
           setTimeout(() => {
-            div.classList.add("is-active")|
+            div.classList.add("is-active")
           }, 1000);
         } else
-          mensaje("¡Te|rminal sin conexión!", "is-danger")
+          mensaje("¡Terminal sin conexión!", "is-danger")
         document.getElementById("ic_info_extra")?.classList.remove("button", "is-loading");
         this.esInfoExtra = false;
       },
@@ -261,7 +261,16 @@ export class ComandosComponent implements OnInit, AfterViewInit {
     });
   }
 
+  mostrarApagadoModal() {
+    document.getElementById("confirmar_apagado_modal")?.classList.add("is-active");
+  }
+
+  ocultarApagadoModal() {
+    document.getElementById("confirmar_apagado_modal")?.classList.remove("is-active");
+  }
+
   apagar() {
+    this.ocultarApagadoModal()
     document.getElementById("ic_mantenimiento")?.classList.add("button", "is-loading");
     this.esMantenimiento = true;
     this.comandosService.apagar(this.idTerminal).subscribe({
@@ -282,7 +291,16 @@ export class ComandosComponent implements OnInit, AfterViewInit {
     });
   }
 
+  mostrarReinicioModal() {
+    document.getElementById("confirmar_reinicio_modal")?.classList.add("is-active");
+  }
+
+  ocultarReinicioModal() {
+    document.getElementById("confirmar_reinicio_modal")?.classList.remove("is-active");
+  }
+
   reiniciar() {
+    this.ocultarReinicioModal()
     document.getElementById("ic_mantenimiento")?.classList.add("button", "is-loading");
     this.esMantenimiento = true;
     this.comandosService.reiniciar(this.idTerminal).subscribe({
@@ -311,4 +329,3 @@ export class ComandosComponent implements OnInit, AfterViewInit {
     return color(nombre)
   }
 }
-

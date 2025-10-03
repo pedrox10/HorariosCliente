@@ -184,8 +184,8 @@
         <i id="ic_mantenimiento" class="fas fa-terminal has-text-primary consola"></i>
       </div>
       <footer class="card-footer">
-        <a (click)="apagar()"  class="card-footer-item" [class.desactivado]="!isSuperadmin">Apagar</a>
-        <a (click)="reiniciar()"  class="card-footer-item" [class.desactivado]="!isSuperadmin">Reiniciar</a>
+        <a (click)="mostrarApagadoModal()"  class="card-footer-item" [class.desactivado]="!isSuperadmin">Apagar</a>
+        <a (click)="mostrarReinicioModal()"  class="card-footer-item" [class.desactivado]="!isSuperadmin">Reiniciar</a>
       </footer>
     </div>
   </div>
@@ -365,16 +365,40 @@
     <div class="modal-card" style="width: 400px">
       <header class="modal-card-head">
         <p class="modal-card-title">Apagar biométrico</p>
-        <button class="delete" aria-label="close" (click) = ""></button>
+        <button class="delete" aria-label="close" (click)="ocultarApagadoModal()"></button>
       </header>
       <section class="modal-card-body">
         <label class="label">¿Esta seguro en realizar la acción?</label>
-        <span>Se apagará el terminal biométrico, y solo se puede volver a encender desde el lugar donde se encuentra el biométrico</span>
+        <span>
+          Se apagará el biométrico y solo podrá encenderse manualmente en su ubicación.
+          Debes sincronizar la hora al encender nuevamente.
+        </span>
       </section>
       <footer class="modal-card-foot">
         <div class="buttons">
-          <button class="button es-primario" (click)="">Aceptar</button>
-          <button class="button" type="button" (click) = "">Cancelar</button>
+          <button class="button es-primario" (click)="apagar()">Aceptar</button>
+          <button class="button" type="button" (click)="ocultarApagadoModal()">Cancelar</button>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <div class="modal " id="confirmar_reinicio_modal">
+    <div class="modal-background" id="fondo_reinicio" style="opacity: 0.75;"></div>
+    <div class="modal-card" style="width: 400px">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Reinicar biométrico</p>
+        <button class="delete" aria-label="close" (click)="ocultarReinicioModal()"></button>
+      </header>
+      <section class="modal-card-body">
+        <label class="label">¿Esta seguro en realizar la acción?</label>
+        <span>
+          Se reinicará el biométrico. Debes esperar entre 20 a 45 segundos y probar la conexion nuevamente.
+        </span>
+      </section>
+      <footer class="modal-card-foot">
+        <div class="buttons">
+          <button class="button es-primario" (click)="reiniciar()">Aceptar</button>
+          <button class="button" type="button" (click)="ocultarReinicioModal()">Cancelar</button>
         </div>
       </footer>
     </div>
