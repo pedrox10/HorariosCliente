@@ -130,10 +130,10 @@ export class ComandosComponent implements OnInit, AfterViewInit {
           mensaje("¡Comando enviado!", "is-success")
           let div = document.getElementById("info_extra_modal") as HTMLDivElement
           setTimeout(() => {
-            div.classList.add("is-active")
+            div.classList.add("is-active")|
           }, 1000);
         } else
-          mensaje("¡Terminal sin conexión!", "is-danger")
+          mensaje("¡Te|rminal sin conexión!", "is-danger")
         document.getElementById("ic_info_extra")?.classList.remove("button", "is-loading");
         this.esInfoExtra = false;
       },
