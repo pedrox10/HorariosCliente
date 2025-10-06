@@ -7,7 +7,7 @@ import {CommonModule} from "@angular/common";
 import {easepick} from "@easepick/core";
 import moment from "moment";
 import {Usuario} from "../../../modelos/Usuario";
-import {mensaje} from "../../inicio/Global";
+import {color, mensaje} from "../../inicio/Global";
 
 @Component({
   selector: 'app-editar-usuario',
@@ -85,5 +85,9 @@ export class EditarUsuarioComponent implements AfterViewInit {
 
   cerrarModal() {
     this.modalService.close();
+  }
+
+  getColor(nombre: string) {
+    return color(nombre)
   }
 }

@@ -8,9 +8,6 @@ import {color, mensaje, notificacion} from "../../inicio/Global";
 import {ComandosService} from "../../../servicios/comandos.service";
 import moment from "moment";
 import {AuthService} from "../../../servicios/auth.service";
-import {Terminal} from "../../../modelos/Terminal";
-import {takeUntil} from "rxjs";
-import {Usuario} from "../../../modelos/Usuario";
 
 @Component({
   selector: 'app-comandos',
@@ -50,6 +47,9 @@ export class ComandosComponent implements OnInit, AfterViewInit {
         this.ocultarInfoCapacidad()
         this.ocultarInfoExtra()
         this.ocultarHoraActual()
+        this.ocultarBorradoModal()
+        this.ocultarApagadoModal()
+        this.ocultarReinicioModal()
       }
     });
   }

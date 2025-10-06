@@ -885,7 +885,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       },
       (error: any) => {
-        console.error('An error occurred:', error);
+        mensaje("¡No hay conexión a Organigrama!", "is-danger")
       }
     );
   }
