@@ -8,6 +8,7 @@ import {easepick} from "@easepick/core";
 import moment from "moment";
 import {Usuario} from "../../../modelos/Usuario";
 import {color, mensaje} from "../../inicio/Global";
+import {env} from "../../../../environments/environments";
 
 @Component({
   selector: 'app-editar-usuario',
@@ -29,6 +30,8 @@ export class EditarUsuarioComponent implements AfterViewInit {
   gestionActual: number = 0;
   public usuario: Usuario|any;
   public id: number | any;
+
+  public categorias = env.categorias;
 
   constructor(private terminalService: TerminalService, public modalService: ModalService) {
     let data: any = this.modalService.options?.data
@@ -81,6 +84,22 @@ export class EditarUsuarioComponent implements AfterViewInit {
         console.log(error)
       }
     );
+  }
+
+  mostrarEditarEnBiometrico() {
+    document.getElementById("editar_en_biometrico")?.classList.add("active");
+    document.getElementById("editar")?.classList.remove("active");
+    document.getElementById("clonar")?.classList.remove("active");
+  }
+
+  mostrarClonar() {
+    document.getElementById("clonar")?.classList.add("active");
+    document.getElementById("editar")?.classList.remove("active");
+    document.getElementById("editar_en_biometrico")?.classList.remove("active");
+  }
+
+  isSelected(index: number): boolean {
+    return env.posCategoria === index;
   }
 
   cerrarModal() {

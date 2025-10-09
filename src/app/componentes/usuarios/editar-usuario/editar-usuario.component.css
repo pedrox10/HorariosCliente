@@ -1,5 +1,5 @@
 input[type=date] {
-  min-width: 170px;
+  min-width: 190px;
 }
 
 input[type="date"]::-webkit-inner-spin-button,
@@ -7,4 +7,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   position: absolute;
   right: 8px;
   top: 8px;
+}
+
+.form-step {
+  display: none;
+  animation: fadeIn 0.5s ease;
+}
+.form-step.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
