@@ -9,6 +9,7 @@ import moment from "moment";
 import {Usuario} from "../../../modelos/Usuario";
 import {color, mensaje} from "../../inicio/Global";
 import {env} from "../../../../environments/environments";
+import {Terminal} from "../../../modelos/Terminal";
 
 @Component({
   selector: 'app-editar-usuario',
@@ -32,6 +33,9 @@ export class EditarUsuarioComponent implements AfterViewInit {
   public id: number | any;
 
   public categorias = env.categorias;
+  public terminales: Terminal[] = [];
+  public terminalesFiltrados: Terminal[] = [];
+  terminalSeleccionado: any = null;
 
   constructor(private terminalService: TerminalService, public modalService: ModalService) {
     let data: any = this.modalService.options?.data
@@ -49,6 +53,29 @@ export class EditarUsuarioComponent implements AfterViewInit {
       })
 
     this.gestionActual = moment().year()
+  }
+
+  ngOnInit(): void {
+    this.getTerminales()
+  }
+
+  getTerminales() {
+    this.terminalService.getTerminales().subscribe(
+      (data: any) => {
+        this.terminales = data;
+        console.log(this.terminales)
+        this.terminalesFiltrados = this.terminales.slice();
+        this.filtrarPorCategoria(0)
+      },
+      (error: any) => {
+        console.error('An error occurred:', error);
+      }
+    );
+  }
+
+  filtrarPorCategoria(index: number) {
+    this.terminalesFiltrados = this.terminales.filter(t => t.categoria === index);
+    env.posCategoria = index;
   }
 
   ngAfterViewInit() {
@@ -100,6 +127,12 @@ export class EditarUsuarioComponent implements AfterViewInit {
 
   isSelected(index: number): boolean {
     return env.posCategoria === index;
+  }
+
+  seleccionarTerminal(terminal: any) {
+    // Si se vuelve a hacer clic sobre el mismo, se deselecciona
+    this.terminalSeleccionado =
+      this.terminalSeleccionado === terminal ? null : terminal;
   }
 
   cerrarModal() {
