@@ -35,6 +35,7 @@ export class EditarUsuarioComponent implements AfterViewInit {
   public categorias = env.categorias;
   public terminales: Terminal[] = [];
   public terminalesFiltrados: Terminal[] = [];
+  formActual: 'editar' | 'editar_en_biometrico' | 'clonar' = 'editar';
   terminalSeleccionado: any = null;
 
   constructor(private terminalService: TerminalService, public modalService: ModalService) {
@@ -113,16 +114,16 @@ export class EditarUsuarioComponent implements AfterViewInit {
     );
   }
 
+  mostrarEditar() {
+    this.formActual = "editar"
+  }
+
   mostrarEditarEnBiometrico() {
-    document.getElementById("editar_en_biometrico")?.classList.add("active");
-    document.getElementById("editar")?.classList.remove("active");
-    document.getElementById("clonar")?.classList.remove("active");
+    this.formActual = "editar_en_biometrico"
   }
 
   mostrarClonar() {
-    document.getElementById("clonar")?.classList.add("active");
-    document.getElementById("editar")?.classList.remove("active");
-    document.getElementById("editar_en_biometrico")?.classList.remove("active");
+    this.formActual = "clonar"
   }
 
   isSelected(index: number): boolean {
@@ -130,7 +131,6 @@ export class EditarUsuarioComponent implements AfterViewInit {
   }
 
   seleccionarTerminal(terminal: any) {
-    // Si se vuelve a hacer clic sobre el mismo, se deselecciona
     this.terminalSeleccionado =
       this.terminalSeleccionado === terminal ? null : terminal;
   }

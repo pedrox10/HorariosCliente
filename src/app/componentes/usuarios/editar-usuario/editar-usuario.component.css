@@ -34,18 +34,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: black !important;
 }
 
-.button.toggle {
+.toggle {
   border-radius: 5px;
   background-color: #F2F2F2 !important;
 }
 
-.button.seleccionado {
+.seleccionado {
   border: 1px solid #96e6ea !important;
   background-color: #e2fafd !important;
   box-shadow: none !important;
 }
 
-.button:hover {
+.toggle:hover {
   border: 1px solid #96e6ea  !important;
   background-color: #e2fafd !important;
 }
@@ -84,3 +84,4 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   box-shadow: 0 0 5px rgba(50, 115, 220, 0.35);
   transform: scale(1.03);
 }
+

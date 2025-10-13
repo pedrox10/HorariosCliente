@@ -230,7 +230,7 @@ export class AsignarHorariosComponent implements OnInit, AfterViewInit {
 
   getClase(index: number) {
     let res=""
-    if(this.horario.diasIntercalados || this.horario.jornadasDosDias && !this.horario.incluyeFeriados) {
+    if(this.horario.diasIntercalados || this.horario.jornadasDosDias && !this.horario.esContinuoDosDias) {
       if(index % 2 == 0)
         res="par"
       else res="impar"
