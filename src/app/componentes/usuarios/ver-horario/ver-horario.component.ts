@@ -16,6 +16,7 @@ import {CommonModule, Location} from "@angular/common";
 import {AsignarHorariosComponent} from "../../horarios/asignar-horarios/asignar-horarios.component";
 import {AuthService} from "../../../servicios/auth.service";
 import {mensaje} from "../../inicio/Global";
+import {UsuarioService} from "../../../servicios/usuario.service";
 
 @Component({
   selector: 'app-ver-horario',
@@ -45,12 +46,13 @@ export class VerHorarioComponent implements OnInit, AfterViewInit {
   isAdmin: boolean;
 
   constructor(public terminalService: TerminalService, public horarioService: HorarioService,
-              public modalService: ModalService, private location: Location, private authService: AuthService) {
+              public modalService: ModalService, private location: Location, private authService: AuthService,
+              public usuarioService: UsuarioService) {
     this.isAdmin  = this.authService.tieneRol('Administrador', 'Superadmin');
     this.gestionActual = moment().year()
     this.mesActual = moment().month()
     this.id = this.activatedRoute.snapshot.params['id'];
-    this.terminalService.getUsuario(this.id).subscribe(
+    this.usuarioService.getUsuario(this.id).subscribe(
       (data: any) => {
         this.usuario = data;
       })

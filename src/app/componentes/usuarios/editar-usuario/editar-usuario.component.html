@@ -87,13 +87,13 @@
             <div class="field">
               <label class="label">Nombre</label>
               <div class="control">
-                <input class="input" type="text" style="min-width: 240px"/>
+                <input class="input" type="text" style="min-width: 240px" formControlName="nombre"/>
               </div>
             </div>
             <div class="field">
               <label class="label">Privilegio</label>
               <div class="select" >
-                <select formControlName="estado">
+                <select formControlName="privilegio">
                   <option value="1">Usuario</option>
                   <option value="0">Administrador</option>
                 </select>
@@ -101,8 +101,8 @@
             </div>
           </div>
           <label class="b-checkbox checkbox">
-            <input type="checkbox" formControlName="descanso">
-            <span class="check es-secundario" style="margin-top: 3px"></span>
+            <input type="checkbox" formControlName="confirmarEdicion">
+            <span class="check es-secundario" style="margin-top: 1px"></span>
             <span class="help ml-1">Confirmo editar los datos en el biométrico</span>
           </label>
         </div>
@@ -139,7 +139,7 @@
             }
           </div>
           <label class="b-checkbox checkbox mt-2">
-            <input type="checkbox" formControlName="descanso">
+            <input type="checkbox" formControlName="confirmarClonacion">
             <span class="check es-secundario" style="margin-top: 3px"></span>
             <span class="help ml-1">Confirmo copiar los datos del funcionario al biométrico seleccionado</span>
           </label>
@@ -148,7 +148,7 @@
     </section>
     <footer class="modal-card-foot" style="border-bottom-left-radius: 8px; border-bottom-right-radius: 8px">
       <div class="buttons">
-        <button class="button es-primario" type="button" (click)="onSubmit()" [disabled]="formAccion.invalid">
+        <button class="button es-primario" type="button" (click)="onSubmit()" [disabled]="!esFormularioValido()">
           Guardar
         </button>
         <button class="button" type="button" (click)="cerrarModal()">Cancelar</button>
