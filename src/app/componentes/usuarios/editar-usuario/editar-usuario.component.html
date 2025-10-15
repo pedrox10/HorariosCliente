@@ -1,4 +1,4 @@
-<div class="modal-card" style="width: 440px; height: 660px">
+<div class="modal-card" style="width: 440px; height: 700px">
   <header class="modal-card-head">
     <p class="modal-card-title">Editar usuario</p>
     <button class="delete" aria-label="close" (click)="cerrarModal()"></button>
@@ -15,27 +15,39 @@
           </div>
         </div>
         <div class="hitem">
+          @if(formActual !== 'editar') {
+          <button class="button crema" (click)="mostrarEditar()"
+                  style="background-color: {{getColor('Azul')}}; border-radius: 5px;">
+            <span class="icon has-tooltip-arrow expand" title="Editar datos">
+              <i class="fas fa-user-edit"></i>
+            </span>
+          </button>
+          }
+          @if(formActual !== 'editar_en_biometrico') {
           <button class="button crema" (click)="mostrarEditarEnBiometrico()"
-                  style="background-color: {{getColor('Azul')}}; border-radius: 5px; position: relative;">
+                  style="background-color: {{getColor('Crema')}}; border-radius: 5px; position: relative;">
                 <span class="icon has-tooltip-arrow expand" title="Editar en biométrico">
-                  <i class="fas fa-user-edit"></i>
+                  <i class="fas fa-user-cog"></i>
                   <div style="text-align: center" style="bottom: -10px; right: -25%;transform: translateX(50%);z-index: 2; position: absolute">
                     <i class="fas fa-terminal help" style="background-color: #dedede;padding: 2px;font-size: 0.6em;"></i>
                   </div>
                 </span>
           </button>
-          <button class="button crema ml-1" (click)="mostrarClonar()"
+          }
+          @if(formActual !== 'clonar') {
+          <button class="button naranja ml-1" (click)="mostrarClonar()"
                   style="background-color: {{getColor('Naranja')}}; border-radius: 5px; position: relative;">
-                <span class="icon has-tooltip-arrow expand" title="Clonar funcioanrio">
+                <span class="icon has-tooltip-arrow expand" title="Clonar funcionario">
                   <i class="fas fa-user-friends"></i>
                   <div style="text-align: center" style="bottom: -10px; right: -25%;transform: translateX(50%);z-index: 2; position: absolute">
                     <i class="fas fa-terminal help" style="background-color: #dedede;padding: 2px;font-size: 0.6em;"></i>
                   </div>
                 </span>
           </button>
+          }
         </div>
       </div>
-      <div class="form-step active" id="editar">
+      <div class="form-step" [class.active]="formActual === 'editar'">
         <div class="hitem" style="gap: 20px;">
           <div class="field">
             <label class="label">Fecha de Alta</label>
@@ -68,31 +80,39 @@
           </div>
         </div>
       </div>
-      <div id="editar_en_biometrico" class="form-step">
-        <div class="hitem" style="gap: 20px;">
-          <div class="field">
-            <label class="label">Nombre</label>
-            <div class="control">
-              <input class="input" type="text" style="min-width: 240px"/>
+      <div class="form-step" [class.active]="formActual === 'editar_en_biometrico'">
+        <span class="mb-3">Cambia el nombre y/o rol del funcionario en el biométrico</span>
+        <div class="vitem">
+          <div class="hitem mt-2" style="gap: 20px;">
+            <div class="field">
+              <label class="label">Nombre</label>
+              <div class="control">
+                <input class="input" type="text" style="min-width: 240px" formControlName="nombre"/>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Privilegio</label>
+              <div class="select" >
+                <select formControlName="privilegio">
+                  <option value="1">Usuario</option>
+                  <option value="0">Administrador</option>
+                </select>
+              </div>
             </div>
           </div>
-          <div class="field">
-            <label class="label">Privilegio</label>
-            <div class="select" >
-              <select id="" formControlName="estado">
-                <option value="1">Usuario</option>
-                <option value="0">Administrador</option>
-              </select>
-            </div>
-          </div>
+          <label class="b-checkbox checkbox">
+            <input type="checkbox" formControlName="confirmarEdicion">
+            <span class="check es-secundario" style="margin-top: 1px"></span>
+            <span class="help ml-1">Confirmo editar los datos en el biométrico</span>
+          </label>
         </div>
       </div>
-      <div id="clonar" class="form-step">
+      <div class="form-step" [class.active]="formActual === 'clonar'">
         <div class="vitem">
-          <span class="label mt-2">Filtrar por categoria</span>
+          <span class="mb-3">Copia los datos y huellas de un funcionario. Selecciona el biométrico destino</span>
           <div class="buttons mb-1" style="gap: 0px">
             @for(categoria of categorias; track categoria; let index = $index) {
-            <button class="button toggle" [class.seleccionado]="isSelected(index)">
+            <button class="button toggle" (click)="filtrarPorCategoria(index)" [class.seleccionado]="isSelected(index)">
               <div class="hitem">
                 @if(isSelected(index)) {
                 <i class="fas fa-check has-text-success" style="align-self: center;"></i>
@@ -102,21 +122,33 @@
             </button>
             }
           </div>
-          <div class="field">
-            <label class="label">Terminales</label>
-            <div class="select">
-              <select id="" formControlName="estado">
-                <option value="1">Planta Baja</option>
-                <option value="0">Mezanine</option>
-              </select>
+          <div class="terminales" style="margin-left: 2px">
+            @for (terminal of terminalesFiltrados; track terminal) {
+            <div class="terminal" [class.seleccionado]="terminalSeleccionado === terminal" (click)="seleccionarTerminal(terminal)">
+              <div class="etiqueta">
+              @if(terminal.tieneConexion) {
+              <div class="circle" style="background-color: {{getColor('Verde')}}; border: 1px #999 solid;"></div>
+              } @else {
+              <div class="circle" style="background-color: {{getColor('Guindo')}}; border: 1px #999 solid;"></div>
+              }
+              </div>
+              <header>
+                <p>{{ terminal.nombre }}</p>
+              </header>
             </div>
+            }
           </div>
+          <label class="b-checkbox checkbox mt-2">
+            <input type="checkbox" formControlName="confirmarClonacion">
+            <span class="check es-secundario" style="margin-top: 3px"></span>
+            <span class="help ml-1">Confirmo copiar los datos del funcionario al biométrico seleccionado</span>
+          </label>
         </div>
       </div>
     </section>
     <footer class="modal-card-foot" style="border-bottom-left-radius: 8px; border-bottom-right-radius: 8px">
       <div class="buttons">
-        <button class="button es-primario" type="button" (click)="onSubmit()" [disabled]="formAccion.invalid">
+        <button class="button es-primario" type="button" (click)="onSubmit()" [disabled]="!esFormularioValido()">
           Guardar
         </button>
         <button class="button" type="button" (click)="cerrarModal()">Cancelar</button>

@@ -16,7 +16,9 @@
 
 .button.seleccionado {
   border: 1px solid #e8d1b6 !important;
-  background-color: #ECE4DB !important;
+  background: linear-gradient(360deg, #ece4db 0%, #e8d1b6 100%);
+  box-shadow: 0 0 5px rgba(50, 115, 220, 0.35);
+  transform: scale(1.03);
 }
 
 .button.toggle:hover {

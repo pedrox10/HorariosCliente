@@ -21,3 +21,67 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+.terminales {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.seleccionado {
+  background-color: #e0f7fa!important;
+  color: black !important;
+}
+
+.toggle {
+  border-radius: 5px;
+  background-color: #F2F2F2 !important;
+}
+
+.seleccionado {
+  border: 1px solid #96e6ea !important;
+  background-color: #e2fafd !important;
+  box-shadow: none !important;
+}
+
+.toggle:hover {
+  border: 1px solid #96e6ea  !important;
+  background-color: #e2fafd !important;
+}
+
+.terminal {
+  width: 125px;
+  padding: 5px;
+  padding-bottom: 7.5px;
+  padding-top: 7.5px;
+  background: linear-gradient(360deg, #f7fbfa 0%, #E6ECEB 100%);
+  border: 1px #d4dcdb solid;
+  position: relative;
+}
+
+.terminal:hover {
+  cursor: pointer;
+}
+
+.terminal header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  font-weight: normal;
+  font-size: 0.85em;
+}
+
+.terminal .etiqueta {
+  position:absolute;
+  right: 0px;
+  top:8.5px;
+}
+
+.terminal.seleccionado {
+  border: 1px solid #e8d1b6 !important;
+  background: linear-gradient(360deg, #ece4db 0%, #e8d1b6 100%);
+  box-shadow: 0 0 5px rgba(50, 115, 220, 0.35);
+  transform: scale(1.03);
+}
+

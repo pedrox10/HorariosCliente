@@ -20,6 +20,7 @@ import {Terminal} from "../../../modelos/Terminal";
 import {env} from "../../../../environments/environments";
 import { HttpClient } from '@angular/common/http';
 import {AuthService} from "../../../servicios/auth.service";
+import {UsuarioService} from "../../../servicios/usuario.service";
 
 @Component({
   selector: 'app-ver-reporte',
@@ -50,7 +51,7 @@ export class VerReporteComponent implements OnInit{
 
   constructor(private modalService: ModalService, private terminalService: TerminalService,
               private location: Location, private router: Router, private http: HttpClient,
-              private eRef: ElementRef, public authService: AuthService) {
+              private eRef: ElementRef, public authService: AuthService, private usuarioService: UsuarioService) {
 
   }
 
@@ -243,7 +244,7 @@ export class VerReporteComponent implements OnInit{
       resumen => resumen.usuario.id === usuario.id
     );
 
-    this.terminalService.getResumenMarcaciones(usuario.id!, this.fechaIni, this.fechaFin).subscribe(
+    this.usuarioService.getResumenMarcaciones(usuario.id!, this.fechaIni, this.fechaFin).subscribe(
       (data: any) => {
         let rm: ResumenMarcacion = data;
         this.resumenMarcaciones[indice] = rm

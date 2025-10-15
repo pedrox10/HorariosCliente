@@ -18,6 +18,7 @@ import {ModalService} from "ngx-modal-ease";
 import {EstadoJornada} from "../../../modelos/Jornada";
 import * as ExcelJS from 'exceljs';
 import {Terminal} from "../../../modelos/Terminal";
+import {UsuarioService} from "../../../servicios/usuario.service";
 
 @Component({
   selector: 'app-ver-marcaciones',
@@ -54,7 +55,8 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   private picker: any;
 
   constructor(public terminalService: TerminalService, public location: Location,
-              public modalService: ModalService, private router: Router, private activatedRoute: ActivatedRoute) {
+              public modalService: ModalService, private router: Router, private activatedRoute: ActivatedRoute,
+              public usuarioService: UsuarioService) {
     this.estado = EstadoJornada;
   }
 
@@ -141,7 +143,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   }
 
   getResumenMarcaciones(id: number, ini: string, fin: string) {
-    this.terminalService.getResumenMarcaciones(id, ini, fin).subscribe(
+    this.usuarioService.getResumenMarcaciones(id, ini, fin).subscribe(
       (data: any) => {
         this.rm = data;
         console.log(data)

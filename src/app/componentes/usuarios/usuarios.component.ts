@@ -31,6 +31,7 @@ import {AuthService} from "../../servicios/auth.service";
 import {Grupo} from "../../modelos/Grupo";
 import {Sincronizacion} from "../../modelos/Sincronizacion";
 import {Marcacion} from "../../modelos/Marcacion";
+import {UsuarioService} from "../../servicios/usuario.service";
 
 @Component({
   selector: 'app-usuarios',
@@ -84,7 +85,8 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(public terminalService: TerminalService,private router: Router,
               public modalService: ModalService, private location: Location,
-              private sanitizer: DomSanitizer, private authService: AuthService) {
+              private sanitizer: DomSanitizer, private authService: AuthService,
+              public usuarioService: UsuarioService,) {
 
     this.isAdmin  = this.authService.tieneRol('Administrador', 'Superadmin');
     // Carga inicial de usuarios
@@ -360,6 +362,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getEstado(usuario: Usuario) {
+    console.log(usuario)
     let color = usuario.estado === EstadoUsuario.Activo ? "#C6FBF9" : usuario.estado === EstadoUsuario.Inactivo ? "#F2F2F2" : "#E7B9C0";
     let estado =
       "<div class='help has-text-centered mt-1'>" +
@@ -378,7 +381,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getJornada(usuario: Usuario | any) {
     let fecha = moment().format("YYYYMMDD")
-    this.terminalService.getJornada(usuario.id, fecha).subscribe(
+    this.usuarioService.getJornada(usuario.id, fecha).subscribe(
       (data: any) => {
         console.log(data)
       },
@@ -388,7 +391,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getUltMarcacion(idUsuario: number) {
-    this.terminalService.getUltMarcacion(idUsuario).subscribe(
+    this.usuarioService.getUltMarcacion(idUsuario).subscribe(
       (data: any) => {
         let div = (document.getElementById("ultMarcacion_" + idUsuario) as HTMLDivElement);
         if(data === null) {
@@ -415,7 +418,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   asignarHorario() {
     if (this.usuariosSeleccionados.length > 0) {
-      this.terminalService.getFechaPriMarcacion(this.idTerminal).pipe(takeUntil(this.destroy$)).subscribe(
+      this.usuarioService.getFechaPriMarcacion(this.idTerminal).pipe(takeUntil(this.destroy$)).subscribe(
         (data: any) => {
           this.fechaMin = data;
           let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
@@ -534,7 +537,10 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     })
       .subscribe((data) => {
         if (data !== undefined)
-          this.edit(data)
+          if(data.accion === "editar")
+            this.edit(data.usuario)
+          else if(data.accion === "clonar")
+            alert("clonar!")
       });
   }
 
@@ -549,7 +555,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
       from(this.usuariosSeleccionados)
         .pipe(
           concatMap(usuario => {
-            return this.terminalService.getResumenMarcaciones(usuario.id!, this.fechaIni, this.fechaFin)
+           return this.usuarioService.getResumenMarcaciones(usuario.id!, this.fechaIni, this.fechaFin)
           }),
           toArray()
         );
@@ -573,10 +579,12 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   edit(usuario: Usuario) {
+    //console.log(usuario)
     let index = this.usuarios.map(i => i.id).indexOf(usuario.id);
     this.usuarios[index] = usuario
     if (this.estado !== undefined) {
       let index = this.usuariosFiltrados.map(i => i.id).indexOf(usuario.id);
+      usuario.estadoHtml = this.getEstado(usuario);
       if (this.estado === usuario.estado) {
         this.usuariosFiltrados[index] = usuario
       } else {
@@ -809,7 +817,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   asignarGrupo() {
     let ids = this.usuariosSeleccionados.map(({ id }) => id);
     if(this.fc_confirmado.value === true) {
-      this.terminalService.limpiarGrupo(ids.toString()).subscribe(
+      this.usuarioService.limpiarGrupo(ids.toString()).subscribe(
         (data:any)=>{
           console.log(data)
           if(data.success) {
@@ -824,7 +832,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       let selectGrupos = document.getElementById("select_grupos") as HTMLSelectElement
       let id_grupo = selectGrupos.value
-      this.terminalService.asignarGrupo(parseInt(id_grupo), ids.toString()).subscribe(
+      this.usuarioService.asignarGrupo(parseInt(id_grupo), ids.toString()).subscribe(
         (data:any)=>{
           for(let usuario of this.usuariosSeleccionados) {
             usuario.grupo = data;
@@ -842,7 +850,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     document.getElementById("marcaciones_modal")?.classList.add("is-active");
     this.nombre = usuario.nombre;
     this.ci = usuario.ci + "";
-    this.terminalService.getMarcaciones(usuario.id).subscribe(
+    this.usuarioService.getMarcaciones(usuario.id).subscribe(
       (data: any) => {
         this.marcaciones = data;
         console.log(data)
@@ -858,7 +866,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   modalInfoOrganigram(ci: number) {
-    this.terminalService.infoOrganigram(ci).subscribe(
+    this.usuarioService.infoOrganigram(ci).subscribe(
       (data: any) => {
         if (data.exito) {
           document.getElementById("organigram_modal")?.classList.add("is-active");
