@@ -540,7 +540,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
           if(data.accion === "editar")
             this.edit(data.usuario)
           else if(data.accion === "clonar")
-            alert("clonar!")
+            alert(JSON.stringify(data, null, 2))
       });
   }
 

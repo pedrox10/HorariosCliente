@@ -124,7 +124,9 @@
           </div>
           <div class="terminales" style="margin-left: 2px">
             @for (terminal of terminalesFiltrados; track terminal) {
-            <div class="terminal" [class.seleccionado]="terminalSeleccionado === terminal" (click)="seleccionarTerminal(terminal)">
+            <div class="terminal" [class.seleccionado]="terminalSeleccionado === terminal"
+            [class.desactivado]="terminal.id === usuario?.terminal?.id"
+            (click)="seleccionarTerminal(terminal)">
               <div class="etiqueta">
               @if(terminal.tieneConexion) {
               <div class="circle" style="background-color: {{getColor('Verde')}}; border: 1px #999 solid;"></div>
@@ -149,7 +151,7 @@
     <footer class="modal-card-foot" style="border-bottom-left-radius: 8px; border-bottom-right-radius: 8px">
       <div class="buttons">
         <button class="button es-primario" type="button" (click)="onSubmit()" [disabled]="!esFormularioValido()">
-          Guardar
+          Aceptar
         </button>
         <button class="button" type="button" (click)="cerrarModal()">Cancelar</button>
       </div>
