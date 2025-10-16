@@ -65,6 +65,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   private destroy$ = new Subject<void>();
   showScrollButton = false;
   isAdmin: boolean;
+  isSuperadmin: boolean;
   isCargando = true;
   estadoEsEliminado = false;
   fc_confirmado = new FormControl(false);
@@ -89,6 +90,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
               public usuarioService: UsuarioService,) {
 
     this.isAdmin  = this.authService.tieneRol('Administrador', 'Superadmin');
+    this.isSuperadmin  = this.authService.tieneRol('Superadmin');
     // Carga inicial de usuarios
     this.terminalService.getUsuarios(this.idTerminal).pipe(takeUntil(this.destroy$)).subscribe(
       (data: any) => {
@@ -362,7 +364,6 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getEstado(usuario: Usuario) {
-    console.log(usuario)
     let color = usuario.estado === EstadoUsuario.Activo ? "#C6FBF9" : usuario.estado === EstadoUsuario.Inactivo ? "#F2F2F2" : "#E7B9C0";
     let estado =
       "<div class='help has-text-centered mt-1'>" +
@@ -534,14 +535,24 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
       modal: {enter: `${config.animation} ${config.duration}`,},
       size: {padding: '0.5rem'},
       data: {id}
-    })
-      .subscribe((data) => {
-        if (data !== undefined)
-          if(data.accion === "editar")
-            this.edit(data.usuario)
-          else if(data.accion === "clonar")
-            alert(JSON.stringify(data, null, 2))
-      });
+    }).subscribe((data) => {
+      if (data) {
+        switch (data.accion) {
+          case 'editar':
+            this.edit(data.usuario);
+            break;
+          case 'editar_en_biometrico':
+            alert(JSON.stringify(data, null, 2));
+            break;
+          case 'clonar':
+            alert(JSON.stringify(data, null, 2));
+            break;
+          default:
+            console.warn('Acción no reconocida:', data.accion);
+            break;
+        }
+      }
+    });
   }
 
   verReporte() {

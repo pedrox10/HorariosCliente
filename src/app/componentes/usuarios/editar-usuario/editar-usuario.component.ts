@@ -10,6 +10,7 @@ import {color, mensaje} from "../../inicio/Global";
 import {env} from "../../../../environments/environments";
 import {Terminal} from "../../../modelos/Terminal";
 import {UsuarioService} from "../../../servicios/usuario.service";
+import {AuthService} from "../../../servicios/auth.service";
 
 @Component({
   selector: 'app-editar-usuario',
@@ -34,18 +35,19 @@ export class EditarUsuarioComponent implements AfterViewInit {
     // --- Form clonar ---
     confirmarClonacion: new FormControl(false)
   });
-
   gestionActual: number = 0;
   public usuario: Usuario|any;
   public id: number | any;
-
   public categorias = env.categorias;
   public terminales: Terminal[] = [];
   public terminalesFiltrados: Terminal[] = [];
   formActual: "editar" | "editar_en_biometrico" | "clonar" = "editar";
   terminalSeleccionado: any = null;
+  isSuperadmin: boolean;
 
-  constructor(private terminalService: TerminalService, private usuarioService: UsuarioService, public modalService: ModalService) {
+  constructor(private terminalService: TerminalService, private usuarioService: UsuarioService,
+              public modalService: ModalService, private authService: AuthService) {
+    this.isSuperadmin  = this.authService.tieneRol('Superadmin');
     let data: any = this.modalService.options?.data
     if (data) {
       this.id = data.id;

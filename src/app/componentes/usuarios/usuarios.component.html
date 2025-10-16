@@ -41,7 +41,7 @@
                 <span class="icon has-tooltip-arrow expand" data-tooltip="Asignar Grupo"><i class="fas fa-users"></i></span>
               </button>
               <button class="button crema"
-                [ngClass]="{ 'desactivado': estadoEsEliminado }"
+                [ngClass]="{ 'oculto': estadoEsEliminado || !isSuperadmin }"
                 style="background-color: {{getColor('Guindo')}}; border-radius: 5px; position: relative;">
                 <span class="icon has-tooltip-arrow expand" data-tooltip="Eliminar usuarios">
                   <i class="fas fa-user-times"></i>

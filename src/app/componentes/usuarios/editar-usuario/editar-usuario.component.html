@@ -24,7 +24,7 @@
           </button>
           }
           @if(formActual !== 'editar_en_biometrico') {
-          <button class="button crema" (click)="mostrarEditarEnBiometrico()"
+          <button class="button crema" (click)="mostrarEditarEnBiometrico()" [ngClass]="{'desactivado': !isSuperadmin}"
                   style="background-color: {{getColor('Crema')}}; border-radius: 5px; position: relative;">
                 <span class="icon has-tooltip-arrow expand" title="Editar en biométrico">
                   <i class="fas fa-user-cog"></i>
@@ -35,7 +35,7 @@
           </button>
           }
           @if(formActual !== 'clonar') {
-          <button class="button naranja ml-1" (click)="mostrarClonar()"
+          <button class="button naranja ml-1" (click)="mostrarClonar()" [ngClass]="{'desactivado': !isSuperadmin}"
                   style="background-color: {{getColor('Naranja')}}; border-radius: 5px; position: relative;">
                 <span class="icon has-tooltip-arrow expand" title="Clonar funcionario">
                   <i class="fas fa-user-friends"></i>
