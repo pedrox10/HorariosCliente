@@ -461,12 +461,12 @@ p.modal-card-title {
   border-color: #cba57a  !important;
 }
 
-.button.esmeralda:hover {
-  border-color: #26bba5 !important;
+.button.azul:hover {
+  border-color: #5dc0de !important;
 }
 
-.button.esmeralda:focus {
-  border-color: #26bba5  !important;
+.button.azul:focus {
+  border-color: #5dc0de !important;
 }
 
 .button-flat {
