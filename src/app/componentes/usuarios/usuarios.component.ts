@@ -135,7 +135,6 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           }
         }
-        this.editarUsuario(42)
       },
       (error: any) => {
         console.error('An error occurred loading users:', error);
