@@ -312,7 +312,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
             "Usuarios agregados: " + respuesta.usuarios_agregados + "<br>" +
             "Usuarios editados: " + respuesta.usuarios_editados + "<br>" +
             "Usuarios eliminados: " + respuesta.usuarios_eliminados + "<br>"
-          notificacion(resumen)
+          notificacion(resumen, "is-info")
         }, 4000);
       },
       (error: any) => {
@@ -545,7 +545,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
             alert(JSON.stringify(data, null, 2));
             break;
           case 'clonar':
-            alert(JSON.stringify(data, null, 2));
+            notificacion(data.mensaje, data.tipo)
             break;
           default:
             console.warn('Acción no reconocida:', data.accion);

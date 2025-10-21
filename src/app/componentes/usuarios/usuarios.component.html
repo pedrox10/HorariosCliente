@@ -56,7 +56,7 @@
             <div class="vinput" style="gap: 0px !important;">
               <p class='help is-info has-text-weight-semibold' id="ult_sync">{{getUltSincronizacion()}}</p>
               <button id="btn_sincronizar" (click)="sincronizar()" class="button es-primario"
-                      style="border-radius: 5px;">
+                      style="border-radius: 5px; position: relative;">
                 <span class="icon"><i class="fas fa-sync"></i></span>
                 <span>Sincronizar</span>
                 @if(terminal?.tieneConexion) {
@@ -64,6 +64,9 @@
                 } @else {
                 <div class="circle ml-2" style="background-color: {{getColor('Guindo')}}; border: 1px #999 solid;"></div>
                 }
+                <div style="text-align: center" style=" bottom: -2px;right: -5px;z-index: 2; position: absolute">
+                  <i class="fas fa-terminal help" style="background-color: #dedede;padding: 2px;font-size: 0.6em;color: black !important;"></i>
+                </div>
               </button>
             </div>
           </div>

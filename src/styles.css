@@ -240,6 +240,27 @@ p.modal-card-title {
   height: auto !important;
 }
 
+.notificacion {
+  width: 285px !important;
+  color: #111 !important;
+}
+
+.notificacion.is-success {
+  background-color: #d1eed7 !important;
+}
+
+.notificacion.is-info {
+  background-color: #c3e5ee !important;
+}
+
+.notificacion.is-warning {
+  background-color: #ffe5d4 !important;
+}
+
+.notificacion.is-danger {
+  background-color: #fcc8c8 !important;
+}
+
 .popup {
   padding: 10px;
   font-size: 0.90em;
