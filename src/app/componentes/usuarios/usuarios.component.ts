@@ -32,6 +32,7 @@ import {Grupo} from "../../modelos/Grupo";
 import {Sincronizacion} from "../../modelos/Sincronizacion";
 import {Marcacion} from "../../modelos/Marcacion";
 import {UsuarioService} from "../../servicios/usuario.service";
+import {LocalCompilationExtraImportsTracker} from "@angular/compiler-cli/src/ngtsc/imports";
 
 @Component({
   selector: 'app-usuarios',
@@ -530,11 +531,12 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   editarUsuario(id_usuario: number | any) {
     let id = id_usuario;
+    let origen = "usuarios"
     let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
     this.modalService.open(EditarUsuarioComponent, {
       modal: {enter: `${config.animation} ${config.duration}`,},
       size: {padding: '0.5rem'},
-      data: {id}
+      data: {id, origen}
     }).subscribe((data) => {
       if (data) {
         switch (data.accion) {

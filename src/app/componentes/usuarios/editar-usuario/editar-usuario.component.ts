@@ -38,6 +38,7 @@ export class EditarUsuarioComponent implements AfterViewInit {
   gestionActual: number = 0;
   public usuario: Usuario|any;
   public id: number | any;
+  public origen: string | any;
   public categorias = env.categorias;
   public terminales: Terminal[] = [];
   public terminalesFiltrados: Terminal[] = [];
@@ -51,6 +52,7 @@ export class EditarUsuarioComponent implements AfterViewInit {
     let data: any = this.modalService.options?.data
     if (data) {
       this.id = data.id;
+      this.origen = data.origen
     }
 
     this.usuarioService.getUsuario(this.id).subscribe(

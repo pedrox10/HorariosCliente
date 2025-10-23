@@ -38,7 +38,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   public idTerminal!: number;
   public ini!: string;
   public fin!: string;
-  public terminal!: Terminal;
+  public terminal: Terminal | null = null;
 
   inputRango: HTMLInputElement | any;
   rm: ResumenMarcacion | any = undefined;
@@ -66,8 +66,10 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       this.terminalService.getTerminal(this.idTerminal).subscribe({
         next: (data: any) => {
           this.terminal = data;
-          this.ultimaSincronizacion = moment(this.terminal.ultSincronizacion, "YYYY-MM-DD").toDate()
-          this.textUltSincronizacion = moment(this.terminal.ultSincronizacion).format("DD/MM/YYYY HH:mm")
+          if (this.terminal?.ultSincronizacion) {
+            this.ultimaSincronizacion = moment(this.terminal.ultSincronizacion, "YYYY-MM-DD").toDate()
+            this.textUltSincronizacion = moment(this.terminal.ultSincronizacion).format("DD/MM/YYYY HH:mm")
+          }
         },
         error: (err) => {
           console.error('Error al obtener terminal', err);

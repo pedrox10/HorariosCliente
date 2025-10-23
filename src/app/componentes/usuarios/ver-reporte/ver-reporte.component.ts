@@ -236,7 +236,7 @@ export class VerReporteComponent implements OnInit{
     })
       .subscribe((data) => {
         if (data !== undefined)
-          this.actualizarResumenMarcaciones(data)
+          this.actualizarResumenMarcaciones(data.usuario)
       });
   }
 
