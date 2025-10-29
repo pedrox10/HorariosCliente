@@ -48,4 +48,12 @@ export class ComandosService {
   public reiniciar(id: number) {
     return this.http.get(`${this.apiUrl}/terminal/${id}/reiniciar`);
   }
+
+  public clonarUsuario(idUsuario: number, idOrigen: number, idDestino: number) {
+    return this.http.get(`${this.apiUrl}/usuario/${idUsuario}/clonar/origen/${idOrigen}/destino/${idDestino}`);
+  }
+
+  public eliminarFuncionarios(idTerminal: number, uids: string) {
+    return this.http.get(`${this.apiUrl}/terminal/${idTerminal}/eliminar-funcionarios/${uids}`);
+  }
 }

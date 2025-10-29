@@ -33,6 +33,7 @@ import {Sincronizacion} from "../../modelos/Sincronizacion";
 import {Marcacion} from "../../modelos/Marcacion";
 import {UsuarioService} from "../../servicios/usuario.service";
 import {LocalCompilationExtraImportsTracker} from "@angular/compiler-cli/src/ngtsc/imports";
+import {ComandosService} from "../../servicios/comandos.service";
 
 @Component({
   selector: 'app-usuarios',
@@ -88,7 +89,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(public terminalService: TerminalService,private router: Router,
               public modalService: ModalService, private location: Location,
               private sanitizer: DomSanitizer, private authService: AuthService,
-              public usuarioService: UsuarioService,) {
+              public usuarioService: UsuarioService, public comandosService: ComandosService) {
 
     this.isAdmin  = this.authService.tieneRol('Administrador', 'Superadmin');
     this.isSuperadmin  = this.authService.tieneRol('Superadmin');
@@ -515,20 +516,6 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigate(['/ver-horario', id_usuario]);
   }
 
-  /*verHorario(id_usuario: number | any) {
-    let id = id_usuario;
-    let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
-    this.modalService.open(VerHorarioComponent, {
-      modal: {enter: `${config.animation} ${config.duration}`,},
-      size: {padding: '0.5rem'},
-      data: {id}
-    })
-      .subscribe((data) => {
-        if (data !== undefined)
-          console.log(data)
-      });
-  }*/
-
   editarUsuario(id_usuario: number | any) {
     let id = id_usuario;
     let origen = "usuarios"
@@ -825,8 +812,6 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     document.getElementById("asignar_grupo")?.classList.remove("is-active");
   }
 
-  close() {}
-
   asignarGrupo() {
     let ids = this.usuariosSeleccionados.map(({ id }) => id);
     if(this.fc_confirmado.value === true) {
@@ -857,6 +842,29 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.fc_confirmado.setValue(false)
     this.ocultarAsignarGrupo()
+  }
+
+  modalEliminarFuncionarios() {
+    if (this.usuariosSeleccionados.length > 0) {
+      document.getElementById("eliminar_funcionarios")?.classList.add("is-active");
+    } else {
+      mensaje("Debes seleccionar al menos un funcionario", "is-warning")
+    }
+  }
+
+  ocultarEliminarFuncionarios() {
+    document.getElementById("eliminar_funcionarios")?.classList.remove("is-active");
+  }
+
+  eliminarFuncionarios() {
+    let uids = this.usuariosSeleccionados.map(({ uid }) => uid);
+    if(uids.length > 0) {
+      this.comandosService.eliminarFuncionarios(this.idTerminal, uids.toString()).subscribe(
+        (data: any) => {
+          console.log(data)
+        })
+    } else
+      mensaje("Sin jornadas por asignar dia libre", "is-warning")
   }
 
   modalMarcaciones(usuario: Usuario) {

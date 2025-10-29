@@ -11,6 +11,7 @@ import {env} from "../../../../environments/environments";
 import {Terminal} from "../../../modelos/Terminal";
 import {UsuarioService} from "../../../servicios/usuario.service";
 import {AuthService} from "../../../servicios/auth.service";
+import {ComandosService} from "../../../servicios/comandos.service";
 
 @Component({
   selector: 'app-editar-usuario',
@@ -47,7 +48,8 @@ export class EditarUsuarioComponent implements AfterViewInit {
   isSuperadmin: boolean;
 
   constructor(private terminalService: TerminalService, private usuarioService: UsuarioService,
-              public modalService: ModalService, private authService: AuthService) {
+              public modalService: ModalService, private authService: AuthService,
+              public comandosService: ComandosService) {
     this.isSuperadmin  = this.authService.tieneRol('Superadmin');
     let data: any = this.modalService.options?.data
     if (data) {
@@ -148,7 +150,7 @@ export class EditarUsuarioComponent implements AfterViewInit {
   }
 
   clonarUsuario(idUsuario: number, idOrigen: number, idDestino: number) {
-    this.usuarioService.clonarUsuario(idUsuario, idOrigen, idDestino).subscribe(
+    this.comandosService.clonarUsuario(idUsuario, idOrigen, idDestino).subscribe(
       (data: any) => {
         this.modalService.close(data);
         this.formAccion.reset();

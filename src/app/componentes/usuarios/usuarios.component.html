@@ -40,7 +40,7 @@
                 style="background-color: {{getColor('Crema')}}; border-radius: 5px;">
                 <span class="icon has-tooltip-arrow expand" data-tooltip="Asignar Grupo"><i class="fas fa-users"></i></span>
               </button>
-              <button class="button crema"
+              <button class="button crema" (click)="modalEliminarFuncionarios()"
                 [ngClass]="{ 'oculto': estadoEsEliminado || !isSuperadmin }"
                 style="background-color: {{getColor('Guindo')}}; border-radius: 5px; position: relative;">
                 <span class="icon has-tooltip-arrow expand" data-tooltip="Eliminar usuarios">
@@ -489,6 +489,36 @@
           </tbody>
         </table>
       </section>
+    </div>
+  </div>
+
+  <div class="modal" id="eliminar_funcionarios">
+    <div class="modal-background" id="fondo_eliminar_funcionarios" style="opacity: 0.75;"></div>
+    <div class="modal-card" style="width: 400px;">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Eliminar Funcionarios</p>
+        <button class="delete" aria-label="close" (click)="ocultarEliminarFuncionarios()"></button>
+      </header>
+      <section class="modal-card-body">
+        <label class="label">¿Esta seguro que quiere eliminar los funcionarios?</label>
+        <div class="mt-4 mb-2">
+          Se eliminarán los funcionarios del biométrico, pero se mantendrán sus reportes y horarios asignados en la base de datos hasta su ultima marcación.
+        </div>
+        <div class="hitem">
+          <label class="b-checkbox checkbox" style="justify-content: center">
+            <input type="checkbox" [formControl]="fc_confirmado">
+            <span class="check"></span>
+          </label>
+          <span>Confirmo realizar la acción</span>
+        </div>
+      </section>
+
+      <footer class="modal-card-foot">
+        <div class="buttons">
+          <button class="button es-primario" (click)="eliminarFuncionarios()" >Aceptar</button>
+          <button class="button" type="button" >Cancelar</button>
+        </div>
+      </footer>
     </div>
   </div>
 </div>
