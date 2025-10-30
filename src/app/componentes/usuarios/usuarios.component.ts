@@ -85,6 +85,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   citeOrg: string | any;
   cargoRotacion: string | any;
   hayRotacion = false;
+  public resultados: any[] = [];
 
   constructor(public terminalService: TerminalService,private router: Router,
               public modalService: ModalService, private location: Location,
@@ -861,10 +862,17 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     if(uids.length > 0) {
       this.comandosService.eliminarFuncionarios(this.idTerminal, uids.toString()).subscribe(
         (data: any) => {
-          console.log(data)
+          alert(JSON.stringify(data))
+          /*this.resultados = data
+          this.ocultarEliminarFuncionarios()
+          document.getElementById("respuestas_eliminacion")?.classList.add("is-active");
+          alert(JSON.stringify(this.resultados))
+*/
+        },
+        (error: any) => {
+          alert(JSON.stringify(error))
         })
-    } else
-      mensaje("Sin jornadas por asignar dia libre", "is-warning")
+    }
   }
 
   modalMarcaciones(usuario: Usuario) {

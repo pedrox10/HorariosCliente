@@ -69,6 +69,26 @@
                 </div>
               </button>
             </div>
+            <div class="dropdown is-hoverable">
+              <div class="dropdown-trigger" style="align-self: center; transform: translateY(10px);">
+                <span class="icon has-text-danger numero"
+                  style="background-color: {{getColor('Rojo')}}; border: none;">
+                  <i class="fas fa-bell"></i>
+                </span>
+              </div>
+              <div class="dropdown-menu" role="menu">
+                <div class="dropdown-content popup" style="background: linear-gradient(360deg, #fcfaf7 0%, #fdf7e7 100%); border: 1px #f4d27b solid;">
+                  <div class="contenido" style='color: #786450;'>
+                    <span style="font-weight: normal">
+                      <p class='semibold mb-1 has-text-centered'>¡Atención!</p>
+                      Se ejecutaron acciones que modifican directamente el terminal biométrico, por favor
+                      <span class='semibold'>sincroniza</span> antes para mantener un estado actualizado.
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
           }
         </div>
@@ -518,6 +538,41 @@
           <button class="button es-primario" (click)="eliminarFuncionarios()" >Aceptar</button>
           <button class="button" type="button" >Cancelar</button>
         </div>
+      </footer>
+    </div>
+  </div>
+  <div class="modal" id="respuestas_eliminacion">
+    <div class="modal-background" id="fondo_respuestas_eliminacion" style="opacity: 0.75;"></div>
+    <div class="modal-card" style="width: 600px;">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Reporte de eliminación</p>
+        <button class="delete" ></button>
+      </header>
+      <section class="modal-card-body">
+        <div class="content">
+          <table class="table is-fullwidth is-striped is-narrow">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th style="min-width: 165px;">Nombre</th>
+              <th style="min-width: 250px;">Mensaje</th>
+              <th>Resultado</th>
+            </tr>
+            </thead>
+            <tbody>
+            @for (r of resultados; track i; let i = $index) {
+            <tr>
+              <td>{{ i + 1 }}</td>
+              <td>{{ r.nombre }}</td>
+              <td>{{ r.mensaje }}</td>
+              <td>{{ r.success ? '✅ Éxito' : '❌ Error' }}</td>
+            </tr>
+            }
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <footer class="modal-card-foot">
       </footer>
     </div>
   </div>
