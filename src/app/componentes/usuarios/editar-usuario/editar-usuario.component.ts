@@ -120,7 +120,7 @@ export class EditarUsuarioComponent implements AfterViewInit {
         break;
 
       case 'clonar':
-        this.clonarUsuario(this.usuario.id, this.usuario.terminal.id, this.terminalSeleccionado.id)
+        this.clonarUsuario(this.usuario.id, this.usuario.ci, this.usuario.terminal.id, this.terminalSeleccionado.id)
         break;
     }
   }
@@ -149,8 +149,8 @@ export class EditarUsuarioComponent implements AfterViewInit {
     );*/
   }
 
-  clonarUsuario(idUsuario: number, idOrigen: number, idDestino: number) {
-    this.comandosService.clonarUsuario(idUsuario, idOrigen, idDestino).subscribe(
+  clonarUsuario(idUsuario: number, ci: number, idOrigen: number, idDestino: number) {
+    this.comandosService.clonarUsuario(idUsuario, ci, idOrigen, idDestino).subscribe(
       (data: any) => {
         this.modalService.close(data);
         this.formAccion.reset();

@@ -859,15 +859,16 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   eliminarFuncionarios() {
     let uids = this.usuariosSeleccionados.map(({ uid }) => uid);
+    let cis = this.usuariosSeleccionados.map(({ ci }) => ci);
     if(uids.length > 0) {
-      this.comandosService.eliminarFuncionarios(this.idTerminal, uids.toString()).subscribe(
+      this.comandosService.eliminarFuncionarios(this.idTerminal, uids.toString(), cis.toString()).subscribe(
         (data: any) => {
           alert(JSON.stringify(data))
           /*this.resultados = data
           this.ocultarEliminarFuncionarios()
           document.getElementById("respuestas_eliminacion")?.classList.add("is-active");
           alert(JSON.stringify(this.resultados))
-*/
+          */
         },
         (error: any) => {
           alert(JSON.stringify(error))

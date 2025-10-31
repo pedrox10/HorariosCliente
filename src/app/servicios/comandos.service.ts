@@ -49,11 +49,11 @@ export class ComandosService {
     return this.http.get(`${this.apiUrl}/terminal/${id}/reiniciar`);
   }
 
-  public clonarUsuario(idUsuario: number, idOrigen: number, idDestino: number) {
-    return this.http.get(`${this.apiUrl}/usuario/${idUsuario}/clonar/origen/${idOrigen}/destino/${idDestino}`);
+  public clonarUsuario(idUsuario: number, ci: number, idOrigen: number, idDestino: number) {
+    return this.http.get(`${this.apiUrl}/usuario/${idUsuario}/ci/${ci}/clonar/origen/${idOrigen}/destino/${idDestino}`);
   }
 
-  public eliminarFuncionarios(idTerminal: number, uids: string) {
-    return this.http.get(`${this.apiUrl}/terminal/${idTerminal}/eliminar-funcionarios/${uids}`);
+  public eliminarFuncionarios(idTerminal: number, uids: string, cis: string) {
+    return this.http.get(`${this.apiUrl}/terminal/${idTerminal}/eliminar-funcionarios/${uids}/cis/${cis}`);
   }
 }
