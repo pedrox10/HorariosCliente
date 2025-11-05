@@ -546,7 +546,7 @@
     <div class="modal-card" style="width: 600px;">
       <header class="modal-card-head">
         <p class="modal-card-title">Reporte de eliminación</p>
-        <button class="delete" ></button>
+        <button class="delete" (click)="cerrarReporteEliminacion()" ></button>
       </header>
       <section class="modal-card-body">
         <div class="content">
@@ -565,7 +565,7 @@
               <td>{{ i + 1 }}</td>
               <td>{{ r.nombre }}</td>
               <td>{{ r.mensaje }}</td>
-              <td>{{ r.success ? '✅ Éxito' : '❌ Error' }}</td>
+              <td>{{ r.exito ? '✅ Éxito' : '❌ Error' }}</td>
             </tr>
             }
             </tbody>

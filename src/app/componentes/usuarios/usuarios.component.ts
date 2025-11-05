@@ -532,7 +532,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
             this.edit(data.usuario);
             break;
           case 'editar_en_biometrico':
-            alert(JSON.stringify(data, null, 2));
+            notificacion(data.mensaje, data.tipo)
             break;
           case 'clonar':
             notificacion(data.mensaje, data.tipo)
@@ -863,17 +863,23 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     if(uids.length > 0) {
       this.comandosService.eliminarFuncionarios(this.idTerminal, uids.toString(), cis.toString()).subscribe(
         (data: any) => {
-          alert(JSON.stringify(data))
-          /*this.resultados = data
+          if(data.exito == true) {
+            this.resultados = data.resultados
+            notificacion(data.mensaje, data.tipo)
+            document.getElementById("respuestas_eliminacion")?.classList.add("is-active");
+          } else {
+            notificacion(data.mensaje, data.tipo)
+          }
           this.ocultarEliminarFuncionarios()
-          document.getElementById("respuestas_eliminacion")?.classList.add("is-active");
-          alert(JSON.stringify(this.resultados))
-          */
         },
         (error: any) => {
           alert(JSON.stringify(error))
         })
     }
+  }
+
+  cerrarReporteEliminacion() {
+    document.getElementById("respuestas_eliminacion")?.classList.remove("is-active");
   }
 
   modalMarcaciones(usuario: Usuario) {

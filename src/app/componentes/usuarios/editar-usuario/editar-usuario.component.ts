@@ -116,7 +116,7 @@ export class EditarUsuarioComponent implements AfterViewInit {
         break;
 
       case 'editar_en_biometrico':
-        console.log(this.formActual)
+        this.editarEnBiometrico()
         break;
 
       case 'clonar':
@@ -138,7 +138,7 @@ export class EditarUsuarioComponent implements AfterViewInit {
   }
 
   editarEnBiometrico() {
-    /*this.usuarioService.editarEnBiometrico(this.usuario.id, this.formAccion.value).subscribe(
+    this.comandosService.editarEnBiometrico(this.usuario.terminal.id, this.usuario.id, this.usuario.ci, this.formAccion.value).subscribe(
       (data: any) => {
         this.modalService.close(data);
         this.formAccion.reset();
@@ -146,7 +146,7 @@ export class EditarUsuarioComponent implements AfterViewInit {
       (error: any) => {
         console.log(error)
       }
-    );*/
+    );
   }
 
   clonarUsuario(idUsuario: number, ci: number, idOrigen: number, idDestino: number) {
