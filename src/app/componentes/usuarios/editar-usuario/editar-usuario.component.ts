@@ -1,4 +1,4 @@
-import {AfterViewInit, Component} from '@angular/core';
+import {AfterViewInit, Component, inject} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {TerminalService} from "../../../servicios/terminal.service";
 import {ModalService} from "ngx-modal-ease";
@@ -6,12 +6,13 @@ import {HttpClientModule} from "@angular/common/http";
 import {CommonModule} from "@angular/common";
 import moment from "moment";
 import {Usuario} from "../../../modelos/Usuario";
-import {color, mensaje} from "../../inicio/Global";
+import {color, mensaje, notificacion} from "../../inicio/Global";
 import {env} from "../../../../environments/environments";
 import {Terminal} from "../../../modelos/Terminal";
 import {UsuarioService} from "../../../servicios/usuario.service";
 import {AuthService} from "../../../servicios/auth.service";
 import {ComandosService} from "../../../servicios/comandos.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-editar-usuario',
@@ -37,6 +38,7 @@ export class EditarUsuarioComponent implements AfterViewInit {
     confirmarClonacion: new FormControl(false)
   });
   gestionActual: number = 0;
+  private activatedRoute = inject(ActivatedRoute);
   public usuario: Usuario|any;
   public id: number | any;
   public origen: string | any;
@@ -45,7 +47,9 @@ export class EditarUsuarioComponent implements AfterViewInit {
   public terminalesFiltrados: Terminal[] = [];
   formActual: "editar" | "editar_en_biometrico" | "clonar" = "editar";
   terminalSeleccionado: any = null;
+  datosDeBiometrico: any = null;
   isSuperadmin: boolean;
+  isCargando = true;
 
   constructor(private terminalService: TerminalService, private usuarioService: UsuarioService,
               public modalService: ModalService, private authService: AuthService,
@@ -55,6 +59,8 @@ export class EditarUsuarioComponent implements AfterViewInit {
     if (data) {
       this.id = data.id;
       this.origen = data.origen
+    } else {
+      this.id = this.activatedRoute.snapshot.params['id'];
     }
 
     this.usuarioService.getUsuario(this.id).subscribe(
@@ -167,6 +173,32 @@ export class EditarUsuarioComponent implements AfterViewInit {
 
   mostrarEditarEnBiometrico() {
     this.formActual = "editar_en_biometrico"
+    this.comandosService.leerEnBiometrico(this.usuario.terminal.id, this.usuario.id, this.usuario.ci).subscribe(
+      (data: any) => {
+        this.isCargando = false;
+        this.datosDeBiometrico = data;
+
+        if (data.exito == true) {
+          this.formAccion.patchValue({
+            nombre: data.nombre,
+            privilegio: data.privilegio
+          });
+          this.formAccion.get('privilegio')?.enable();
+          this.formAccion.get('nombre')?.enable();
+          this.formAccion.get('confirmarEdicion')?.enable();
+        } else {
+          this.formAccion.reset();
+          this.formAccion.get('privilegio')?.disable();
+          this.formAccion.get('nombre')?.disable();
+          this.formAccion.get('confirmarEdicion')?.disable();
+        }
+      },
+      (error: any) => {
+        this.isCargando = false;
+        console.error('Error:', error);
+        mensaje('Error al leer los datos desde el biométrico', 'is-danger');
+      }
+    );
   }
 
   mostrarClonar() {

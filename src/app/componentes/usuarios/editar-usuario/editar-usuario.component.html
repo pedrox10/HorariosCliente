@@ -83,7 +83,7 @@
           <div class="field">
             <label class="label">Estado</label>
             <div class="select" >
-              <select id="" formControlName="estado">
+              <select formControlName="estado">
                 <option value="1">Activo</option>
                 <option value="0">Inactivo</option>
               </select>
@@ -91,10 +91,19 @@
           </div>
         </div>
       </div>
-      <div class="form-step" [class.active]="formActual === 'editar_en_biometrico'">
+      <div class="form-step" [class.active]="formActual === 'editar_en_biometrico'"
+           [class.table-loading]="isCargando" [class.table-overlay]="isCargando">
         <span class="mb-3">Cambia el nombre y/o rol del funcionario en el biométrico</span>
-        <div class="vitem">
-          <div class="hitem mt-2" style="gap: 20px;">
+        <div class="message {{ datosDeBiometrico?.tipo }}" style="border: 1px solid {{getColor('Crema')}}; display: flex; margin-bottom: 5px;
+          min-height: 45px; border-radius: 7.5px; padding: 0px; align-items: center; justify-content: center;">
+          <div class="vbox-centered">
+            <span style="font-size: 0.9em;font-weight: normal !important">
+              {{ datosDeBiometrico?.mensaje }}
+            </span>
+          </div>
+        </div>
+        <div id="editar_en_biometrico" class="vitem">
+          <div class="hitem" style="gap: 20px;">
             <div class="field">
               <label class="label">Nombre</label>
               <div class="control">
@@ -117,6 +126,13 @@
             <span class="help ml-1">Confirmo editar los datos en el biométrico</span>
           </label>
         </div>
+        @if(isCargando){
+        <div class="spinner-center" style="top: 10vh">
+          <button class="button is-size-1 is-loading is-white is-medium"
+                  style="border: none; background-color: transparent; ">Cargando
+          </button>
+        </div>
+        }
       </div>
       <div class="form-step" [class.active]="formActual === 'clonar'">
         <div class="vitem">

@@ -60,4 +60,8 @@ export class ComandosService {
   public editarEnBiometrico(idTerminal: number, idUsuario: number, ci: number, body: any) {
     return this.http.put(`${this.apiUrl}/terminal/${idTerminal}/editar-en-biometrico/${idUsuario}/ci/${ci}`, body);
   }
+
+  public leerEnBiometrico(idTerminal: number, idUsuario: number, ci: number) {
+    return this.http.get(`${this.apiUrl}/terminal/${idTerminal}/leer-en-biometrico/${idUsuario}/ci/${ci}`);
+  }
 }
