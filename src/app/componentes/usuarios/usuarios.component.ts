@@ -304,6 +304,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
         this.usuariosSeleccionados = []; // Limpiar selecciones
         this.quitarFiltros(); // Quita todos los filtros para mostrar la lista completa
         document.getElementById("ult_sync")!.innerText = "Ult. vez: " + moment(respuesta.hora_terminal).format('DD/MM/YYYY HH:mm');
+        this.terminal.porSincronizar = false;
         this.actualizarCheckboxTodos(); // Asegura que el checkbox "todos" se resetee
         setTimeout(() => {
           document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
@@ -532,6 +533,8 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
             this.edit(data.usuario);
             break;
           case 'editar_en_biometrico':
+            if(data.exito == true)
+              this.terminal.porSincronizar = true;
             notificacion(data.mensaje, data.tipo)
             break;
           case 'clonar':

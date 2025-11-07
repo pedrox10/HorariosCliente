@@ -69,6 +69,7 @@
                 </div>
               </button>
             </div>
+            @if (terminal?.porSincronizar) {
             <div class="dropdown is-hoverable">
               <div class="dropdown-trigger" style="align-self: center; transform: translateY(10px);">
                 <span class="icon has-text-danger numero"
@@ -88,7 +89,7 @@
                 </div>
               </div>
             </div>
-
+            }
           </div>
           }
         </div>
@@ -120,7 +121,7 @@
                     <div class="contenido" style='color: #786450;'>
                       <span style="font-weight: normal">
                         <span class='semibold'>Fecha de Alta:</span> fecha de la primera marcación del funcionario en biométrico.
-                        <span class='semibold'>Fecha de Baja:</span> cuando un funcionario ya no marcarcá mas en el biometrico por baja en Organigram o por rotación.
+                        <span class='semibold'>Fecha de Baja:</span> cuando un funcionario ya no marcarcá en el biométrico por baja en Organigram o por rotación.
                       </span>
                     </div>
                   </div>

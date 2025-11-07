@@ -222,7 +222,9 @@ export class EditarUsuarioComponent implements AfterViewInit {
       case 'editar_en_biometrico':
         let nombre = this.formAccion.get('nombre')?.value?.trim();
         let confirmarEdicionMarcado = this.formAccion.get('confirmarEdicion')?.value;
-        return !!nombre && !!confirmarEdicionMarcado;
+        const nombreCambiado = this.datosDeBiometrico?.nombre !== this.formAccion.get('nombre')?.value?.trim();
+        const privilegioCambiado = this.datosDeBiometrico?.privilegio !== Number(this.formAccion.get('privilegio')?.value);
+        return !!nombre && !!confirmarEdicionMarcado && (nombreCambiado || privilegioCambiado);
 
       case 'clonar':
         let confirmarClonacionMarcado = this.formAccion.get('confirmarClonacion')?.value;
