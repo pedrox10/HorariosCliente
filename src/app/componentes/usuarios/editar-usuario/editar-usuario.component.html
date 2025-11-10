@@ -177,7 +177,9 @@
     </section>
     <footer class="modal-card-foot" style="border-bottom-left-radius: 8px; border-bottom-right-radius: 8px">
       <div class="buttons">
-        <button class="button es-primario" type="button" (click)="onSubmit()" [disabled]="!esFormularioValido()">
+        <button class="button es-primario" type="button"
+                [class.is-loading]="isLoading"
+                (click)="onSubmit()" [disabled]="!esFormularioValido()">
           Aceptar
         </button>
         <button class="button" type="button" (click)="cerrarModal()">Cancelar</button>

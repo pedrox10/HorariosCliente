@@ -528,15 +528,16 @@
         <div class="hitem">
           <label class="b-checkbox checkbox" style="justify-content: center">
             <input type="checkbox" [formControl]="fc_confirmado">
-            <span class="check"></span>
+            <span class="check" style="margin-top: 3px"></span>
+            <span class="help ml-1">Confirmo eliminar los funcionarios seleccionados</span>
           </label>
-          <span>Confirmo realizar la acción</span>
         </div>
       </section>
 
       <footer class="modal-card-foot">
         <div class="buttons">
-          <button class="button es-primario" (click)="eliminarFuncionarios()" >Aceptar</button>
+          <button class="button es-primario" [class.is-loading]="isLoading"
+                  (click)="eliminarFuncionarios()" >Aceptar</button>
           <button class="button" type="button" >Cancelar</button>
         </div>
       </footer>

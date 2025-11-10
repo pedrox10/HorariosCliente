@@ -23,7 +23,7 @@ import {LockPlugin} from "@easepick/lock-plugin";
 import {VerHorarioComponent} from "./ver-horario/ver-horario.component";
 import {EditarUsuarioComponent} from "./editar-usuario/editar-usuario.component";
 import {color, format, formatTime, mensaje, notificacion} from "../inicio/Global";
-import {concatMap, from, Subject, takeUntil, toArray} from "rxjs";
+import {concatMap, finalize, from, Subject, takeUntil, toArray} from "rxjs";
 import {DataService} from "../../servicios/data.service";
 import { CommonModule } from '@angular/common';
 import { DomSanitizer} from '@angular/platform-browser';
@@ -69,6 +69,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   isAdmin: boolean;
   isSuperadmin: boolean;
   isCargando = true;
+  isLoading = false;
   estadoEsEliminado = false;
   fc_confirmado = new FormControl(false);
   marcaciones: Marcacion[] = [];
@@ -864,10 +865,19 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     let uids = this.usuariosSeleccionados.map(({ uid }) => uid);
     let cis = this.usuariosSeleccionados.map(({ ci }) => ci);
     if(uids.length > 0) {
-      this.comandosService.eliminarFuncionarios(this.idTerminal, uids.toString(), cis.toString()).subscribe(
+      this.isLoading = true
+      this.comandosService.eliminarFuncionarios(this.idTerminal, uids.toString(), cis.toString())
+        .pipe( finalize(() => { this.isLoading = false })
+        )
+        .subscribe(
         (data: any) => {
           if(data.exito == true) {
             this.resultados = data.resultados
+            const hayEliminaciones = Array.isArray(data.resultados)
+              ? data.resultados.some((r: any) => r.exito === true)
+              : false;
+            if(hayEliminaciones)
+              this.terminal.porSincronizar = true;
             notificacion(data.mensaje, data.tipo)
             document.getElementById("respuestas_eliminacion")?.classList.add("is-active");
           } else {

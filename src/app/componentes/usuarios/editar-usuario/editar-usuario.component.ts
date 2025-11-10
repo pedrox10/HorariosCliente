@@ -13,6 +13,7 @@ import {UsuarioService} from "../../../servicios/usuario.service";
 import {AuthService} from "../../../servicios/auth.service";
 import {ComandosService} from "../../../servicios/comandos.service";
 import {ActivatedRoute} from "@angular/router";
+import {finalize} from "rxjs";
 
 @Component({
   selector: 'app-editar-usuario',
@@ -50,6 +51,7 @@ export class EditarUsuarioComponent implements AfterViewInit {
   datosDeBiometrico: any = null;
   isSuperadmin: boolean;
   isCargando = true;
+  isLoading = false;
 
   constructor(private terminalService: TerminalService, private usuarioService: UsuarioService,
               public modalService: ModalService, private authService: AuthService,
@@ -144,7 +146,11 @@ export class EditarUsuarioComponent implements AfterViewInit {
   }
 
   editarEnBiometrico() {
-    this.comandosService.editarEnBiometrico(this.usuario.terminal.id, this.usuario.id, this.usuario.ci, this.formAccion.value).subscribe(
+    this.isLoading = true
+    this.comandosService.editarEnBiometrico(this.usuario.terminal.id, this.usuario.id, this.usuario.ci, this.formAccion.value)
+      .pipe( finalize(() => { this.isLoading = false })
+      )
+      .subscribe(
       (data: any) => {
         this.modalService.close(data);
         this.formAccion.reset();
@@ -156,15 +162,19 @@ export class EditarUsuarioComponent implements AfterViewInit {
   }
 
   clonarUsuario(idUsuario: number, ci: number, idOrigen: number, idDestino: number) {
-    this.comandosService.clonarUsuario(idUsuario, ci, idOrigen, idDestino).subscribe(
-      (data: any) => {
-        this.modalService.close(data);
-        this.formAccion.reset();
-      },
-      (error: any) => {
-        console.log(error)
-      }
-    );
+    this.isLoading = true
+    this.comandosService.clonarUsuario(idUsuario, ci, idOrigen, idDestino)
+      .pipe( finalize(() => { this.isLoading = false; })
+      )
+      .subscribe({
+        next: (data: any) => {
+          this.modalService.close(data);
+          this.formAccion.reset();
+        },
+        error: (error: any) => {
+          console.error(error);
+        }
+      });
   }
 
   mostrarEditar() {
@@ -173,6 +183,7 @@ export class EditarUsuarioComponent implements AfterViewInit {
 
   mostrarEditarEnBiometrico() {
     this.formActual = "editar_en_biometrico"
+    this.isCargando = true
     this.comandosService.leerEnBiometrico(this.usuario.terminal.id, this.usuario.id, this.usuario.ci).subscribe(
       (data: any) => {
         this.isCargando = false;
@@ -187,7 +198,6 @@ export class EditarUsuarioComponent implements AfterViewInit {
           this.formAccion.get('nombre')?.enable();
           this.formAccion.get('confirmarEdicion')?.enable();
         } else {
-          this.formAccion.reset();
           this.formAccion.get('privilegio')?.disable();
           this.formAccion.get('nombre')?.disable();
           this.formAccion.get('confirmarEdicion')?.disable();
