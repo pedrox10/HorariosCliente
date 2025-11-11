@@ -173,14 +173,15 @@ export class VerReporteComponent implements OnInit{
     this.destroy$.complete();
   }
 
-  verMarcaciones(usuario: Usuario) {
+  verMarcaciones(usuario: any) {
+    console.log(usuario)
     env.indexResumenMarcacion = usuario.id
     env.posYReporte = window.scrollY
     env.sortColumn = this.sortColumn;
     let usuarios: Usuario[] = [];
     usuarios = this.resumenMarcaciones.map(r => r.usuario);
     sessionStorage.setItem('origen', 'reporte');
-    this.router.navigate(['/terminal', 2, 'ver-marcaciones', usuario.id, this.fechaIni, this.fechaFin],
+    this.router.navigate(['/terminal', usuario.terminal.id, 'ver-marcaciones', usuario.id, this.fechaIni, this.fechaFin],
       { state: { usuarios: usuarios }});
   }
 
@@ -235,7 +236,7 @@ export class VerReporteComponent implements OnInit{
     })
       .subscribe((data) => {
         if (data !== undefined)
-          this.actualizarResumenMarcaciones(data)
+          this.actualizarResumenMarcaciones(data.usuario)
       });
   }
 

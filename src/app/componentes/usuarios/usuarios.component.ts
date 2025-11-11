@@ -23,7 +23,7 @@ import {LockPlugin} from "@easepick/lock-plugin";
 import {VerHorarioComponent} from "./ver-horario/ver-horario.component";
 import {EditarUsuarioComponent} from "./editar-usuario/editar-usuario.component";
 import {color, format, formatTime, mensaje, notificacion} from "../inicio/Global";
-import {concatMap, from, Subject, takeUntil, toArray} from "rxjs";
+import {concatMap, finalize, from, Subject, takeUntil, toArray} from "rxjs";
 import {DataService} from "../../servicios/data.service";
 import { CommonModule } from '@angular/common';
 import { DomSanitizer} from '@angular/platform-browser';
@@ -32,6 +32,8 @@ import {Grupo} from "../../modelos/Grupo";
 import {Sincronizacion} from "../../modelos/Sincronizacion";
 import {Marcacion} from "../../modelos/Marcacion";
 import {UsuarioService} from "../../servicios/usuario.service";
+import {LocalCompilationExtraImportsTracker} from "@angular/compiler-cli/src/ngtsc/imports";
+import {ComandosService} from "../../servicios/comandos.service";
 
 @Component({
   selector: 'app-usuarios',
@@ -65,7 +67,9 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   private destroy$ = new Subject<void>();
   showScrollButton = false;
   isAdmin: boolean;
+  isSuperadmin: boolean;
   isCargando = true;
+  isLoading = false;
   estadoEsEliminado = false;
   fc_confirmado = new FormControl(false);
   marcaciones: Marcacion[] = [];
@@ -82,13 +86,15 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   citeOrg: string | any;
   cargoRotacion: string | any;
   hayRotacion = false;
+  public resultados: any[] = [];
 
   constructor(public terminalService: TerminalService,private router: Router,
               public modalService: ModalService, private location: Location,
               private sanitizer: DomSanitizer, private authService: AuthService,
-              public usuarioService: UsuarioService,) {
+              public usuarioService: UsuarioService, public comandosService: ComandosService) {
 
     this.isAdmin  = this.authService.tieneRol('Administrador', 'Superadmin');
+    this.isSuperadmin  = this.authService.tieneRol('Superadmin');
     // Carga inicial de usuarios
     this.terminalService.getUsuarios(this.idTerminal).pipe(takeUntil(this.destroy$)).subscribe(
       (data: any) => {
@@ -299,6 +305,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
         this.usuariosSeleccionados = []; // Limpiar selecciones
         this.quitarFiltros(); // Quita todos los filtros para mostrar la lista completa
         document.getElementById("ult_sync")!.innerText = "Ult. vez: " + moment(respuesta.hora_terminal).format('DD/MM/YYYY HH:mm');
+        this.terminal.porSincronizar = false;
         this.actualizarCheckboxTodos(); // Asegura que el checkbox "todos" se resetee
         setTimeout(() => {
           document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
@@ -310,7 +317,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
             "Usuarios agregados: " + respuesta.usuarios_agregados + "<br>" +
             "Usuarios editados: " + respuesta.usuarios_editados + "<br>" +
             "Usuarios eliminados: " + respuesta.usuarios_eliminados + "<br>"
-          notificacion(resumen)
+          notificacion(resumen, "is-info")
         }, 4000);
       },
       (error: any) => {
@@ -362,7 +369,6 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getEstado(usuario: Usuario) {
-    console.log(usuario)
     let color = usuario.estado === EstadoUsuario.Activo ? "#C6FBF9" : usuario.estado === EstadoUsuario.Inactivo ? "#F2F2F2" : "#E7B9C0";
     let estado =
       "<div class='help has-text-centered mt-1'>" +
@@ -513,35 +519,34 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigate(['/ver-horario', id_usuario]);
   }
 
-  /*verHorario(id_usuario: number | any) {
-    let id = id_usuario;
-    let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
-    this.modalService.open(VerHorarioComponent, {
-      modal: {enter: `${config.animation} ${config.duration}`,},
-      size: {padding: '0.5rem'},
-      data: {id}
-    })
-      .subscribe((data) => {
-        if (data !== undefined)
-          console.log(data)
-      });
-  }*/
-
   editarUsuario(id_usuario: number | any) {
     let id = id_usuario;
+    let origen = "usuarios"
     let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
     this.modalService.open(EditarUsuarioComponent, {
       modal: {enter: `${config.animation} ${config.duration}`,},
       size: {padding: '0.5rem'},
-      data: {id}
-    })
-      .subscribe((data) => {
-        if (data !== undefined)
-          if(data.accion === "editar")
-            this.edit(data.usuario)
-          else if(data.accion === "clonar")
-            alert("clonar!")
-      });
+      data: {id, origen}
+    }).subscribe((data) => {
+      if (data) {
+        switch (data.accion) {
+          case 'editar':
+            this.edit(data.usuario);
+            break;
+          case 'editar_en_biometrico':
+            if(data.exito == true)
+              this.terminal.porSincronizar = true;
+            notificacion(data.mensaje, data.tipo)
+            break;
+          case 'clonar':
+            notificacion(data.mensaje, data.tipo)
+            break;
+          default:
+            console.warn('Acción no reconocida:', data.accion);
+            break;
+        }
+      }
+    });
   }
 
   verReporte() {
@@ -812,8 +817,6 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     document.getElementById("asignar_grupo")?.classList.remove("is-active");
   }
 
-  close() {}
-
   asignarGrupo() {
     let ids = this.usuariosSeleccionados.map(({ id }) => id);
     if(this.fc_confirmado.value === true) {
@@ -844,6 +847,52 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.fc_confirmado.setValue(false)
     this.ocultarAsignarGrupo()
+  }
+
+  modalEliminarFuncionarios() {
+    if (this.usuariosSeleccionados.length > 0) {
+      document.getElementById("eliminar_funcionarios")?.classList.add("is-active");
+    } else {
+      mensaje("Debes seleccionar al menos un funcionario", "is-warning")
+    }
+  }
+
+  ocultarEliminarFuncionarios() {
+    document.getElementById("eliminar_funcionarios")?.classList.remove("is-active");
+  }
+
+  eliminarFuncionarios() {
+    let uids = this.usuariosSeleccionados.map(({ uid }) => uid);
+    let cis = this.usuariosSeleccionados.map(({ ci }) => ci);
+    if(uids.length > 0) {
+      this.isLoading = true
+      this.comandosService.eliminarFuncionarios(this.idTerminal, uids.toString(), cis.toString())
+        .pipe( finalize(() => { this.isLoading = false })
+        )
+        .subscribe(
+        (data: any) => {
+          if(data.exito == true) {
+            this.resultados = data.resultados
+            const hayEliminaciones = Array.isArray(data.resultados)
+              ? data.resultados.some((r: any) => r.exito === true)
+              : false;
+            if(hayEliminaciones)
+              this.terminal.porSincronizar = true;
+            notificacion(data.mensaje, data.tipo)
+            document.getElementById("respuestas_eliminacion")?.classList.add("is-active");
+          } else {
+            notificacion(data.mensaje, data.tipo)
+          }
+          this.ocultarEliminarFuncionarios()
+        },
+        (error: any) => {
+          alert(JSON.stringify(error))
+        })
+    }
+  }
+
+  cerrarReporteEliminacion() {
+    document.getElementById("respuestas_eliminacion")?.classList.remove("is-active");
   }
 
   modalMarcaciones(usuario: Usuario) {

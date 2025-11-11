@@ -40,8 +40,8 @@
                 style="background-color: {{getColor('Crema')}}; border-radius: 5px;">
                 <span class="icon has-tooltip-arrow expand" data-tooltip="Asignar Grupo"><i class="fas fa-users"></i></span>
               </button>
-              <button class="button crema"
-                [ngClass]="{ 'desactivado': estadoEsEliminado }"
+              <button class="button crema" (click)="modalEliminarFuncionarios()"
+                [ngClass]="{ 'oculto': estadoEsEliminado || !isSuperadmin }"
                 style="background-color: {{getColor('Guindo')}}; border-radius: 5px; position: relative;">
                 <span class="icon has-tooltip-arrow expand" data-tooltip="Eliminar usuarios">
                   <i class="fas fa-user-times"></i>
@@ -56,7 +56,7 @@
             <div class="vinput" style="gap: 0px !important;">
               <p class='help is-info has-text-weight-semibold' id="ult_sync">{{getUltSincronizacion()}}</p>
               <button id="btn_sincronizar" (click)="sincronizar()" class="button es-primario"
-                      style="border-radius: 5px;">
+                      style="border-radius: 5px; position: relative;">
                 <span class="icon"><i class="fas fa-sync"></i></span>
                 <span>Sincronizar</span>
                 @if(terminal?.tieneConexion) {
@@ -64,8 +64,32 @@
                 } @else {
                 <div class="circle ml-2" style="background-color: {{getColor('Guindo')}}; border: 1px #999 solid;"></div>
                 }
+                <div style="text-align: center" style=" bottom: -2px;right: -5px;z-index: 2; position: absolute">
+                  <i class="fas fa-terminal help" style="background-color: #dedede;padding: 2px;font-size: 0.6em;color: black !important;"></i>
+                </div>
               </button>
             </div>
+            @if (terminal?.porSincronizar) {
+            <div class="dropdown is-hoverable">
+              <div class="dropdown-trigger" style="align-self: center; transform: translateY(10px);">
+                <span class="icon has-text-danger numero"
+                  style="background-color: {{getColor('Rojo')}}; border: none;">
+                  <i class="fas fa-bell"></i>
+                </span>
+              </div>
+              <div class="dropdown-menu" role="menu">
+                <div class="dropdown-content popup" style="background: linear-gradient(360deg, #fcfaf7 0%, #fdf7e7 100%); border: 1px #f4d27b solid;">
+                  <div class="contenido" style='color: #786450;'>
+                    <span style="font-weight: normal">
+                      <p class='semibold mb-1 has-text-centered'>¡Atención!</p>
+                      Se ejecutaron acciones que modifican directamente el terminal biométrico, por favor
+                      <span class='semibold'>sincroniza</span> antes para mantener un estado actualizado.
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            }
           </div>
           }
         </div>
@@ -97,7 +121,7 @@
                     <div class="contenido" style='color: #786450;'>
                       <span style="font-weight: normal">
                         <span class='semibold'>Fecha de Alta:</span> fecha de la primera marcación del funcionario en biométrico.
-                        <span class='semibold'>Fecha de Baja:</span> cuando un funcionario ya no marcarcá mas en el biometrico por baja en Organigram o por rotación.
+                        <span class='semibold'>Fecha de Baja:</span> cuando un funcionario ya no marcarcá en el biométrico por baja en Organigram o por rotación.
                       </span>
                     </div>
                   </div>
@@ -486,6 +510,72 @@
           </tbody>
         </table>
       </section>
+    </div>
+  </div>
+
+  <div class="modal" id="eliminar_funcionarios">
+    <div class="modal-background" id="fondo_eliminar_funcionarios" style="opacity: 0.75;"></div>
+    <div class="modal-card" style="width: 400px;">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Eliminar Funcionarios</p>
+        <button class="delete" aria-label="close" (click)="ocultarEliminarFuncionarios()"></button>
+      </header>
+      <section class="modal-card-body">
+        <label class="label">¿Esta seguro que quiere eliminar los funcionarios?</label>
+        <div class="mt-4 mb-2">
+          Se eliminarán los funcionarios del biométrico, pero se mantendrán sus reportes y horarios asignados en la base de datos hasta su ultima marcación.
+        </div>
+        <div class="hitem">
+          <label class="b-checkbox checkbox" style="justify-content: center">
+            <input type="checkbox" [formControl]="fc_confirmado">
+            <span class="check" style="margin-top: 3px"></span>
+            <span class="help ml-1">Confirmo eliminar los funcionarios seleccionados</span>
+          </label>
+        </div>
+      </section>
+
+      <footer class="modal-card-foot">
+        <div class="buttons">
+          <button class="button es-primario" [class.is-loading]="isLoading"
+                  (click)="eliminarFuncionarios()" >Aceptar</button>
+          <button class="button" type="button" >Cancelar</button>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <div class="modal" id="respuestas_eliminacion">
+    <div class="modal-background" id="fondo_respuestas_eliminacion" style="opacity: 0.75;"></div>
+    <div class="modal-card" style="width: 600px;">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Reporte de eliminación</p>
+        <button class="delete" (click)="cerrarReporteEliminacion()" ></button>
+      </header>
+      <section class="modal-card-body">
+        <div class="content">
+          <table class="table is-fullwidth is-striped is-narrow">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th style="min-width: 165px;">Nombre</th>
+              <th style="min-width: 250px;">Mensaje</th>
+              <th>Resultado</th>
+            </tr>
+            </thead>
+            <tbody>
+            @for (r of resultados; track i; let i = $index) {
+            <tr>
+              <td>{{ i + 1 }}</td>
+              <td>{{ r.nombre }}</td>
+              <td>{{ r.mensaje }}</td>
+              <td>{{ r.exito ? '✅ Éxito' : '❌ Error' }}</td>
+            </tr>
+            }
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <footer class="modal-card-foot">
+      </footer>
     </div>
   </div>
 </div>

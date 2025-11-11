@@ -57,3 +57,34 @@ label.b-radio.radio:hover .check.is-grey {
 .dropdown-content {
   border: 1px #c2c0c0 solid;
 }
+
+.icon.has-text-danger {
+  position: relative;
+}
+
+.icon.has-text-danger::after {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid #ff4d4d;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.75);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(1.1);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(0.75);
+    opacity: 0;
+  }
+}

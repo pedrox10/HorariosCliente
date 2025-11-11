@@ -35,7 +35,7 @@ export const routes: Routes = [
       { path: 'ver-horario/:id', component: VerHorarioComponent },
       { path: 'asuetos', component: AsuetosComponent },
       { path: 'adm-terminales', component: AdmTerminalesComponent },
-      { path: 'editar-usuario', component: EditarUsuarioComponent },
+      { path: 'editar-usuario/:id', component: EditarUsuarioComponent },
       { path: 'ver-reporte', component: VerReporteComponent },
       { path: 'interrupciones/:id', component: InterrupcionesComponent },
       { path: 'comandos/:id', component: ComandosComponent },

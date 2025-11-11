@@ -1,6 +1,16 @@
 <div class="modal-card" style="width: 440px; height: 700px">
   <header class="modal-card-head">
-    <p class="modal-card-title">Editar usuario</p>
+    @switch(formActual) {
+    @case ('editar') {
+    <p class="modal-card-title">Editar funcionario</p>
+    }
+    @case ('editar_en_biometrico') {
+    <p class="modal-card-title">Editar en biométrico</p>
+    }
+    @case ('clonar') {
+    <p class="modal-card-title">Clonar funcionario</p>
+    }
+    }
     <button class="delete" aria-label="close" (click)="cerrarModal()"></button>
   </header>
 
@@ -15,16 +25,16 @@
           </div>
         </div>
         <div class="hitem">
-          @if(formActual !== 'editar') {
-          <button class="button crema" (click)="mostrarEditar()"
+          @if(formActual !== 'editar' && origen === "usuarios") {
+          <button class="button azul" (click)="mostrarEditar()"
                   style="background-color: {{getColor('Azul')}}; border-radius: 5px;">
             <span class="icon has-tooltip-arrow expand" title="Editar datos">
               <i class="fas fa-user-edit"></i>
             </span>
           </button>
           }
-          @if(formActual !== 'editar_en_biometrico') {
-          <button class="button crema" (click)="mostrarEditarEnBiometrico()"
+          @if(formActual !== 'editar_en_biometrico' && origen === "usuarios") {
+          <button class="button crema" (click)="mostrarEditarEnBiometrico()" [ngClass]="{'desactivado': !isSuperadmin}"
                   style="background-color: {{getColor('Crema')}}; border-radius: 5px; position: relative;">
                 <span class="icon has-tooltip-arrow expand" title="Editar en biométrico">
                   <i class="fas fa-user-cog"></i>
@@ -34,8 +44,8 @@
                 </span>
           </button>
           }
-          @if(formActual !== 'clonar') {
-          <button class="button naranja ml-1" (click)="mostrarClonar()"
+          @if(formActual !== 'clonar' && origen === "usuarios") {
+          <button class="button naranja ml-1" (click)="mostrarClonar()" [ngClass]="{'desactivado': !isSuperadmin}"
                   style="background-color: {{getColor('Naranja')}}; border-radius: 5px; position: relative;">
                 <span class="icon has-tooltip-arrow expand" title="Clonar funcionario">
                   <i class="fas fa-user-friends"></i>
@@ -48,7 +58,8 @@
         </div>
       </div>
       <div class="form-step" [class.active]="formActual === 'editar'">
-        <div class="hitem" style="gap: 20px;">
+        <span>Edita los datos del funcionario en la Base de Datos</span>
+        <div class="hitem mt-3" style="gap: 20px;">
           <div class="field">
             <label class="label">Fecha de Alta</label>
             <div class="control">
@@ -72,7 +83,7 @@
           <div class="field">
             <label class="label">Estado</label>
             <div class="select" >
-              <select id="" formControlName="estado">
+              <select formControlName="estado">
                 <option value="1">Activo</option>
                 <option value="0">Inactivo</option>
               </select>
@@ -80,10 +91,19 @@
           </div>
         </div>
       </div>
-      <div class="form-step" [class.active]="formActual === 'editar_en_biometrico'">
+      <div class="form-step" [class.active]="formActual === 'editar_en_biometrico'"
+           [class.table-loading]="isCargando" [class.table-overlay]="isCargando">
         <span class="mb-3">Cambia el nombre y/o rol del funcionario en el biométrico</span>
-        <div class="vitem">
-          <div class="hitem mt-2" style="gap: 20px;">
+        <div class="message {{ datosDeBiometrico?.tipo }}" style="border: 1px solid {{getColor('Crema')}}; display: flex; margin-bottom: 5px;
+          min-height: 45px; border-radius: 7.5px; padding: 0px; align-items: center; justify-content: center;">
+          <div class="vbox-centered">
+            <span style="font-size: 0.9em;font-weight: normal !important">
+              {{ datosDeBiometrico?.mensaje }}
+            </span>
+          </div>
+        </div>
+        <div id="editar_en_biometrico" class="vitem">
+          <div class="hitem" style="gap: 20px;">
             <div class="field">
               <label class="label">Nombre</label>
               <div class="control">
@@ -94,8 +114,8 @@
               <label class="label">Privilegio</label>
               <div class="select" >
                 <select formControlName="privilegio">
-                  <option value="1">Usuario</option>
-                  <option value="0">Administrador</option>
+                  <option value="0">Usuario</option>
+                  <option value="14">Administrador</option>
                 </select>
               </div>
             </div>
@@ -106,6 +126,13 @@
             <span class="help ml-1">Confirmo editar los datos en el biométrico</span>
           </label>
         </div>
+        @if(isCargando){
+        <div class="spinner-center" style="top: 10vh">
+          <button class="button is-size-1 is-loading is-white is-medium"
+                  style="border: none; background-color: transparent; ">Cargando
+          </button>
+        </div>
+        }
       </div>
       <div class="form-step" [class.active]="formActual === 'clonar'">
         <div class="vitem">
@@ -124,7 +151,9 @@
           </div>
           <div class="terminales" style="margin-left: 2px">
             @for (terminal of terminalesFiltrados; track terminal) {
-            <div class="terminal" [class.seleccionado]="terminalSeleccionado === terminal" (click)="seleccionarTerminal(terminal)">
+            <div class="terminal" [class.seleccionado]="terminalSeleccionado === terminal"
+            [class.desactivado]="terminal.id === usuario?.terminal?.id"
+            (click)="seleccionarTerminal(terminal)">
               <div class="etiqueta">
               @if(terminal.tieneConexion) {
               <div class="circle" style="background-color: {{getColor('Verde')}}; border: 1px #999 solid;"></div>
@@ -148,8 +177,10 @@
     </section>
     <footer class="modal-card-foot" style="border-bottom-left-radius: 8px; border-bottom-right-radius: 8px">
       <div class="buttons">
-        <button class="button es-primario" type="button" (click)="onSubmit()" [disabled]="!esFormularioValido()">
-          Guardar
+        <button class="button es-primario" type="button"
+                [class.is-loading]="isLoading"
+                (click)="onSubmit()" [disabled]="!esFormularioValido()">
+          Aceptar
         </button>
         <button class="button" type="button" (click)="cerrarModal()">Cancelar</button>
       </div>

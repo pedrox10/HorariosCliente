@@ -40,17 +40,33 @@ export function mensaje(mensaje: string, tipo: ToastType) {
   })
 }
 
-export function notificacion(mensaje: string) {
+export function notificacion(mensaje: string, tipo: ToastType) {
+  let icon = "";
+  switch (tipo) {
+    case "is-success":
+      icon = '<i class="fas fa-check-circle" style="font-size: 2em; color: #0f5132; padding-right: 10px; transform: translateY(25%);"></i>'
+      break
+    case "is-danger":
+      icon = '<i class="fas fa-times-circle" style="font-size: 2em; color: #c42003; padding-right: 10px; transform: translateY(25%);"></i>'
+      break
+    case "is-warning":
+      icon = '<i class="fas fa-exclamation-circle" style="font-size: 2em; color: #ff8a00; padding-right: 10px; transform: translateY(25%);"></i>'
+      break
+    case "is-info":
+      icon = '<i class="fas fa-info-circle" style="font-size: 2em; color: #31a2c4; padding-right: 10px;transform: translateY(25%);"></i>'
+      break
+  }
+
   toast({
-    message: '<span class="icon" style="min-width: 215px; width: auto; max-width: 300px; height: 70px;"><i style="color: white; font-size: 1.5em; padding-right: 30px" class="fas fa-info"></i><p style="text-align: left;">' + mensaje + '</p></span>',
-    type: "is-info",
+    message: '<div class="hitem">' + icon + '<p style="text-align: left;">' + mensaje + '</p></div>',
+    type: tipo,
     position: "bottom-center",
     duration: 8000,
     dismissible: true,
     closeOnClick: false,
     pauseOnHover: true,
     animate: {in: 'backInUp', out: 'backOutDown'},
-    extraClasses: "bordes-redondeados"
+    extraClasses: "bordes-redondeados notificacion " + tipo
   })
 }
 

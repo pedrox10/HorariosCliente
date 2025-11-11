@@ -50,9 +50,4 @@ export class UsuarioService {
   public limpiarGrupo(ids: string) {
     return this.http.get(`${this.apiUrl}/limpiar-grupo/usuarios/${ids}`);
   }
-
-  public clonarUsuario(idUsuario: number, idOrigen: number, idDestino: number) {
-    return this.http.get(`${this.apiUrl}/usuario/${idUsuario}/clonar/origen/${idOrigen}/destino/${idDestino}`);
-  }
-
 }
