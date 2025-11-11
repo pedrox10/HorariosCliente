@@ -72,6 +72,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   isLoading = false;
   estadoEsEliminado = false;
   fc_confirmado = new FormControl(false);
+  fc_confirma_eliminar = new FormControl(false);
   marcaciones: Marcacion[] = [];
   nombre: string | any;
   ci: string | any;
@@ -859,6 +860,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ocultarEliminarFuncionarios() {
     document.getElementById("eliminar_funcionarios")?.classList.remove("is-active");
+    this.fc_confirma_eliminar.setValue(false);
   }
 
   eliminarFuncionarios() {
