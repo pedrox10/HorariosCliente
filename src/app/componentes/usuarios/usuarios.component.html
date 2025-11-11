@@ -515,22 +515,40 @@
 
   <div class="modal" id="eliminar_funcionarios">
     <div class="modal-background" id="fondo_eliminar_funcionarios" style="opacity: 0.75;"></div>
-    <div class="modal-card" style="width: 400px;">
+    <div class="modal-card" style="width: 560px;">
       <header class="modal-card-head">
         <p class="modal-card-title">Eliminar Funcionarios</p>
         <button class="delete" aria-label="close" (click)="ocultarEliminarFuncionarios()"></button>
       </header>
       <section class="modal-card-body">
-        <label class="label">¿Esta seguro que quiere eliminar los funcionarios?</label>
-        <div class="mt-4 mb-2">
-          Se eliminarán los funcionarios del biométrico, pero se mantendrán sus reportes y horarios asignados en la base de datos hasta su ultima marcación.
-        </div>
-        <div class="hitem">
-          <label class="b-checkbox checkbox" style="justify-content: center">
-            <input type="checkbox" [formControl]="fc_confirma_eliminar">
-            <span class="check" style="margin-top: 3px"></span>
-            <span class="help ml-1">Confirmo eliminar los funcionarios seleccionados</span>
-          </label>
+        <div class="columns">
+          <div class="column">
+            <label class="label">¿Esta seguro que quiere eliminar los funcionarios?</label>
+            <div class="mt-4 mb-2">
+              Se eliminarán los funcionarios del biométrico, pero se mantendrán sus reportes y horarios asignados en la base de datos hasta su ultima marcación.
+            </div>
+            <div class="hitem">
+              <label class="b-checkbox checkbox" style="justify-content: center">
+                <input type="checkbox" [formControl]="fc_confirma_eliminar">
+                <span class="check" style="margin-top: 3px"></span>
+                <span class="help ml-1">Confirmo eliminar los funcionarios seleccionados</span>
+              </label>
+            </div>
+          </div>
+          <div class="column box" style="max-width: 250px;background-color: #f2fffe; overflow-y: auto; height: 190px; overflow-x: hidden;">
+            @for (usuario of usuariosSeleccionados;track usuario; let i = $index ) {
+            <div class="list-item is-small">
+              <div class="list-item-content">
+                <div class="hitem mt-2">
+                  <label class="label">{{i+1}}. </label>
+                  <div class="list-item-title">
+                    {{usuario.nombre}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            }
+          </div>
         </div>
       </section>
 
