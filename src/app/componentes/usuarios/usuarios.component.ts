@@ -322,16 +322,22 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
         }, 4000);
       },
       (error: any) => {
-        let respuesta = error
-        console.error('An error occurred:', error);
-        document.getElementById("btn_sincronizar")?.classList.remove("is-loading")
-        loader.classList.add("is-hidden")
-        if(respuesta.error.mensaje === undefined) {
-          mensaje("No se puede acceder al servidor", "is-danger")
-        } else {
-          mensaje(respuesta.error.mensaje, "is-danger")
+        document.getElementById("btn_sincronizar")?.classList.remove("is-loading");
+        loader.classList.add("is-hidden");
+        // ✅ Si el backend devolvió un JSON válido
+        if (error.status === 400 && error.error?.advertencia) {
+          // 🟡 Caso especial: hora desfasada
+          const msg = `${error.error.mensaje}<br>${error.error.recomendacion}`;
+          notificacion(msg, "is-warning");
+          return;
         }
-      })
+        if (!error.error?.mensaje) {
+          mensaje("No se puede acceder al servidor", "is-danger");
+        } else {
+          mensaje(error.error.mensaje, "is-danger");
+        }
+        console.error('Error en sincronización:', error);
+      });
   }
 
   irAtras() {
@@ -850,53 +856,6 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     this.ocultarAsignarGrupo()
   }
 
-  modalEliminarFuncionarios() {
-    if (this.usuariosSeleccionados.length > 0) {
-      document.getElementById("eliminar_funcionarios")?.classList.add("is-active");
-    } else {
-      mensaje("Debes seleccionar al menos un funcionario", "is-warning")
-    }
-  }
-
-  ocultarEliminarFuncionarios() {
-    document.getElementById("eliminar_funcionarios")?.classList.remove("is-active");
-    this.fc_confirma_eliminar.setValue(false);
-  }
-
-  eliminarFuncionarios() {
-    let uids = this.usuariosSeleccionados.map(({ uid }) => uid);
-    let cis = this.usuariosSeleccionados.map(({ ci }) => ci);
-    if(uids.length > 0) {
-      this.isLoading = true
-      this.comandosService.eliminarFuncionarios(this.idTerminal, uids.toString(), cis.toString())
-        .pipe( finalize(() => { this.isLoading = false })
-        )
-        .subscribe(
-        (data: any) => {
-          if(data.exito == true) {
-            this.resultados = data.resultados
-            const hayEliminaciones = Array.isArray(data.resultados)
-              ? data.resultados.some((r: any) => r.exito === true)
-              : false;
-            if(hayEliminaciones)
-              this.terminal.porSincronizar = true;
-            notificacion(data.mensaje, data.tipo)
-            document.getElementById("respuestas_eliminacion")?.classList.add("is-active");
-          } else {
-            notificacion(data.mensaje, data.tipo)
-          }
-          this.ocultarEliminarFuncionarios()
-        },
-        (error: any) => {
-          alert(JSON.stringify(error))
-        })
-    }
-  }
-
-  cerrarReporteEliminacion() {
-    document.getElementById("respuestas_eliminacion")?.classList.remove("is-active");
-  }
-
   modalMarcaciones(usuario: Usuario) {
     document.getElementById("marcaciones_modal")?.classList.add("is-active");
     this.nombre = usuario.nombre;
@@ -951,6 +910,53 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ocultarInfoOrganigram() {
     document.getElementById("organigram_modal")?.classList.remove("is-active");
+  }
+
+  modalEliminarFuncionarios() {
+    if (this.usuariosSeleccionados.length > 0) {
+      document.getElementById("eliminar_funcionarios")?.classList.add("is-active");
+    } else {
+      mensaje("Debes seleccionar al menos un funcionario", "is-warning")
+    }
+  }
+
+  ocultarEliminarFuncionarios() {
+    document.getElementById("eliminar_funcionarios")?.classList.remove("is-active");
+    this.fc_confirma_eliminar.setValue(false);
+  }
+
+  eliminarFuncionarios() {
+    let uids = this.usuariosSeleccionados.map(({ uid }) => uid);
+    let cis = this.usuariosSeleccionados.map(({ ci }) => ci);
+    if(uids.length > 0) {
+      this.isLoading = true
+      this.comandosService.eliminarFuncionarios(this.idTerminal, uids.toString(), cis.toString())
+        .pipe( finalize(() => { this.isLoading = false })
+        )
+        .subscribe(
+          (data: any) => {
+            if(data.exito == true) {
+              this.resultados = data.resultados
+              const hayEliminaciones = Array.isArray(data.resultados)
+                ? data.resultados.some((r: any) => r.exito === true)
+                : false;
+              if(hayEliminaciones)
+                this.terminal.porSincronizar = true;
+              notificacion(data.mensaje, data.tipo)
+              document.getElementById("respuestas_eliminacion")?.classList.add("is-active");
+            } else {
+              notificacion(data.mensaje, data.tipo)
+            }
+            this.ocultarEliminarFuncionarios()
+          },
+          (error: any) => {
+            alert(JSON.stringify(error))
+          })
+    }
+  }
+
+  cerrarReporteEliminacion() {
+    document.getElementById("respuestas_eliminacion")?.classList.remove("is-active");
   }
 
   formatear(fecha: Date){

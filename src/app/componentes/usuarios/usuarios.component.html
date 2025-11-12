@@ -141,7 +141,8 @@
             @if(isAdmin) {
             <td >
               <label class="b-checkbox checkbox">
-                <input type="checkbox" [checked]="usuario.seleccionado" (click)="seleccionar(usuario)" [id]="'checkbox-' + usuario.id">
+                <input type="checkbox" [checked]="usuario.seleccionado" [disabled]="usuario.estado === 2"
+                       (click)="seleccionar(usuario)" [id]="'checkbox-' + usuario.id">
                 <span class="check es-secundario"></span>
               </label>
             </td>
@@ -197,7 +198,7 @@
                 </span>
                 @if(isAdmin) {
                 <span class="icon has-tooltip-arrow expand" data-tooltip="Editar Funcionario" (click)="editarUsuario(usuario.id)"
-                      [ngClass]="{ 'desactivado': estadoEsEliminado }">
+                      [ngClass]="{ 'desactivado': usuario.estado == 2 }">
                   <i class="far fa-edit icon-btn"></i>
                 </span>
                 }
