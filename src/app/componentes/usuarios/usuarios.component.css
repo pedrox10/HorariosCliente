@@ -88,3 +88,12 @@ label.b-radio.radio:hover .check.is-grey {
     opacity: 0;
   }
 }
+
+.list-item.is-small {
+  padding: 0.25rem 0.5rem; /* menos espacio */
+  font-size: 0.85em;       /* texto más pequeño */
+  line-height: 1.2;
+}
+.list-item.is-small .label {
+  font-size: 0.85em;
+}

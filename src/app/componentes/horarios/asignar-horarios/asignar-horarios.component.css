@@ -3,6 +3,15 @@
   padding: .5em;
 }
 
+.list-item.is-small {
+  padding: 0.25rem 0.5rem; /* menos espacio */
+  font-size: 0.85em;       /* texto más pequeño */
+  line-height: 1.2;
+}
+.list-item.is-small .label {
+  font-size: 0.85em;
+}
+
 .label {
   align-self: center;
   max-width: 120px;
