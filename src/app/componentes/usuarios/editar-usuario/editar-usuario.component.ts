@@ -78,6 +78,9 @@ export class EditarUsuarioComponent implements AfterViewInit {
 
   ngOnInit(): void {
     this.getTerminales()
+    this.formAccion.get('privilegio')?.disable();
+    this.formAccion.get('nombre')?.disable();
+    this.formAccion.get('confirmarEdicion')?.disable();
   }
 
   getTerminales() {
