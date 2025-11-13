@@ -1,38 +1,27 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component, HostListener,
-  inject,
-  OnDestroy,
-  OnInit
-} from '@angular/core';
+import {AfterViewInit, Component, HostListener, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink, RouterModule} from '@angular/router';
 import {TerminalService} from '../../servicios/terminal.service';
 import {HttpClientModule} from '@angular/common/http';
 import {env} from '../../../environments/environments';
 import {EstadoUsuario, Usuario} from "../../modelos/Usuario";
 import {Terminal} from "../../modelos/Terminal";
-import {Location} from "@angular/common";
+import {CommonModule, Location} from "@angular/common";
 import moment from "moment";
 import {ModalService} from "ngx-modal-ease";
 import {AsignarHorariosComponent} from "../horarios/asignar-horarios/asignar-horarios.component";
-import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {Core, easepick} from "@easepick/core";
 import {RangePlugin} from "@easepick/range-plugin";
 import {LockPlugin} from "@easepick/lock-plugin";
-import {VerHorarioComponent} from "./ver-horario/ver-horario.component";
 import {EditarUsuarioComponent} from "./editar-usuario/editar-usuario.component";
-import {color, format, formatTime, mensaje, notificacion} from "../inicio/Global";
+import {color, format, mensaje, notificacion} from "../inicio/Global";
 import {concatMap, finalize, from, Subject, takeUntil, toArray} from "rxjs";
 import {DataService} from "../../servicios/data.service";
-import { CommonModule } from '@angular/common';
-import { DomSanitizer} from '@angular/platform-browser';
+import {DomSanitizer} from '@angular/platform-browser';
 import {AuthService} from "../../servicios/auth.service";
 import {Grupo} from "../../modelos/Grupo";
-import {Sincronizacion} from "../../modelos/Sincronizacion";
 import {Marcacion} from "../../modelos/Marcacion";
 import {UsuarioService} from "../../servicios/usuario.service";
-import {LocalCompilationExtraImportsTracker} from "@angular/compiler-cli/src/ngtsc/imports";
 import {ComandosService} from "../../servicios/comandos.service";
 
 @Component({
@@ -256,16 +245,26 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   actualizarCheckboxTodos(): void {
-    let cb_todos = (document.getElementById("cb_todos") as HTMLInputElement);
-    if (this.usuariosSeleccionados.length === this.usuariosFiltrados.length && this.usuariosFiltrados.length > 0) {
-      cb_todos.classList.remove("is-indeterminate");
-      cb_todos.checked = true;
-    } else if (this.usuariosSeleccionados.length === 0) {
+    const cb_todos = (document.getElementById("cb_todos") as HTMLInputElement);
+
+    // contar cuántos usuarios son "seleccionables" (no eliminados)
+    const cantidadSeleccionables = this.usuariosFiltrados.filter(u => u.estado !== EstadoUsuario.Eliminado).length;
+    const cantidadSeleccionados = this.usuariosSeleccionados.length;
+
+    if (cantidadSeleccionables === 0) {
+      // Si no hay ninguno seleccionable, desmarcar y quitar indeterminado
       cb_todos.classList.remove("is-indeterminate");
       cb_todos.checked = false;
+    } else if (cantidadSeleccionados === 0) {
+      cb_todos.classList.remove("is-indeterminate");
+      cb_todos.checked = false;
+    } else if (cantidadSeleccionados === cantidadSeleccionables) {
+      cb_todos.classList.remove("is-indeterminate");
+      cb_todos.checked = true;
     } else {
+      // algunos seleccionados -> estado indeterminado
       cb_todos.classList.add("is-indeterminate");
-      cb_todos.checked = false; // Asegurarse de que no esté marcado si es indeterminado
+      cb_todos.checked = false;
     }
   }
 
@@ -276,17 +275,25 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   marcarTodos(seleccionar: boolean) {
-    this.usuariosFiltrados.map((usuario) => {
-      if (seleccionar)
-        usuario.seleccionado = true
-      else
-        usuario.seleccionado = false
-    })
-    if (seleccionar)
-      this.usuariosSeleccionados = this.usuariosFiltrados.slice();
-    else
+    if (seleccionar) {
+      // Marcar sólo no eliminados
+      this.usuariosFiltrados.forEach(usuario => {
+        if (usuario.estado !== EstadoUsuario.Eliminado) {
+          usuario.seleccionado = true;
+        } else {
+          // opcional: asegurarnos que los eliminados queden deseleccionados
+          usuario.seleccionado = false;
+        }
+      });
+      // Solo añadimos a seleccionados los NO eliminados
+      this.usuariosSeleccionados = this.usuariosFiltrados.filter(u => u.estado !== EstadoUsuario.Eliminado).slice();
+    } else {
+      // Al desmarcar: quitar selección de todos (incluyendo eliminados)
+      this.usuariosFiltrados.forEach(usuario => usuario.seleccionado = false);
       this.usuariosSeleccionados = [];
-    (document.getElementById("cb_todos") as HTMLInputElement).classList.remove("is-indeterminate");
+    }
+    // limpiar posible estado indeterminado del control
+    (document.getElementById("cb_todos") as HTMLInputElement)?.classList.remove("is-indeterminate");
   }
 
   sincronizar() {
