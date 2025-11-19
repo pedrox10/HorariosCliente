@@ -52,6 +52,7 @@ export class EditarUsuarioComponent implements AfterViewInit {
   isSuperadmin: boolean;
   isCargando = true;
   isLoading = false;
+  nombreLength: number = 0;
 
   constructor(private terminalService: TerminalService, private usuarioService: UsuarioService,
               public modalService: ModalService, private authService: AuthService,
@@ -81,6 +82,10 @@ export class EditarUsuarioComponent implements AfterViewInit {
     this.formAccion.get('privilegio')?.disable();
     this.formAccion.get('nombre')?.disable();
     this.formAccion.get('confirmarEdicion')?.disable();
+    let controlNombre = this.formAccion.get('nombre');
+    controlNombre?.valueChanges.subscribe(value => {
+      this.nombreLength = value ? value.length : 0;
+    });
   }
 
   getTerminales() {
