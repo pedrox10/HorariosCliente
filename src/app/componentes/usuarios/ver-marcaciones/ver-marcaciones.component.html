@@ -282,10 +282,14 @@
             </span>
             <div class="dropdown is-up is-hoverable">
               <div class="dropdown-trigger">
-                @if(!infoMarcacion.hayPriEntExcepcion.esInterrupcion) {
-                <i class="fas fa-check-double has-text-success"></i>
-                } @else {
+                @if(infoMarcacion.hayPriEntExcepcion.esInterrupcion) {
                 <i class="fas fa-exclamation-triangle has-text-grey"></i>
+                } @else {
+                @if(infoMarcacion.hayPriEntExcepcion.esCumpleano) {
+                <i class="fas fa-birthday-cake has-text-primary"></i>
+                } @else {
+                <i class="fas fa-check-double has-text-success"></i>
+                }
                 }
               </div>
               <div class="dropdown-menu" role="menu">
