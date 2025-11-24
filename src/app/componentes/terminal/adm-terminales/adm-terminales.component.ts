@@ -10,12 +10,15 @@ import {toast} from "bulma-toast";
 import {color, format, formatDateTime, formatTime} from "../../inicio/Global";
 import {Sincronizacion} from "../../../modelos/Sincronizacion";
 import {env} from "../../../../environments/environments";
+import {AuthService} from "../../../servicios/auth.service";
+import {CommonModule} from "@angular/common";
+import * as L from 'leaflet';
 
 @Component({
   selector: 'app-adm-terminales',
   standalone: true,
-  imports: [HttpClientModule, ReactiveFormsModule, RouterLink],
-  providers: [TerminalService],
+  imports: [HttpClientModule, ReactiveFormsModule, RouterLink, CommonModule],
+  providers: [TerminalService, AuthService],
   templateUrl: './adm-terminales.component.html',
   styleUrl: './adm-terminales.component.css'
 })
@@ -34,8 +37,13 @@ export class AdmTerminalesComponent implements OnInit {
   tieneConexion: boolean | any;
   sincronizaciones: Sincronizacion[] = [];
   fc_confirmado = new FormControl(false);
+  isSuperadmin: boolean;
+  map: L.Map | null = null;
+  marker: L.Marker | null = null;
 
-  constructor(public terminalService: TerminalService, private modalService: ModalService, private router: Router) {
+  constructor(public terminalService: TerminalService, private modalService: ModalService, private router: Router,
+              private authService: AuthService) {
+    this.isSuperadmin = this.authService.tieneRol('Superadmin');
 
   }
 
@@ -60,11 +68,11 @@ export class AdmTerminalesComponent implements OnInit {
     if (terminal !== undefined) {
       console.log("agrego a  terminales")
       this.terminales.push(terminal);
-      if(env.posAdmCategoria === -1) {
+      if (env.posAdmCategoria === -1) {
         this.terminalesFiltrados.push(terminal)
         console.log("agrego a filtrados")
       } else {
-        if (env.posAdmCategoria === terminal.categoria){
+        if (env.posAdmCategoria === terminal.categoria) {
           this.terminalesFiltrados.push(terminal)
           console.log("agrego al filtro actual")
         }
@@ -75,7 +83,7 @@ export class AdmTerminalesComponent implements OnInit {
   edit(terminal: Terminal) {
     let index = this.terminales.map(i => i.id).indexOf(terminal.id);
     this.terminales[index] = terminal;
-    if(env.posAdmCategoria === -1) {
+    if (env.posAdmCategoria === -1) {
       this.terminalesFiltrados[index] = terminal;
     } else {
       let indexFiltrados = this.terminalesFiltrados.map(i => i.id).indexOf(terminal.id);
@@ -96,7 +104,7 @@ export class AdmTerminalesComponent implements OnInit {
         document.getElementById("btn_eliminar")?.classList.remove("is-loading");
         let index = this.terminales.map(i => i.id).indexOf(this.idActual);
         this.terminales.splice(index, 1);
-        if(env.posAdmCategoria === -1) {
+        if (env.posAdmCategoria === -1) {
           this.terminalesFiltrados.splice(index, 1)
         } else {
           let indexFiltrados = this.terminalesFiltrados.map(i => i.id).indexOf(this.idActual);
@@ -129,7 +137,7 @@ export class AdmTerminalesComponent implements OnInit {
     this.terminalService.getTerminales().subscribe(
       (data: any) => {
         this.terminales = data;
-        if(env.posAdmCategoria === -1)
+        if (env.posAdmCategoria === -1)
           this.terminalesFiltrados = this.terminales.slice();
         else {
           this.terminalesFiltrados = this.terminales.filter(t => t.categoria === env.posAdmCategoria);
@@ -143,7 +151,7 @@ export class AdmTerminalesComponent implements OnInit {
 
   filtrarPorCategoria(ev: any) {
     let index = parseInt(ev.target.value)
-    if(index === -1) {
+    if (index === -1) {
       this.terminalesFiltrados = this.terminales.slice();
     } else {
       this.terminalesFiltrados = this.terminales.filter(t => t.categoria === index);
@@ -172,7 +180,7 @@ export class AdmTerminalesComponent implements OnInit {
           data: terminal
         })
         .subscribe((data) => {
-          if(data !== undefined)
+          if (data !== undefined)
             this.edit(data)
         });
     }
@@ -193,6 +201,59 @@ export class AdmTerminalesComponent implements OnInit {
       }
     );
     console.log(this.sincronizaciones)
+  }
+
+  mostrarUbicacion(terminal: Terminal) {
+    // 1. Mostrar el modal
+    document.getElementById("ubicacion_modal")?.classList.add("is-active");
+
+    // 2. Inicializar el mapa después de un retraso mínimo (50ms)
+    setTimeout(() => {
+      this.iniMapa(terminal.latitud, terminal.longitud);
+
+      // 3. Primer intento de invalidateSize (300ms)
+      setTimeout(() => {
+        this.map?.invalidateSize();
+        // Opcional: Volver a centrar (a veces ayuda visualmente)
+        this.map?.setView([terminal.latitud, terminal.longitud], 16, { animate: false });
+
+        // 4. SEGUNDO INTENTO (600ms): Si falla el primero, este lo arregla casi siempre
+        setTimeout(() => {
+          this.map?.invalidateSize();
+        }, 300); // 300ms adicionales (total 650ms desde el inicio)
+
+      }, 300); // Retraso para el primer invalidateSize
+
+    }, 50); // Retraso inicial para que el modal se muestre
+  }
+
+// Su función iniMapa (DEBE ESTAR LIMPIA)
+  iniMapa(lat: number, lng: number) {
+    const mapDiv = document.getElementById('terminal-map');
+    if (!mapDiv) return;
+
+    // 1. Destruir mapa previo (CRUCIAL y ya lo tenía)
+    if (this.map) {
+      this.map.remove();
+      this.map = null!; // Resetear la referencia
+    }
+
+    // 2. Inicializar el mapa
+    this.map = L.map('terminal-map').setView([lat, lng], 16);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap'
+    }).addTo(this.map);
+
+    // 3. Añadir el marcador
+    // NOTA: Asumiendo que ya aplicó el fix de los iconos 404 (punto 1 de la respuesta anterior)
+    L.marker([lat, lng]).addTo(this.map);
+
+    // 🛑 IMPORTANTE: No colocar invalidateSize() aquí. Se hace desde mostrarUbicacion.
+  }
+
+  ocultarUbicacion() {
+    document.getElementById("ubicacion_modal")?.classList.remove("is-active");
   }
 
   mostrarEliminar(terminal: Terminal) {
@@ -217,9 +278,9 @@ export class AdmTerminalesComponent implements OnInit {
     return env.posAdmCategoria === index;
   }
 
-  formatear(fecha: Date){
-    let res=""
-    if(fecha === null) {
+  formatear(fecha: Date) {
+    let res = ""
+    if (fecha === null) {
       res = "Nunca"
     } else {
       res = formatTime(fecha)
@@ -227,9 +288,9 @@ export class AdmTerminalesComponent implements OnInit {
     return res;
   }
 
-  formatearTime(fecha: Date){
-    let res=""
-    if(fecha === null) {
+  formatearTime(fecha: Date) {
+    let res = ""
+    if (fecha === null) {
       res = "Nunca"
     } else {
       res = formatDateTime(fecha)

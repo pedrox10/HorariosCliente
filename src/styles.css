@@ -157,6 +157,10 @@ tr.inactivo td {
   font-size: 1.3em;
 }
 
+.icon-btn.is-danger {
+  color: #e1482c !important;
+}
+
 .icon-btn:hover {
   cursor: pointer;
   background-color: rgba(25, 118, 210, 0.13);

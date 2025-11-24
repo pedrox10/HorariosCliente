@@ -79,9 +79,16 @@
                         <i class="fas fa-history icon-btn"></i>
                       </span>
                     </a>
-                    <a class="dropdown-item" (click)="mostrarEliminar(t)">
+                    <a class="dropdown-item" (click)="mostrarUbicacion(t)">
+                      <span class="has-tooltip-arrow expand" data-tooltip="Mostrar Ubicación">
+                        <i class="fas fa-map-marker-alt icon-btn">
+                        </i>
+                      </span>
+                    </a>
+                    <a class="dropdown-item" (click)="mostrarEliminar(t)" [ngClass]="{ 'desactivado': !isSuperadmin }">
                       <span class="has-tooltip-arrow expand" data-tooltip="Eliminar Terminal">
-                        <i class="far fa-times-circle icon-btn"></i>
+                        <i class="far fa-times-circle icon-btn" style="color: red;">
+                        </i>
                       </span>
                     </a>
                   </div>
@@ -169,6 +176,18 @@
           }
           </tbody>
         </table>
+      </section>
+    </div>
+  </div>
+  <div class="modal " id="ubicacion_modal">
+    <div class="modal-background" id="fondo_ubicacion" style="opacity: 0.75;"></div>
+    <div class="modal-card" style="width: 600px; height: 500px;">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Ubicacion terminal</p>
+        <button class="delete" aria-label="close" (click) = "ocultarUbicacion()"></button>
+      </header>
+      <section class="modal-card-body">
+        <div id="terminal-map" style="width: 100%; height: 100%;"></div>
       </section>
     </div>
   </div>

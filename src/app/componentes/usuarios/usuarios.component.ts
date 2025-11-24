@@ -85,7 +85,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.isAdmin  = this.authService.tieneRol('Administrador', 'Superadmin');
     this.isSuperadmin  = this.authService.tieneRol('Superadmin');
-    // Carga inicial de usuarios
+    // Carga inicial de usuarios|
     this.terminalService.getUsuarios(this.idTerminal).pipe(takeUntil(this.destroy$)).subscribe(
       (data: any) => {
         this.usuarios = data;
