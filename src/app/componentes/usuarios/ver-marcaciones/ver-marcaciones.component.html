@@ -316,10 +316,14 @@
                 </div>
               </div>
             </div>
-            @if(!infoMarcacion.hayPriEntExcepcion.esInterrupcion) {
-            <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Verde')}}">Excepción</span>
-            } @else {
+            @if(infoMarcacion.hayPriEntExcepcion.esInterrupcion) {
             <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Gris')}}">Interrupción</span>
+            } @else {
+            @if(infoMarcacion.hayPriEntExcepcion.esCumpleano) {
+            <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Purpura')}}">Cumpleaños</span>
+            } @else {
+            <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Verde')}}">Excepción</span>
+            }
             }
             } @else {
             <div class="vitem" style="margin-top: -4px;">
@@ -338,10 +342,14 @@
             <span class="help has-text-gray" style="margin-top: -4px; margin-bottom: -5px; font-size: 0.51em">{{getInfoActual().horario.priSalida.slice(0, 5)}}</span>
             <div class="dropdown is-up is-hoverable">
               <div class="dropdown-trigger">
-                @if(!infoMarcacion.hayPriSalExcepcion.esInterrupcion) {
-                <i class="fas fa-check-double has-text-success"></i>
-                } @else {
+                @if(infoMarcacion.hayPriSalExcepcion.esInterrupcion) {
                 <i class="fas fa-exclamation-triangle has-text-grey"></i>
+                } @else {
+                @if(infoMarcacion.hayPriSalExcepcion.esCumpleano) {
+                <i class="fas fa-birthday-cake has-text-primary"></i>
+                } @else {
+                <i class="fas fa-check-double has-text-success"></i>
+                }
                 }
               </div>
               <div class="dropdown-menu" role="menu">
@@ -368,10 +376,14 @@
                 </div>
               </div>
             </div>
-            @if(!infoMarcacion.hayPriSalExcepcion.esInterrupcion) {
-            <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Verde')}}">Excepción</span>
-            } @else {
+            @if(infoMarcacion.hayPriSalExcepcion.esInterrupcion) {
             <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Gris')}}">Interrupción</span>
+            } @else {
+            @if(infoMarcacion.hayPriSalExcepcion.esCumpleano) {
+            <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Purpura')}}">Cumpleaños</span>
+            } @else {
+            <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Verde')}}">Excepción</span>
+            }
             }
             } @else {
             <div class="vitem" style="margin-top: -4px;">
@@ -396,10 +408,14 @@
           <span class="help has-text-gray" style="margin-top: -4px; margin-bottom: -5px; font-size: 0.51em">{{getInfoActual().horario.segEntrada.slice(0, 5)}}</span>
           <div class="dropdown is-up is-hoverable">
             <div class="dropdown-trigger">
-              @if(!infoMarcacion.haySegEntExcepcion.esInterrupcion) {
-              <i class="fas fa-check-double has-text-success"></i>
-              } @else {
+              @if(infoMarcacion.haySegEntExcepcion.esInterrupcion) {
               <i class="fas fa-exclamation-triangle has-text-grey"></i>
+              } @else {
+              @if(infoMarcacion.haySegEntExcepcion.esCumpleano) {
+              <i class="fas fa-birthday-cake has-text-primary"></i>
+              } @else {
+              <i class="fas fa-check-double has-text-success"></i>
+              }
               }
             </div>
             <div class="dropdown-menu" role="menu">
@@ -426,10 +442,14 @@
               </div>
             </div>
           </div>
-          @if(!infoMarcacion.haySegEntExcepcion.esInterrupcion) {
-          <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Verde')}}">Excepción</span>
-          } @else {
+          @if(infoMarcacion.haySegEntExcepcion.esInterrupcion) {
           <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Gris')}}">Interrupción</span>
+          } @else {
+          @if(infoMarcacion.haySegEntExcepcion.esCumpleano) {
+          <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Purpura')}}">Cumpleaños</span>
+          } @else {
+          <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Verde')}}">Excepción</span>
+          }
           }
           } @else {
           <div class="vitem" style="margin-top: -4px;">
@@ -446,10 +466,14 @@
           <span class="help has-text-gray" style="margin-top: -4px; margin-bottom: -5px; font-size: 0.51em">{{getInfoActual().horario.segSalida.slice(0, 5)}}</span>
           <div class="dropdown is-up is-hoverable">
             <div class="dropdown-trigger">
-              @if(!infoMarcacion.haySegSalExcepcion.esInterrupcion) {
-              <i class="fas fa-check-double has-text-success"></i>
-              } @else {
+              @if(infoMarcacion.haySegSalExcepcion.esInterrupcion) {
               <i class="fas fa-exclamation-triangle has-text-grey"></i>
+              } @else {
+              @if(infoMarcacion.haySegSalExcepcion.esCumpleano) {
+              <i class="fas fa-birthday-cake has-text-primary"></i>
+              } @else {
+              <i class="fas fa-check-double has-text-success"></i>
+              }
               }
             </div>
             <div class="dropdown-menu" role="menu">
@@ -476,10 +500,14 @@
               </div>
             </div>
           </div>
-          @if(!infoMarcacion.haySegSalExcepcion.esInterrupcion) {
-          <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Verde')}}">Excepción</span>
-          } @else {
+          @if(infoMarcacion.haySegSalExcepcion.esInterrupcion) {
           <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Gris')}}">Interrupción</span>
+          } @else {
+          @if(infoMarcacion.haySegSalExcepcion.esCumpleano) {
+          <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Purpura')}}">Cumpleaños</span>
+          } @else {
+          <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Verde')}}">Excepción</span>
+          }
           }
           } @else {
           <div class="vitem" style="margin-top: -4px;">
