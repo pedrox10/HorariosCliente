@@ -17,16 +17,16 @@ export function mensaje(mensaje: string, tipo: ToastType) {
   let icon = "";
   switch (tipo) {
     case "is-success":
-      icon = '<i style="color: white; font-size: 1.5em; padding-right: 10px" class="fas fa-check"></i>'
+      icon = '<i style="color: #0f5132; font-size: 1.5em; padding-right: 10px" class="fas fa-check"></i>'
       break
     case "is-danger":
-      icon = '<i style="color: white; font-size: 1.5em; padding-right: 10px" class="fas fa-times-circle"></i>'
+      icon = '<i style="color: #c42003; font-size: 1.5em; padding-right: 10px" class="fas fa-times-circle"></i>'
       break
     case "is-warning":
-      icon = '<i style="color: white; font-size: 1.5em; padding-right: 10px" class="fas fa-exclamation-triangle"></i>'
+      icon = '<i style="color: #ff8a00; font-size: 1.5em; padding-right: 10px" class="fas fa-exclamation-circle"></i>'
       break
     case "is-info":
-      icon = '<i style="color: white; font-size: 1.5em; padding-right: 10px" class="fas fa-info"></i>'
+      icon = '<i style="color: #31a2c4; font-size: 1.5em; padding-right: 10px" class="fas fa-info"></i>'
       break
   }
   toast({
@@ -36,7 +36,7 @@ export function mensaje(mensaje: string, tipo: ToastType) {
     pauseOnHover: true,
     duration: 3500,
     animate: {in: 'backInUp', out: 'backOutDown'},
-    extraClasses: "bordes-redondeados"
+    extraClasses: "bordes-redondeados notificacion " + tipo
   })
 }
 

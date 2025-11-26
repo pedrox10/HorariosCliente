@@ -74,14 +74,14 @@ export class ComandosComponent implements OnInit, AfterViewInit {
       next: (data: any) => {
         let respuesta = JSON.parse(data)
         if(respuesta.conectado === true)
-          mensaje("¡Terminal con conexión!", "is-success")
+          mensaje("¡El biométrico está con conexión!", "is-success")
         else
-          mensaje("¡Terminal sin conexión!", "is-danger")
+          mensaje("¡El biométrico está sin conexión!", "is-danger")
         document.getElementById("ic_conectar")?.classList.remove("button", "is-loading");
         this.esConectar = false;
       },
       error: err => {
-        mensaje("¡Error en el servidor!", "is-danger")
+        mensaje("¡Ha ocurrido un error en el servidor!", "is-danger")
         document.getElementById("ic_conectar")?.classList.remove("button", "is-loading");
         this.esConectar = false;
       }
@@ -96,18 +96,18 @@ export class ComandosComponent implements OnInit, AfterViewInit {
         let respuesta = JSON.parse(data)
         if(respuesta.success === true) {
           this.jsonInfoCapacidad = respuesta.info_capacidad
-          mensaje("¡Comando enviado!", "is-success")
+          mensaje("¡Comando enviado correctamente!", "is-success")
           let div = document.getElementById("info_capacidad_modal") as HTMLDivElement
           setTimeout(() => {
             div.classList.add("is-active")
           }, 1000);
         } else
-          mensaje("¡Terminal sin conexión!", "is-danger")
+          mensaje("¡El biométrico está sin conexión!", "is-danger")
         document.getElementById("ic_info_cap")?.classList.remove("button", "is-loading");
         this.esInfoCapacidad = false;
       },
       error: err => {
-        mensaje("¡Error en el servidor!", "is-danger")
+        mensaje("¡Ha ocurrido un error en el servidor!", "is-danger")
         document.getElementById("ic_info_cap")?.classList.remove("button", "is-loading");
         this.esInfoCapacidad = false;
       }
@@ -127,18 +127,18 @@ export class ComandosComponent implements OnInit, AfterViewInit {
         let respuesta = JSON.parse(data)
         if(respuesta.success === true) {
           this.jsonInfoExtra = respuesta.info_extra
-          mensaje("¡Comando enviado!", "is-success")
+          mensaje("¡Comando enviado correctamente!", "is-success")
           let div = document.getElementById("info_extra_modal") as HTMLDivElement
           setTimeout(() => {
             div.classList.add("is-active")
           }, 1000);
         } else
-          mensaje("¡Terminal sin conexión!", "is-danger")
+          mensaje("¡El biométrico está sin conexión!", "is-danger")
         document.getElementById("ic_info_extra")?.classList.remove("button", "is-loading");
         this.esInfoExtra = false;
       },
       error: err => {
-        mensaje("¡Error en el servidor!", "is-danger")
+        mensaje("¡Ha ocurrido un error en el servidor!", "is-danger")
         document.getElementById("ic_info_extra")?.classList.remove("button", "is-loading");
         this.esInfoExtra = false;
       }
@@ -159,18 +159,18 @@ export class ComandosComponent implements OnInit, AfterViewInit {
         if(respuesta.success === true) {
           this.jsonHoraActual = moment(respuesta.hora_actual).format("DD/MM/YYYY HH:mm:ss")
           this.jsonHoraServidor = moment(respuesta.hora_servidor).format("DD/MM/YYYY HH:mm:ss")
-          mensaje("¡Comando enviado!", "is-success")
+          mensaje("¡Comando enviado correctamente!", "is-success")
           let div = document.getElementById("hora_actual_modal") as HTMLDivElement
           setTimeout(() => {
             div.classList.add("is-active")
           }, 1000);
         } else
-          mensaje("¡Terminal sin conexión!", "is-danger")
+          mensaje("¡El biométrico está sin conexión!", "is-danger")
         document.getElementById("ic_hora_actual")?.classList.remove("button", "is-loading");
         this.esHoraActual = false;
       },
       error: err => {
-        mensaje("¡Error en el servidor!", "is-danger")
+        mensaje("¡Ha ocurrido un error en el servidor!", "is-danger")
         document.getElementById("ic_hora_actual")?.classList.remove("button", "is-loading");
         this.esHoraActual = false;
       }
@@ -191,12 +191,12 @@ export class ComandosComponent implements OnInit, AfterViewInit {
         if(respuesta.success === true) {
           mensaje(respuesta.mensaje, "is-success")
         } else
-          mensaje("¡Terminal sin conexión!", "is-danger")
+          mensaje("¡El biométrico está sin conexión!", "is-danger")
         document.getElementById("ic_hora_actual")?.classList.remove("button", "is-loading");
         this.esSincronizarFecha = false;
       },
       error: err => {
-        mensaje("¡Error en el servidor!", "is-danger")
+        mensaje("¡Ha ocurrido un error en el servidor!", "is-danger")
         document.getElementById("ic_hora_actual")?.classList.remove("button", "is-loading");
         this.esSincronizarFecha = false;
       }
@@ -249,12 +249,12 @@ export class ComandosComponent implements OnInit, AfterViewInit {
         if(respuesta.success === true) {
           mensaje(respuesta.mensaje, "is-success")
         } else
-          mensaje("¡Terminal sin conexión!", "is-danger")
+          mensaje("¡El biométrico está sin conexión!", "is-danger")
         document.getElementById("ic_borrar_marcaciones")?.classList.remove("button", "is-loading");
         this.esBorrarMarcaciones = false;
       },
       error: err => {
-        mensaje("¡Error en el servidor!", "is-danger")
+        mensaje("¡Ha ocurrido un error en el servidor!", "is-danger")
         document.getElementById("ic_borrar_marcaciones")?.classList.remove("button", "is-loading");
         this.esBorrarMarcaciones = false;
       }
@@ -279,12 +279,12 @@ export class ComandosComponent implements OnInit, AfterViewInit {
         if(respuesta.success === true) {
           mensaje(respuesta.mensaje, "is-success")
         } else
-          mensaje("¡Terminal sin conexión!", "is-danger")
+          mensaje("¡El biométrico está sin conexión!", "is-danger")
         document.getElementById("ic_mantenimiento")?.classList.remove("button", "is-loading");
         this.esMantenimiento = false;
       },
       error: err => {
-        mensaje("¡Error en el servidor!", "is-danger")
+        mensaje("¡Ha ocurrido un error en el servidor!", "is-danger")
         document.getElementById("ic_mantenimiento")?.classList.remove("button", "is-loading");
         this.esMantenimiento = false;
       }
@@ -314,7 +314,7 @@ export class ComandosComponent implements OnInit, AfterViewInit {
         this.esMantenimiento = false;
       },
       error: err => {
-        mensaje("¡Error en el servidor!", "is-danger")
+        mensaje("¡Ha ocurrido un error en el servidor!", "is-danger")
         document.getElementById("ic_mantenimiento")?.classList.remove("button", "is-loading");
         this.esMantenimiento = false;
       }

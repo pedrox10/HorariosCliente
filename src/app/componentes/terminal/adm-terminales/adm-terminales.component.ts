@@ -1,3 +1,5 @@
+declare const google: any;
+
 import {Component, Injectable, OnInit} from '@angular/core';
 import {ModalService} from "ngx-modal-ease";
 import {AccionTerminalComponent} from "./accion-terminal/accion-terminal.component";
@@ -6,8 +8,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {Terminal} from "../../../modelos/Terminal";
 import {Router, RouterLink} from '@angular/router';
-import {toast} from "bulma-toast";
-import {color, format, formatDateTime, formatTime} from "../../inicio/Global";
+import {color, format, formatDateTime, formatTime, mensaje, notificacion} from "../../inicio/Global";
 import {Sincronizacion} from "../../../modelos/Sincronizacion";
 import {env} from "../../../../environments/environments";
 import {AuthService} from "../../../servicios/auth.service";
@@ -38,8 +39,7 @@ export class AdmTerminalesComponent implements OnInit {
   sincronizaciones: Sincronizacion[] = [];
   fc_confirmado = new FormControl(false);
   isSuperadmin: boolean;
-  map: L.Map | null = null;
-  marker: L.Marker | null = null;
+  map: any;
 
   constructor(public terminalService: TerminalService, private modalService: ModalService, private router: Router,
               private authService: AuthService) {
@@ -54,6 +54,7 @@ export class AdmTerminalesComponent implements OnInit {
       if ((e as KeyboardEvent).key === 'Escape') {
         this.ocultarEliminar()
         this.ocultarSincronizaciones()
+        this.ocultarUbicacion()
       }
     });
     document.getElementById("fondo_sinc")?.addEventListener("click", (e) => {
@@ -61,6 +62,9 @@ export class AdmTerminalesComponent implements OnInit {
     })
     document.getElementById("fondo_eliminar")?.addEventListener("click", (e) => {
       this.ocultarEliminar()
+    })
+    document.getElementById("fondo_ubicacion")?.addEventListener("click", (e) => {
+      this.ocultarUbicacion()
     })
   }
 
@@ -112,24 +116,12 @@ export class AdmTerminalesComponent implements OnInit {
             this.terminalesFiltrados.splice(indexFiltrados, 1)
           }
         }
-        toast({
-          message: '<span class="icon" style="min-width: 175px;"><i style="color: white; font-size: 2em; padding-right: 10px" class="fas fa-check"></i>Terminal eliminado</span>',
-          type: "is-success",
-          position: "bottom-center",
-          duration: 3000,
-          animate: {in: 'bounceIn', out: 'bounceOut'},
-        })
+        mensaje("Terminal eliminado correctamente", "is-success")
       },
       (error: any) => {
         document.getElementById("btn_eliminar")?.classList.remove("is-loading");
         console.error('An error occurred:', error);
-        toast({
-          message: '<span class="icon"><i style="color: white; font-size: 2em; padding-right: 15px" class="fas fa-delete"></i></span>Ha ocurrido un error',
-          type: "is-danger",
-          position: "bottom-center",
-          duration: 4000,
-          animate: {in: 'bounceIn', out: 'bounceOut'},
-        })
+        mensaje("Ha ocurrido un error al eliminar", "is-danger")
       });
   }
 
@@ -204,52 +196,38 @@ export class AdmTerminalesComponent implements OnInit {
   }
 
   mostrarUbicacion(terminal: Terminal) {
-    // 1. Mostrar el modal
-    document.getElementById("ubicacion_modal")?.classList.add("is-active");
-
-    // 2. Inicializar el mapa después de un retraso mínimo (50ms)
-    setTimeout(() => {
-      this.iniMapa(terminal.latitud, terminal.longitud);
-
-      // 3. Primer intento de invalidateSize (300ms)
+    if(terminal.latitud && terminal.longitud) {
+      this.nombreTerminal = terminal.nombre
+      document.getElementById("ubicacion_modal")?.classList.add("is-active");
       setTimeout(() => {
-        this.map?.invalidateSize();
-        // Opcional: Volver a centrar (a veces ayuda visualmente)
-        this.map?.setView([terminal.latitud, terminal.longitud], 16, { animate: false });
-
-        // 4. SEGUNDO INTENTO (600ms): Si falla el primero, este lo arregla casi siempre
-        setTimeout(() => {
-          this.map?.invalidateSize();
-        }, 300); // 300ms adicionales (total 650ms desde el inicio)
-
-      }, 300); // Retraso para el primer invalidateSize
-
-    }, 50); // Retraso inicial para que el modal se muestre
+        this.iniMapa(terminal.nombre, terminal.latitud, terminal.longitud);
+      }, 50);
+    } else {
+      mensaje("El biométrico aún no tiene una ubicación registrada.", "is-warning")
+    }
   }
 
-// Su función iniMapa (DEBE ESTAR LIMPIA)
-  iniMapa(lat: number, lng: number) {
+// Nuevo iniMapa con Google Maps gg
+  iniMapa(nombre: string, lat: number, lng: number) {
     const mapDiv = document.getElementById('terminal-map');
-    if (!mapDiv) return;
-
-    // 1. Destruir mapa previo (CRUCIAL y ya lo tenía)
-    if (this.map) {
-      this.map.remove();
-      this.map = null!; // Resetear la referencia
+    if (!mapDiv || typeof google === 'undefined' || !google.maps) {
+      // Es posible que la API no se haya cargado aún si el callback no se usa.
+      console.error("API de Google Maps no cargada o contenedor no encontrado.");
+      return;
     }
-
-    // 2. Inicializar el mapa
-    this.map = L.map('terminal-map').setView([lat, lng], 16);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; OpenStreetMap'
-    }).addTo(this.map);
-
-    // 3. Añadir el marcador
-    // NOTA: Asumiendo que ya aplicó el fix de los iconos 404 (punto 1 de la respuesta anterior)
-    L.marker([lat, lng]).addTo(this.map);
-
-    // 🛑 IMPORTANTE: No colocar invalidateSize() aquí. Se hace desde mostrarUbicacion.
+    const mapOptions = {
+      center: new google.maps.LatLng(lat, lng),
+      zoom: 16,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    // Inicializar el mapa
+    this.map = new google.maps.Map(mapDiv, mapOptions);
+    // Agregar un marcador
+    new google.maps.Marker({
+      position: { lat: lat, lng: lng },
+      map: this.map,
+      title: nombre
+    });
   }
 
   ocultarUbicacion() {

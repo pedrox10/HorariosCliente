@@ -100,12 +100,12 @@ export class AsuetosComponent implements OnInit, AfterViewInit {
       (asueto: any) => {
         let index = this.asuetos.map(i => i.id).indexOf(asueto.id);
         this.asuetos[index] = asueto;
-        mensaje("¡Fecha modificada!", "is-success")
+        mensaje("¡Fecha seleccionada modificada correctamente!", "is-success")
         this.ocultarModal()
       },
       (error: any) => {
         console.error('An error occurred:', error);
-        mensaje("¡No se pudo modificar la fecha!", "is-danger")
+        mensaje("¡No se pudo modificar la fecha seleccionada!", "is-danger")
       }
     );
   }

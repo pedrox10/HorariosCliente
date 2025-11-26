@@ -83,6 +83,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
               private sanitizer: DomSanitizer, private authService: AuthService,
               public usuarioService: UsuarioService, public comandosService: ComandosService) {
 
+    (window as any).comp = this;
     this.isAdmin  = this.authService.tieneRol('Administrador', 'Superadmin');
     this.isSuperadmin  = this.authService.tieneRol('Superadmin');
     // Carga inicial de usuarios|
@@ -457,7 +458,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
                     usuario.ultAsignacion = data.ultDiaAsignado;
                   }
                 }
-                mensaje("Horario asignado a " + this.usuariosSeleccionados.length + " funcionarios", "is-success")
+                mensaje("Horario correctamente asignado a " + this.usuariosSeleccionados.length + " funcionarios", "is-success")
               }
             });
         },
@@ -598,19 +599,32 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   edit(usuario: Usuario) {
-    //console.log(usuario)
-    let index = this.usuarios.map(i => i.id).indexOf(usuario.id);
-    this.usuarios[index] = usuario
+    const estabaSeleccionado = this.usuariosSeleccionados.some(u => u.id === usuario.id);
+    // Eliminamos la referencia antigua
+    this.usuariosSeleccionados = this.usuariosSeleccionados.filter(u => u.id !== usuario.id);
+    // Actualizamos en la lista principal
+    const idxUsuarios = this.usuarios.findIndex(u => u.id === usuario.id);
+    this.usuarios[idxUsuarios] = usuario;
+    // Actualizar filtrados
     if (this.estado !== undefined) {
-      let index = this.usuariosFiltrados.map(i => i.id).indexOf(usuario.id);
+      const idxFiltrados = this.usuariosFiltrados.findIndex(u => u.id === usuario.id);
       usuario.estadoHtml = this.getEstado(usuario);
+
       if (this.estado === usuario.estado) {
-        this.usuariosFiltrados[index] = usuario
+        this.usuariosFiltrados[idxFiltrados] = usuario;
       } else {
-        this.usuariosFiltrados.splice(index, 1)
+        this.usuariosFiltrados.splice(idxFiltrados, 1);
       }
     }
-    mensaje("¡Funcionario editado!", "is-success")
+    // Restaurar selección SOLO si sigue visible y sigue coincidiendo con filtros
+    if (estabaSeleccionado) {
+      const sigueEnFiltrado = this.usuariosFiltrados.some(u => u.id === usuario.id);
+      if (sigueEnFiltrado) {
+        usuario.seleccionado = true;
+        this.usuariosSeleccionados.push(usuario);
+      }
+    }
+    mensaje("¡Funcionario editado correctamente!", "is-success");
   }
 
   mostrarAcciones(id: number | any) {
@@ -754,11 +768,11 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
         (data: any) => {
           this.terminal.grupos.push(data)
           this.ocultarAccionGrupo()
-          mensaje("¡Grupo Agregado!", "is-success")
+          mensaje("¡Grupo agregado correctamente!", "is-success")
         },
         (error: any) => {
           console.error('An error occurred:', error);
-          mensaje("¡Error, no se pudo agregar!", "is-danger")
+          mensaje("¡Error, no se pudo agregar el grupo!", "is-danger")
         }
       );
     } else {
@@ -772,11 +786,11 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
             for(let usuario of usuarioAfectados) {
               usuario.grupo = data
             }
-            mensaje("¡Grupo Editado!", "is-success")
+            mensaje("¡Grupo Editado correctamente!", "is-success")
           },
           (error: any) => {
             console.error('An error occurred:', error);
-            mensaje("¡Error, no se pudo editar!", "is-danger")
+            mensaje("¡Error, no se pudo editar el grupo!", "is-danger")
           }
         );
       }
@@ -807,11 +821,11 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
         this.usuarios.filter(u => u.grupo?.id === data)
           .map(u => u.grupo = null);
         this.ocultarEliminarGrupo()
-        mensaje("¡Grupo Eliminado!", "is-success")
+        mensaje("¡Grupo eliminado correctamente!", "is-success")
       },
       (error: any) => {
         console.error('An error occurred:', error);
-        mensaje("¡Error, no se pudo eliminar!", "is-danger")
+        mensaje("¡Error, no se pudo eliminar el grupo!", "is-danger")
       }
     );
   }

@@ -252,10 +252,10 @@ export class VerReporteComponent implements OnInit{
         let reporte = JSON.parse(sessionStorage.getItem('reporte') || '[]');
         reporte[indice] = rm
         sessionStorage.setItem('reporte', JSON.stringify(reporte));
-        mensaje("¡Reporte actualizado!", "is-success")
+        mensaje("¡Reporte actualizado correctamente!", "is-success")
       },
       (error: any) => {
-        console.error('An error occurred:', error);
+        mensaje("¡Ha ocurrido un error en servidor!", "is-success")
       }
     );
   }

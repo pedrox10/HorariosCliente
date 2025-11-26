@@ -40,7 +40,7 @@ export class HorariosComponent implements OnInit {
       },
       (error: any) => {
         console.error('An error occurred:', error);
-        mensaje("No se obtener informacion del servidor", "is-danger")
+        mensaje("No se puede obtener informacion del servidor", "is-danger")
       }
     );
     document.addEventListener('keydown', (e) => {
@@ -88,7 +88,7 @@ export class HorariosComponent implements OnInit {
       },
       (error: any) => {
         console.error('An error occurred:', error);
-        mensaje("No se obtener informacion del servidor", "is-danger")
+        mensaje("No se puede obtener informacion del servidor", "is-danger")
       }
     )
   }
@@ -104,11 +104,11 @@ export class HorariosComponent implements OnInit {
         this.ocultarEliminar()
         const index = this.horarios.map(i => i.id).indexOf(this.horario.id);
         this.horarios.splice(index, 1);
-        mensaje("El horario fué eliminado", "is-success")
+        mensaje("El horario fué eliminado correctamente", "is-success")
       },
       (error: any) => {
         console.error('An error occurred:', error);
-        mensaje("No se pudo eliminar el horario", "is-danger")
+        mensaje("No se pudo eliminar el horario seleccionado", "is-danger")
       }
     )
   }

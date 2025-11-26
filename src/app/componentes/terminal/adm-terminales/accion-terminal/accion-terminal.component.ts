@@ -7,6 +7,7 @@ import {ModalService} from "ngx-modal-ease";
 import {Router} from '@angular/router';
 import {CommonModule} from "@angular/common";
 import {env} from "../../../../../environments/environments";
+import {mensaje} from "../../../inicio/Global";
 
 @Component({
   selector: 'app-accion-terminal',
@@ -77,26 +78,13 @@ export class AccionTerminalComponent implements OnInit {
     let datos = data
     this.modalService.close(datos);
     this.formAccion.reset();
-    let mensaje = this.accion == "Agregar" ? "Terminal Agregado" : "Terminal Editado";
-    toast({
-      message: '<span class="icon" style="min-width: 175px;"><i style="color: white; font-size: 1.5em; padding-right: 10px" class="fas fa-check"></i>' + mensaje + '</span>',
-      type: "is-success",
-      position: "bottom-center",
-      duration: 3000,
-      animate: {in: 'backInUp', out: 'backOutDown'},
-      extraClasses: "bordes-redondeados"
-    })
+    let info = this.accion == "Agregar" ? "Terminal agregado correctamente" : "Terminal editado correctamente";
+    mensaje(info, "is-success")
   }
 
   accionError(error: any) {
     console.error('An error occurred:', error);
-    toast({
-      message: '<span class="icon"><i style="color: white; font-size: 2em; padding-right: 15px" class="fas fa-delete"></i></span>Ha ocurrido un error',
-      type: "is-danger",
-      position: "bottom-center",
-      duration: 3000,
-      animate: {in: 'bounceIn', out: 'bounceOut'},
-    })
+    mensaje("HA ocurrido un error al realizar la acción", "is-danger")
   }
 
   cerrarModal() {

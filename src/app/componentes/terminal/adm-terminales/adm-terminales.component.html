@@ -59,14 +59,14 @@
           <td>{{categorias[t.categoria]}}</td>
           <td>
             <div class="hitem">
-             <span class="icon has-tooltip-arrow expand" data-tooltip="Comandos" routerLink="/comandos/{{t.id}}">
+              <span class="icon has-tooltip-arrow expand" data-tooltip="Comandos" routerLink="/comandos/{{t.id}}">
                 <i class="fas fa-terminal icon-btn"></i>
-              </span>
-              <span class="icon has-tooltip-arrow expand" data-tooltip="Interrupciones" routerLink="/interrupciones/{{t.id}}">
-                <i class="fas fa-exclamation-triangle icon-btn"></i>
               </span>
               <span class="icon has-tooltip-arrow expand" data-tooltip="Editar" (click)="agregarEditarModal(t)">
                 <i class="far fa-edit icon-btn"></i>
+              </span>
+              <span class="icon has-tooltip-arrow expand" data-tooltip="Interrupciones" routerLink="/interrupciones/{{t.id}}">
+                <i class="fas fa-exclamation-triangle icon-btn"></i>
               </span>
               <div class="dropdown is-hoverable is-custom-right">
                 <div class="dropdown-trigger">
@@ -181,12 +181,12 @@
   </div>
   <div class="modal " id="ubicacion_modal">
     <div class="modal-background" id="fondo_ubicacion" style="opacity: 0.75;"></div>
-    <div class="modal-card" style="width: 600px; height: 500px;">
+    <div class="modal-card" style="width: 750px; height: 550px;">
       <header class="modal-card-head">
-        <p class="modal-card-title">Ubicacion terminal</p>
+        <p class="modal-card-title">{{nombreTerminal}}</p>
         <button class="delete" aria-label="close" (click) = "ocultarUbicacion()"></button>
       </header>
-      <section class="modal-card-body">
+      <section class="modal-card-body" style="padding: 0;">
         <div id="terminal-map" style="width: 100%; height: 100%;"></div>
       </section>
     </div>

@@ -11,12 +11,6 @@
   border: 1px #c2c0c0 solid;
 }
 
-.modal-card-body {
-  /* Permitir que el contenido se estire dentro de la altura de 500px del modal-card */
-  height: calc(100% - 56px); /* 100% menos la altura del modal-card-head */
-  padding: 0; /* Opcional: para que el mapa ocupe todo el espacio */
-}
-
 #terminal-map {
   /* Aquí forzamos el 100% de la altura disponible */
   width: 100%;
