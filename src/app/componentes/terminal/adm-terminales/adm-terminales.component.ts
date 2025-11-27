@@ -13,7 +13,6 @@ import {Sincronizacion} from "../../../modelos/Sincronizacion";
 import {env} from "../../../../environments/environments";
 import {AuthService} from "../../../servicios/auth.service";
 import {CommonModule} from "@angular/common";
-import * as L from 'leaflet';
 
 @Component({
   selector: 'app-adm-terminales',
