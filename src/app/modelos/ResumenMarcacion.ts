@@ -23,6 +23,7 @@ export class ResumenMarcacion{
   totalVacaciones: number;
   totalBajas: number;
   totalPermisosSG: number;
+  totalPermisosCG: number;
   totalPermisos: number;
   totalLicencias: number;
   totalCapacitaciones: number;
@@ -38,7 +39,7 @@ export class ResumenMarcacion{
               totalVacaciones: number, totalBajas: number, totalPermisos: number, totalLicencias: number,
               totalCapacitaciones: number, totalOtros: number, totalSinMarcar: number, totalAusencias: number,
               totalPermisosSG: number, diasComputados: number, infoMarcaciones: InfoMarcacion[], totalSanciones: number,
-              totalSinMarcarEntradas: number, totalSinMarcarSalidas: number) {
+              totalSinMarcarEntradas: number, totalSinMarcarSalidas: number, totalPermisosCG: number) {
     this.usuario = usuario
     this.totalCantRetrasos = totalCantRetrasos
     this.totalMinRetrasos = totalMinRetrasos
@@ -62,6 +63,7 @@ export class ResumenMarcacion{
     this.totalVacaciones = totalVacaciones;
     this.totalBajas = totalBajas;
     this.totalPermisosSG = totalPermisosSG
+    this.totalPermisosCG = totalPermisosCG
     this.totalPermisos = totalPermisos;
     this.totalLicencias = totalLicencias;
     this.totalCapacitaciones = totalCapacitaciones;
