@@ -157,6 +157,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
         this.ocultarAsignarGrupo()
         this.ocultarInfoOrganigram()
         this.ocultarMarcaciones()
+        this.ocultarEliminarFuncionarios()
       }
     };
     document.addEventListener('keydown', this.escuchaEscape);
@@ -171,6 +172,9 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     })
     document.getElementById("fondo_asignar")?.addEventListener("click", (e) => {
       this.ocultarAsignarGrupo()
+    })
+    document.getElementById("fondo_eliminar_funcionarios")?.addEventListener("click", (e) => {
+      this.ocultarEliminarFuncionarios()
     })
   }
 

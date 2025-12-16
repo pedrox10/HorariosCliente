@@ -43,14 +43,14 @@ export class LoginComponent implements OnInit{
         const rol = usuario.rol;
         if (rol === 'Administrador' || "Visualizador") {
           this.router.navigate(['/ver-terminales']); // Ruta para administrador
-        } else {
-          this.errorMsg = 'Rol desconocido';
         }
       },
       error: err => {
         console.log(err)
-        mensaje(err.error.mensaje, "is-danger")
-        this.errorMsg = 'Usuario o clave incorrectos';
+        if(err.status === 0)
+          mensaje("No hay conexión con el servidor", "is-danger")
+        else
+          mensaje(err.error.mensaje, "is-danger")
       }
     });
   }
