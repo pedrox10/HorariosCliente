@@ -19,6 +19,7 @@ import {EstadoJornada} from "../../../modelos/Jornada";
 import * as ExcelJS from 'exceljs';
 import {Terminal} from "../../../modelos/Terminal";
 import {UsuarioService} from "../../../servicios/usuario.service";
+import {takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-ver-marcaciones',
@@ -38,6 +39,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   public idTerminal!: number;
   public ini!: string;
   public fin!: string;
+  public fechaMin: string | any;
   public terminal: Terminal | null = null;
 
   inputRango: HTMLInputElement | any;
@@ -88,7 +90,15 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       if (indexActual !== -1) {
         this.usuario = this.usuarios[indexActual];
       }
-      this.initDatePicker();
+      this.usuarioService.getFechaPriMarcacion(this.idTerminal).subscribe(
+        (data: any) => {
+          this.fechaMin = data;
+          this.initDatePicker();
+        },
+        (error: any) => {
+          console.error('An error occurred:', error);
+        }
+      );
       this.isCargando = true;
       this.getResumenMarcaciones(this.usuario.id, this.ini, this.fin);
     });
@@ -121,7 +131,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
         },
       },
       LockPlugin: {
-        minDate: moment().startOf("year").toDate(),
+        minDate: moment(this.fechaMin, "YYYY-MM-DD").toDate(),
         maxDate: moment().endOf("year").toDate()
       },
     });

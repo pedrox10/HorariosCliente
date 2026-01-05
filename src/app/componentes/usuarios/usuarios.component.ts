@@ -136,11 +136,19 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     );
 
-    this.terminalService.getTerminal(this.idTerminal).pipe(takeUntil(this.destroy$)).subscribe(
+    this.usuarioService.getFechaPriMarcacion(this.idTerminal).pipe(takeUntil(this.destroy$)).subscribe(
       (data: any) => {
-        this.terminal = data;
-        this.ultimaSincronizacion = moment(this.terminal.ultSincronizacion, "YYYY-MM-DD").toDate()
-        setTimeout(() => this.inicializarPicker(), 0);
+        this.fechaMin = data;
+        this.terminalService.getTerminal(this.idTerminal).pipe(takeUntil(this.destroy$)).subscribe(
+          (data: any) => {
+            this.terminal = data;
+            this.ultimaSincronizacion = moment(this.terminal.ultSincronizacion, "YYYY-MM-DD").toDate()
+            setTimeout(() => this.inicializarPicker(), 0);
+          },
+          (error: any) => {
+            console.error('An error occurred:', error);
+          }
+        );
       },
       (error: any) => {
         console.error('An error occurred:', error);
@@ -199,6 +207,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private inicializarPicker() {
+    console.log(this.fechaMin)
     this.inputRango = document.getElementById('picker_reporte');
     this.picker = new easepick.create({
       element: this.inputRango,
@@ -223,7 +232,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
         },
       },
       LockPlugin: {
-        minDate: moment().startOf("year").toDate(),
+        minDate: moment(this.fechaMin, "YYYY-MM-DD").toDate(),
         maxDate: moment().endOf("year").toDate()
       },
     });
@@ -443,32 +452,25 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   asignarHorario() {
     if (this.usuariosSeleccionados.length > 0) {
-      this.usuarioService.getFechaPriMarcacion(this.idTerminal).pipe(takeUntil(this.destroy$)).subscribe(
-        (data: any) => {
-          this.fechaMin = data;
-          let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
-          let usuarios = this.usuariosSeleccionados;
-          let fechaMin = this.fechaMin;
-          this.modalService.open(AsignarHorariosComponent, {
-            modal: {enter: `${config.animation} ${config.duration}`,},
-            size: {padding: '0.5rem'},
-            data: {usuarios, fechaMin}
-          })
-            .subscribe((data) => {
-              if (data !== undefined) {
-                console.log(data)
-                for(let usuario of this.usuariosSeleccionados) {
-                  if(data.res === true) {
-                    usuario.ultAsignacion = data.ultDiaAsignado;
-                  }
-                }
-                mensaje("Horario correctamente asignado a " + this.usuariosSeleccionados.length + " funcionarios", "is-success")
+      let config = {animation: 'enter-scaling', duration: '0.2s', easing: 'linear'};
+      let usuarios = this.usuariosSeleccionados;
+      let fechaMin = this.fechaMin;
+      this.modalService.open(AsignarHorariosComponent, {
+        modal: {enter: `${config.animation} ${config.duration}`,},
+        size: {padding: '0.5rem'},
+        data: {usuarios, fechaMin}
+      })
+        .subscribe((data) => {
+          if (data !== undefined) {
+            console.log(data)
+            for(let usuario of this.usuariosSeleccionados) {
+              if(data.res === true) {
+                usuario.ultAsignacion = data.ultDiaAsignado;
               }
-            });
-        },
-        (error: any) => {
-          console.error('An error occurred:', error);
-        })
+            }
+            mensaje("Horario correctamente asignado a " + this.usuariosSeleccionados.length + " funcionarios", "is-success")
+          }
+        });
     } else {
       mensaje("Debes seleccionar al menos un funcionario", "is-warning")
     }
