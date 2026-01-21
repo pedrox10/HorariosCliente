@@ -34,7 +34,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
   public usuario!: Usuario;
   indexActual = 0;
   public usuarios: Usuario[] = [];
-
+  priMarcacion: any;
   public id!: number;
   public idTerminal!: number;
   public ini!: string;
@@ -83,6 +83,8 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       // Recibir lista de usuarios desde router.navigate
       const state = history.state;
       this.usuarios = state.usuarios ?? [];
+      this.fechaMin = state.priMarcacion ?? "";
+      this.initDatePicker();
       this.indexActual = this.usuarios.findIndex(u => u.id === this.id);
       console.log(this.usuarios)
       // Buscar usuario actual
@@ -90,15 +92,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       if (indexActual !== -1) {
         this.usuario = this.usuarios[indexActual];
       }
-      this.usuarioService.getFechaPriMarcacion(this.idTerminal).subscribe(
-        (data: any) => {
-          this.fechaMin = data;
-          this.initDatePicker();
-        },
-        (error: any) => {
-          console.error('An error occurred:', error);
-        }
-      );
+
       this.isCargando = true;
       this.getResumenMarcaciones(this.usuario.id, this.ini, this.fin);
     });
@@ -427,7 +421,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
       console.log('ini:', sessionStorage.getItem("ini"));
       console.log('fin:', sessionStorage.getItem("fin"));
       this.router.navigate(['/terminal', this.idTerminal, 'ver-marcaciones', anterior.id, this.ini, this.fin], {
-        state: { usuarios: this.usuarios}, replaceUrl: true
+        state: { usuarios: this.usuarios, priMarcacion: this.fechaMin}, replaceUrl: true
       });
     }
   }
@@ -436,7 +430,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
     if (this.indexActual < this.usuarios.length - 1) {
       const siguiente = this.usuarios[this.indexActual + 1];
       this.router.navigate(['/terminal', this.idTerminal, 'ver-marcaciones', siguiente.id, this.ini, this.fin], {
-        state: { usuarios: this.usuarios}, replaceUrl: true
+        state: { usuarios: this.usuarios, priMarcacion: this.fechaMin}, replaceUrl: true
       });
     }
   }

@@ -662,7 +662,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     else
       usuarios = this.usuariosFiltrados
     this.router.navigate(['/terminal', this.idTerminal, 'ver-marcaciones', usuario.id, this.getIni(), this.getFin()],
-      { state: { usuarios: usuarios }});
+      { state: { usuarios: usuarios, priMarcacion: this.fechaMin}});
   }
 
   trackByUsuario(index: number, usuario: Usuario): number | undefined {

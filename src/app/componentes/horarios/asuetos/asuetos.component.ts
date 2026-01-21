@@ -2,7 +2,7 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {TerminalService} from "../../../servicios/terminal.service";
 import {HorarioService} from "../../../servicios/horario.service";
 import {HttpClientModule} from "@angular/common/http";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterLink} from "@angular/router";
 import {Asueto, TipoAsueto} from "../../../modelos/Asueto";
 import {Licencia} from "../../../modelos/Licencia";
@@ -14,7 +14,7 @@ import {AuthService} from "../../../servicios/auth.service";
 @Component({
   selector: 'app-asuetos',
   standalone: true,
-  imports: [HttpClientModule, ReactiveFormsModule, RouterLink],
+  imports: [HttpClientModule, ReactiveFormsModule, FormsModule, RouterLink],
   providers: [HorarioService, TerminalService],
   templateUrl: './asuetos.component.html',
   styleUrl: './asuetos.component.css'
@@ -22,6 +22,9 @@ import {AuthService} from "../../../servicios/auth.service";
 export class AsuetosComponent implements OnInit, AfterViewInit {
 
   asuetos: Asueto[] = [];
+  asuetosFiltrados: Asueto[] = [];
+  gestiones: number[] = [];
+  gestionSeleccionada!: number;
   idActual: number = -1;
   picker: HTMLInputElement | any = undefined;
   isAdmin: boolean;
@@ -35,10 +38,21 @@ export class AsuetosComponent implements OnInit, AfterViewInit {
     this.horarioService.getAsuetos().subscribe(
       (data: any) => {
         this.asuetos = data;
+        // Gestiones únicas desde BD
+        this.gestiones = [...new Set(
+          this.asuetos.map(a => a.gestion)
+        )].sort((a, b) => b - a);
+        // Gestión actual del sistema
+        const gestionActual = new Date().getFullYear();
+        // Seleccionar la actual si existe, sino la más reciente
+        this.gestionSeleccionada =
+          this.gestiones.includes(gestionActual)
+            ? gestionActual
+            : this.gestiones[0];
+        console.log(this.gestiones)
+        this.filtrarPorGestion();
       },
-      (error: any) => {
-        console.error('An error occurred:', error);
-      }
+      error => console.error(error)
     );
 
     document.addEventListener('keydown', (e) => {
@@ -98,8 +112,8 @@ export class AsuetosComponent implements OnInit, AfterViewInit {
     let nuevaFecha = this.picker.getDate().format('YYYYMMDD')
     this.horarioService.editarFechaAsueto(this.idActual, nuevaFecha).subscribe(
       (asueto: any) => {
-        let index = this.asuetos.map(i => i.id).indexOf(asueto.id);
-        this.asuetos[index] = asueto;
+        let index = this.asuetosFiltrados.map(i => i.id).indexOf(asueto.id);
+        this.asuetosFiltrados[index] = asueto;
         mensaje("¡Fecha seleccionada modificada correctamente!", "is-success")
         this.ocultarModal()
       },
@@ -107,6 +121,13 @@ export class AsuetosComponent implements OnInit, AfterViewInit {
         console.error('An error occurred:', error);
         mensaje("¡No se pudo modificar la fecha seleccionada!", "is-danger")
       }
+    );
+  }
+
+  filtrarPorGestion() {
+    const gestion = Number(this.gestionSeleccionada);
+    this.asuetosFiltrados = this.asuetos.filter(a =>
+      a.gestion === gestion
     );
   }
 }

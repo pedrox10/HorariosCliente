@@ -8,8 +8,11 @@
         <div class="hitem">
           <label class="label mt-2">Gestion: </label>
           <div class="select" >
-            <select id="">
-              <option selected>2025</option>
+            <select [(ngModel)]="gestionSeleccionada"
+                    (change)="filtrarPorGestion()">
+              @for (g of gestiones; track g) {
+              <option [value]="g">{{ g }}</option>
+              }
             </select>
           </div>
         </div>
@@ -25,7 +28,7 @@
           }
         </tr>
         <tbody>
-        @for (asueto of asuetos; track asueto) {
+        @for (asueto of asuetosFiltrados; track asueto) {
         <tr id={{asueto.id}}>
           @if(asueto.fecha) {
           <td>{{formatFecha(asueto)}}</td>
