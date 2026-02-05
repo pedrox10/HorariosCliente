@@ -20,6 +20,7 @@ export class ListarTerminalesComponent implements OnInit{
   public terminales: Terminal[] = [];
   public terminalesFiltrados: Terminal[] = [];
   public categorias = env.categorias;
+  mostrarNotificaciones = false;
   public element = document.getElementById("terminales");
   public constructor(public terminalService: TerminalService, public location: Location) {
 
@@ -62,5 +63,9 @@ export class ListarTerminalesComponent implements OnInit{
 
   isSelected(index: number): boolean {
     return env.posCategoria === index;
+  }
+
+  toggleNotificaciones() {
+    this.mostrarNotificaciones = !this.mostrarNotificaciones;
   }
 }
