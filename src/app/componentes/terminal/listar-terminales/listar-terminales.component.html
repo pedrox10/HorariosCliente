@@ -2,44 +2,41 @@
   <div class="title">
     <h1>Lista de Terminales</h1>
   </div>
-  <div class="level mb-3">
-    <!-- IZQUIERDA: filtros -->
-    <div class="level-left">
-      <div class="level-item">
-        <div class="vinput">
-          <span class="label ml-1" style="margin-bottom: 0px;">Filtrar por categoria:</span>
-          <div class="buttons is-centered mb-1" style="gap: 0px">
-            @for(categoria of categorias; track categoria; let index = $index) {
-            <button class="button toggle"  (click)="filtrarPorCategoria(index)" [class.seleccionado]="isSelected(index)">
-              <div class="hitem">
-                @if(isSelected(index)) {
-            <i class="fas fa-check has-text-success" style="align-self: center;"></i>
-            }
-            <span>{{categoria}}</span>
-            </div>
-          </button>
-            }
-          </div>
-        </div>
-        <div class="vert-sep ml-5 mr-5"></div>
-        <div class="vinput" style="min-width: 253px;">
-          <span class="label" style="margin-bottom: 0px;">Busqueda Global </span>
-          <p class="control has-icons-right">
-            <input id="tf_busqueda" type="text" class="input" autocomplete="off" placeholder="Nombre o CI"/>
-            <span class="icon is-right"><i class="fas fa-search"></i></span>
-          </p>
-        </div>
-      </div>
+  <div class="search-bar">
+    <div class="search-left">
+      <span class="label mt-3">Búsqueda Global:</span>
+
+      <p class="control has-icons-right search-input" style="margin-left: 13px;">
+        <input id="tf_busqueda"
+               type="text"
+               class="input"
+               autocomplete="off"
+               placeholder="Nombre o CI"/>
+        <span class="icon is-right">
+        <i class="fas fa-search"></i>
+      </span>
+      </p>
     </div>
-    <!-- DERECHA: notificaciones -->
-    <div class="level-right">
-      <div class="level-item">
-        <div class="notification-bell" style="background-color: #FFFCCC; border-radius: 50%" (click)="toggleNotificaciones()">
-          <div class="numero">
-            <i class="fas fa-bell mt-2" style="font-size: 20px"></i>
-          </div>
+
+    <div class="notification-bell"
+         (click)="toggleNotificaciones()">
+      <i class="fas fa-bell"></i>
+    </div>
+  </div>
+  <div class="hbox mt-3">
+    <!--<input #buscador class="input" type="text" placeholder="Buscar terminal..." (input)="buscar(buscador.value)">-->
+    <span class="label mt-2">Filtrar por categoria: </span>
+    <div class="buttons is-centered mb-1" style="gap: 0px">
+      @for(categoria of categorias; track categoria; let index = $index) {
+      <button class="button toggle"  (click)="filtrarPorCategoria(index)" [class.seleccionado]="isSelected(index)">
+        <div class="hitem">
+          @if(isSelected(index)) {
+      <i class="fas fa-check has-text-success" style="align-self: center;"></i>
+      }
+      <span>{{categoria}}</span>
         </div>
-      </div>
+      </button>
+      }
     </div>
   </div>
   @if(mostrarNotificaciones) {

@@ -26,27 +26,51 @@
   background-color: #e2fafd !important;
 }
 
-.notification-bell {
-  position: relative;
-  cursor: pointer;
-  font-size: 1.2rem;
+.search-bar {
+  display: flex;
+  align-items: center;          /* centra verticalmente todo */
+  justify-content: space-between;
+  padding: 8px;
+  background-color: #E9EFEE;
+  border-radius: 8px;
+  border: 1px solid #cad9d6;
+  gap: 12px;
 }
 
-.notification-bell .badge {
-  position: absolute;
-  top: -6px;
-  right: -8px;
-  background: #ff3860;
-  color: white;
+/* Zona izquierda */
+.search-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;                      /* ocupa todo el espacio posible */
+}
+
+/* Input más ancho */
+.search-input {
+  flex: 1;
+  max-width: 420px;             /* ajusta a gusto */
+}
+
+/* Campana fija a la derecha */
+.notification-bell {
+  width: 40px;
+  height: 40px;
+  background-color: #dcdcdc;    /* getColor('Gris') */
   border-radius: 50%;
-  padding: 2px 6px;
-  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.notification-bell i {
+  font-size: 18px;
 }
 
 .notificaciones-panel {
   position: absolute;
   top: 150px;
-  right: 30px;
+  right: 34px;
   width: 380px;
   z-index: 50;
 }
@@ -82,3 +106,5 @@ div.vert-sep {
   height: 60px;
   background: rgba(100, 100, 100, 0.5);
 }
+
+
