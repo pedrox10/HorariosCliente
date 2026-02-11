@@ -49,37 +49,67 @@
       </header>
       <div class="tabs is-toggle is-fullwidth">
         <ul>
-          <li class="is-active"><a>Semana Actual</a></li>
-          <li><a>Semana Anterior</a></li>
+          <li [class.is-active]="semanaSeleccionada === 'actual'">
+            <a (click)="semanaSeleccionada = 'actual'">Semana Actual</a>
+          </li>
+          <li [class.is-active]="semanaSeleccionada === 'anterior'">
+            <a (click)="semanaSeleccionada = 'anterior'">Semana Anterior</a>
+          </li>
         </ul>
       </div>
-      <div class="card-content notificaciones-contenido">
-        <!-- TERMINAL -->
-        <div class="mb-3">
-          <strong>DES. HUMANO (5)</strong>
-          <ul class="mt-1">
-            <li>José Ruiz – 2 días sin marcación</li>
-            <li>Marcos Vega – 2 días sin marcación</li>
-            <li>
-              <a class="is-size-8 link-notificacion">+3 más… Ver todas</a>
-            </li>
-          </ul>
+      <div class="card-content notificaciones-contenido" *ngIf="notificaciones">
+
+      @for (terminal of notificaciones[
+        semanaSeleccionada === 'actual'
+          ? 'semana_actual'
+          : 'semana_anterior'
+      ].terminales; track terminal.id) {
+
+      <div class="mb-3">
+        <strong>
+          {{ terminal.nombre }} ({{ terminal.totalNotificaciones }})
+        </strong>
+
+        <ul class="mt-1">
+          @for (usuario of terminal.usuarios; track usuario.id) {
+          <li>
+            <div class="hitem">
+          {{ usuario.nombre }} -
+                  <div class="vitem">
+                    @if (usuario.diasSinMarcacion > 0) {
+          <span>
+                        {{ usuario.diasSinMarcacion }} días sin marcación
+                      </span>
+          }
+          @if (usuario.diasSinAsignacion > 0) {
+          <span>
+                        {{ usuario.diasSinAsignacion }} días sin asignación
+                      </span>
+          }
+          </div>
         </div>
-        <div class="mb-3">
-          <strong>INTENDENCIA (3)</strong>
-          <ul class="mt-1">
-            <li>Ana Flores – 3 días sin marcación</li>
-            <li>
-              <a class="is-size-8 link-notificacion">+2 más… Ver todas</a>
-            </li>
-          </ul>
-        </div>
+      </li>
+          }
+
+          <!-- solo visual, no funcional -->
+          @if (terminal.totalNotificaciones > terminal.usuarios.length) {
+          <li>
+            <a class="is-size-8 link-notificacion">
+              +{{ terminal.totalNotificaciones - terminal.usuarios.length }}
+          más… Ver todas
+        </a>
+      </li>
+          }
+        </ul>
       </div>
-      <footer class="card-footer">
-        <a class="card-footer-item link-notificacion">Ver todas</a>
-      </footer>
+      }
+      </div>
+
+        <footer class="card-footer">
+          <a class="card-footer-item link-notificacion">Ultima actualizacion: 10/02/2024 2:00am</a>
+        </footer>
+      </div>
     </div>
-  </div>
   }
   <div class="terminales  animate__animated animate__fadeIn" id="terminales">
     @for (terminal of terminalesFiltrados; track terminal) {

@@ -2,16 +2,17 @@ import {Component, OnInit} from '@angular/core';
 import { TerminalComponent } from '../terminal.component';
 import { TerminalService } from '../../../servicios/terminal.service';
 import { HttpClientModule } from '@angular/common/http';
-import {Location} from '@angular/common';
+import {CommonModule, Location} from '@angular/common';
 import {Terminal} from "../../../modelos/Terminal";
 import {color} from "../../inicio/Global";
 import {env} from "../../../../environments/environments";
+import {DataService} from "../../../servicios/data.service";
 
 @Component({
   selector: 'app-listar-terminales',
   standalone: true,
-  imports: [TerminalComponent, HttpClientModule],
-  providers: [TerminalService],
+  imports: [TerminalComponent, HttpClientModule, CommonModule],
+  providers: [TerminalService, DataService],
   templateUrl: './listar-terminales.component.html',
   styleUrl: './listar-terminales.component.css'
 })
@@ -22,12 +23,18 @@ export class ListarTerminalesComponent implements OnInit{
   public categorias = env.categorias;
   mostrarNotificaciones = false;
   public element = document.getElementById("terminales");
-  public constructor(public terminalService: TerminalService, public location: Location) {
+  public notificaciones: any = null;
+  public semanaSeleccionada: 'actual' | 'anterior' = 'actual';
+
+  public constructor(public terminalService: TerminalService,
+                     public dataService: DataService,
+                     public location: Location) {
 
   }
 
   ngOnInit(): void {
     this.getTerminales()
+    this.getNotificaciones();
   }
 
   getTerminales() {
@@ -67,5 +74,9 @@ export class ListarTerminalesComponent implements OnInit{
 
   toggleNotificaciones() {
     this.mostrarNotificaciones = !this.mostrarNotificaciones;
+  }
+
+  getNotificaciones() {
+    this.notificaciones = this.dataService.getNotificaciones();
   }
 }
