@@ -20,35 +20,7 @@ export class DataService {
   }
 
   public getNotificaciones() {
-    return {
-      semana_actual: {
-        terminales: [
-          {
-            id: 1,
-            nombre: 'DES. HUMANO',
-            totalNotificaciones: 5,
-            usuarios: [
-              {
-                id: 10,
-                nombre: 'José Robles',
-                diasSinMarcacion: 2,
-                diasSinAsignacion: 2
-              },
-              {
-                id: 11,
-                nombre: 'Marcos Vega',
-                diasSinMarcacion: 2,
-                diasSinAsignacion: 0
-              }
-            ]
-          }
-        ]
-      },
-      semana_anterior: {
-        terminales: []
-      },
-      ultimaActualizacion: '10/02/2024 2:00am'
-    };
+    return this.http.get(`${this.apiUrl}/terminales/notificaciones`);
   }
 }
 
