@@ -7,6 +7,9 @@ import {Terminal} from "../../../modelos/Terminal";
 import {color} from "../../inicio/Global";
 import {env} from "../../../../environments/environments";
 import {DataService} from "../../../servicios/data.service";
+import {Usuario} from "../../../modelos/Usuario";
+import {Router} from "@angular/router";
+import moment from "moment";
 
 @Component({
   selector: 'app-listar-terminales',
@@ -27,7 +30,7 @@ export class ListarTerminalesComponent implements OnInit{
   public semanaSeleccionada: 'actual' | 'anterior' = 'actual';
 
   public constructor(public terminalService: TerminalService,
-                     public dataService: DataService,
+                     public dataService: DataService, private router: Router,
                      public location: Location) {
 
   }
@@ -77,6 +80,23 @@ export class ListarTerminalesComponent implements OnInit{
   }
 
   getNotificaciones() {
-    this.notificaciones = this.dataService.getNotificaciones();
+    this.notificaciones = this.dataService.getNotificaciones().subscribe(
+      (data: any) => {
+        this.notificaciones = data;
+        console.log(this.notificaciones)
+      },
+      (error: any) => {
+        console.error('An error occurred:', error);
+      }
+    );
+  }
+
+  verMarcaciones(usuario: any, terminal: any) {
+    let usuarios: Usuario[] = [];
+    sessionStorage.setItem('origen', 'listar');
+    let inicioSemana = moment(usuario.fechaInicio).format("YYYYMMDD");
+    let finSemana = moment(usuario.fechaFin).format("YYYYMMDD");
+    this.router.navigate(['/terminal', terminal.id, 'ver-marcaciones', usuario.id, inicioSemana, finSemana],
+      { state: { usuarios: usuarios }});
   }
 }

@@ -36,7 +36,6 @@
   border: 1px solid #cad9d6;
   gap: 12px;
 }
-
 /* Zona izquierda */
 .search-left {
   display: flex;
@@ -44,13 +43,11 @@
   gap: 10px;
   flex: 1;                      /* ocupa todo el espacio posible */
 }
-
 /* Input más ancho */
 .search-input {
   flex: 1;
   max-width: 420px;             /* ajusta a gusto */
 }
-
 /* Campana fija a la derecha */
 .notification-bell {
   width: 40px;
@@ -71,7 +68,7 @@
   position: absolute;
   top: 150px;
   right: 34px;
-  width: 380px;
+  width: 420px;
   z-index: 50;
 }
 
