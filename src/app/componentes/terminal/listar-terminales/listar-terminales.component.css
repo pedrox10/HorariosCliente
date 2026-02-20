@@ -58,6 +58,12 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: background-color 0.2s ease
+}
+
+.notification-bell.activo {
+  background-color: #fffccc; /* amarillo suave */
+  border: 1px #E6D96C solid !important;
 }
 
 .notification-bell i {
@@ -68,7 +74,7 @@
   position: absolute;
   top: 150px;
   right: 34px;
-  width: 420px;
+  width: 430px;
   z-index: 50;
 }
 
@@ -78,7 +84,22 @@
 }
 
 .notificaciones-contenido ul {
-  margin-left: 1rem;
+  margin-left: 0.3rem;
+}
+
+.notificaciones-contenido ul li {
+  min-height: 25px;
+  padding: 2px;
+  border-bottom: 1px #cfd4d7 solid;
+}
+
+.notificaciones-contenido ul li:hover {
+  cursor: pointer;
+  border-bottom: 1px #b0b4b7 solid;
+}
+
+.tabs.is-toggle {
+  margin-bottom: 5px;
 }
 
 .tabs.is-toggle li.is-active a {
@@ -102,6 +123,11 @@ div.vert-sep {
   width: 3px;
   height: 60px;
   background: rgba(100, 100, 100, 0.5);
+}
+
+.usuario-seleccionado {
+  background-color: #efeded;
+  border-left: 4px solid #f5c400;
 }
 
 

@@ -19,6 +19,7 @@
     </div>
 
     <div class="notification-bell"
+         [ngClass]="{ 'activo': mostrarNotificaciones }"
          (click)="toggleNotificaciones()">
       <i class="fas fa-bell"></i>
     </div>
@@ -57,12 +58,17 @@
           </li>
         </ul>
       </div>
-      <div class="card-content notificaciones-contenido" *ngIf="notificaciones">
+      <div class="card-content notificaciones-contenido" *ngIf="notificaciones" id="panel-notificaciones" #panelNotificaciones>
         @for (terminal of notificaciones[semanaSeleccionada === 'actual' ? 'semana_actual' : 'semana_anterior'].terminales; track terminal.id) {
-        <div class="mb-3"><strong>{{ terminal.nombre }} ({{ terminal.totalNotificaciones }})</strong>
+        <div class="mb-3">
+          <strong>{{ terminal.nombre }} ({{ terminal.totalNotificaciones }})</strong>
+          <span class="help is-info" style="margin-top: 0px;">
+            Evaluado hasta: {{ formatDate(terminal.fechaHastaEvaluada) }}
+          </span>
           <ul class="mt-1">
             @for (usuario of terminal.usuarios; track usuario.id) {
-            <li (click)="verMarcaciones(usuario, terminal)">
+            <li (click)="verMarcaciones(usuario, terminal, semanaSeleccionada)"
+            [class.usuario-seleccionado]="usuario.id === usuarioSeleccionadoId">
               <div class="hitem">
                 {{ usuario.nombre }} -
                 <div class="vitem">
@@ -87,7 +93,9 @@
         }
       </div>
       <footer class="card-footer">
-        <a class="card-footer-item link-notificacion">Ultima actualizacion: 10/02/2024 2:00am</a>
+        <div class="card-footer-item">
+          <span class="help is-primary">Ultima actualizacion: {{ formatTime(notificaciones['ultimaActualizacion']) }}</span>
+        </div>
       </footer>
     </div>
   </div>
