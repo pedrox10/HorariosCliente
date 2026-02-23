@@ -6,16 +6,41 @@
     <div class="search-left">
       <span class="label mt-3">Búsqueda Global:</span>
 
-      <p class="control has-icons-right search-input" style="margin-left: 13px;">
+      <div class="control has-icons-right search-input" style="margin-left: 13px; position: relative">
         <input id="tf_busqueda"
                type="text"
                class="input"
                autocomplete="off"
-               placeholder="Nombre o CI"/>
+               placeholder="Nombre o CI"
+               (input)="onBuscarGlobal($event)"
+               (focus)="onFocusBusqueda()"
+               (keydown.escape)="cerrarBusqueda()"/>
         <span class="icon is-right">
-        <i class="fas fa-search"></i>
-      </span>
-      </p>
+          <i class="fas fa-search"></i>
+        </span>
+        <div class="autocomplete-panel" *ngIf="mostrarResultadosBusqueda">
+          <div *ngFor="let r of resultadosBusqueda"
+               class="autocomplete-item"
+               (click)="irAResultado(r)">
+            <div class="hitem">
+              <i class="fas fa-user mt-1 has-text-grey" style="font-size: 0.9em"></i>
+              <div class="nombre">{{ r.nombre }}</div>
+              <span class="has-text-grey-dark">{{ r.ci }}</span>
+            </div>
+            <div class="meta">
+          <span class="estado"
+                [ngClass]="r.estado.toLowerCase()">
+            {{ r.estado }}
+          </span>
+              · {{ r.terminalNombre }}
+            </div>
+          </div>
+
+          <div class="sin-resultados" *ngIf="resultadosBusqueda.length === 0">
+            No se encontraron funcionarios
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="notification-bell"
@@ -61,7 +86,11 @@
       <div class="card-content notificaciones-contenido" *ngIf="notificaciones" id="panel-notificaciones" #panelNotificaciones>
         @for (terminal of notificaciones[semanaSeleccionada === 'actual' ? 'semana_actual' : 'semana_anterior'].terminales; track terminal.id) {
         <div class="mb-3">
-          <strong>{{ terminal.nombre }} ({{ terminal.totalNotificaciones }})</strong>
+          <div class="hitem">
+            <i class="fas fa-network-wired mt-1" style="font-size: 0.9em"></i>
+            <strong>{{ terminal.nombre }}</strong>
+            <span class="has-text-grey-dark">({{ terminal.totalNotificaciones }})</span>
+          </div>
           <span class="help is-info" style="margin-top: 0px;">
             Evaluado hasta: {{ formatDate(terminal.fechaHastaEvaluada) }}
           </span>
@@ -94,7 +123,7 @@
       </div>
       <footer class="card-footer">
         <div class="card-footer-item">
-          <span class="help is-primary">Ultima actualizacion: {{ formatTime(notificaciones['ultimaActualizacion']) }}</span>
+          <span class="has-text-primary">Ultima actualización: {{ formatTime(notificaciones['ultimaActualizacion']) }}</span>
         </div>
       </footer>
     </div>

@@ -32,6 +32,9 @@ export class ListarTerminalesComponent implements OnInit{
   public semanaSeleccionada: 'actual' | 'anterior' = 'actual';
   usuarioSeleccionadoId?: number;
   private restaurarScrollPendiente = false;
+  mostrarResultadosBusqueda = false;
+  resultadosBusqueda: any[] = [];
+  busquedaTexto = '';
 
   public constructor(public terminalService: TerminalService,
                      public dataService: DataService, private router: Router,
@@ -113,6 +116,39 @@ export class ListarTerminalesComponent implements OnInit{
       },
       (error: any) => {
         console.error('An error occurred:', error);
+      }
+    );
+  }
+
+  onBuscarGlobal(event: Event) {
+    const texto = (event.target as HTMLInputElement).value.trim();
+    this.busquedaTexto = texto;
+
+    if (texto.length < 3) {
+      this.cerrarBusqueda();
+      return;
+    }
+      this.resultadosBusqueda = this.dataService.buscarFuncionariosGlobal(texto);
+      this.mostrarResultadosBusqueda = true;
+  }
+
+  onFocusBusqueda() {
+    if (this.busquedaTexto.length >= 3) {
+      this.mostrarResultadosBusqueda = true;
+    }
+  }
+
+  cerrarBusqueda() {
+    this.mostrarResultadosBusqueda = false;
+  }
+
+  irAResultado(r: any) {
+    this.mostrarResultadosBusqueda = false;
+
+    this.router.navigate(
+      ['/terminal', r.terminalId, "usuarios"],
+      {
+        queryParams: { usuarioId: r.usuarioId }
       }
     );
   }

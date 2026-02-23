@@ -130,4 +130,65 @@ div.vert-sep {
   border-left: 4px solid #f5c400;
 }
 
+.autocomplete-panel {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+  max-height: 320px;
+  overflow-y: auto;
+  z-index: 50;
+}
+
+.autocomplete-item {
+  padding: 10px 12px;
+  cursor: pointer;
+  border-bottom: 1px #cfd4d7 solid;
+}
+
+.autocomplete-item:hover {
+  background: #f3f8ff;
+  border-bottom: 1px #b0b4b7 solid;
+}
+
+.autocomplete-item .nombre {
+  font-weight: 600;
+}
+
+.autocomplete-item .meta {
+  font-size: 0.85em;
+  color: #666;
+}
+
+.estado {
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-size: 0.75em;
+  font-weight: 500;
+}
+
+.estado.activo {
+  background: #d6f5f2;
+  color: #067d72;
+}
+
+.estado.inactivo {
+  background: #eee;
+  color: #666;
+}
+
+.estado.eliminado {
+  background: #f7d6dc;
+  color: #8b1d2c;
+}
+
+.sin-resultados {
+  padding: 12px;
+  text-align: center;
+  color: #999;
+}
+
 

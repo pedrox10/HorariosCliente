@@ -22,6 +22,27 @@ export class DataService {
   public getNotificaciones() {
     return this.http.get(`${this.apiUrl}/terminales/notificaciones`);
   }
+
+  public buscarFuncionariosGlobal(texto: string) {
+    return [
+      {
+        "usuarioId": 12,
+        "nombre": "PEDRO BARCO CARRASCO",
+        "ci": 5907490,
+        "estado": "Activo",
+        "terminalId": 1,
+        "terminalNombre": "Planta Baja"
+      },
+      {
+        "usuarioId": 12,
+        "nombre": "PEDRO BARCO",
+        "ci": 5907490,
+        "estado": "Eliminado",
+        "terminalId": 4,
+        "terminalNombre": "Segundo Piso"
+      }
+    ]
+  }
 }
 
 
