@@ -28,10 +28,9 @@
               <span class="has-text-grey-dark">{{ r.ci }}</span>
             </div>
             <div class="meta">
-          <span class="estado"
-                [ngClass]="r.estado.toLowerCase()">
-            {{ r.estado }}
-          </span>
+          <span class="estado" [ngClass]="getEstadoClass(r.estado)">
+  {{ getEstadoLabel(r.estado) }}
+</span>
               · {{ r.terminalNombre }}
             </div>
           </div>
@@ -123,7 +122,8 @@
       </div>
       <footer class="card-footer">
         <div class="card-footer-item">
-          <span class="has-text-primary">Ultima actualización: {{ formatTime(notificaciones['ultimaActualizacion']) }}</span>
+          <span class="has-text-primary">Generado el: {{ formatTime(notificaciones['ultimaActualizacion']) }}</span>
+          <i class="fas fa-history icon-btn es-primario"></i>
         </div>
       </footer>
     </div>

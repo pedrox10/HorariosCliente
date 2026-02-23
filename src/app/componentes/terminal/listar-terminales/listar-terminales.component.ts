@@ -35,6 +35,11 @@ export class ListarTerminalesComponent implements OnInit{
   mostrarResultadosBusqueda = false;
   resultadosBusqueda: any[] = [];
   busquedaTexto = '';
+  estadoMap: Record<number, { label: string; class: string }> = {
+    0: { label: 'Inactivo', class: 'inactivo' },
+    1: { label: 'Activo', class: 'activo' },
+    2: { label: 'Eliminado', class: 'eliminado' }
+  };
 
   public constructor(public terminalService: TerminalService,
                      public dataService: DataService, private router: Router,
@@ -128,8 +133,11 @@ export class ListarTerminalesComponent implements OnInit{
       this.cerrarBusqueda();
       return;
     }
-      this.resultadosBusqueda = this.dataService.buscarFuncionariosGlobal(texto);
+    this.dataService.buscarFuncionariosGlobal(texto).subscribe((data: any) => {
+      this.resultadosBusqueda = data
       this.mostrarResultadosBusqueda = true;
+    })
+
   }
 
   onFocusBusqueda() {
@@ -170,6 +178,14 @@ export class ListarTerminalesComponent implements OnInit{
     });
     this.router.navigate(['/terminal', terminal.id, 'ver-marcaciones', usuario.id, inicioSemana, finSemana],
       { state: { usuarios: usuarios }});
+  }
+
+  getEstadoLabel(estado: number): string {
+    return this.estadoMap[estado]?.label ?? 'Desconocido';
+  }
+
+  getEstadoClass(estado: number): string {
+    return this.estadoMap[estado]?.class ?? 'desconocido';
   }
 
   formatTime(fecha: string) {
