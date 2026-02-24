@@ -137,7 +137,7 @@
           </tr>
           <tbody>
           @for (usuario of usuariosFiltrados; track trackByUsuario; let index = $index) {
-          <tr (click)="selectRow(usuario.id)" [class.is-selected]="isSelected(usuario.id)">
+          <tr [id]="'row_' + usuario.id" (click)="selectRow(usuario.id)" [class.is-selected]="isSelected(usuario.id)">
             @if(isAdmin) {
             <td >
               <label class="b-checkbox checkbox">
@@ -238,7 +238,7 @@
         }
       </div>
       <div class="column is-narrow">
-        <div class="vbox card mt-1 p-4" style="padding: 5px 0px; background-color: transparent">
+        <div class="vbox card mt-1 p-4 stick" style="padding: 5px 0px; background-color: transparent">
           <div class="vinput" style="height: auto;">
             <label class="label" style="margin-bottom: 0px;">Filtrar por:</label>
             <div class="hitem" (click)="quitarFiltros()" >

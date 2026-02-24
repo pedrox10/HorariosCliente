@@ -154,7 +154,7 @@ export class ListarTerminalesComponent implements OnInit{
     this.mostrarResultadosBusqueda = false;
 
     this.router.navigate(
-      ['/terminal', r.terminalId, "usuarios"],
+      ['/terminal', r.terminalId, 'usuarios'],
       {
         queryParams: { usuarioId: r.usuarioId }
       }

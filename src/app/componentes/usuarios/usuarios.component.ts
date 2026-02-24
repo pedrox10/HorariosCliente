@@ -77,6 +77,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   cargoRotacion: string | any;
   hayRotacion = false;
   public resultados: any[] = [];
+  private usuarioPendienteScroll: number | null = null;
 
   constructor(public terminalService: TerminalService,private router: Router,
               public modalService: ModalService, private location: Location,
@@ -107,6 +108,15 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
         } else {
           this.idGrupo = -1;
         }
+
+        this.activatedRoute.queryParams
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(params => {
+            const usuarioId = +params['usuarioId'];
+            if (usuarioId) {
+              this.enfocarUsuario(usuarioId);
+            }
+          });
 
         this.aplicarFiltros();
         // Actualizar el campo de búsqueda visualmente si hay texto persistente
@@ -187,12 +197,19 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    setTimeout(() => {
-      window.scrollTo({
-        top: env.posY,
-        left: 0
-      });
-    }, 1000);
+  }
+
+  ngAfterViewChecked() {
+    if (this.usuarioPendienteScroll !== null) {
+      const el = document.getElementById(
+        'row_' + this.usuarioPendienteScroll
+      );
+      if (el) {
+        el.scrollIntoView({behavior: 'smooth', block: 'center'});
+        // limpiar para que no vuelva a ejecutarse
+        this.usuarioPendienteScroll = null;
+      }
+    }
   }
 
   ngOnDestroy() {
@@ -980,6 +997,21 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
             alert(JSON.stringify(error))
           })
     }
+  }
+
+  enfocarUsuario(usuarioId: number) {
+    const usuario = this.usuarios.find(u => u.id === usuarioId);
+    if (!usuario) {
+      return
+    }
+    // Ajustar filtros automáticamente
+    this.estado = usuario.estado;
+    env.estado = usuario.estado;
+    env.filtrarEstado = true;
+    this.aplicarFiltros();
+    // Marcar y scrollear
+    env.indexUsuario = usuarioId;
+    this.usuarioPendienteScroll = usuarioId;
   }
 
   cerrarReporteEliminacion() {
