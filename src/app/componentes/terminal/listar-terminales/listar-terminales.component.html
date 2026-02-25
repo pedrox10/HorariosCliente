@@ -6,7 +6,7 @@
     <div class="search-left">
       <span class="label mt-3">Búsqueda Global:</span>
 
-      <div class="control has-icons-right search-input" style="margin-left: 13px; position: relative">
+      <div class="control has-icons-right search-input" style="margin-left: 13px; position: relative" #searchBox>
         <input id="tf_busqueda"
                type="text"
                class="input"
@@ -28,10 +28,9 @@
               <span class="has-text-grey-dark">{{ r.ci }}</span>
             </div>
             <div class="meta">
-          <span class="estado" [ngClass]="getEstadoClass(r.estado)">
-  {{ getEstadoLabel(r.estado) }}
-</span>
-              · {{ r.terminalNombre }}
+              <span class="estado" [ngClass]="getEstadoClass(r.estado)">
+                {{ getEstadoLabel(r.estado) }}
+              </span> · {{ r.terminalNombre }}
             </div>
           </div>
 
@@ -44,7 +43,8 @@
 
     <div class="notification-bell"
          [ngClass]="{ 'activo': mostrarNotificaciones }"
-         (click)="toggleNotificaciones()">
+         [class.desactivado]="esperaNotificaciones"
+         (click)="toggleNotificaciones()" >
       <i class="fas fa-bell"></i>
     </div>
   </div>
@@ -82,54 +82,60 @@
           </li>
         </ul>
       </div>
-      <div class="card-content notificaciones-contenido" *ngIf="notificaciones" id="panel-notificaciones" #panelNotificaciones>
-        @for (terminal of notificaciones[semanaSeleccionada === 'actual' ? 'semana_actual' : 'semana_anterior'].terminales; track terminal.id) {
+      <div class="card-content notificaciones-contenido" id="panel-notificaciones" #panelNotificaciones>
+        @if (esperaNotificaciones) {
+        <div class="has-text-centered p-4">
+          <i class="fas fa-spinner fa-spin fa-2x has-text-info"></i>
+          <p class="mt-2">Actualizando notificaciones…</p>
+        </div>
+        } @else {
+        @if (notificaciones) {
+        @for ( terminal of notificaciones[semanaSeleccionada === 'actual' ? 'semana_actual' : 'semana_anterior']?.terminales; track terminal.id) {
         <div class="mb-3">
           <div class="hitem">
             <i class="fas fa-network-wired mt-1" style="font-size: 0.9em"></i>
             <strong>{{ terminal.nombre }}</strong>
             <span class="has-text-grey-dark">({{ terminal.totalNotificaciones }})</span>
           </div>
-          <span class="help is-info" style="margin-top: 0px;">
-            Evaluado hasta: {{ formatDate(terminal.fechaHastaEvaluada) }}
-          </span>
+          <span class="help is-info">Evaluado hasta: {{ formatDate(terminal.fechaHastaEvaluada) }}</span>
           <ul class="mt-1">
             @for (usuario of terminal.usuarios; track usuario.id) {
             <li (click)="verMarcaciones(usuario, terminal, semanaSeleccionada)"
-            [class.usuario-seleccionado]="usuario.id === usuarioSeleccionadoId">
+              [class.usuario-seleccionado]="usuario.id === usuarioSeleccionadoId">
               <div class="hitem">
                 {{ usuario.nombre }} -
                 <div class="vitem">
-                @if (usuario.diasSinMarcacion > 0) {
+                  @if (usuario.diasSinMarcacion > 0) {
                   <span>{{ usuario.diasSinMarcacion }} días sin marcar</span>
-                }
-                @if (usuario.diasSinAsignacion > 0) {
+                  }
+                  @if (usuario.diasSinAsignacion > 0) {
                   <span>{{ usuario.diasSinAsignacion }} días sin asignar</span>
-                }
+                  }
                 </div>
               </div>
-            </li>
-            }
-            <!-- solo visual, no funcional -->
-            @if (terminal.totalNotificaciones > terminal.usuarios.length) {
-            <li>
-              <a class="is-size-8 link-notificacion">+{{ terminal.totalNotificaciones - terminal.usuarios.length }} más… Ver todas</a>
             </li>
             }
           </ul>
         </div>
         }
+        }
+        }
       </div>
-      <footer class="card-footer">
-        <div class="is-flex is-align-items-center">
-  <div class="has-text-centered is-flex-grow-1">
-    Generado el: 23/02/2026 11:22
-  </div>
-
-  <button class="button is-small is-light">
-    <i class="fas fa-sync-alt"></i>
-  </button>
-</div>
+      <footer class="card-footer" style="padding: 5px;">
+        <div class="is-flex is-align-items-center" style="width: 100%;">
+          <div class="has-text-centered is-flex-grow-1 has-text-primary">
+              @if (esperaNotificaciones) {
+              Fecha generación: ---
+              } @else {
+              Fecha generación: {{ formatTime(notificaciones?.ultimaActualizacion) }}
+              }
+          </div>
+          <button class="button is-info is-light" title="Actualizar Notificaciones"
+          (click)="actualizarNotificaciones()"
+          [disabled]="esperaNotificaciones">
+            <i class="fas fa-sync-alt"></i>
+          </button>
+        </div>
       </footer>
     </div>
   </div>

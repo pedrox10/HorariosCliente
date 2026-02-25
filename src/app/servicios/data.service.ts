@@ -26,6 +26,10 @@ export class DataService {
   public buscarFuncionariosGlobal(texto: string) {
     return this.http.get(`${this.apiUrl}/terminales/busqueda-global`, {params: {q: texto}});
   }
+
+  public actualizarNotificaciones() {
+    return this.http.get(`${this.apiUrl}/terminales/crear-notificaciones`);
+  }
 }
 
 

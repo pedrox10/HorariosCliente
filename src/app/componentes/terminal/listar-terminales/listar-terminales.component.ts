@@ -1,16 +1,17 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import { TerminalComponent } from '../terminal.component';
 import { TerminalService } from '../../../servicios/terminal.service';
 import { HttpClientModule } from '@angular/common/http';
 import {CommonModule, Location} from '@angular/common';
 import {Terminal} from "../../../modelos/Terminal";
-import {color} from "../../inicio/Global";
+import {color, mensaje} from "../../inicio/Global";
 import {env} from "../../../../environments/environments";
 import {DataService} from "../../../servicios/data.service";
 import {Usuario} from "../../../modelos/Usuario";
 import {Router} from "@angular/router";
 import moment from "moment";
 import {NotificacionesStateService} from "../../../servicios/notificaciones-state.service";
+import {finalize, switchMap} from "rxjs";
 
 @Component({
   selector: 'app-listar-terminales',
@@ -22,7 +23,24 @@ import {NotificacionesStateService} from "../../../servicios/notificaciones-stat
 })
 
 export class ListarTerminalesComponent implements OnInit{
-  @ViewChild('panelNotificaciones') panelNotificaciones?: ElementRef<HTMLDivElement>;
+  @ViewChild('panelNotificaciones')
+  set panel(el: ElementRef<HTMLDivElement> | undefined) {
+    if (!el) return;
+    this.panelNotificaciones = el;
+    const state = this.notifState.getState();
+    el.nativeElement.scrollTop = state.scrollY;
+    this.restaurarScrollPendiente = false;
+  }
+  panelNotificaciones?: ElementRef<HTMLDivElement>;
+  @ViewChild('searchBox', { static: true }) searchBox!: ElementRef;
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+
+    if (!this.searchBox.nativeElement.contains(target)) {
+      this.mostrarResultadosBusqueda = false;
+    }
+  }
   public terminales: Terminal[] = [];
   public terminalesFiltrados: Terminal[] = [];
   public categorias = env.categorias;
@@ -40,6 +58,7 @@ export class ListarTerminalesComponent implements OnInit{
     1: { label: 'Activo', class: 'activo' },
     2: { label: 'Eliminado', class: 'eliminado' }
   };
+  esperaNotificaciones= false;
 
   public constructor(public terminalService: TerminalService,
                      public dataService: DataService, private router: Router,
@@ -54,23 +73,16 @@ export class ListarTerminalesComponent implements OnInit{
 
   ngAfterViewInit() {
     const origen = sessionStorage.getItem('origen');
-    if (origen === 'ver-marcaciones') {
+    if (origen === 'lista-terminales') {
       const state = this.notifState.getState();
-      this.mostrarNotificaciones = state.mostrar;
-      this.semanaSeleccionada = state.semana;
-      this.usuarioSeleccionadoId = state.usuarioId;
-      this.restaurarScrollPendiente = true;
+      setTimeout(() => {
+        this.mostrarNotificaciones = state.mostrar;
+        this.semanaSeleccionada = state.semana;
+        this.usuarioSeleccionadoId = state.usuarioId;
+      });
       sessionStorage.removeItem('origen');
     } else {
       this.notifState.setState({ mostrar: false, semana: 'actual', scrollY: 0, usuarioId: undefined});
-    }
-  }
-
-  ngAfterViewChecked() {
-    if (this.restaurarScrollPendiente && this.panelNotificaciones) {
-      const state = this.notifState.getState();
-      this.panelNotificaciones.nativeElement.scrollTop = state.scrollY;
-      this.restaurarScrollPendiente = false; // 👈 MUY IMPORTANTE
     }
   }
 
@@ -161,10 +173,26 @@ export class ListarTerminalesComponent implements OnInit{
     );
   }
 
+  actualizarNotificaciones() {
+    this.esperaNotificaciones = true
+    this.dataService.actualizarNotificaciones()
+      .pipe(
+        switchMap(()=> this.dataService.getNotificaciones()),
+        finalize(() => this.esperaNotificaciones = false)
+      ).subscribe({
+        next: data => {
+          this.notificaciones = data;
+          mensaje("¡Las notificaciones fueron actualizadas!", "is-success")
+        }, error: () => {
+          mensaje("Error al actualizar notificaciones", "is-danger")
+        }
+      });
+  }
+
   verMarcaciones(usuario: any, terminal: any, semanaSeleccionada: string) {
     let usuarios: Usuario[] = [];
     usuarios.push(usuario)
-    sessionStorage.setItem('origen', 'ver-marcaciones');
+    sessionStorage.setItem('origen', 'lista-terminales');
     let inicioSemana = moment(usuario.fechaInicio).format("YYYYMMDD");
     let finSemana = moment(usuario.fechaFin).format("YYYYMMDD");
     if (moment(terminal.fechaHastaEvaluada).isBefore(moment(usuario.fechaFin))) {
