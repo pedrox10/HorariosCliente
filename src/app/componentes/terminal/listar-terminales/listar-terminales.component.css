@@ -130,6 +130,11 @@ div.vert-sep {
   border-left: 4px solid #f5c400;
 }
 
+.dias-critico {
+  color: #db4444;
+  font-weight: 600;
+}
+
 .autocomplete-panel {
   position: absolute;
   top: 110%;

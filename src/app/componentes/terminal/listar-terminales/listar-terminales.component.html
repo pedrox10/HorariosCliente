@@ -72,7 +72,7 @@
           Notificaciones
         </p>
       </header>
-      <div class="tabs is-toggle is-fullwidth">
+      <div class="tabs is-toggle is-fullwidth" [class.desactivado]="esperaNotificaciones">
         <ul>
           <li [class.is-active]="semanaSeleccionada === 'actual'">
             <a (click)="semanaSeleccionada = 'actual'">Semana Actual</a>
@@ -106,7 +106,10 @@
                 {{ usuario.nombre }} -
                 <div class="vitem">
                   @if (usuario.diasSinMarcacion > 0) {
-                  <span>{{ usuario.diasSinMarcacion }} días sin marcar</span>
+                  <span>
+                    <span [class.dias-critico]="usuario.diasSinMarcacion >= 3">{{ usuario.diasSinMarcacion }}</span>
+                    días sin marcar
+                  </span>
                   }
                   @if (usuario.diasSinAsignacion > 0) {
                   <span>{{ usuario.diasSinAsignacion }} días sin asignar</span>
