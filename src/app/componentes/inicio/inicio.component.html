@@ -33,7 +33,10 @@
             <span style="color: white">{{authService.obtenerNombre()}}</span>
             <span style="color: white; text-align: center; font-size: 0.85em">{{authService.obtenerRol()}}</span>
           </div>
-        </div>
+          <span class="has-tooltip-arrow expand mt-3 has-text-white" data-tooltip="Cambiar contraseña">
+            <i class="fas fa-key"></i>
+          </span>
+          </div>
         <button class="button is-primary is-small is-rounded" style="color: white; align-self: center" (click)="cerrarSesion()">
           <i class="fas fa-sign-out-alt mr-1"></i>
           Cerrar Sesión
@@ -44,5 +47,25 @@
 
   <div id="main" class="column" style="background-color: #E9EFEE;padding: 15px;position: relative">
     <router-outlet></router-outlet>
+  </div>
+
+  <div class="modal " id="eliminar_modal">
+    <div class="modal-background" id="fondo_eliminar" style="opacity: 0.75;"></div>
+    <div class="modal-card" style="width: 350px">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Eliminar Grupo</p>
+        <button class="delete" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+        <label class="label">¿Esta seguro que quiere borrar el Grupo?</label>
+        <span></span>
+      </section>
+      <footer class="modal-card-foot">
+        <div class="buttons">
+          <button id="btn_eliminar" class="button es-primario">Aceptar</button>
+          <button class="button" type="button">Cancelar</button>
+        </div>
+      </footer>
+    </div>
   </div>
 </div>
