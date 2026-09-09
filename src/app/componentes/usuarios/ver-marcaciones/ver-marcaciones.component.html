@@ -104,7 +104,7 @@
                   <div class="dropdown-content popup" style="background: linear-gradient(360deg, #fcfaf7 0%, #fdf7e7 100%); border: 1px #f4d27b solid;">
                     <div class="contenido" style='color: #786450; width: 200px'>
                         <span style="font-weight: normal">
-                          Incluye: excepciones de tickeo ({{rm?.totalExcTickeos}}), tolerancias ({{rm?.totalTolerancias}}) e interrupciones ({{rm?.totalInterrupciones}})
+                          Incluye: excepciones de tickeo ({{rm?.totalExcTickeos}}), tolerancias ({{rm?.totalTolerancias}}), interrupciones ({{rm?.totalInterrupciones}}) y permisos con goce ({{rm?.totalPermisosCG}})
                         </span>
                     </div>
                   </div>
@@ -147,7 +147,7 @@
                   <div class="dropdown-content popup" style="background: linear-gradient(360deg, #fcfaf7 0%, #fdf7e7 100%); border: 1px #f4d27b solid;">
                     <div class="contenido" style='color: #786450; width: 200px'>
                         <span style="font-weight: normal">
-                          Incluye: permisos oficiales ({{rm?.totalPermisos}}), permisos con goce ({{rm?.totalPermisosCG}}), licencias ({{rm?.totalLicencias}}) y capacitaciones ({{rm?.totalCapacitaciones}})
+                          Incluye: permisos oficiales ({{rm?.totalPermisos}}) y licencias ({{rm?.totalLicencias}})
                         </span>
                     </div>
                   </div>
@@ -163,10 +163,10 @@
       <div class="hbox" style="align-content: space-between !important;">
         <div class="vinput mr-4">
           <label class="label" style="text-align: center">Elije un rango de fechas</label>
-          <p class="control has-icons-right">
+            <p class="control has-icons-right">
             <input id="datepicker" class="input" style="min-width: 210px;"/>
             <span class="icon is-right"><i class="fas fa-calendar-alt"></i></span>
-          </p>
+            </p>
         </div>
         <div class="vinput ml-4" style="justify-self: center">
           <label class="label" style="text-align: center">Ir a reporte</label>
@@ -295,7 +295,7 @@
               <div class="dropdown-menu" role="menu">
                 <div class="dropdown-content popup">
                   @if(!infoMarcacion.hayPriEntExcepcion.esInterrupcion) {
-                  <div class='cabecera'>{{infoMarcacion.hayPriEntExcepcion.licencia}}</div>
+                  <div class='cabecera'>{{getLicenciaLabel(infoMarcacion.hayPriEntExcepcion.licencia) }}</div>
                   } @else {
                   <div class='cabecera'>{{infoMarcacion.hayPriEntExcepcion.motivo}}</div>
                   }
@@ -322,7 +322,7 @@
             @if(infoMarcacion.hayPriEntExcepcion.esCumpleano) {
             <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Purpura')}}">Cumpleaños</span>
             } @else {
-            <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Verde')}}">Excepción</span>
+            <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black; background-color: {{getLicenciaColor(infoMarcacion.hayPriEntExcepcion.licencia)}}">{{getLicenciaLabel(infoMarcacion.hayPriEntExcepcion.licencia)}}</span>
             }
             }
             } @else {
@@ -355,7 +355,7 @@
               <div class="dropdown-menu" role="menu">
                 <div class="dropdown-content popup">
                   @if(!infoMarcacion.hayPriSalExcepcion.esInterrupcion) {
-                  <div class='cabecera'>{{infoMarcacion.hayPriSalExcepcion.licencia}}</div>
+                  <div class='cabecera'>{{getLicenciaLabel(infoMarcacion.hayPriSalExcepcion.licencia)}}</div>
                   } @else {
                   <div class='cabecera'>{{infoMarcacion.hayPriSalExcepcion.motivo}}</div>
                   }
@@ -382,7 +382,7 @@
             @if(infoMarcacion.hayPriSalExcepcion.esCumpleano) {
             <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Purpura')}}">Cumpleaños</span>
             } @else {
-            <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Verde')}}">Excepción</span>
+            <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black; background-color: {{getLicenciaColor(infoMarcacion.hayPriSalExcepcion.licencia)}}">{{getLicenciaLabel(infoMarcacion.hayPriSalExcepcion.licencia)}}</span>
             }
             }
             } @else {
@@ -421,7 +421,7 @@
             <div class="dropdown-menu" role="menu">
               <div class="dropdown-content popup">
                 @if(!infoMarcacion.haySegEntExcepcion.esInterrupcion) {
-                <div class='cabecera'>{{infoMarcacion.haySegEntExcepcion.licencia}}</div>
+                <div class='cabecera'>{{getLicenciaLabel(infoMarcacion.haySegEntExcepcion.licencia)}}</div>
                 } @else {
                 <div class='cabecera'>{{infoMarcacion.haySegEntExcepcion.motivo}}</div>
                 }
@@ -448,7 +448,9 @@
           @if(infoMarcacion.haySegEntExcepcion.esCumpleano) {
           <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Purpura')}}">Cumpleaños</span>
           } @else {
-          <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Verde')}}">Excepción</span>
+          <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black; background-color: {{getLicenciaColor(infoMarcacion.haySegEntExcepcion.licencia)}}">
+            {{getLicenciaLabel(infoMarcacion.haySegEntExcepcion.licencia)}}
+          </span>
           }
           }
           } @else {
@@ -479,7 +481,7 @@
             <div class="dropdown-menu" role="menu">
               <div class="dropdown-content popup">
                 @if(!infoMarcacion.haySegSalExcepcion.esInterrupcion) {
-                <div class='cabecera'>{{infoMarcacion.haySegSalExcepcion.licencia}}</div>
+                <div class='cabecera'>{{getLicenciaLabel(infoMarcacion.haySegSalExcepcion.licencia)}}</div>
                 } @else {
                 <div class='cabecera'>{{infoMarcacion.haySegSalExcepcion.motivo}}</div>
                 }
@@ -506,7 +508,9 @@
           @if(infoMarcacion.haySegSalExcepcion.esCumpleano) {
           <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Purpura')}}">Cumpleaños</span>
           } @else {
-          <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black;background-color: {{getColor('Verde')}}">Excepción</span>
+          <span class="badge is-bottom" style="margin-bottom: .15rem !important; color: black; background-color: {{getLicenciaColor(infoMarcacion.haySegSalExcepcion.licencia)}}">
+            {{getLicenciaLabel(infoMarcacion.haySegSalExcepcion.licencia)}}
+          </span>
           }
           }
           } @else {

@@ -48,6 +48,9 @@ export class  TerminalComponent {
     let clase = "help is-primary"
     if (this.terminal.totalMarcaciones > 90000) {
       clase = "help is-danger"
+      if (this.terminal.totalMarcaciones > 96000) {
+        clase = "help is-danger pulse"
+      }
     } else {
       if (this.terminal.totalMarcaciones > 75000)
         clase = "help is-warning"

@@ -52,3 +52,34 @@
   color: #295a8c !important;
   border-color: #295a8c !important;
 }
+
+.pulse  {
+  position: relative;
+}
+
+.pulse::after {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: -4px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #ff4d4d;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.75);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(1.1);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(0.75);
+    opacity: 0;
+  }
+}

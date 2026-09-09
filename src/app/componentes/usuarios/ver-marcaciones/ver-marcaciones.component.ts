@@ -168,7 +168,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
             if(info.activo) {
               fila.numTurnos = info.numTurnos
               if(info.hayPriEntExcepcion.existe) {
-                  fila.priEntrada = "Excepción";
+                  fila.priEntrada = info.hayPriEntExcepcion.licencia;
               } else {
                 if(info.priEntradas)
                   fila.priEntrada = info.priEntradas[0] === undefined ? "" : info.priEntradas[0];
@@ -176,7 +176,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
                   fila.priEntrada = "SinMarcar"
               }
               if(info.hayPriSalExcepcion.existe) {
-                fila.priSalida = "Excepción"
+                fila.priSalida = info.hayPriSalExcepcion.licencia;
               } else {
                 if(info.priSalidas)
                   fila.priSalida = info.priSalidas[info.priSalidas.length-1] === undefined
@@ -186,7 +186,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
               }
               if(info.numTurnos == 2) {
                 if(info.haySegEntExcepcion.existe) {
-                  fila.segEntrada = "Excepción"
+                  fila.segEntrada = info.haySegEntExcepcion.licencia;
                 } else {
                   if(info.segEntradas)
                     fila.segEntrada = info.segEntradas[0] === undefined ? "" : info.segEntradas[0];
@@ -194,7 +194,7 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
                     fila.segEntrada = "SinMarcar"
                 }
                 if(info.haySegSalExcepcion.existe) {
-                  fila.segSalida = "Excepción"
+                  fila.segSalida = info.haySegSalExcepcion.licencia;
                 } else {
                   if(info.segSalidas)
                     fila.segSalida = info.segSalidas[info.segSalidas.length-1] === undefined
@@ -273,11 +273,21 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
           size: 8,
           color: { argb: 'FF000000' } // Negro para la hora de marcación
         } as ExcelJS.Font;
-        let excepcionFont = {
-          name: 'Calibri',
-          size: 7,
-          color: { argb: 'FF4bb990' }
-        } as ExcelJS.Font;
+
+        const getArgbLicencia = (licencia: string): string => {
+          switch(licencia) {
+            case 'ET': case 'TO': case 'CG': return 'FF4bb990'; // verde
+            case 'IT':                        return 'FF939393'; // gris
+            case 'CU':                        return 'FF9b59b6'; // purpura
+            case 'VA':                        return 'FF7fd5fa'; // azul
+            case 'BM':                        return 'FFfc7b7d'; // guindo
+            case 'SG':                        return 'FFa7c454'; // lima
+            case 'PO': case 'LI':             return 'FF939393'; // gris
+            default:                          return 'FF4bb990';
+          }
+        };
+        const LICENCIAS_KEYS = ['ET','TO','CG','IT','CU','VA','BM','SG','PO','LI'];
+
         let sinMarcarFont = {
           name: 'Calibri',
           size: 7,
@@ -306,55 +316,71 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
           if(fila.activo) {
             row.height = 20;
 
-            let priEntFuente = marcadoFont; // valor por defecto
-            if (fila.priEntrada === "Excepción") {
-              priEntFuente = excepcionFont;  // tu fuente definida para excepciones
+            let priEntFuente = marcadoFont;
+            if (fila.priEntrada && LICENCIAS_KEYS.includes(fila.priEntrada)) {
+              priEntFuente = { name: 'Calibri', size: 6,
+                color: { argb: getArgbLicencia(fila.priEntrada) }
+              } as ExcelJS.Font;
             } else if (fila.priEntrada === "SinMarcar") {
-              priEntFuente = sinMarcarFont;  // tu fuente definida para sin marcar
+              priEntFuente = sinMarcarFont;
             }
             let rtPriEntrada = [
-              {font: horaFont, text: fila.horario.priEntrada.slice(0, 5)},
-              {font: {}, text: '\n'}, // Salto de línea sin estilo
-              {font: priEntFuente, text: fila.priEntrada + ""},
+              {font: horaFont,     text: fila.horario.priEntrada.slice(0, 5)},
+              {font: {},           text: '\n'},
+              {font: priEntFuente, text: fila.priEntrada && LICENCIAS_KEYS.includes(fila.priEntrada)
+                  ? this.getLicenciaLabel(fila.priEntrada)
+                  : fila.priEntrada + ""},
             ];
             row.getCell(3).value = {richText: rtPriEntrada};
 
-            let priSalFuente = marcadoFont; // valor por defecto
-            if (fila.priSalida === "Excepción") {
-              priSalFuente = excepcionFont;  // tu fuente definida para excepciones
+            let priSalFuente = marcadoFont;
+            if (fila.priSalida && LICENCIAS_KEYS.includes(fila.priSalida)) {
+              priSalFuente = { name: 'Calibri', size: 6,
+                color: { argb: getArgbLicencia(fila.priSalida) }
+              } as ExcelJS.Font;
             } else if (fila.priSalida === "SinMarcar") {
-              priSalFuente = sinMarcarFont;  // tu fuente definida para sin marcar
+              priSalFuente = sinMarcarFont;
             }
             let rtPriSalida = [
-              {font: horaFont, text: fila.horario.priSalida.slice(0, 5)},
-              {font: {}, text: '\n'}, // Salto de línea sin estilo
-              {font: priSalFuente, text: fila.priSalida + ""},
+              {font: horaFont,     text: fila.horario.priSalida.slice(0, 5)},
+              {font: {},           text: '\n'},
+              {font: priSalFuente, text: fila.priSalida && LICENCIAS_KEYS.includes(fila.priSalida)
+                  ? this.getLicenciaLabel(fila.priSalida)
+                  : fila.priSalida + ""},
             ];
             row.getCell(4).value = {richText: rtPriSalida};
             if(fila.numTurnos == 2) {
-              let segEntFuente = marcadoFont; // valor por defecto
-              if (fila.segEntrada === "Excepción") {
-                segEntFuente = excepcionFont;  // tu fuente definida para excepciones
+              let segEntFuente = marcadoFont;
+              if (fila.segEntrada && LICENCIAS_KEYS.includes(fila.segEntrada)) {
+                segEntFuente = { name: 'Calibri', size: 6,
+                  color: { argb: getArgbLicencia(fila.segEntrada) }
+                } as ExcelJS.Font;
               } else if (fila.segEntrada === "SinMarcar") {
-                segEntFuente = sinMarcarFont;  // tu fuente definida para sin marcar
+                segEntFuente = sinMarcarFont;
               }
               let rtSegEntrada = [
-                {font: horaFont, text: fila.horario.segEntrada.slice(0, 5)},
-                {font: {}, text: '\n'}, // Salto de línea sin estilo
-                {font: segEntFuente, text: fila.segEntrada + ""},
+                {font: horaFont,     text: fila.horario.segEntrada.slice(0, 5)},
+                {font: {},           text: '\n'},
+                {font: segEntFuente, text: fila.segEntrada && LICENCIAS_KEYS.includes(fila.segEntrada)
+                    ? this.getLicenciaLabel(fila.segEntrada)
+                    : fila.segEntrada + ""},
               ];
               row.getCell(5).value = {richText: rtSegEntrada};
 
-              let segSalFuente = marcadoFont; // valor por defecto
-              if (fila.segSalida === "Excepción") {
-                segSalFuente = excepcionFont;  // tu fuente definida para excepciones
+              let segSalFuente = marcadoFont;
+              if (fila.segSalida && LICENCIAS_KEYS.includes(fila.segSalida)) {
+                segSalFuente = { name: 'Calibri', size: 6,
+                  color: { argb: getArgbLicencia(fila.segSalida) }
+                } as ExcelJS.Font;
               } else if (fila.segSalida === "SinMarcar") {
-                segSalFuente = sinMarcarFont;  // tu fuente definida para sin marcar
+                segSalFuente = sinMarcarFont;
               }
               let rtSegSalida = [
-                {font: horaFont, text: fila.horario.segSalida.slice(0, 5)},
-                {font: {}, text: '\n'}, // Salto de línea sin estilo
-                {font: segSalFuente, text: fila.segSalida + ""},
+                {font: horaFont,     text: fila.horario.segSalida.slice(0, 5)},
+                {font: {},           text: '\n'},
+                {font: segSalFuente, text: fila.segSalida && LICENCIAS_KEYS.includes(fila.segSalida)
+                    ? this.getLicenciaLabel(fila.segSalida)
+                    : fila.segSalida + ""},
               ];
               row.getCell(6).value = {richText: rtSegSalida};
             }
@@ -437,6 +463,35 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
 
   getColor(nombre: string) {
     return color(nombre)
+  }
+
+  getLicenciaColor(licencia: string): string {
+    switch(licencia) {
+      case 'ET': case 'TO': case 'CG': return this.getColor('Verde');
+      case 'IT':                        return this.getColor('Gris');
+      case 'CU':                        return this.getColor('Purpura');
+      case 'VA':                        return this.getColor('Azul');
+      case 'BM':                        return this.getColor('Guindo');
+      case 'SG':                        return this.getColor('Lima');
+      case 'PO': case 'LI':             return this.getColor('Gris');
+      default:                          return this.getColor('Verde');
+    }
+  }
+
+  getLicenciaLabel(licencia: string): string {
+    const LABELS: Record<string, string> = {
+      ET: 'Excepción',
+      TO: 'Tolerancia',
+      CU: 'Cumpleaños',
+      VA: 'Vacación',
+      BM: 'BajaMédica',
+      SG: 'PermisoSG',
+      CG: 'PermisoCG',
+      PO: 'Permiso',
+      LI: 'Licencia',
+      IT: 'Interrupción'
+    };
+    return LABELS[licencia] ?? 'Excepción';
   }
 
   formatear(fecha: Date){
