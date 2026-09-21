@@ -276,14 +276,14 @@ export class VerMarcacionesComponent implements OnInit, AfterViewInit {
 
         const getArgbLicencia = (licencia: string): string => {
           switch(licencia) {
-            case 'ET': case 'TO': case 'CG': return 'FF4bb990'; // verde
-            case 'IT':                        return 'FF939393'; // gris
-            case 'CU':                        return 'FF9b59b6'; // purpura
-            case 'VA':                        return 'FF7fd5fa'; // azul
-            case 'BM':                        return 'FFfc7b7d'; // guindo
-            case 'SG':                        return 'FFa7c454'; // lima
-            case 'PO': case 'LI':             return 'FF939393'; // gris
-            default:                          return 'FF4bb990';
+            case 'ET': case 'TO': case 'CG': return 'FF1a7a4a'; // verde oscuro
+            case 'IT':                        return 'FF555555'; // gris oscuro
+            case 'CU':                        return 'FF6c3483'; // purpura oscuro
+            case 'VA':                        return 'FF1a6fa8'; // azul oscuro
+            case 'BM':                        return 'FFc0392b'; // rojo oscuro
+            case 'SG':                        return 'FF5d8a1a'; // lima oscuro
+            case 'PO': case 'LI':             return 'FF555555'; // gris oscuro
+            default:                          return 'FF1a7a4a';
           }
         };
         const LICENCIAS_KEYS = ['ET','TO','CG','IT','CU','VA','BM','SG','PO','LI'];
